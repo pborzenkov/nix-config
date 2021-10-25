@@ -57,6 +57,14 @@
             nur = nur-no-pkgs;
           };
         };
+
+        # nix build .#nixosConfigurations.yubikey.config.system.build.isoImage
+        yubikey = inputs.nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./images/yubikey
+          ];
+        };
       };
 
       homeConfigurations = {
