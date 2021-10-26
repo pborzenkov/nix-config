@@ -15,6 +15,8 @@
 
       sops-nix.nixosModules.sops
 
+      ../../openssh.nix
+
       ./valheim.nix
       ./webapps.nix
     ];
