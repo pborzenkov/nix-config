@@ -29,7 +29,7 @@
     ];
 
     initExtra = ''
-      source ${config.lib.base16.theme "shell"}
+      source ${config.lib.base16.base16template "shell"}
       source ''${HOME}/.zsh/p10k-config.zsh
       source ''${HOME}/.zsh/vimode.zsh
       source ''${HOME}/.zsh/completion.zsh

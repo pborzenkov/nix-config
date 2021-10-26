@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 let
-  theme = config.lib.themes.base16.scheme;
+  theme = config.themes.base16.scheme;
 in
 {
   programs = {
@@ -49,7 +49,7 @@ in
 
   xdg.configFile = {
     "bat-theme-${theme}" = {
-      source = config.lib.base16.theme "textmate";
+      source = config.lib.base16.base16template "textmate";
       target = "bat/themes/${theme}.tmTheme";
     };
 

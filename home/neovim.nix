@@ -33,7 +33,8 @@
       nvim-web-devicons
 
       vim-oscyank
-    ] (x: { plugin = x; });
+    ]
+      (x: { plugin = x; });
   };
 
   home.sessionVariables = {

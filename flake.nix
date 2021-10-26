@@ -19,6 +19,10 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    base16 = {
+      url = "github:lukebfox/base16-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, ... } @ inputs:
@@ -75,13 +79,13 @@
           username = "pbor";
           configuration = {
             imports = [
-              ./modules/base16
+              (inputs.base16.homeManagerModules.base16)
 
               ./home/machines/rock
             ];
 
             programs.home-manager.enable = true;
-            lib.themes.base16 = {
+            themes.base16 = {
               enable = true;
               scheme = "onedark";
               variant = "onedark";

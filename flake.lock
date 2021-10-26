@@ -1,5 +1,41 @@
 {
   "nodes": {
+    "base16": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1613923028,
+        "narHash": "sha256-4RufOiI96MrQRHb1DvG38y3Qa5nnGjk+FXspXo7mxV0=",
+        "owner": "lukebfox",
+        "repo": "base16-nix",
+        "rev": "30cf00e4f986403fe44d215fec203178e3b1eb83",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lukebfox",
+        "repo": "base16-nix",
+        "type": "github"
+      }
+    },
+    "flake-utils": {
+      "locked": {
+        "lastModified": 1610051610,
+        "narHash": "sha256-U9rPz/usA1/Aohhk7Cmc2gBrEEKRzcW4nwPWMPwja4Y=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "3982c9903e93927c2164caa727cd3f6a0e6d14cc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -68,6 +104,7 @@
     },
     "root": {
       "inputs": {
+        "base16": "base16",
         "home-manager": "home-manager",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
