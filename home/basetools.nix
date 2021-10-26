@@ -63,5 +63,8 @@ in
 
   home.sessionVariables = {
     RIPGREP_CONFIG_PATH = "${config.home.homeDirectory}/${config.xdg.configFile.ripgreprc.target}";
+
+    RESTIC_REPOSITORY = "sftp:zh1012@zh1012.rsync.net:restic";
+    RESTIC_PASSWORD_COMMAND = "${pkgs.pass}/bin/pass misc/restic@rsync.net";
   };
 }

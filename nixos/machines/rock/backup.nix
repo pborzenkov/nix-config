@@ -6,7 +6,7 @@
   ];
 
   backup = {
-    host = "zh11.rsync.net";
+    host = "zh1012.rsync.net";
     user = "zh1012";
     sshKeyFile = "/etc/ssh/ssh_host_ed25519_key";
     repository = "restic";
@@ -32,8 +32,8 @@
 
   sops.secrets.restic-repo-password = { };
 
-  programs.ssh.knownHosts."zh11.rsync.net" = {
-    hostNames = [ "zh11.rsync.net" ];
+  programs.ssh.knownHosts."zh1012.rsync.net" = {
+    hostNames = [ "zh1012.rsync.net" ];
     publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJtclizeBy1Uo3D86HpgD3LONGVH0CJ0NT+YfZlldAJd";
   };
 

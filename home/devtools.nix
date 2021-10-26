@@ -57,6 +57,7 @@
     pkgs.rnix-lsp
     pkgs.nix-prefetch-github
     pkgs.nix-update
+    pkgs.nixopsUnstable
 
     # Tcl
     pkgs.expect

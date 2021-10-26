@@ -62,6 +62,17 @@
           };
         };
 
+        gw = inputs.nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./nixos/machines/gw
+          ] ++ commonNixOSModules;
+          specialArgs = {
+            nixos-hardware = inputs.nixos-hardware;
+            sops-nix = inputs.sops-nix;
+          };
+        };
+
         # nix build .#nixosConfigurations.yubikey.config.system.build.isoImage
         yubikey = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
