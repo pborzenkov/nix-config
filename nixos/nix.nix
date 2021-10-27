@@ -13,6 +13,12 @@
       "@wheel"
     ];
 
+    gc = {
+      automatic = true;
+      options = "--delete-older-than 14d";
+    };
+    autoOptimiseStore = true;
+
     binaryCaches = [
       "https://nix-community.cachix.org"
     ];
