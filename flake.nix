@@ -62,17 +62,6 @@
           };
         };
 
-        gw = inputs.nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./nixos/machines/gw
-          ] ++ commonNixOSModules;
-          specialArgs = {
-            nixos-hardware = inputs.nixos-hardware;
-            sops-nix = inputs.sops-nix;
-          };
-        };
-
         # nix build .#nixosConfigurations.yubikey.config.system.build.isoImage
         yubikey = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
@@ -80,6 +69,31 @@
             ./images/yubikey
           ];
         };
+      };
+
+      nixopsConfigurations.default = {
+        nixpkgs = inputs.nixpkgs;
+        network = {
+          description = "gw";
+          storage.memory = { };
+        };
+
+
+        gw = { ... }:
+          {
+            deployment = {
+              targetUser = "pbor";
+              targetHost = "borzenkov.net";
+              provisionSSHKey = false;
+            };
+
+            imports = [
+              inputs.nixos-hardware.nixosModules.common-pc-ssd
+              inputs.sops-nix.nixosModules.sops
+
+              ./nixos/machines/gw
+            ] ++ commonNixOSModules;
+          };
       };
 
       homeConfigurations = {

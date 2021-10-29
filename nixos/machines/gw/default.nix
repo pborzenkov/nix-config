@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, modulesPath, nixos-hardware, sops-nix, ... }:
+{ config, pkgs, modulesPath, ... }:
 
 {
   imports =
@@ -10,10 +10,6 @@
       ./hardware-configuration.nix
 
       (modulesPath + "/profiles/headless.nix")
-
-      nixos-hardware.nixosModules.common-pc-ssd
-
-      sops-nix.nixosModules.sops
 
       ../../openssh.nix
 
