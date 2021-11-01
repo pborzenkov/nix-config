@@ -84,7 +84,7 @@ in
           frequency = "4h";
           settings = {
             chatid = "321151402";
-            uploadImage = true;
+            uploadImage = false;
           };
           secure_settings = {
             bottoken = "\${TELEGRAM_TOKEN}";
