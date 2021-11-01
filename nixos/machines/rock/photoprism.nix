@@ -5,6 +5,12 @@ in
 {
   webapps.apps.photoprism = {
     subDomain = "photos";
+    proxyTo = "http://127.0.0.1:${port}";
+    locations."/" = {
+      custom = {
+        proxyWebsockets = true;
+      };
+    };
   };
 
   virtualisation.oci-containers.containers.photoprism = {

@@ -23,6 +23,7 @@
     ./photoprism.nix
     ./plex.nix
     ./postgresql.nix
+    ./prometheus.nix
     ./skyeng-push-notificator.nix
     ./syncthing.nix
     ./transmission.nix
