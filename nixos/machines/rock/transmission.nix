@@ -353,7 +353,7 @@
     let
       exporter = pkgs.buildGoModule rec {
         pname = "transmission-exporter";
-        version = "0.1.1";
+        version = "0.1.2";
         rev = "v${version}";
 
         src = pkgs.fetchFromGitHub {
@@ -361,7 +361,7 @@
 
           owner = "pborzenkov";
           repo = "transmission-exporter";
-          sha256 = "1d8bwkx2pc846by1d04mfq2sja6szrq2sj4a7dv373209lkqc219";
+          sha256 = "sha256-2m/F9rvZxae+y4jUzbpa/6bdXsC4mY6r4UkgfKnGFFk=";
         };
 
         vendorSha256 = "1v308fs554g37vimc214kazqv5fnxdrvd4kjx4mfv6gpgcdfildj";
@@ -403,32 +403,6 @@
         }
       ];
     }
-  ];
-
-  services.prometheus.ruleFiles = [
-    (
-      pkgs.writeTextFile
-        {
-          name = "transmission.rules.yml";
-          text = builtins.toJSON {
-            groups = [
-              {
-                name = "transmission";
-                rules = [
-                  {
-                    alert = "TransmissionNotRunning";
-                    expr = "absent(transmission_active_torrents) == 1";
-                    for = "15m";
-                    annotations = {
-                      summary = "Transmission daemon isn't running";
-                    };
-                  }
-                ];
-              }
-            ];
-          };
-        }
-    )
   ];
 
   sops.secrets.tg-bot-transmission-environment = { };

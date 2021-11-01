@@ -73,6 +73,24 @@ in
           };
         }
       ];
+
+      notifiers = [
+        {
+          name = "Telegram";
+          type = "telegram";
+          uid = "telegram";
+          is_default = true;
+          send_reminder = true;
+          frequency = "4h";
+          settings = {
+            chatid = "321151402";
+            uploadImage = true;
+          };
+          secure_settings = {
+            bottoken = "\${TELEGRAM_TOKEN}";
+          };
+        }
+      ];
     };
   };
 
@@ -82,11 +100,15 @@ in
     serviceConfig = {
       SupplementaryGroups = [ config.users.groups.keys.name ];
       ExecStartPre = [ "+${preStart}" ];
+      EnvironmentFile = [
+        config.sops.secrets.tg-bot-alerting-environment.path
+      ];
     };
   };
 
-  sops.secrets.grafana-admin-password = {
-    owner = config.users.users.grafana.name;
+  sops.secrets = {
+    grafana-admin-password.owner = config.users.users.grafana.name;
+    tg-bot-alerting-environment = { };
   };
 
   backup.dbBackups.grafana = {
