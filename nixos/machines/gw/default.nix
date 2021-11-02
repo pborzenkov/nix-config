@@ -21,6 +21,7 @@
       devices = [ "/dev/vda" ];
     };
 
+    kernelPackages = pkgs.linuxPackages_5_14;
     kernel.sysctl = {
       "net.ipv4.ip_forward" = true;
     };
