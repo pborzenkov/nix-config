@@ -2,13 +2,14 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, modulesPath, ... }:
+{ config, pkgs, modulesPath, nixos-hardware, ... }:
 
 {
   imports =
     [
       ./hardware-configuration.nix
 
+      nixos-hardware.nixosModules.common-pc-ssd
       (modulesPath + "/profiles/headless.nix")
 
       ../../openssh.nix
@@ -58,8 +59,6 @@
         '';
       };
   };
-
-  sops.defaultSopsFile = ./secrets/secrets.yaml;
 
   time.timeZone = "Europe/Amsterdam";
 

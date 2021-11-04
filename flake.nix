@@ -3,6 +3,10 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-hardware = {
       url = "github:nixos/nixos-hardware";
       inputs.inxpkgs.follows = "nixpkgs";
@@ -12,7 +16,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {
-      url = github:Mic92/sops-nix;
+      url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nur = {
@@ -22,6 +26,13 @@
     base16 = {
       url = "github:lukebfox/base16-nix";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
     };
   };
 
@@ -62,6 +73,17 @@
           };
         };
 
+        gw = inputs.nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./nixos/machines/gw
+          ] ++ commonNixOSModules;
+          specialArgs = {
+            nixos-hardware = inputs.nixos-hardware;
+            sops-nix = inputs.sops-nix;
+          };
+        };
+
         # nix build .#nixosConfigurations.yubikey.config.system.build.isoImage
         yubikey = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
@@ -69,31 +91,6 @@
             ./images/yubikey
           ];
         };
-      };
-
-      nixopsConfigurations.default = {
-        nixpkgs = inputs.nixpkgs;
-        network = {
-          description = "gw";
-          storage.memory = { };
-        };
-
-
-        gw = { ... }:
-          {
-            deployment = {
-              targetUser = "pbor";
-              targetHost = "borzenkov.net";
-              provisionSSHKey = false;
-            };
-
-            imports = [
-              inputs.nixos-hardware.nixosModules.common-pc-ssd
-              inputs.sops-nix.nixosModules.sops
-
-              ./nixos/machines/gw
-            ] ++ commonNixOSModules;
-          };
       };
 
       homeConfigurations = {
@@ -118,5 +115,26 @@
           } // commonNixpkgsConfig;
         };
       };
-    };
+
+      deploy.nodes = {
+        gw = {
+          hostname = "borzenkov.net";
+          profiles.system = {
+            sshUser = "pbor";
+            user = "root";
+            path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.gw;
+          };
+        };
+      };
+
+      checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy-rs.lib;
+    } // inputs.flake-utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = import inputs.nixpkgs { inherit system; };
+      in
+      {
+        devShell = pkgs.mkShell {
+          nativeBuildInputs = [ inputs.deploy-rs.packages.${system}.deploy-rs ];
+        };
+      });
 }

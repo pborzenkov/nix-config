@@ -11,7 +11,10 @@
     direnv = {
       enable = true;
       enableZshIntegration = true;
-      nix-direnv.enable = true;
+      nix-direnv = {
+        enable = true;
+        enableFlakes = true;
+      };
 
       config = {
         disable_stdin = true;
@@ -57,7 +60,6 @@
     pkgs.rnix-lsp
     pkgs.nix-prefetch-github
     pkgs.nix-update
-    pkgs.nixopsUnstable
 
     # Tcl
     pkgs.expect
