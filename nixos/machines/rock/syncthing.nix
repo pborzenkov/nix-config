@@ -14,7 +14,7 @@
       phobos = {
         id = "NCWMUCL-JCC5VJV-KRMEZWU-UALTJYJ-CDNQ4RQ-GGLUEGR-CQZTJU3-2A3KIQ2";
         addresses = [
-          "tcp://phobos.lab.pborzenkov.net:22000"
+          "tcp://phobos.lab.borzenkov.net:22000"
           "dynamic"
         ];
       };
@@ -22,6 +22,13 @@
       # Windows desktop
       jazz = {
         id = "BIDWFHH-NHSNIH3-ICQGA5H-YXSCYSE-7C6IA4D-NF5Y46K-I3YsVLR-OXKAQAA";
+        addresses = [
+          "dynamic"
+        ];
+      };
+
+      metal = {
+        id = "52PIOYT-JNTOP7M-KEVFHVF-UO4DPFC-EHOJKNY-4DRHKLN-W2QI57L-TT7JSQX";
         addresses = [
           "dynamic"
         ];
@@ -47,17 +54,17 @@
     folders = {
       "/home/pbor/docs" = {
         id = "docs";
-        devices = [ "phobos" ];
+        devices = [ "phobos" "metal" ];
       };
 
       "/home/pbor/books" = {
         id = "books";
-        devices = [ "phobos" ];
+        devices = [ "phobos" "metal" ];
       };
 
       "/home/pbor/.local/share/password-store" = {
         id = "password-store";
-        devices = [ "phobos" "jazz" "booking-laptop" "phone" ];
+        devices = [ "phobos" "jazz" "metal" "booking-laptop" "phone" ];
       };
     };
   };

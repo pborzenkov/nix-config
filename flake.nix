@@ -109,7 +109,7 @@
 
       homeConfigurations = {
         metal = makeHome "metal";
-        rock = makeHome "metal";
+        rock = makeHome "rock";
       };
 
       deploy.nodes = {
