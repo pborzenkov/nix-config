@@ -7,7 +7,7 @@
       static_configs = [
         {
           targets = [
-            "helios64.lab.borzenkov.net:9100"
+            "helios64.lan:9100"
           ];
         }
       ];

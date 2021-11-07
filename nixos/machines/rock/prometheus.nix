@@ -18,7 +18,7 @@
         static_configs = [
           {
             targets = [
-              "rock.lab.borzenkov.net:9090"
+              "rock.lan:9090"
             ];
           }
         ];

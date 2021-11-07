@@ -36,19 +36,11 @@
         };
       };
 
-      "rock.lan" = {
-        hostname = "192.168.178.18";
-        forwardAgent = true;
-      };
-      "rock.lab.borzenkov.net" = {
+      "rock.lan rock.lab.borzenkov.net" = {
         forwardAgent = true;
       };
 
-      "helios64.lan" = {
-        hostname = "192.168.178.17";
-        forwardAgent = true;
-      };
-      "helios64.lab.borzenkov.net" = {
+      "helios64.lan helios64.lab.borzenkov.net" = {
         forwardAgent = true;
       };
     };

@@ -9,27 +9,7 @@
     nixos-hardware.nixosModules.common-cpu-amd
     nixos-hardware.nixosModules.common-pc-ssd
 
-    sops-nix.nixosModules.sops
-
-    ../../docker.nix
     ../../openssh.nix
-
-    ./backup.nix
-    ./gonic.nix
-    ./grafana.nix
-    ./jellyfin.nix
-    ./helios64.nix
-    ./miniflux.nix
-    ./photoprism.nix
-    ./plex.nix
-    ./postgresql.nix
-    ./prometheus.nix
-    ./skyeng.nix
-    ./syncthing.nix
-    ./transmission.nix
-    ./valheim.nix
-    ./vlmcsd.nix
-    ./webapps.nix
   ];
 
   boot = {
@@ -47,40 +27,17 @@
     };
 
     kernelPackages = pkgs.linuxPackages_5_14;
-    kernelModules = [
-      "nct6775"
-    ];
-
-    supportedFilesystems = [ "ntfs" ];
-  };
-
-  fileSystems."/storage" = {
-    device = "helios64.lan:/storage";
-    fsType = "nfs";
   };
 
   users = {
-    users.pbor.extraGroups = [ "docker" "nas" ];
-
-    groups.nas.gid = 998;
+    users.pbor.extraGroups = [ "docker" ];
   };
 
   hardware.enableRedistributableFirmware = true;
 
   networking = {
     firewall.enable = true;
-    hostName = "rock";
-    macvlans.mv-host-enp2s0 = {
-      interface = "enp2s0";
-      mode = "bridge";
-    };
-    interfaces = {
-      enp2s0.useDHCP = false;
-      mv-host-enp2s0 = {
-        macAddress = "56:bc:92:cb:57:b6";
-        useDHCP = true;
-      };
-    };
+    hostName = "metal";
     dhcpcd = {
       wait = "ipv4";
       extraConfig = ''
@@ -95,8 +52,6 @@
     cpuFreqGovernor = "ondemand";
   };
 
-  sops.defaultSopsFile = ./secrets/secrets.yaml;
-
   services.journald.extraConfig = ''
     SystemMaxUse=100M
   '';
@@ -105,7 +60,7 @@
 
   virtualisation.oci-containers.backend = "docker";
 
-  system.stateVersion = "20.09";
+  system.stateVersion = "21.05";
 
   # TMP
   networking.extraHosts = ''

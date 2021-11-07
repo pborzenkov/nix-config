@@ -58,31 +58,45 @@
           nix.registry.nixpkgs.flake = inputs.nixpkgs;
         } // commonNixpkgsConfig)
       ];
+
+      makeNixOS = hostname: inputs.nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          (./nixos/machines + "/${hostname}")
+        ] ++ commonNixOSModules;
+        specialArgs = {
+          nixos-hardware = inputs.nixos-hardware;
+          sops-nix = inputs.sops-nix;
+          nur = nur-no-pkgs;
+        };
+      };
+
+      makeHome = hostname: inputs.home-manager.lib.homeManagerConfig {
+        system = "x86_64-linux";
+        stateVersion = "21.05";
+        homeDirectory = "/home/pbor";
+        username = "pbor";
+        configuration = {
+          imports = [
+            (inputs.base16.homeManagerModules.base16)
+
+            (./home/machines + "/${hostname}")
+          ];
+
+          programs.home-manager.enable = true;
+          themes.base16 = {
+            enable = true;
+            scheme = "onedark";
+            variant = "onedark";
+          };
+        } // commonNixpkgsConfig;
+      };
     in
     {
       nixosConfigurations = {
-        rock = inputs.nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./nixos/machines/rock
-          ] ++ commonNixOSModules;
-          specialArgs = {
-            nixos-hardware = inputs.nixos-hardware;
-            sops-nix = inputs.sops-nix;
-            nur = nur-no-pkgs;
-          };
-        };
-
-        gw = inputs.nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./nixos/machines/gw
-          ] ++ commonNixOSModules;
-          specialArgs = {
-            nixos-hardware = inputs.nixos-hardware;
-            sops-nix = inputs.sops-nix;
-          };
-        };
+        metal = makeNixOS "metal";
+        rock = makeNixOS "rock";
+        gw = makeNixOS "gw";
 
         # nix build .#nixosConfigurations.yubikey.config.system.build.isoImage
         yubikey = inputs.nixpkgs.lib.nixosSystem {
@@ -94,29 +108,26 @@
       };
 
       homeConfigurations = {
-        rock = inputs.home-manager.lib.homeManagerConfiguration {
-          system = "x86_64-linux";
-          stateVersion = "21.05";
-          homeDirectory = "/home/pbor";
-          username = "pbor";
-          configuration = {
-            imports = [
-              (inputs.base16.homeManagerModules.base16)
-
-              ./home/machines/rock
-            ];
-
-            programs.home-manager.enable = true;
-            themes.base16 = {
-              enable = true;
-              scheme = "onedark";
-              variant = "onedark";
-            };
-          } // commonNixpkgsConfig;
-        };
+        metal = makeHome "metal";
+        rock = makeHome "metal";
       };
 
       deploy.nodes = {
+        rock = {
+          hostname = "rock.lan";
+          sshUser = "pbor";
+          profiles = {
+            system = {
+              user = "root";
+              path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.rock;
+            };
+            home = {
+              user = "pbor";
+              path = inputs.deploy-rs.lib.x86_64-linux.activate.home-manager self.homeConfigurations.rock;
+            };
+          };
+        };
+
         gw = {
           hostname = "borzenkov.net";
           profiles.system = {

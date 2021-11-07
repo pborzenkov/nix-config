@@ -26,19 +26,27 @@
       networking = {
         interfaces.mv-enp2s0.ipv4.addresses = [
           {
+            #address = "192.168.88.2";
             address = "192.168.178.74";
             prefixLength = 24;
           }
         ];
+        #defaultGateway = "192.168.88.1";
+        #nameservers = [ "192.168.88.1" ];
         defaultGateway = "192.168.178.1";
         nameservers = [ "192.168.178.1" ];
         firewall.enable = false;
       };
 
       fileSystems."/storage" = {
-        device = "192.168.178.17:/storage";
+        device = "helios64.lan:/storage";
         fsType = "nfs";
       };
+
+      networking.extraHosts = ''
+        192.168.178.17 helios64.lan
+        192.168.178.18 rock.lan
+      '';
 
       users.groups.nas.gid = config.users.groups.nas.gid;
 
@@ -255,6 +263,7 @@
             rpc-port = 9091;
             rpc-whitelist-enabled = true;
             rpc-whitelist = "192.168.178.*";
+            #            rpc-whitelist = "192.168.88.*";
             rpc-host-whitelist-enabled = true;
             rpc-host-whitelist = "*";
           };
@@ -305,92 +314,37 @@
     perfect-privacy-openvpn-key = { };
   };
 
-  systemd.services.tg-bot-transmission =
-    let
-      bot = pkgs.buildGoModule rec {
-        pname = "tg-bot-transmission";
-        version = "0.1.1";
-
-        src = pkgs.fetchFromGitHub {
-          owner = "pborzenkov";
-          repo = "tg-bot-transmission";
-          rev = "v${version}";
-          sha256 = "078x28r6cnaqwi4sdfz8xw7gvwrv0dllpj0j111iq5kzf7h4iclz";
-        };
-
-        vendorSha256 = "0ks1xx2b43890wz985q493wsfvcs6nh1g8zb8jbvwq7nh30phh2n";
-
-        subPackages = [ "cmd/bot" ];
-
-        ldflags = [ "-X main.Version=${version}" ];
-
-        meta = with lib; {
-          homepage = "https://github.com/pborzenkov/tg-bot-transmission";
-          description = "Telegram bot for Transmission torrent client.";
-          license = licenses.mit;
-        };
-      };
-    in
-    {
-      description = "Telegram bot for Transmission";
-      after = [ "network-online.target" ];
-      wantedBy = [ "multi-user.target" ];
-      serviceConfig = {
-        ExecStart = ''
-              ${bot}/bin/bot \
-          -telegram.allow-user=pborzenkov \
-          -transmission.url="http://192.168.178.74:9091"
-        '';
-        EnvironmentFile = [
-          config.sops.secrets.tg-bot-transmission-environment.path
-        ];
-        Restart = "always";
-        DynamicUser = true;
-      };
+  systemd.services.tg-bot-transmission = {
+    description = "Telegram bot for Transmission";
+    after = [ "network-online.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      ExecStart = ''
+            ${pkgs.nur.repos.pborzenkov.tg-bot-transmission}/bin/bot \
+        -telegram.allow-user=pborzenkov \
+        -transmission.url="http://transmission.lan:9091"
+      '';
+      EnvironmentFile = [
+        config.sops.secrets.tg-bot-transmission-environment.path
+      ];
+      Restart = "always";
+      DynamicUser = true;
     };
+  };
 
-  systemd.services.transmission-exporter =
-    let
-      exporter = pkgs.buildGoModule rec {
-        pname = "transmission-exporter";
-        version = "0.1.2";
-        rev = "v${version}";
-
-        src = pkgs.fetchFromGitHub {
-          inherit rev;
-
-          owner = "pborzenkov";
-          repo = "transmission-exporter";
-          sha256 = "sha256-2m/F9rvZxae+y4jUzbpa/6bdXsC4mY6r4UkgfKnGFFk=";
-        };
-
-        vendorSha256 = "1v308fs554g37vimc214kazqv5fnxdrvd4kjx4mfv6gpgcdfildj";
-
-        ldflags = [
-          "-X github.com/prometheus/common/version.Version=${version}"
-          "-X github.com/prometheus/common/version.Revision=${rev}"
-        ];
-
-        meta = with lib; {
-          homepage = "https://github.com/pborzenkov/transmission-exporter";
-          description = "Prometheus exporter for Transmission torrent client.";
-          license = licenses.mit;
-        };
-      };
-    in
-    {
-      description = "Prometheus exporter for Transmission torrent client";
-      after = [ "network.target" ];
-      wantedBy = [ "multi-user.target" ];
-      serviceConfig = {
-        ExecStart = ''
-          ${exporter}/bin/transmission-exporter \
-          --transmission.url="http://192.168.178.74:9091"
-        '';
-        Restart = "always";
-        DynamicUser = true;
-      };
+  systemd.services.transmission-exporter = {
+    description = "Prometheus exporter for Transmission torrent client";
+    after = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      ExecStart = ''
+        ${pkgs.nur.repos.pborzenkov.transmission-exporter}/bin/transmission-exporter \
+        --transmission.url="http://transmission.lan:9091"
+      '';
+      Restart = "always";
+      DynamicUser = true;
     };
+  };
 
   services.prometheus.scrapeConfigs = [
     {
@@ -398,7 +352,7 @@
       static_configs = [
         {
           targets = [
-            "rock.lab.borzenkov.net:29100"
+            "rock.lan:29100"
           ];
         }
       ];
