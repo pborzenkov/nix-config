@@ -8,6 +8,9 @@
     nixos-hardware.nixosModules.common-pc-ssd
 
     ../../openssh.nix
+
+    ./login.nix
+    ./syncthing.nix
   ];
 
   boot = {
@@ -28,6 +31,15 @@
   };
 
   hardware.enableRedistributableFirmware = true;
+
+  fonts = {
+    enableDefaultFonts = true;
+    fontDir.enable = true;
+    fonts = [
+      pkgs.corefonts
+      pkgs.nerdfonts
+    ];
+  };
 
   networking = {
     firewall.enable = true;
