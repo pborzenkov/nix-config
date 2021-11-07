@@ -59,9 +59,12 @@
     cpuFreqGovernor = "ondemand";
   };
 
-  services.journald.extraConfig = ''
-    SystemMaxUse=100M
-  '';
+  services = {
+    journald.extraConfig = ''
+      SystemMaxUse=100M
+    '';
+    dbus.packages = [ pkgs.gcr ];
+  };
 
   time.timeZone = "Europe/Amsterdam";
 
