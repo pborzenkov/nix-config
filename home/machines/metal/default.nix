@@ -27,7 +27,7 @@
   };
 
   programs.zsh.shellAliases = {
-    "reboot-to-windows" = "sudo systemctl reboot --boot-loader-entry auto-window";
+    "reboot-to-windows" = "sudo systemctl reboot --boot-loader-entry auto-windows";
   };
 
   home.sessionVariables = {
