@@ -71,7 +71,7 @@
         };
       };
 
-      makeHome = hostname: inputs.home-manager.lib.homeManagerConfig {
+      makeHome = hostname: inputs.home-manager.lib.homeManagerConfiguration {
         system = "x86_64-linux";
         stateVersion = "21.05";
         homeDirectory = "/home/pbor";
@@ -113,6 +113,21 @@
       };
 
       deploy.nodes = {
+        metal = {
+          hostname = "127.0.0.1";
+          sshUser = "pbor";
+          profiles = {
+            system = {
+              user = "root";
+              path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.metal;
+            };
+            home = {
+              user = "pbor";
+              path = inputs.deploy-rs.lib.x86_64-linux.activate.home-manager self.homeConfigurations.metal;
+            };
+          };
+        };
+
         rock = {
           hostname = "rock.lan";
           sshUser = "pbor";

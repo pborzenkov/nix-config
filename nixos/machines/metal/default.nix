@@ -1,10 +1,8 @@
-{ config, lib, pkgs, modulesPath, nixos-hardware, sops-nix, nur, ... }:
+{ config, lib, pkgs, modulesPath, nixos-hardware, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
-
-    (modulesPath + "/profiles/headless.nix")
 
     nixos-hardware.nixosModules.common-cpu-amd
     nixos-hardware.nixosModules.common-pc-ssd
@@ -17,7 +15,7 @@
       systemd-boot = {
         enable = true;
         editor = false;
-        configurationLimit = 5;
+        configurationLimit = 3;
 
         memtest86.enable = true;
       };
@@ -29,14 +27,11 @@
     kernelPackages = pkgs.linuxPackages_5_14;
   };
 
-  users = {
-    users.pbor.extraGroups = [ "docker" ];
-  };
-
   hardware.enableRedistributableFirmware = true;
 
   networking = {
     firewall.enable = true;
+    interfaces.enp8s0.useDHCP = true;
     hostName = "metal";
     dhcpcd = {
       wait = "ipv4";
@@ -58,9 +53,7 @@
 
   time.timeZone = "Europe/Amsterdam";
 
-  virtualisation.oci-containers.backend = "docker";
-
-  system.stateVersion = "21.05";
+  system.stateVersion = "21.11";
 
   # TMP
   networking.extraHosts = ''

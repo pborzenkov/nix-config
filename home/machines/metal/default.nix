@@ -14,4 +14,10 @@
   home.packages = [
     pkgs.tremc
   ];
+
+  services.gpg-agent = {
+    enable = true;
+    enableSshSupport = true;
+    pinentryFlavor = "curses";
+  };
 }
