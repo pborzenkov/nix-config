@@ -37,7 +37,9 @@ in
 
     # Misc
     pkgs.envsubst
+    pkgs.zip
     pkgs.unzip
+    pkgs.unrar
     pkgs.nur.repos.pborzenkov.osccopy
 
     # Backups

@@ -10,6 +10,7 @@
     ../../openssh.nix
 
     ./login.nix
+    ./sound.nix
     ./syncthing.nix
   ];
 
@@ -28,6 +29,10 @@
     };
 
     kernelPackages = pkgs.linuxPackages_5_14;
+    kernelParams = [
+      "quiet"
+      "rd.systemd.show_status=false"
+    ];
   };
 
   hardware.enableRedistributableFirmware = true;
@@ -39,6 +44,7 @@
       pkgs.corefonts
       pkgs.nerdfonts
     ];
+    fontconfig.enable = true;
   };
 
   networking = {
@@ -53,6 +59,9 @@
       '';
     };
   };
+
+  programs.adb.enable = true;
+  users.users.pbor.extraGroups = [ "adbusers" ];
 
   powerManagement = {
     enable = true;

@@ -5,10 +5,13 @@
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.greetd.greetd}/bin/agreety --cmd ${pkgs.sway}/bin/sway";
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd sway";
       };
     };
   };
 
-  programs.sway.enable = true;
+  programs.sway = {
+    enable = true;
+    extraPackages = [ pkgs.wl-clipboard ];
+  };
 }

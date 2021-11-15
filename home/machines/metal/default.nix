@@ -17,7 +17,12 @@
   ];
 
   home.packages = [
+    pkgs.tdesktop
     pkgs.tremc
+
+    pkgs.goldendict
+    pkgs.hunspellDicts.en_GB-large
+    pkgs.hunspellDicts.nl_NL
   ];
 
   services.gpg-agent = {
@@ -31,6 +36,14 @@
   };
 
   home.sessionVariables = {
-    GDK_BACKEND = "wayland";
+    MOZ_ENABLE_WAYLAND = "1";
+  };
+
+  gtk = {
+    enable = true;
+    theme = {
+      package = pkgs.arc-theme;
+      name = "Arc";
+    };
   };
 }
