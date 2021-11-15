@@ -26,15 +26,12 @@
       networking = {
         interfaces.mv-enp2s0.ipv4.addresses = [
           {
-            #address = "192.168.88.2";
-            address = "192.168.178.74";
+            address = "192.168.88.2";
             prefixLength = 24;
           }
         ];
-        #defaultGateway = "192.168.88.1";
-        #nameservers = [ "192.168.88.1" ];
-        defaultGateway = "192.168.178.1";
-        nameservers = [ "192.168.178.1" ];
+        defaultGateway = "192.168.88.1";
+        nameservers = [ "192.168.88.1" ];
         firewall.enable = false;
       };
 
@@ -42,11 +39,6 @@
         device = "helios64.lan:/storage";
         fsType = "nfs";
       };
-
-      networking.extraHosts = ''
-        192.168.178.17 helios64.lan
-        192.168.178.18 rock.lan
-      '';
 
       users.groups.nas.gid = config.users.groups.nas.gid;
 
@@ -262,8 +254,7 @@
             rpc-bind-address = "0.0.0.0";
             rpc-port = 9091;
             rpc-whitelist-enabled = true;
-            rpc-whitelist = "192.168.178.*";
-            #            rpc-whitelist = "192.168.88.*";
+            rpc-whitelist = "192.168.88.*";
             rpc-host-whitelist-enabled = true;
             rpc-host-whitelist = "*";
           };

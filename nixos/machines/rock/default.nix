@@ -106,11 +106,4 @@
   virtualisation.oci-containers.backend = "docker";
 
   system.stateVersion = "20.09";
-
-  # TMP
-  networking.extraHosts = ''
-    192.168.178.17 helios64.lan
-    192.168.178.18 rock.lan
-    192.168.178.74 transmission.lan
-  '';
 }
