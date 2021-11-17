@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 {
   virtualisation.oci-containers.containers.valheim = {
-    image = "lloesche/valheim-server";
+    image = "ghcr.io/lloesche/valheim-server";
     ports = [
       "2456-2457:2456-2457/udp"
     ];
@@ -19,6 +19,8 @@
       WORLD_NAME = "Westeros";
       SERVER_PUBLIC = "false";
       BACKUPS = "false";
+
+      BEPINEX = "true";
     };
     environmentFiles = [
       config.sops.secrets.valheim-environment.path
