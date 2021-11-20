@@ -13,7 +13,6 @@
       enableZshIntegration = true;
       nix-direnv = {
         enable = true;
-        enableFlakes = true;
       };
 
       config = {
@@ -93,7 +92,8 @@
   ];
 
   programs.zsh.initExtra = ''
-    source ${pkgs.google-cloud-sdk}/google-cloud-sdk/completion.zsh.inc
+    source ${pkgs.google-cloud-sdk}/share/zsh/site-functions/_gcloud
+    source ${pkgs.google-cloud-sdk}/share/zsh/site-functions/_gsutil
   '';
 
   xdg.configFile = {

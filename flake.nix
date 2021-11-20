@@ -131,6 +131,8 @@
         rock = {
           hostname = "rock.lan";
           sshUser = "pbor";
+          autoRollback = false;
+          magicRollback = false;
           profiles = {
             system = {
               user = "root";
