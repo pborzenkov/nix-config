@@ -43,6 +43,7 @@
     fonts = [
       pkgs.corefonts
       pkgs.nerdfonts
+      pkgs.font-awesome_5
     ];
     fontconfig.enable = true;
   };
