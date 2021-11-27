@@ -1,29 +1,21 @@
 { config, pkgs, ... }:
 let
   dashboardDomain = "${config.webapps.apps.grafana.subDomain}.${config.webapps.domain}";
-
-  dbUser = "grafana";
-  dbPassword = "grafana";
-  dbName = "grafana";
-
-  pgsu = "${pkgs.sudo}/bin/sudo -u ${config.services.postgresql.superUser}";
-  pgbin = "${config.services.postgresql.package}/bin";
-  preStart = pkgs.writeScript "grafana-pre-start" ''
-    #!${pkgs.runtimeShell}
-    db_exists() {
-      [ "$(${pgsu} ${pgbin}/psql -Atc "select 1 from pg_database where datname='$1'")" == "1" ]
-    }
-    if ! db_exists "${dbName}"; then
-      ${pgsu} ${pgbin}/psql postgres -c "CREATE ROLE ${dbUser} WITH LOGIN NOCREATEDB NOCREATEROLE ENCRYPTED PASSWORD '${dbPassword}'"
-      ${pgsu} ${pgbin}/createdb --owner "${dbUser}" "${dbName}"
-    fi
-  '';
 in
 {
   webapps.apps.grafana = {
     subDomain = "dashboard";
     proxyTo = "http://127.0.0.1:${toString config.services.grafana.port}";
     locations."/" = { auth = true; };
+  };
+
+  services.postgresql = {
+    enable = true;
+    ensureDatabases = [ "grafana" ];
+    ensureUsers = [{
+      name = "grafana";
+      ensurePermissions."DATABASE grafana" = "ALL PRIVILEGES";
+    }];
   };
 
   services.grafana = {
@@ -34,10 +26,9 @@ in
 
     database = {
       type = "postgres";
-      host = "127.0.0.1:5432";
-      name = dbName;
-      user = dbUser;
-      password = dbPassword;
+      host = "/run/postgresql:5432";
+      name = "grafana";
+      user = "grafana";
     };
 
     domain = dashboardDomain;
@@ -84,10 +75,8 @@ in
           frequency = "4h";
           settings = {
             chatid = "321151402";
-            uploadImage = false;
-          };
-          secure_settings = {
             bottoken = "\${TELEGRAM_TOKEN}";
+            uploadImage = false;
           };
         }
       ];
@@ -99,7 +88,6 @@ in
     requires = [ "postgresql.service" ];
     serviceConfig = {
       SupplementaryGroups = [ config.users.groups.keys.name ];
-      ExecStartPre = [ "+${preStart}" ];
       EnvironmentFile = [
         config.sops.secrets.tg-bot-alerting-environment.path
       ];

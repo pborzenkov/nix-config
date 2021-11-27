@@ -112,45 +112,46 @@
         rock = makeHome "rock";
       };
 
-      deploy.nodes = {
-        metal = {
-          hostname = "127.0.0.1";
-          sshUser = "pbor";
-          profiles = {
-            system = {
-              user = "root";
-              path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.metal;
-            };
-            home = {
-              user = "pbor";
-              path = inputs.deploy-rs.lib.x86_64-linux.activate.home-manager self.homeConfigurations.metal;
+      deploy = {
+        autoRollback = false;
+        magicRollback = false;
+        sshUser = "pbor";
+
+        nodes = {
+          metal = {
+            hostname = "127.0.0.1";
+            profiles = {
+              system = {
+                user = "root";
+                path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.metal;
+              };
+              home = {
+                user = "pbor";
+                path = inputs.deploy-rs.lib.x86_64-linux.activate.home-manager self.homeConfigurations.metal;
+              };
             };
           };
-        };
 
-        rock = {
-          hostname = "rock.lan";
-          sshUser = "pbor";
-          autoRollback = false;
-          magicRollback = false;
-          profiles = {
-            system = {
-              user = "root";
-              path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.rock;
-            };
-            home = {
-              user = "pbor";
-              path = inputs.deploy-rs.lib.x86_64-linux.activate.home-manager self.homeConfigurations.rock;
+          rock = {
+            hostname = "rock.lan";
+            profiles = {
+              system = {
+                user = "root";
+                path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.rock;
+              };
+              home = {
+                user = "pbor";
+                path = inputs.deploy-rs.lib.x86_64-linux.activate.home-manager self.homeConfigurations.rock;
+              };
             };
           };
-        };
 
-        gw = {
-          hostname = "borzenkov.net";
-          profiles.system = {
-            sshUser = "pbor";
-            user = "root";
-            path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.gw;
+          gw = {
+            hostname = "borzenkov.net";
+            profiles.system = {
+              user = "root";
+              path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.gw;
+            };
           };
         };
       };
