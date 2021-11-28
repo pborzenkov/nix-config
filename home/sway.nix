@@ -10,6 +10,7 @@
       menu = "rofi -show run";
       terminal = "${pkgs.foot}/bin/foot";
 
+      bindkeysToCode = true;
       keybindings =
         let
           modifier = config.wayland.windowManager.sway.config.modifier;
