@@ -18,6 +18,7 @@
 
   home.packages = [
     pkgs.tdesktop
+    pkgs.calibre
     pkgs.tremc
 
     pkgs.goldendict

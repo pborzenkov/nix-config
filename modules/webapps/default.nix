@@ -9,6 +9,13 @@
       '';
       example = "borzenkov.net";
     };
+    subDomains = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      description = ''
+        Additional sub-domains for wildcard certificate.
+      '';
+      example = "lab.borzenkov.net";
+    };
 
     userIDHeader = lib.mkOption {
       type = lib.types.str;
@@ -60,11 +67,12 @@
             example = "grafana";
           };
           proxyTo = lib.mkOption {
-            type = lib.types.str;
+            type = lib.types.nullOr lib.types.str;
             description = ''
               Proxy requests to this backend.
             '';
             example = "192.168.1.10:1234";
+            default = null;
           };
           locations = lib.mkOption {
             type = lib.types.attrsOf (lib.types.submodule {
@@ -109,7 +117,7 @@
         acceptTerms = true;
         email = "pavel@borzenkov.net";
         certs."${cfg.domain}" = {
-          extraDomainNames = [ "*.${cfg.domain}" ];
+          extraDomainNames = [ "*.${cfg.domain}" ] ++ builtins.map (d: "*.${d}.${cfg.domain}") cfg.subDomains;
           dnsProvider = cfg.acmeDNSProvider;
           credentialsFile = cfg.acmeCredentialsFile;
           dnsPropagationCheck = true;
@@ -143,7 +151,7 @@
               useACMEHost = cfg.domain;
               locations = (lib.mapAttrs
                 (locName: locConfig: ({
-                  proxyPass = "${vhostConfig.proxyTo}$request_uri";
+                  proxyPass = if vhostConfig.proxyTo != null then "${vhostConfig.proxyTo}$request_uri" else null;
                   extraConfig = lib.optionalString locConfig.auth ''
                     auth_request /auth;
                     error_page 401 = @error401;
@@ -168,7 +176,7 @@
                   '';
                 };
 
-                "@error401" = {
+                "@error401" = lib.optionalAttrs needAuth {
                   return = "302 https://${cfg.ssoSubDomain}.${cfg.domain}/login?go=$scheme://$http_host$request_uri";
                 };
               };

@@ -15,6 +15,8 @@
     ../../openssh.nix
 
     ./backup.nix
+    ./dashboard.nix
+    ./dns.nix
     ./gonic.nix
     ./grafana.nix
     ./jellyfin.nix

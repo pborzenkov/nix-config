@@ -38,6 +38,12 @@
 
       "rock.lan rock.lab.borzenkov.net" = {
         forwardAgent = true;
+        remoteForwards = [
+          {
+            bind.address = "/run/user/1000/gnupg/S.gpg-agent";
+            host.address = "/run/user/1000/gnupg/S.gpg-agent.extra";
+          }
+        ];
       };
 
       "helios64.lan helios64.lab.borzenkov.net" = {
