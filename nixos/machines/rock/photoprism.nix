@@ -11,6 +11,11 @@ in
         proxyWebsockets = true;
       };
     };
+    dashboard = {
+      name = "PhotoPrism";
+      category = "app";
+      icon = "camera";
+    };
   };
 
   virtualisation.oci-containers.containers.photoprism = {

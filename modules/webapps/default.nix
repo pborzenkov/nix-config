@@ -56,51 +56,107 @@
       example = "/var/run/secretes/acme";
     };
 
-    apps = lib.mkOption {
-      type = lib.types.attrsOf (lib.types.submodule {
+    dashboardCategories = lib.mkOption {
+      type = lib.types.listOf (lib.types.submodule {
         options = {
-          subDomain = lib.mkOption {
+          name = lib.mkOption {
             type = lib.types.str;
             description = ''
-              'Subdomain of the web application.
+              Category name.
             '';
-            example = "grafana";
+            example = "Applications";
           };
-          proxyTo = lib.mkOption {
-            type = lib.types.nullOr lib.types.str;
+          tag = lib.mkOption {
+            type = lib.types.str;
             description = ''
-              Proxy requests to this backend.
+              Category tag.
             '';
-            example = "192.168.1.10:1234";
-            default = null;
-          };
-          locations = lib.mkOption {
-            type = lib.types.attrsOf (lib.types.submodule {
-              options = {
-                auth = lib.mkOption {
-                  type = lib.types.bool;
-                  description = ''
-                    Enabled authentication for the location.
-                  '';
-                  default = false;
-                  example = true;
-                };
-                custom = lib.mkOption {
-                  type = lib.types.nullOr lib.types.attrs;
-                  description = ''
-                    Custom config merged into the location config.
-                  '';
-                  default = null;
-                  example =
-                    {
-                      proxyWebsockets = true;
-                    };
-                };
-              };
-            });
+            example = "app";
           };
         };
       });
+      description = ''
+        App categories to display on the dashboard.
+      '';
+      example = [
+        {
+          name = "Application";
+          tag = "app";
+        }
+      ];
+      default = [ ];
+    };
+
+    apps = lib.mkOption {
+      type = lib.types.attrsOf
+        (lib.types.submodule {
+          options = {
+            subDomain = lib.mkOption {
+              type = lib.types.str;
+              description = ''
+                'Subdomain of the web application.
+              '';
+              example = "grafana";
+            };
+            proxyTo = lib.mkOption {
+              type = lib.types.nullOr lib.types.str;
+              description = ''
+                Proxy requests to this backend.
+              '';
+              example = "192.168.1.10:1234";
+              default = null;
+            };
+            locations = lib.mkOption {
+              type = lib.types.attrsOf (lib.types.submodule {
+                options = {
+                  auth = lib.mkOption {
+                    type = lib.types.bool;
+                    description = ''
+                      Enabled authentication for the location.
+                    '';
+                    default = false;
+                    example = true;
+                  };
+                  custom = lib.mkOption {
+                    type = lib.types.nullOr lib.types.attrs;
+                    description = ''
+                      Custom config merged into the location config.
+                    '';
+                    default = null;
+                    example =
+                      {
+                        proxyWebsockets = true;
+                      };
+                  };
+                };
+              });
+            };
+            dashboard.name = lib.mkOption {
+              type = lib.types.nullOr lib.types.str;
+              description = ''
+                Application name.
+              '';
+              example = "App";
+              default = null;
+            };
+            dashboard.category = lib.mkOption {
+              type = lib.types.nullOr lib.types.str;
+              description = ''
+                App category tag.
+              '';
+              example = "app";
+              default = null;
+            };
+            dashboard.icon = lib.mkOption {
+              type = lib.types.nullOr lib.types.str;
+              description = ''
+                Font Awesome application icon.
+              '';
+              example = "rss";
+              default = null;
+            };
+          };
+        });
       description = ''
         Defines a web application.
       '';
@@ -185,5 +241,29 @@
           )
           cfg.apps;
       };
+
+      lib.webapps.homerServices =
+        let
+          apps = builtins.filter (a: a.dashboard.name != null) (lib.attrValues cfg.apps);
+        in
+        lib.forEach cfg.dashboardCategories (cat:
+          let
+            catApps = lib.sort (a: b: a.dashboard.name < b.dashboard.name) (
+              builtins.filter
+                (a:
+                  a.dashboard.category != null && a.dashboard.category == cat.tag ||
+                  a.dashboard.category == null && cat.tag == "misc")
+                apps);
+          in
+          {
+            name = cat.name;
+            items = lib.forEach catApps (a: {
+              name = a.dashboard.name;
+              icon = lib.optionalString (a.dashboard.icon != null) "fas fa-${a.dashboard.icon}";
+              url = "https://${a.subDomain}.${cfg.domain}";
+              target = "_blank";
+            });
+          }
+        );
     };
 }

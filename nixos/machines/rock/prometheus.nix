@@ -5,6 +5,11 @@
     subDomain = "prometheus.lab";
     proxyTo = "http://127.0.0.1:${toString config.services.prometheus.port}";
     locations."/" = { auth = true; };
+    dashboard = {
+      name = "Prometheus";
+      category = "infra";
+      icon = "chart-line";
+    };
   };
 
   services.prometheus = {

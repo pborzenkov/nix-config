@@ -7,6 +7,11 @@ in
     subDomain = "grafana.lab";
     proxyTo = "http://127.0.0.1:${toString config.services.grafana.port}";
     locations."/" = { auth = true; };
+    dashboard = {
+      name = "Grafana";
+      category = "infra";
+      icon = "chart-area";
+    };
   };
 
   services.postgresql = {

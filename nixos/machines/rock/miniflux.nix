@@ -9,6 +9,11 @@ in
     proxyTo = "http://127.0.0.1:${port}";
     locations."/" = { auth = true; };
     locations."/fever/" = { };
+    dashboard = {
+      name = "Miniflux";
+      category = "app";
+      icon = "rss";
+    };
   };
 
   services.miniflux = {

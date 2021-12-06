@@ -24,60 +24,27 @@ let
     footer = false;
     connectivityCheck = false;
     colums = "auto";
-    services = [
-      {
-        name = "Applications";
-        items = [
-          {
-            name = "Miniflux";
-            icon = "fas fa-rss";
-            tag = "internal";
-            url = "https://rss.lab.borzenkov.net";
-            target = "_blank";
-          }
-          {
-            name = "PhotoPrism";
-            icon = "fas fa-camera";
-            tag = "external";
-            url = "https://photos.borzenkov.net";
-            target = "_blank";
-          }
-        ];
-      }
-      {
-        name = "Infrastructure";
-        items = [
-          {
-            name = "Grafana";
-            icon = "fas fa-chart-area";
-            tag = "internal";
-            url = "https://grafana.lab.borzenkov.net";
-            target = "_blank";
-          }
-          {
-            name = "Prometheus";
-            icon = "fas fa-chart-line";
-            tag = "internal";
-            url = "https://prometheus.lab.borzenkov.net";
-            target = "_blank";
-          }
-        ];
-      }
-    ];
+    services = config.lib.webapps.homerServices;
   };
 in
 {
-  webapps.apps.dashboard = {
-    subDomain = "dashboard.lab";
-    locations = {
-      "/" = {
-        custom = {
-          root = homer;
+  webapps = {
+    dashboardCategories = [
+      { name = "Applications"; tag = "app"; }
+      { name = "Infrastructure"; tag = "infra"; }
+    ];
+    apps.dashboard = {
+      subDomain = "dashboard.lab";
+      locations = {
+        "/" = {
+          custom = {
+            root = homer;
+          };
         };
-      };
-      "=/assets/config.yml" = {
-        custom = {
-          alias = pkgs.writeText "homerConfig.yml" (builtins.toJSON homeConfig);
+        "=/assets/config.yml" = {
+          custom = {
+            alias = pkgs.writeText "homerConfig.yml" (builtins.toJSON homeConfig);
+          };
         };
       };
     };
