@@ -23,7 +23,6 @@
     ./helios64.nix
     ./miniflux.nix
     ./photoprism.nix
-    ./plex.nix
     ./postgresql.nix
     ./prometheus.nix
     ./skyeng.nix
@@ -61,11 +60,7 @@
     fsType = "nfs";
   };
 
-  users = {
-    users.pbor.extraGroups = [ "docker" "nas" ];
-
-    groups.nas.gid = 998;
-  };
+  users.users.pbor.extraGroups = [ "docker" ];
 
   hardware.enableRedistributableFirmware = true;
 

@@ -40,8 +40,6 @@
         fsType = "nfs";
       };
 
-      users.groups.nas.gid = config.users.groups.nas.gid;
-
       services = {
         openvpn.servers =
           let
@@ -236,7 +234,6 @@
 
         transmission = {
           enable = true;
-          group = "nas";
           settings = {
             peer-port-random-on-start = false;
             port-forwarding-enabled = false;

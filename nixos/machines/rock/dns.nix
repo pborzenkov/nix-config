@@ -25,6 +25,7 @@ let
     auth        IN CNAME rock
     dashboard   IN CNAME rock
     grafana     IN CNAME rock
+    jellyfin    IN CNAME rock
     plex        IN CNAME rock
     prometheus  IN CNAME rock
     rss         IN CNAME rock
