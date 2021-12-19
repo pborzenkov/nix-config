@@ -33,10 +33,6 @@
     pinentryFlavor = "gnome3";
   };
 
-  programs.zsh.shellAliases = {
-    "reboot-to-windows" = "sudo systemctl reboot --boot-loader-entry auto-windows";
-  };
-
   home.sessionVariables = {
     MOZ_ENABLE_WAYLAND = "1";
   };

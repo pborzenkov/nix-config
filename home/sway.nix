@@ -19,6 +19,11 @@
           "${modifier}+Return" = lib.mkForce null;
           "Mod1+Return" = "exec ${pkgs.foot}/bin/foot";
           "${modifier}+Shift+e" = "exec rofi -modi emoji -show emoji";
+          "${modifier}+Shift+s" = ''
+            exec rofi -theme-str 'window {width: 20%;} listview{scrollbar: false; lines: 5;}' \
+            -show power \
+            -modi "power:${pkgs.nur.repos.pborzenkov.rofi-power-menu}/bin/rofi-power-menu --choices lockscreen/logout/reboot/shutdown/windows"
+          '';
 
           "XF86AudioRaiseVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%";
           "XF86AudioLowerVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%";
@@ -29,6 +34,12 @@
         "*" = {
           xkb_layout = "us,ru";
           xkb_options = "grp:win_space_toggle";
+        };
+      };
+
+      output = {
+        "*" = {
+          bg = "${config.xdg.dataHome}/sway/wallpaper.jpg fill";
         };
       };
 
@@ -115,6 +126,28 @@
     };
   };
 
+  xdg.dataFile."wallpaper.jpg" = {
+    source = ../assets/wallpaper.jpg;
+    target = "sway/wallpaper.jpg";
+  };
+
+  systemd.user.services.swayidle = {
+    Unit = {
+      Description = "Idle manager for Wayland";
+      PartOf = [ "sway-session.target" ];
+      After = [ "sway-session.target" ];
+    };
+
+    Service = {
+      Type = "simple";
+      Restart = "on-failure";
+      RestartSec = "1sec";
+      Environment = [ "PATH=${dirOf pkgs.stdenv.shell}:$PATH" ];
+      ExecStart = "${pkgs.swayidle}/bin/swayidle -w";
+    };
+    Install.WantedBy = [ "sway-session.target" ];
+  };
+
   services.dunst = {
     enable = true;
 
@@ -161,6 +194,55 @@
           critical_fg = "#${base00-hex}"
         '';
         target = "i3status-rust/themes/${theme}.toml";
+      };
+      "swaylock/config" = with config.lib.base16.theme; {
+        text = ''
+          font=MesloLGS Nerd Font Mono
+
+          color=${base00-hex}
+
+          key-hl-color=${base0B-hex}
+
+          separator-color=00000000
+
+          inside-color=${base00-hex}
+          inside-clear-color=${base00-hex}
+          inside-ver-color=${base0D-hex}
+          inside-wrong-color=${base08-hex}
+
+          ring-color=${base01-hex}
+          ring-clear-color=${base01-hex}
+          ring-ver-color=${base0D-hex}
+          ring-wrong-color=${base08-hex}
+
+          line-color=00000000
+          line-clear-color=00000000
+          line-ver-color=00000000
+          line-wrong-color=00000000
+
+          text-clear-color=${base09-hex}
+          text-caps-lock-color=${base09-hex}
+          text-ver-color=${base00-hex}
+          text-wrong-color=${base00-hex}
+
+          bs-hl-color=${base08-hex}
+
+          ignore-empty-password
+
+          indicator-idle-visible
+          indicator-radius=130
+          indicator-thickness=15
+        '';
+        target = "swaylock/config";
+      };
+      "swayidle/config" = {
+        text = ''
+          timeout 300 '${pkgs.swaylock}/bin/swaylock -f'
+          timeout 600 '${pkgs.sway}/bin/swaymsg "output * dpms off"' resume '${pkgs.sway}/bin/swaymsg "output * dpms on"'
+          before-sleep '${pkgs.swaylock}/bin/swaylock -f'
+          lock '${pkgs.swaylock}/bin/swaylock -f'
+        '';
+        target = "swayidle/config";
       };
     };
 
@@ -362,4 +444,3 @@
       theme = "${theme}";
     };
 }
-
