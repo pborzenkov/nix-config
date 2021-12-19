@@ -48,7 +48,7 @@ in
       PHOTOPRISM_UPLOAD_NSFW = "true"; # Allow uploads that MAY be offensive
       PHOTOPRISM_DISABLE_BACKUPS = "true"; # Disable backups
 
-      PHOTOPRISM_SITE_URL = "https://${config.webapps.apps.photoprism.subDomain}:${config.webapps.domain}";
+      PHOTOPRISM_SITE_URL = "https://${config.webapps.apps.photoprism.subDomain}.${config.webapps.domain}";
       PHOTOPRISM_SITE_TITLE = "PhotoPrism";
       PHOTOPRISM_SITE_CAPTION = "Pavel's Photos";
       PHOTOPRISM_SITE_DESCRIPTION = "Pavel's Photos";
