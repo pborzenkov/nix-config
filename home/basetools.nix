@@ -41,6 +41,7 @@ in
     pkgs.unzip
     pkgs.unrar
     pkgs.nur.repos.pborzenkov.osccopy
+    pkgs.dtach
 
     # Backups
     pkgs.restic

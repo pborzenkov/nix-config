@@ -22,13 +22,14 @@ let
     helios64       IN A     100.120.35.41
     booking-laptop IN A     100.65.242.53
 
-    auth        IN CNAME rock
-    dashboard   IN CNAME rock
-    grafana     IN CNAME rock
-    jellyfin    IN CNAME rock
-    plex        IN CNAME rock
-    prometheus  IN CNAME rock
-    rss         IN CNAME rock
+    auth           IN CNAME rock
+    dashboard      IN CNAME rock
+    grafana        IN CNAME rock
+    jellyfin       IN CNAME rock
+    plex           IN CNAME rock
+    prometheus     IN CNAME rock
+    rss            IN CNAME rock
+    transmission   IN CNAME rock
   '';
 in
 {

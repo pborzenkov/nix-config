@@ -1,5 +1,8 @@
 { config, lib, pkgs, ... }:
 
+let
+  transmissionIP = "192.168.88.2";
+in
 {
   containers.transmission = {
     autoStart = true;
@@ -26,7 +29,7 @@
       networking = {
         interfaces.mv-enp2s0.ipv4.addresses = [
           {
-            address = "192.168.88.2";
+            address = transmissionIP;
             prefixLength = 24;
           }
         ];
@@ -297,6 +300,17 @@
     RestartSec = "10m";
   };
 
+  webapps.apps.transmission = {
+    subDomain = "transmission.lab";
+    proxyTo = "http://${transmissionIP}:9091";
+    locations."/" = { auth = true; };
+    dashboard = {
+      name = "Transmission";
+      category = "app";
+      icon = "download";
+    };
+  };
+
   sops.secrets = {
     perfect-privacy-password = { };
     perfect-privacy-openvpn-key = { };
@@ -310,6 +324,7 @@
       ExecStart = ''
             ${pkgs.nur.repos.pborzenkov.tg-bot-transmission}/bin/bot \
         -telegram.allow-user=pborzenkov \
+        -telegram.allow-user=mashahooyasha \
         -transmission.url="http://transmission.lan:9091"
       '';
       EnvironmentFile = [
