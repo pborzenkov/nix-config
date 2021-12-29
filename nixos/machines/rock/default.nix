@@ -60,7 +60,7 @@
     fsType = "nfs";
   };
 
-  users.users.pbor.extraGroups = [ "docker" ];
+  users.users.pbor.extraGroups = [ "docker" "libvirtd" ];
 
   hardware.enableRedistributableFirmware = true;
 
@@ -100,7 +100,10 @@
 
   time.timeZone = "Europe/Amsterdam";
 
-  virtualisation.oci-containers.backend = "docker";
+  virtualisation = {
+    oci-containers.backend = "docker";
+    libvirtd.enable = true;
+  };
 
   system.stateVersion = "20.09";
 }
