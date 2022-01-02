@@ -29,12 +29,7 @@ local jump_with_telescope = function(title, result, opts)
 	}):find()
 end
 
-M.implementation = function(err, _, result)
-	if err then
-		print("ERROR: " .. err)
-		return
-	end
-
+M.implementation = function(_, result)
 	if not result or vim.tbl_isempty(result) then
 		return
 	end
@@ -48,12 +43,7 @@ M.implementation = function(err, _, result)
 	end
 end
 
-M.references = function(err, _, result)
-	if err then
-		print("ERROR: " .. err)
-		return
-	end
-
+M.references = function(_, result)
 	if not result or vim.tbl_isempty(result) then
 		return
 	end
@@ -61,12 +51,7 @@ M.references = function(err, _, result)
 	jump_with_telescope('LSP References', result)
 end
 
-M.incoming_calls = function(err, _, result)
-	if err then
-		print("ERROR: " .. err)
-		return
-	end
-
+M.incoming_calls = function(_, result)
 	if not result or vim.tbl_isempty(result) then
 		return
 	end
@@ -86,6 +71,24 @@ M.incoming_calls = function(err, _, result)
 		vim.lsp.util.jump_to_location(locations[1])
 	else
 		jump_with_telescope('LSP Incoming Calls', locations)
+	end
+end
+
+local function err_message(...)
+	vim.notify(table.concat(vim.tbl_flatten{...}), vim.log.levels.ERROR)
+	vim.api.nvim_command("redraw")
+end
+
+for k, fn in pairs(M) do
+	M[k] = function(err, result, ctx, config)
+		if err then
+			local client = vim.lsp.get_client_by_id(ctx.client_id)
+			local client_name = client and client.name or string.format("client_id=%d", ctx.client_id)
+
+			return err_message(client_name .. ': ' .. tostring(err.code) .. ': ' .. err.message)
+		end
+
+		return fn(err, result, ctx, config)
 	end
 end
 

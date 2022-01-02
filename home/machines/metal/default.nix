@@ -11,6 +11,7 @@
     ../../neovim.nix
     ../../ssh.nix
     ../../sway.nix
+    ../../tmux.nix
     ../../zsh.nix
 
     ./sway.nix

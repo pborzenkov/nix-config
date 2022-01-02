@@ -250,6 +250,8 @@ in
             alt-speed-time-begin = 480;
             alt-speed-time-end = 1380;
 
+            peer-limit-global = 1000;
+
             rpc-authentication-required = false;
             rpc-bind-address = "0.0.0.0";
             rpc-port = 9091;
