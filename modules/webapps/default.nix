@@ -171,7 +171,7 @@
     {
       security.acme = {
         acceptTerms = true;
-        email = "pavel@borzenkov.net";
+        defaults.email = "pavel@borzenkov.net";
         certs."${cfg.domain}" = {
           extraDomainNames = [ "*.${cfg.domain}" ] ++ builtins.map (d: "*.${d}.${cfg.domain}") cfg.subDomains;
           dnsProvider = cfg.acmeDNSProvider;

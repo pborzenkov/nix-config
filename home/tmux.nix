@@ -53,7 +53,7 @@
       set-window-option -g window-status-style "fg=#${base04-hex},bg=default"
       set-window-option -g window-status-current-style "fg=#${base0A-hex},bg=default"
       set-option -g pane-border-style "fg=#${base01-hex}"
-      set-option -g pane-active-border-style "fg=#${base02-hex}"
+      set-option -g pane-active-border-style "fg=#${base04-hex}"
       set-option -g message-style "fg=#${base05-hex},bg=#${base01-hex}"
       set-option -g display-panes-active-colour "#${base0B-hex}"
       set-option -g display-panes-colour "#${base0A-hex}"
