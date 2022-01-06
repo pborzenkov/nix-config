@@ -72,9 +72,8 @@
 
     # Kubernetes
     pkgs.kubectl
-    pkgs.kubectx
+    pkgs.k9s
     pkgs.stern
-    pkgs.kustomize
 
     # Jsonnet
     pkgs.jsonnet

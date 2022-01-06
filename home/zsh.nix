@@ -34,8 +34,6 @@
       source ''${HOME}/.zsh/vimode.zsh
       source ''${HOME}/.zsh/completion.zsh
       source ''${HOME}/.zsh/menuselect.zsh
-
-      path=($HOME/bin $path)
     '';
   };
 

@@ -33,6 +33,14 @@
       "quiet"
       "rd.systemd.show_status=false"
     ];
+
+    binfmt.registrations = {
+      DOSWin = {
+        interpreter = "${pkgs.wine}/bin/wine";
+        magicOrExtension = "MZ";
+        recognitionType = "magic";
+      };
+    };
   };
 
   hardware.enableRedistributableFirmware = true;
@@ -49,7 +57,10 @@
   };
 
   networking = {
-    firewall.enable = true;
+    firewall = {
+      enable = true;
+      allowedUDPPorts = [ 5678 ];
+    };
     interfaces.enp8s0.useDHCP = true;
     hostName = "metal";
     dhcpcd = {
@@ -61,8 +72,14 @@
     };
   };
 
-  programs.adb.enable = true;
-  users.users.pbor.extraGroups = [ "adbusers" ];
+  programs = {
+    adb.enable = true;
+    wireshark = {
+      enable = true;
+      package = pkgs.wireshark;
+    };
+  };
+  users.users.pbor.extraGroups = [ "adbusers" "wireshark" ];
 
   powerManagement = {
     enable = true;

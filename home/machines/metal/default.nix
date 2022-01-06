@@ -11,6 +11,7 @@
     ../../neovim.nix
     ../../ssh.nix
     ../../sway.nix
+    ../../termshark.nix
     ../../tmux.nix
     ../../zsh.nix
 
@@ -37,6 +38,7 @@
 
   home.sessionVariables = {
     MOZ_ENABLE_WAYLAND = "1";
+    PATH = "\${HOME}/bin:\${PATH}";
   };
 
   gtk = {
