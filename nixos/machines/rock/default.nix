@@ -25,11 +25,13 @@
     ./photoprism.nix
     ./postgresql.nix
     ./prometheus.nix
+    ./redis.nix
     ./skyeng.nix
     ./syncthing.nix
     ./transmission.nix
     ./valheim.nix
     ./vlmcsd.nix
+    ./wallabag.nix
     ./webapps.nix
   ];
 

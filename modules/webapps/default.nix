@@ -131,6 +131,17 @@
                 };
               });
             };
+            custom = lib.mkOption {
+              type = lib.types.nullOr lib.types.attrs;
+              description = ''
+                Custom config merged into the virtual host config.
+              '';
+              default = null;
+              example =
+                {
+                  root = "/var/root";
+                };
+            };
             dashboard.name = lib.mkOption {
               type = lib.types.nullOr lib.types.str;
               description = ''
@@ -236,7 +247,7 @@
                   return = "302 https://${cfg.ssoSubDomain}.${cfg.domain}/login?go=$scheme://$http_host$request_uri";
                 };
               };
-            }
+            } // lib.optionalAttrs (vhostConfig.custom != null) vhostConfig.custom
           )
           )
           cfg.apps;

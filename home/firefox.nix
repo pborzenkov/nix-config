@@ -14,10 +14,12 @@
         isDefault = true;
         name = "default";
       };
-      extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-        browserpass
-        translate-web-pages
-        ublock-origin
+      extensions = [
+        pkgs.nur.repos.rycee.firefox-addons.browserpass
+        pkgs.nur.repos.rycee.firefox-addons.translate-web-pages
+        pkgs.nur.repos.rycee.firefox-addons.ublock-origin
+
+        pkgs.nur.repos.pborzenkov.firefox-addons.wallabagger
       ];
     };
   };
