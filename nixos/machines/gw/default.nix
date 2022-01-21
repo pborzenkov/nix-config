@@ -60,6 +60,18 @@
       };
   };
 
+  services._3proxy = {
+    enable = true;
+    services = [
+      {
+        type = "proxy";
+        bindAddress = "100.103.2.96";
+        bindPort = 3128;
+        auth = [ "none" ];
+      }
+    ];
+  };
+
   time.timeZone = "Europe/Amsterdam";
 
   system.stateVersion = "20.09";
