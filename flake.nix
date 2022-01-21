@@ -113,8 +113,6 @@
       };
 
       deploy = {
-        autoRollback = false;
-        magicRollback = false;
         sshUser = "pbor";
 
         nodes = {
@@ -138,6 +136,7 @@
               system = {
                 user = "root";
                 path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.rock;
+                confirmTimeout = 600;
               };
               home = {
                 user = "pbor";
@@ -155,8 +154,6 @@
           };
         };
       };
-
-      checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) inputs.deploy-rs.lib;
     } // inputs.flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import inputs.nixpkgs { inherit system; };

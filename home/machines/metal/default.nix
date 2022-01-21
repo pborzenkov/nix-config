@@ -7,8 +7,11 @@
     ../../firefox.nix
     ../../foot.nix
     ../../gpg.nix
+    ../../gtk.nix
     ../../git.nix
+    ../../mpv.nix
     ../../neovim.nix
+    ../../rofi.nix
     ../../ssh.nix
     ../../sway.nix
     ../../termshark.nix
@@ -49,4 +52,3 @@
     };
   };
 }
-

@@ -28,7 +28,7 @@
       efi.canTouchEfiVariables = true;
     };
 
-    kernelPackages = pkgs.linuxPackages_5_15;
+    kernelPackages = pkgs.linuxPackages_5_16;
     kernelParams = [
       "quiet"
       "rd.systemd.show_status=false"
@@ -91,7 +91,10 @@
       SystemMaxUse=100M
     '';
     dbus.packages = [ pkgs.gcr ];
+    flatpak.enable = true;
   };
+
+  xdg.portal.enable = true;
 
   time.timeZone = "Europe/Amsterdam";
 
