@@ -37,6 +37,7 @@ in
     enable = true;
     config = ''
       lab.borzenkov.net {
+        bind 100.115.192.117
         file ${dnsConfig}
         prometheus 0.0.0.0:9153
         errors
