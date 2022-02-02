@@ -4,7 +4,7 @@
   imports = [
     ./hardware-configuration.nix
 
-    #    (modulesPath + "/profiles/headless.nix")
+    (modulesPath + "/profiles/headless.nix")
 
     nixos-hardware.nixosModules.common-cpu-amd
     nixos-hardware.nixosModules.common-pc-ssd

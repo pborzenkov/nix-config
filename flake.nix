@@ -136,7 +136,6 @@
               system = {
                 user = "root";
                 path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.rock;
-                confirmTimeout = 600;
               };
               home = {
                 user = "pbor";
