@@ -70,25 +70,42 @@
   networking = {
     firewall.enable = true;
     hostName = "rock";
-    macvlans.mv-host-enp2s0 = {
-      interface = "enp2s0";
-      mode = "bridge";
-    };
-    interfaces = {
-      enp2s0.useDHCP = false;
-      mv-host-enp2s0 = {
-        macAddress = "56:bc:92:cb:57:b6";
-        useDHCP = true;
+    useDHCP = false;
+    dhcpcd.enable = false;
+    useNetworkd = true;
+  };
+
+  systemd.network = {
+    enable = true;
+    netdevs."40-mv-host" = {
+      enable = true;
+      netdevConfig = {
+        Name = "mv-host";
+        Kind = "macvlan";
+      };
+      macvlanConfig = {
+        Mode = "bridge";
       };
     };
-    dhcpcd = {
-      wait = "ipv4";
-      extraConfig = ''
-        noarp
-        clientid
-      '';
+    networks = {
+      "40-mv-host" = {
+        enable = true;
+        DHCP = "ipv4";
+        linkConfig = {
+          MACAddress = "56:bc:92:cb:57:b6";
+        };
+        networkConfig = {
+          LinkLocalAddressing = "no";
+        };
+      };
+      "40-enp2s0" = {
+        enable = true;
+        name = "enp2s0";
+        macvlan = [ "mv-host" ];
+      };
     };
   };
+  services.resolved.enable = true;
 
   powerManagement = {
     enable = true;
