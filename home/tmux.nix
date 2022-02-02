@@ -9,7 +9,7 @@
     escapeTime = 0;
     historyLimit = 5000;
     keyMode = "vi";
-    terminal = "screen-256color";
+    terminal = "tmux-256color";
     extraConfig = with config.lib.base16.theme; ''
       unbind -Troot C-b
       set-option -g prefix None
@@ -60,6 +60,8 @@
       set-window-option -g clock-mode-colour "#${base0B-hex}"
       set-window-option -g mode-style "fg=#${base04-hex},bg=#${base02-hex}"
       set-window-option -g window-status-bell-style "fg=#${base01-hex},bg=#${base08-hex}"
+
+      set-option -sa terminal-overrides ",xterm-256color:RGB"
     '';
   };
 }

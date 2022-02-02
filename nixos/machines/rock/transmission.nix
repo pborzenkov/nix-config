@@ -27,15 +27,21 @@ in
 
     config = {
       networking = {
-        interfaces.mv-enp2s0.ipv4.addresses = [
-          {
-            address = transmissionIP;
-            prefixLength = 24;
-          }
-        ];
-        defaultGateway = "192.168.88.1";
-        nameservers = [ "192.168.88.1" ];
         firewall.enable = false;
+        useDHCP = false;
+        dhcpcd.enable = false;
+        useNetworkd = true;
+        useHostResolvConf = false;
+      };
+
+      systemd.network = {
+        enable = true;
+        networks."40-macvlan" = {
+          name = "mv-enp2s0";
+          address = [ "${transmissionIP}//24" ];
+          dns = [ "192.168.88.1" ];
+          gateway = [ "192.168.88.1" ];
+        };
       };
 
       fileSystems."/storage" = {
@@ -44,6 +50,8 @@ in
       };
 
       services = {
+        resolved.enable = true;
+
         openvpn.servers =
           let
             calcport = ''

@@ -1,5 +1,22 @@
 { config, pkgs, lib, ... }:
 
+let
+  scratchTerm = pkgs.writeShellScript "scratch-term.sh" ''
+    jq=${pkgs.jq}/bin/jq
+    tree=$(${pkgs.sway}/bin/swaymsg -t get_tree)
+    cw=$(echo $tree | $jq -r '.nodes[] | select(has("current_workspace")) | .current_workspace')
+    cwt=$(echo $tree | $jq '.nodes[].nodes[] | select(.name == "'$cw'")')
+
+    [ -n "$(echo $tree | $jq '.. | objects | select ( .app_id == "scratch-term")')" ] && is_running=1 || is_running=0
+    is_visible=0
+    [ -n "$(echo $cwt | $jq '.nodes[] | select(.app_id == "scratch-term")')" ] && is_visible=1 || is_visible=0
+
+    [ $is_running -eq 0 ] && exec ${pkgs.foot}/bin/foot -a scratch-term tmux new-session -s scratch
+    [ $is_visible -eq 0 ] && exec ${pkgs.sway}/bin/swaymsg '[con_mark="scratch-term"] scratchpad show, [con_mark="scratch-term"] move to workspace $cw'
+
+    exec ${pkgs.sway}/bin/swaymsg '[con_mark="scratch-term"] move scratchpad'
+  '';
+in
 {
   wayland.windowManager.sway = {
     enable = true;
@@ -17,13 +34,16 @@
         in
         lib.mkOptionDefault {
           "${modifier}+Return" = lib.mkForce null;
-          "Mod1+Return" = "exec ${pkgs.foot}/bin/foot";
+          "Mod1+Return" = "exec ${scratchTerm}";
           "${modifier}+Shift+e" = "exec rofi -modi emoji -show emoji";
           "${modifier}+Shift+s" = ''
-            exec rofi -theme-str 'window {width: 20%;} listview{scrollbar: false; lines: 5;}' \
+            exec rofi -theme-str 'window {width: 20%;} listview{scrollbar: false; lines: 6;}' \
             -show power \
-            -modi "power:${pkgs.nur.repos.pborzenkov.rofi-power-menu}/bin/rofi-power-menu --choices lockscreen/logout/reboot/shutdown/windows"
+            -modi "power:${pkgs.nur.repos.pborzenkov.rofi-power-menu}/bin/rofi-power-menu --choices lockscreen/logout/reboot/shutdown/suspend/windows"
           '';
+
+          "${modifier}+bracketleft" = "focus parent";
+          "${modifier}+bracketright" = "focus child";
 
           "XF86AudioRaiseVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%";
           "XF86AudioLowerVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%";
@@ -128,6 +148,10 @@
         {
           criteria = { app_id = "zoom"; };
           command = "floating enable";
+        }
+        {
+          criteria = { app_id = "scratch-term"; };
+          command = ''mark "scratch-term", move scratchpad, scratchpad show'';
         }
       ];
     };
@@ -255,6 +279,7 @@
         text = ''
           timeout 300 '${pkgs.swaylock}/bin/swaylock -f'
           timeout 600 '${pkgs.sway}/bin/swaymsg "output * dpms off"' resume '${pkgs.sway}/bin/swaymsg "output * dpms on"'
+          timeout 900 '${pkgs.systemd}/bin/systemctl suspend' resume '${pkgs.sway}/bin/swaymsg "output * dpms on"'
           before-sleep '${pkgs.swaylock}/bin/swaylock -f'
           lock '${pkgs.swaylock}/bin/swaylock -f'
         '';

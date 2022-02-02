@@ -30,7 +30,9 @@
 
   networking = {
     hostName = "gw";
-    interfaces.enp1s0.useDHCP = true;
+    useDHCP = false;
+    dhcpcd.enable = false;
+    useNetworkd = true;
 
     firewall =
       let
@@ -59,6 +61,18 @@
         '';
       };
   };
+
+  systemd.network = {
+    enable = true;
+    networks."40-wired" = {
+      name = "enp1s0";
+      DHCP = "yes";
+      networkConfig = {
+        LinkLocalAddressing = "no";
+      };
+    };
+  };
+  services.resolved.enable = true;
 
   services._3proxy = {
     enable = true;

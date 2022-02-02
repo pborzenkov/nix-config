@@ -4,6 +4,7 @@
   programs = {
     go = {
       enable = true;
+      package = pkgs.go_1_17;
       goBin = "bin";
       goPath = ".local/share/go";
     };
@@ -36,6 +37,7 @@
   home.packages = [
     # Misc
     pkgs.manpages
+    pkgs.gnumake
 
     # Go
     pkgs.golangci-lint

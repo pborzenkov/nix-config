@@ -57,18 +57,24 @@
   };
 
   networking = {
+    hostName = "metal";
     firewall = {
       enable = true;
       allowedUDPPorts = [ 5678 ];
     };
-    interfaces.enp8s0.useDHCP = true;
-    hostName = "metal";
-    dhcpcd = {
-      wait = "ipv4";
-      extraConfig = ''
-        noarp
-        clientid
-      '';
+    useDHCP = false;
+    dhcpcd.enable = false;
+    useNetworkd = true;
+  };
+
+  systemd.network = {
+    enable = true;
+    networks."40-wired" = {
+      name = "enp8s0";
+      DHCP = "ipv4";
+      networkConfig = {
+        LinkLocalAddressing = "no";
+      };
     };
   };
 
@@ -84,14 +90,23 @@
   powerManagement = {
     enable = true;
     cpuFreqGovernor = "ondemand";
+    # Make sure keyboard interrupt doesn't abort suspend. ¯\_(ツ)_/¯ Linux is such a Linux
+    powerDownCommands = ''
+      sleep 0.1
+    '';
   };
 
   services = {
+    resolved.enable = true;
     journald.extraConfig = ''
       SystemMaxUse=100M
     '';
     dbus.packages = [ pkgs.gcr ];
     flatpak.enable = true;
+    udev.extraRules = ''
+      # Disable wakeup from suspend by mouse movement/click
+      ACTION=="add", ATTRS{idVendor}=="17ef", ATTRS{idProduct}=="60e6", ATTR{power/wakeup}="disabled"
+    '';
   };
 
   xdg.portal.enable = true;
