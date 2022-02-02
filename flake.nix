@@ -131,7 +131,7 @@
           };
 
           rock = {
-            hostname = "rock.lan";
+            hostname = "192.168.88.3";
             profiles = {
               system = {
                 user = "root";

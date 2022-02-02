@@ -82,6 +82,7 @@
       netdevConfig = {
         Name = "mv-host";
         Kind = "macvlan";
+        MACAddress = "56:bc:92:cb:57:b6";
       };
       macvlanConfig = {
         Mode = "bridge";
@@ -90,11 +91,10 @@
     networks = {
       "40-mv-host" = {
         enable = true;
+        name = "mv-host";
         DHCP = "ipv4";
-        linkConfig = {
-          MACAddress = "56:bc:92:cb:57:b6";
-        };
         networkConfig = {
+          IPForward = "yes";
           LinkLocalAddressing = "no";
         };
       };
@@ -102,6 +102,9 @@
         enable = true;
         name = "enp2s0";
         macvlan = [ "mv-host" ];
+        networkConfig = {
+          LinkLocalAddressing = "no";
+        };
       };
     };
   };
