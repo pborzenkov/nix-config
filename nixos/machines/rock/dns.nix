@@ -46,6 +46,13 @@ in
     '';
   };
 
+  systemd.services.coredns = {
+    after = [ "sys-devices.virtual-net-tailscale0.device" ];
+    unitConfig = {
+      BindsTo = "sys-devices-virtual-net-tailscale0.device";
+    };
+  };
+
   services.prometheus.scrapeConfigs = [
     {
       job_name = "coredns";
