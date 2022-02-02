@@ -38,7 +38,7 @@ in
         enable = true;
         networks."40-macvlan" = {
           name = "mv-enp2s0";
-          address = [ "${transmissionIP}//24" ];
+          address = [ "${transmissionIP}/24" ];
           dns = [ "192.168.88.1" ];
           gateway = [ "192.168.88.1" ];
         };

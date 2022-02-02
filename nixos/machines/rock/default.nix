@@ -4,7 +4,7 @@
   imports = [
     ./hardware-configuration.nix
 
-    (modulesPath + "/profiles/headless.nix")
+    #    (modulesPath + "/profiles/headless.nix")
 
     nixos-hardware.nixosModules.common-cpu-amd
     nixos-hardware.nixosModules.common-pc-ssd
@@ -21,6 +21,7 @@
     ./grafana.nix
     ./jellyfin.nix
     ./helios64.nix
+    ./libvirt.nix
     ./miniflux.nix
     ./photoprism.nix
     ./postgresql.nix
@@ -29,7 +30,7 @@
     ./skyeng.nix
     ./syncthing.nix
     ./transmission.nix
-    ./valheim.nix
+    #    ./valheim.nix
     ./vlmcsd.nix
     ./wallabag.nix
     ./webapps.nix
@@ -104,7 +105,6 @@
 
   virtualisation = {
     oci-containers.backend = "docker";
-    libvirtd.enable = true;
   };
 
   system.stateVersion = "20.09";
