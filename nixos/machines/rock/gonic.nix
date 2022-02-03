@@ -4,6 +4,17 @@
     nur.repos.pborzenkov.modules.gonic
   ];
 
+  webapps.apps.gonic = {
+    subDomain = "music.lab";
+    proxyTo = "http://127.0.0.1:4747";
+    locations."/" = { };
+    dashboard = {
+      name = "Gonic";
+      category = "app";
+      icon = "music";
+    };
+  };
+
   services.gonic = {
     enable = true;
     musicPath = "/storage/music";

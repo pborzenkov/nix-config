@@ -2,13 +2,6 @@
 
 {
   programs = {
-    go = {
-      enable = true;
-      package = pkgs.go_1_17;
-      goBin = "bin";
-      goPath = ".local/share/go";
-    };
-
     direnv = {
       enable = true;
       enableZshIntegration = true;
@@ -39,63 +32,11 @@
     pkgs.manpages
     pkgs.gnumake
 
-    # Go
-    pkgs.golangci-lint
-    pkgs.gopls
-    pkgs.gops
-
-    # Rust
-    pkgs.cargo
-    pkgs.rustc
-    pkgs.rust-analyzer
-    pkgs.rustfmt
-    pkgs.clippy
-    pkgs.gcc # for linker
-
-    # Lua
-    pkgs.sumneko-lua-language-server
-
     # Nix
     pkgs.cachix
-    pkgs.nixpkgs-fmt
-    pkgs.rnix-lsp
     pkgs.nix-prefetch-github
     pkgs.nix-update
-
-    # Tcl
-    pkgs.expect
-
-    # Protobuf
-    pkgs.protobuf
-
-    # Terraform
-    pkgs.terraform_0_14
-    pkgs.terraform-ls
-
-    # Kubernetes
-    pkgs.kubectl
-    pkgs.k9s
-    pkgs.stern
-
-    # Jsonnet
-    pkgs.jsonnet
-    pkgs.jsonnet-bundler
-
-    # Google Cloud
-    pkgs.google-cloud-sdk
-    pkgs.cloud-sql-proxy
-
-    # Jira
-    pkgs.go-jira
-
-    # Postgres
-    pkgs.postgresql_13
   ];
-
-  programs.zsh.initExtra = ''
-    source ${pkgs.google-cloud-sdk}/share/zsh/site-functions/_gcloud
-    source ${pkgs.google-cloud-sdk}/share/zsh/site-functions/_gsutil
-  '';
 
   xdg.configFile = {
     "psqlrc" = {
@@ -110,5 +51,7 @@
 
   home.sessionVariables = {
     PSQLRC = "${config.home.homeDirectory}/${config.xdg.configFile.psqlrc.target}";
+    GOPATH = "${config.home.homeDirectory}/.local/share/go";
+    GOBIN = "${config.home.homeDirectory}/bin";
   };
 }

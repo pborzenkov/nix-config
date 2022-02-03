@@ -29,7 +29,6 @@
 
       ignores = [
         ".*.swp" # vim swap file
-        ".envrc" # direnv environment
       ];
 
       userEmail = "pavel@borzenkov.net";

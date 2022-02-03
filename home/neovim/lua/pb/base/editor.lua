@@ -31,8 +31,8 @@ vim.api.nvim_set_option('updatetime', 1000)
 
 vim.api.nvim_win_set_option(0, 'signcolumn', 'yes:1')
 
-vim.api.nvim_set_keymap('n', '<c-\\>', "<cmd>b#<cr>", { noremap = true })
-vim.api.nvim_set_keymap('i', '<c-\\>', "<esc><cmd>b#<cr>", { noremap = true })
+vim.api.nvim_set_keymap('n', '<c-\\>', "<cmd>b#<cr>", {noremap = true})
+vim.api.nvim_set_keymap('i', '<c-\\>', "<esc><cmd>b#<cr>", {noremap = true})
 
-vim.api.nvim_set_keymap('n', '<c-n>', "<cmd>cnext<cr>", { noremap = true })
-vim.api.nvim_set_keymap('n', '<c-p>', "<cmd>cprev<cr>", { noremap = true })
+vim.api.nvim_set_keymap('n', '<c-n>', "<cmd>cnext<cr>", {noremap = true})
+vim.api.nvim_set_keymap('n', '<c-p>', "<cmd>cprev<cr>", {noremap = true})

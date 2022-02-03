@@ -26,6 +26,7 @@ let
     dashboard      IN CNAME rock
     grafana        IN CNAME rock
     jellyfin       IN CNAME rock
+    music          IN CNAME rock
     plex           IN CNAME rock
     prometheus     IN CNAME rock
     rss            IN CNAME rock
@@ -37,7 +38,7 @@ in
     enable = true;
     config = ''
       lab.borzenkov.net {
-        bind 100.115.192.117
+        bind tailscale0
         file ${dnsConfig}
         prometheus 0.0.0.0:9153
         errors
@@ -47,10 +48,15 @@ in
   };
 
   systemd.services.coredns = {
-    after = [ "sys-devices.virtual-net-tailscale0.device" ];
-    unitConfig = {
-      BindsTo = "sys-devices-virtual-net-tailscale0.device";
-    };
+    after = [
+      "sys-devices.virtual-net-tailscale0.device"
+      "systemd-networkd.socket"
+    ];
+    bindsTo = [ "sys-devices-virtual-net-tailscale0.device" ];
+    requires = [ "systemd-networkd.socket" ];
+    preStart = ''
+      ${pkgs.systemd}/lib/systemd/systemd-networkd-wait-online --interface tailscale0
+    '';
   };
 
   services.prometheus.scrapeConfigs = [
