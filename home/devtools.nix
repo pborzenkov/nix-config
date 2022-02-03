@@ -52,6 +52,5 @@
   home.sessionVariables = {
     PSQLRC = "${config.home.homeDirectory}/${config.xdg.configFile.psqlrc.target}";
     GOPATH = "${config.home.homeDirectory}/.local/share/go";
-    GOBIN = "${config.home.homeDirectory}/bin";
   };
 }

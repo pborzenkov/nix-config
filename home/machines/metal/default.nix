@@ -48,7 +48,7 @@
     target = "mkctl/mkctl.yml";
     text = builtins.toJSON {
       devices = {
-        main = {
+        "router" = {
           MAC = "dc:2c:6e:14:4b:a9";
           SSH = {
             password_cmd = [ "${pkgs.pass}/bin/pass" "show" "misc/mikrotik-router" ];

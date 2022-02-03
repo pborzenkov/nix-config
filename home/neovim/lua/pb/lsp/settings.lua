@@ -7,12 +7,7 @@ local function on_attach(client, bufnr)
     completion.on_attach(client, bufnr)
 end
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-    underline = true,
-    virtual_text = {spacing = 0, prefix = " ■ "},
-    signs = true,
-    update_in_insert = false
-})
+vim.diagnostic.config({underline = true, virtual_text = {prefix = "↞"}, signs = true, update_in_insert = false})
 
 vim.lsp.handlers["textDocument/implementation"] = require('pb.lsp.handlers').implementation
 vim.lsp.handlers["textDocument/references"] = require('pb.lsp.handlers').references
