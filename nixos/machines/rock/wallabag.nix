@@ -80,6 +80,7 @@ let
   setupConfig = pkgs.writeShellScriptBin "setup_config.sh" ''
     #!${pkgs.runtimeShell}
     export PATH="$PATH:${lib.makeBinPath [ pkgs.coreutils ]}";
+    rm -rf ${dataDir}/var/cache/*
     mkdir -p ${dataDir}/app
     chmod -R u+w ${dataDir}/app
     cp -R ${pkgs.wallabag}/app/* ${dataDir}/app

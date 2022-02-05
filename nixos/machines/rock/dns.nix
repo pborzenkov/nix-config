@@ -49,13 +49,13 @@ in
 
   systemd.services.coredns = {
     after = [
-      "sys-devices.virtual-net-tailscale0.device"
       "systemd-networkd.socket"
+      "tailscaled.service"
     ];
-    bindsTo = [ "sys-devices-virtual-net-tailscale0.device" ];
-    requires = [ "systemd-networkd.socket" ];
+    requires = [ "tailscaled.service" "systemd-networkd.socket" ];
     preStart = ''
       ${pkgs.systemd}/lib/systemd/systemd-networkd-wait-online --interface tailscale0
+      sleep 1
     '';
   };
 
