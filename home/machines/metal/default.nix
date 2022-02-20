@@ -16,6 +16,7 @@
     ../../sway.nix
     ../../termshark.nix
     ../../tmux.nix
+    ../../zathura.nix
     ../../zsh.nix
 
     ./sway.nix
