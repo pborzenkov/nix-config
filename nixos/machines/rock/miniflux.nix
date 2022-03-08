@@ -25,9 +25,12 @@ in
       AUTH_PROXY_HEADER = "${config.webapps.userIDHeader}";
       AUTH_PROXY_USER_CREATION = "true";
     };
+    adminCredentialsFile = config.sops.secrets.miniflux-admin-credentials.path;
   };
 
   backup.dbBackups.miniflux = {
     database = "miniflux";
   };
+
+  sops.secrets.miniflux-admin-credentials = { };
 }
