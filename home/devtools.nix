@@ -29,7 +29,7 @@
 
   home.packages = [
     # Misc
-    pkgs.manpages
+    pkgs.man-pages
     pkgs.gnumake
 
     # Nix

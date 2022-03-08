@@ -13,6 +13,8 @@
         id = 0;
         isDefault = true;
         name = "default";
+
+        settings = { };
       };
       extensions = [
         pkgs.nur.repos.rycee.firefox-addons.browserpass

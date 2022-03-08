@@ -34,6 +34,7 @@ in
         in
         lib.mkOptionDefault {
           "${modifier}+Return" = lib.mkForce null;
+          "${modifier}+space" = lib.mkForce null;
           "Mod1+Return" = "exec ${scratchTerm}";
           "${modifier}+Shift+e" = "exec rofi -modi emoji -show emoji";
           "${modifier}+Shift+s" = ''
@@ -44,15 +45,20 @@ in
 
           "${modifier}+bracketleft" = "focus parent";
           "${modifier}+bracketright" = "focus child";
+          "${modifier}+v" = "splith";
+          "${modifier}+b" = "splitv";
 
           "XF86AudioRaiseVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%";
           "XF86AudioLowerVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%";
           "XF86AudioMute" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
+          "${modifier}+Shift+m" = "exec ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle";
+
+          "${modifier}+Shift+n" = "exec dunstctl set-paused toggle";
         };
 
       input = {
         "*" = {
-          xkb_layout = "us,ru";
+          xkb_layout = " us,ru";
           xkb_options = "grp:win_space_toggle";
         };
       };
@@ -319,6 +325,10 @@ in
           block = "time";
           interval = 60;
           format = "%a %d/%m %R";
+        }
+        {
+          block = "notify";
+          format = "";
         }
       ];
     };
