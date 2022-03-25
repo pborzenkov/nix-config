@@ -38,9 +38,6 @@
 
   outputs = { self, ... } @ inputs:
     let
-      nur-no-pkgs = import inputs.nur {
-        nurpkgs = import inputs.nixpkgs { system = "x86_64-linux"; };
-      };
       commonNixpkgsConfig = {
         nixpkgs = {
           config.allowUnfree = true;
@@ -59,20 +56,22 @@
         } // commonNixpkgsConfig)
       ];
 
-      makeNixOS = hostname: inputs.nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+      makeNixOS = {hostname, arch ? "x86_64-linux"}: inputs.nixpkgs.lib.nixosSystem {
+        system = arch;
         modules = [
           (./nixos/machines + "/${hostname}")
         ] ++ commonNixOSModules;
         specialArgs = {
           nixos-hardware = inputs.nixos-hardware;
           sops-nix = inputs.sops-nix;
-          nur = nur-no-pkgs;
+          nur = import inputs.nur {
+            nurpkgs = import inputs.nixpkgs { system = arch; };
+          };
         };
       };
 
-      makeHome = hostname: inputs.home-manager.lib.homeManagerConfiguration {
-        system = "x86_64-linux";
+      makeHome = {hostname, arch ? "x86_64-linux"}: inputs.home-manager.lib.homeManagerConfiguration {
+        system = arch;
         stateVersion = "21.05";
         homeDirectory = "/home/pbor";
         username = "pbor";
@@ -94,9 +93,10 @@
     in
     {
       nixosConfigurations = {
-        metal = makeNixOS "metal";
-        rock = makeNixOS "rock";
-        gw = makeNixOS "gw";
+        metal = makeNixOS { hostname = "metal"; };
+        rock = makeNixOS { hostname = "rock"; };
+        gw = makeNixOS { hostname = "gw"; };
+        booking-vm = makeNixOS { hostname = "booking-vm"; arch = "aarch64-linux"; };
 
         # nix build .#nixosConfigurations.yubikey.config.system.build.isoImage
         yubikey = inputs.nixpkgs.lib.nixosSystem {
@@ -108,8 +108,9 @@
       };
 
       homeConfigurations = {
-        metal = makeHome "metal";
-        rock = makeHome "rock";
+        metal = makeHome { hostname = "metal"; };
+        rock = makeHome { hostname = "rock"; };
+        booking-vm = makeHome { hostname = "booking-vm"; arch = "aarch64-linux"; };
       };
 
       deploy = {
