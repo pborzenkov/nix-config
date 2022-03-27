@@ -76,6 +76,12 @@ in
     };
   };
 
+  xsession.pointerCursor = {
+    package = pkgs.capitaine-cursors;
+    name = "capitaine-cursors";
+    size = 24;
+  };
+
   dconf.settings = {
     "org/gnome/desktop/interface" = {
       cursor-theme = "capitaine-cursors";

@@ -27,6 +27,7 @@
     pkgs.calibre
     pkgs.tremc
     pkgs.virt-manager
+    pkgs.libreoffice
 
     pkgs.goldendict
     pkgs.hunspellDicts.en_GB-large

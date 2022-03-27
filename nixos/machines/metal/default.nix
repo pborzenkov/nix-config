@@ -33,6 +33,7 @@
       "quiet"
       "rd.systemd.show_status=false"
     ];
+    supportedFilesystems = [ "ntfs" ];
 
     binfmt.registrations = {
       DOSWin = {
@@ -41,6 +42,11 @@
         recognitionType = "magic";
       };
     };
+  };
+
+  fileSystems."/storage" = {
+    device = "helios64.lan:/storage";
+    fsType = "nfs";
   };
 
   hardware.enableRedistributableFirmware = true;

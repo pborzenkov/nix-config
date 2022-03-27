@@ -166,12 +166,6 @@ in
     '';
   };
 
-  xsession.pointerCursor = {
-    package = pkgs.capitaine-cursors;
-    name = "capitaine-cursors";
-    size = 24;
-  };
-
   xdg.dataFile."wallpaper.jpg" = {
     source = ../assets/wallpaper.jpg;
     target = "sway/wallpaper.jpg";
