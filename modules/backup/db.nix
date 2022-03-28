@@ -21,7 +21,7 @@ in
         };
       }
     );
-    default = {};
+    default = { };
     example = {
       miniflux = {
         database = "miniflux";
@@ -31,15 +31,16 @@ in
 
   config = {
     systemd.services =
-      lib.mapAttrs' (
-        name: backup:
-          let
-            extraOptions = lib.concatMapStrings (arg: " -o ${arg}") config.lib.backup.extraOptions;
-            resticCmd = "${pkgs.restic}/bin/restic${extraOptions}";
-            backupName = "restic-backups-db-${name}";
-            pg = config.services.postgresql;
-            pgsu = "${pkgs.sudo}/bin/sudo -u ${pg.superUser}";
-          in
+      lib.mapAttrs'
+        (
+          name: backup:
+            let
+              extraOptions = lib.concatMapStrings (arg: " -o ${arg}") config.lib.backup.extraOptions;
+              resticCmd = "${pkgs.restic}/bin/restic${extraOptions}";
+              backupName = "restic-backups-db-${name}";
+              pg = config.services.postgresql;
+              pgsu = "${pkgs.sudo}/bin/sudo -u ${pg.superUser}";
+            in
             lib.nameValuePair backupName {
               environment = {
                 RESTIC_PASSWORD_FILE = cfg.passwordFile;
@@ -58,13 +59,16 @@ in
                     ${resticCmd} backup --stdin --stdin-filename /db/${backup.database}.sql
               '';
             }
-      ) cfg.dbBackups;
+        )
+        cfg.dbBackups;
     systemd.timers =
-      lib.mapAttrs' (
-        name: backup: lib.nameValuePair "restic-backups-db-${name}" {
-          wantedBy = [ "timers.target" ];
-          timerConfig = config.lib.backup.timerConfig;
-        }
-      ) cfg.dbBackups;
+      lib.mapAttrs'
+        (
+          name: backup: lib.nameValuePair "restic-backups-db-${name}" {
+            wantedBy = [ "timers.target" ];
+            timerConfig = config.lib.backup.timerConfig;
+          }
+        )
+        cfg.dbBackups;
   };
 }

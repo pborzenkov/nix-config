@@ -38,17 +38,21 @@
 
       "rock.lan rock.lab.borzenkov.net" = {
         forwardAgent = true;
+        user = "pbor";
         remoteForwards = [
           {
             bind.address = "/run/user/1000/gnupg/S.gpg-agent";
-            host.address = "/run/user/1000/gnupg/S.gpg-agent.extra";
+            host.address = if pkgs.stdenv.isLinux then "/run/user/1000/gnupg/S.gpg-agent.extra" else "${config.home.homeDirectory}/.gnupg/S.gpg-agent.extra";
           }
         ];
       };
 
       "helios64.lan helios64.lab.borzenkov.net" = {
+        user = "pbor";
         forwardAgent = true;
       };
     };
+
+    includes = [ "config.local" ];
   };
 }

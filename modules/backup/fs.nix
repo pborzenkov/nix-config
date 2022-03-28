@@ -13,7 +13,7 @@ in
         options = {
           paths = lib.mkOption {
             type = with lib.types; listOf str;
-            default = [];
+            default = [ ];
             description = ''
               Which paths to backup.
             '';
@@ -25,7 +25,7 @@ in
 
           excludes = lib.mkOption {
             type = with lib.types; listOf str;
-            default = [];
+            default = [ ];
             description = ''
               List of patters to exclude from backup.
             '';
@@ -36,7 +36,7 @@ in
         };
       }
     );
-    default = {};
+    default = { };
     example = {
       home = {
         paths = [ "/home" ];
@@ -49,16 +49,18 @@ in
 
   config = {
     services.restic.backups =
-      lib.mapAttrs' (
-        name: backup:
-          lib.nameValuePair "fs-${name}" {
-            repository = config.lib.backup.repository;
-            passwordFile = cfg.passwordFile;
-            extraOptions = config.lib.backup.extraOptions;
-            extraBackupArgs = (map (x: "--exclude ${x}") backup.excludes) ++ [ "--exclude-caches" ];
-            paths = backup.paths;
-            timerConfig = config.lib.backup.timerConfig;
-          }
-      ) cfg.fsBackups;
+      lib.mapAttrs'
+        (
+          name: backup:
+            lib.nameValuePair "fs-${name}" {
+              repository = config.lib.backup.repository;
+              passwordFile = cfg.passwordFile;
+              extraOptions = config.lib.backup.extraOptions;
+              extraBackupArgs = (map (x: "--exclude ${x}") backup.excludes) ++ [ "--exclude-caches" ];
+              paths = backup.paths;
+              timerConfig = config.lib.backup.timerConfig;
+            }
+        )
+        cfg.fsBackups;
   };
 }

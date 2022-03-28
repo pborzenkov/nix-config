@@ -71,7 +71,7 @@ in
     prune = {
       options = lib.mkOption {
         type = with lib.types; listOf str;
-        default = [];
+        default = [ ];
         description = ''
           A list of options (--keep-* et al.) for 'restic forget
           --prune', to automatically prune old snapshots.
@@ -87,15 +87,16 @@ in
     };
   };
 
-  config = let
-    cfg = config.backup;
+  config =
+    let
+      cfg = config.backup;
 
-    hostKeyAlgos = "-o HostKeyAlgorithms=ssh-ed25519";
-    sshKeyFile = lib.optionalString (cfg.sshKeyFile != null) "-i ${cfg.sshKeyFile}";
-    sftpCommand = "ssh ${cfg.user}@${cfg.host} ${sshKeyFile} ${hostKeyAlgos} -s sftp";
+      hostKeyAlgos = "-o HostKeyAlgorithms=ssh-ed25519";
+      sshKeyFile = lib.optionalString (cfg.sshKeyFile != null) "-i ${cfg.sshKeyFile}";
+      sftpCommand = "ssh ${cfg.user}@${cfg.host} ${sshKeyFile} ${hostKeyAlgos} -s sftp";
 
-    pruneName = "restic-backups-prune";
-  in
+      pruneName = "restic-backups-prune";
+    in
     {
       lib.backup.repository = "sftp::${cfg.repository}";
       lib.backup.extraOptions = [
@@ -107,10 +108,11 @@ in
         RandomizedDelaySec = cfg.timerConfig.RandomizedDelaySec;
       };
 
-      systemd.services."${pruneName}" = let
-        extraOptions = lib.concatMapStrings (arg: " -o ${arg}") config.lib.backup.extraOptions;
-        resticCmd = "${pkgs.restic}/bin/restic${extraOptions}";
-      in
+      systemd.services."${pruneName}" =
+        let
+          extraOptions = lib.concatMapStrings (arg: " -o ${arg}") config.lib.backup.extraOptions;
+          resticCmd = "${pkgs.restic}/bin/restic${extraOptions}";
+        in
         lib.mkIf (builtins.length cfg.prune.options > 0) {
           environment = {
             RESTIC_PASSWORD_FILE = cfg.passwordFile;

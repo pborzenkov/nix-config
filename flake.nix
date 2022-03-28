@@ -11,6 +11,10 @@
       url = "github:nixos/nixos-hardware";
       inputs.inxpkgs.follows = "nixpkgs";
     };
+    darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -55,8 +59,16 @@
           nix.registry.nixpkgs.flake = inputs.nixpkgs;
         } // commonNixpkgsConfig)
       ];
+      commonDarwinModules = [
+        ./darwin/nix.nix
+        ./darwin/base.nix
+        ./darwin/tailscale.nix
+        ({
+          nix.registry.nixpkgs.flake = inputs.nixpkgs;
+        } // commonNixpkgsConfig)
+      ];
 
-      makeNixOS = {hostname, arch ? "x86_64-linux"}: inputs.nixpkgs.lib.nixosSystem {
+      makeNixOS = { hostname, arch ? "x86_64-linux" }: inputs.nixpkgs.lib.nixosSystem {
         system = arch;
         modules = [
           (./nixos/machines + "/${hostname}")
@@ -70,11 +82,23 @@
         };
       };
 
-      makeHome = {hostname, arch ? "x86_64-linux"}: inputs.home-manager.lib.homeManagerConfiguration {
+      makeDarwin = { hostname, arch ? "aarch64-darwin" }: inputs.darwin.lib.darwinSystem {
+        system = arch;
+        modules = [
+          (./darwin/machines + "/${hostname}")
+        ] ++ commonDarwinModules;
+        specialArgs = {
+          nur = import inputs.nur {
+            nurpkgs = import inputs.nixpkgs { system = arch; };
+          };
+        };
+      };
+
+      makeHome = { hostname, arch ? "x86_64-linux", home ? "/home", user ? "pbor" }: inputs.home-manager.lib.homeManagerConfiguration {
         system = arch;
         stateVersion = "21.05";
-        homeDirectory = "/home/pbor";
-        username = "pbor";
+        homeDirectory = "${home}/${user}";
+        username = user;
         configuration = {
           imports = [
             (inputs.base16.homeManagerModules.base16)
@@ -96,7 +120,6 @@
         metal = makeNixOS { hostname = "metal"; };
         rock = makeNixOS { hostname = "rock"; };
         gw = makeNixOS { hostname = "gw"; };
-        booking-vm = makeNixOS { hostname = "booking-vm"; arch = "aarch64-linux"; };
 
         # nix build .#nixosConfigurations.yubikey.config.system.build.isoImage
         yubikey = inputs.nixpkgs.lib.nixosSystem {
@@ -107,10 +130,14 @@
         };
       };
 
+      darwinConfigurations = {
+        booking-laptop = makeDarwin { hostname = "booking-laptop"; };
+      };
+
       homeConfigurations = {
         metal = makeHome { hostname = "metal"; };
         rock = makeHome { hostname = "rock"; };
-        booking-vm = makeHome { hostname = "booking-vm"; arch = "aarch64-linux"; };
+        booking-laptop = makeHome { hostname = "booking-laptop"; arch = "aarch64-darwin"; home = "/Users"; user = "pborzenkov"; };
       };
 
       deploy = {
