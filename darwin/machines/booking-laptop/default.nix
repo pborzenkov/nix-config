@@ -6,6 +6,7 @@
   ];
   macapps.packages = [
     pkgs.alacritty
+    pkgs.slack
   ];
 
   launchd.agents = {
