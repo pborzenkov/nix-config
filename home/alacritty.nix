@@ -15,6 +15,7 @@
           y = 2;
         };
         dynamic_title = true;
+        opacity = 1.0;
       };
 
       scrolling = {
@@ -62,8 +63,6 @@
         duration = 0;
       };
 
-      background_opacity = 1.0;
-
       mouse_bindings = [
         { mouse = "Middle"; action = "PasteSelection"; }
       ];
@@ -103,6 +102,7 @@
         { key = "X"; mods = "Alt"; chars = "\\x1bx"; }
         { key = "Y"; mods = "Alt"; chars = "\\x1by"; }
         { key = "Z"; mods = "Alt"; chars = "\\x1bz"; }
+
         { key = "A"; mods = "Alt|Shift"; chars = "\\x1bA"; }
         { key = "B"; mods = "Alt|Shift"; chars = "\\x1bB"; }
         { key = "C"; mods = "Alt|Shift"; chars = "\\x1bC"; }
@@ -129,7 +129,22 @@
         { key = "X"; mods = "Alt|Shift"; chars = "\\x1bX"; }
         { key = "Y"; mods = "Alt|Shift"; chars = "\\x1bY"; }
         { key = "Z"; mods = "Alt|Shift"; chars = "\\x1bZ"; }
+
+        { key = "Key1"; mods = "Alt"; chars = "\\x1b1"; }
+        { key = "Key2"; mods = "Alt"; chars = "\\x1b2"; }
+        { key = "Key3"; mods = "Alt"; chars = "\\x1b3"; }
+        { key = "Key4"; mods = "Alt"; chars = "\\x1b4"; }
+        { key = "Key5"; mods = "Alt"; chars = "\\x1b5"; }
+        { key = "Key6"; mods = "Alt"; chars = "\\x1b6"; }
+        { key = "Key7"; mods = "Alt"; chars = "\\x1b7"; }
+        { key = "Key8"; mods = "Alt"; chars = "\\x1b8"; }
+        { key = "Key9"; mods = "Alt"; chars = "\\x1b9"; }
+        { key = "Key0"; mods = "Alt"; chars = "\\x1b0"; }
+
         { key = "Slash"; mods = "Alt"; chars = "\\x1b/"; }
+        { key = "Semicolon"; mods = "Alt"; chars = "\\x1b;"; }
+        { key = "LBracket"; mods = "Alt"; chars = "\\x1b["; }
+        { key = "RBracket"; mods = "Alt"; chars = "\\x1b]"; }
       ];
 
       selection.semantic_escape_chars = ",|`|:\"' ()[]{}<>";
