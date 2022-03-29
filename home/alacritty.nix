@@ -147,7 +147,7 @@
         { key = "RBracket"; mods = "Alt"; chars = "\\x1b]"; }
       ];
 
-      selection.semantic_escape_chars = ",|`|:\"' ()[]{}<>";
+      selection.semantic_escape_chars = ",|`│:\"' ()[]{}<>";
 
       cursor.style = "Block";
 

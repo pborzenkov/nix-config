@@ -27,6 +27,7 @@
     pkgs.saml2aws
 
     # k8s
+    pkgs.docker
     pkgs.kubectl
     pkgs.k9s
     pkgs.stern
