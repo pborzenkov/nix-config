@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   programs.gpg = {
@@ -8,7 +8,7 @@
       default-key = "0xB1392A8089E0A994";
     };
     scdaemonSettings = {
-      disable-ccid = if pkgs.stdenv.isDarwin then true else null;
+      disable-ccid = lib.mkIf pkgs.stdenv.isDarwin true;
     };
   };
 }

@@ -12,8 +12,8 @@
     repository = "restic";
     passwordFile = config.sops.secrets.restic-repo-password.path;
     timerConfig = {
-      OnCalendar = "01:00";
-      RandomizedDelaySec = "2h";
+      OnCalendar = "02:00";
+      RandomizedDelaySec = "1h";
     };
 
     prune = {
