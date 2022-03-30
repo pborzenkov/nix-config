@@ -5,7 +5,7 @@
     ../../alacritty.nix
     ../../basetools.nix
     ../../devtools.nix
-    ../../firefix.nix
+    ../../firefox.nix
     ../../gpg.nix
     ../../git.nix
     ../../neovim.nix

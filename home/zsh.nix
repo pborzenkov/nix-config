@@ -33,6 +33,8 @@
       source ''${HOME}/.zsh/vimode.zsh
       source ''${HOME}/.zsh/completion.zsh
       source ''${HOME}/.zsh/menuselect.zsh
+
+      [ -e ''${HOME}/.zshrc.local ] && source ''${HOME}/.zshrc.local
     '';
   };
 

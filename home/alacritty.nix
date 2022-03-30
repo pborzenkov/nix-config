@@ -143,6 +143,7 @@
 
         { key = "Slash"; mods = "Alt"; chars = "\\x1b/"; }
         { key = "Semicolon"; mods = "Alt"; chars = "\\x1b;"; }
+        { key = "Semicolon"; mods = "Alt|Shift"; chars = "\\x1b:"; }
         { key = "LBracket"; mods = "Alt"; chars = "\\x1b["; }
         { key = "RBracket"; mods = "Alt"; chars = "\\x1b]"; }
       ];
