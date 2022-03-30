@@ -5,6 +5,7 @@
     ../../alacritty.nix
     ../../basetools.nix
     ../../devtools.nix
+    ../../firefix.nix
     ../../gpg.nix
     ../../git.nix
     ../../neovim.nix
@@ -12,14 +13,6 @@
     ../../tmux.nix
     ../../zsh.nix
   ];
-
-  # TODO: until Firefox is supported on aarch64-darwin
-  programs = {
-    browserpass = {
-      enable = true;
-      browsers = [ "firefox" ];
-    };
-  };
 
   home.packages = [
     # AWS

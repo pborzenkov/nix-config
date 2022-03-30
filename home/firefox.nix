@@ -8,7 +8,7 @@
     };
 
     firefox = {
-      enable = true;
+      enable = pkgs.stdenv.isLinux;
       profiles.default = {
         id = 0;
         isDefault = true;
@@ -24,6 +24,13 @@
         pkgs.nur.repos.pborzenkov.firefox-addons.wallabagger
       ];
     };
+  };
+
+  home.file.urlview = {
+    target = ".urlview";
+    text = ''
+      COMMAND ${if pkgs.stdenv.isDarwin then "/usr/bin/open" else "${pkgs.xdg-utils}/bin/xdg-open"}
+    '';
   };
 }
 

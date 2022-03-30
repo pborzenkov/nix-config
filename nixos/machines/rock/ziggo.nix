@@ -8,8 +8,8 @@
       Type = "oneshot";
       ExecStart = pkgs.writeShellScript "reboot-ziggo-modem" ''
         SESSION=$(mktemp -u)
-        ${pkgs.xh}/bin/xh --session $SESSION -f POST http://192.168.178.1/htdocs/login_check.php loginPassword=$ZIGGO_ADMIN_PASSWORD
-        ${pkgs.xh}/bin/xh --session $SESSION -f POST http://192.168.178.1/htdocs/ubee_php_lib/ubee_php_post.php mgt_default_reset=0x01
+        ${pkgs.xh}/bin/xh --ignore-stdin --session $SESSION -f POST http://192.168.178.1/htdocs/login_check.php loginPassword=$ZIGGO_ADMIN_PASSWORD
+        ${pkgs.xh}/bin/xh --ignore-stdin --session $SESSION -f POST http://192.168.178.1/htdocs/ubee_php_lib/ubee_php_post.php mgt_default_reset=0x01
       '';
       User = "root";
       EnvironmentFile = [
