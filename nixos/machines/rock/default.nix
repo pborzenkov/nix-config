@@ -29,6 +29,7 @@
     ./redis.nix
     ./skyeng.nix
     ./syncthing.nix
+    ./terraform.nix
     ./transmission.nix
     #    ./valheim.nix
     ./vlmcsd.nix
