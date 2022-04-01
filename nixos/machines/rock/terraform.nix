@@ -22,6 +22,10 @@
     ];
   };
 
+  backup.dbBackups.tf_infra = {
+    database = "tf_infra";
+  };
+
   sops.secrets.terraform-pg = { };
 
   networking.firewall.allowedTCPPorts = [ 5432 ];
