@@ -15,6 +15,8 @@
   ];
 
   home.packages = [
+    pkgs.glab
+
     # AWS
     pkgs.awscli2
     pkgs.saml2aws
