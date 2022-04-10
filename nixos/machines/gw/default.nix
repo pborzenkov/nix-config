@@ -2,15 +2,16 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, modulesPath, nixos-hardware, ... }:
+{ config, pkgs, modulesPath, inputs, ... }:
 
 {
   imports =
     [
       ./hardware-configuration.nix
 
-      nixos-hardware.nixosModules.common-pc-ssd
       (modulesPath + "/profiles/headless.nix")
+
+      inputs.nixos-hardware.nixosModules.common-pc-ssd
 
       ../../openssh.nix
     ];

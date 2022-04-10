@@ -16,37 +16,37 @@
         hide-when-typing = "yes";
       };
 
-      colors = with config.lib.base16.theme; {
-        foreground = base05-hex;
-        background = base00-hex;
+      colors = with config.scheme; {
+        foreground = base05;
+        background = base00;
 
-        regular0 = base00-hex;
-        regular1 = base08-hex;
-        regular2 = base0B-hex;
-        regular3 = base0A-hex;
-        regular4 = base0D-hex;
-        regular5 = base0E-hex;
-        regular6 = base0C-hex;
-        regular7 = base05-hex;
+        regular0 = base00;
+        regular1 = base08;
+        regular2 = base0B;
+        regular3 = base0A;
+        regular4 = base0D;
+        regular5 = base0E;
+        regular6 = base0C;
+        regular7 = base05;
 
-        bright0 = base03-hex;
-        bright1 = base08-hex;
-        bright2 = base0B-hex;
-        bright3 = base0A-hex;
-        bright4 = base0D-hex;
-        bright5 = base0E-hex;
-        bright6 = base0C-hex;
-        bright7 = base07-hex;
-        "16" = base09-hex;
-        "17" = base0F-hex;
-        "18" = base01-hex;
-        "19" = base02-hex;
-        "20" = base04-hex;
-        "21" = base06-hex;
+        bright0 = base03;
+        bright1 = base08;
+        bright2 = base0B;
+        bright3 = base0A;
+        bright4 = base0D;
+        bright5 = base0E;
+        bright6 = base0C;
+        bright7 = base07;
+        "16" = base09;
+        "17" = base0F;
+        "18" = base01;
+        "19" = base02;
+        "20" = base04;
+        "21" = base06;
       };
 
-      cursor = with config.lib.base16.theme; {
-        color = "${base00-hex} ${base05-hex}";
+      cursor = with config.scheme; {
+        color = "${base00} ${base05}";
       };
     };
   };

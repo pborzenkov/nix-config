@@ -6,7 +6,7 @@ let
     ln -s ${pkgs.resvg}/bin/resvg $out/bin/rendersvg
   '';
 
-  themeName = config.themes.base16.scheme;
+  themeName = "base16";
   gtkTheme = pkgs.stdenv.mkDerivation rec {
     name = "generated-gtk-theme-${themeName}";
     src = pkgs.fetchFromGitHub {
@@ -29,7 +29,7 @@ let
     ];
 
     phases = [ "unpackPhase" "installPhase" ];
-    installPhase = with config.lib.base16.theme; ''
+    installPhase = with config.scheme; ''
       HOME=/build
       chmod 777 -R .
       patchShebangs .

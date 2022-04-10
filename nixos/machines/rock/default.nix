@@ -1,4 +1,4 @@
-{ config, lib, pkgs, modulesPath, nixos-hardware, sops-nix, nur, ... }:
+{ config, lib, pkgs, modulesPath, nur, ... }:
 
 {
   imports = [
@@ -6,10 +6,10 @@
 
     (modulesPath + "/profiles/headless.nix")
 
-    nixos-hardware.nixosModules.common-cpu-amd
-    nixos-hardware.nixosModules.common-pc-ssd
+    inputs.nixos-hardware.nixosModules.common-cpu-amd
+    inputs.nixos-hardware.nixosModules.common-pc-ssd
 
-    sops-nix.nixosModules.sops
+    inputs.sops-nix.nixosModules.sops
 
     ../../docker.nix
     ../../openssh.nix

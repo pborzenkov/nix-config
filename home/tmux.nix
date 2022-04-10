@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   programs.tmux = {
@@ -10,7 +10,7 @@
     historyLimit = 5000;
     keyMode = "vi";
     terminal = "tmux-256color";
-    extraConfig = with config.lib.base16.theme; ''
+    extraConfig = ''
       unbind -Troot C-b
       set-option -g prefix None
 
@@ -49,19 +49,9 @@
       bind -Tcopy-mode-vi C-v send-keys -X rectangle-toggle
       bind -n M-p paste-buffer
 
-      set-option -g status-style "fg=#${base04-hex},bg=#${base01-hex}"
-      set-window-option -g window-status-style "fg=#${base04-hex},bg=default"
-      set-window-option -g window-status-current-style "fg=#${base0A-hex},bg=default"
-      set-option -g pane-border-style "fg=#${base01-hex}"
-      set-option -g pane-active-border-style "fg=#${base04-hex}"
-      set-option -g message-style "fg=#${base05-hex},bg=#${base01-hex}"
-      set-option -g display-panes-active-colour "#${base0B-hex}"
-      set-option -g display-panes-colour "#${base0A-hex}"
-      set-window-option -g clock-mode-colour "#${base0B-hex}"
-      set-window-option -g mode-style "fg=#${base04-hex},bg=#${base02-hex}"
-      set-window-option -g window-status-bell-style "fg=#${base01-hex},bg=#${base08-hex}"
-
       set-option -sa terminal-overrides ",xterm-256color:RGB"
+
+      source-file ${config.scheme inputs.base16-tmux}
     '';
     plugins = [
       {

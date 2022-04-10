@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
   programs.neovim = {
@@ -11,13 +11,16 @@
 
     extraConfig = ''
       let base16colorspace=256
-      colorscheme base16-${config.themes.base16.scheme}
+      colorscheme base16-scheme
 
       lua require('init')
     '';
 
     plugins = with pkgs.vimPlugins; lib.forEach [
-      base16-vim
+      (base16-vim.overrideAttrs (old:
+        let schemeFile = config.scheme inputs.base16-vim;
+        in { patchPhase = ''cp ${schemeFile} colors/base16-scheme.vim''; }
+      ))
 
       vim-nix
       vim-terraform

@@ -27,16 +27,54 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    base16 = {
-      url = "github:lukebfox/base16-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     deploy-rs = {
       url = "github:serokell/deploy-rs";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-utils.follows = "flake-utils";
       };
+    };
+
+    # Base16 generator
+    base16 = {
+      url = "github:SenchoPens/base16.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Base16 themes
+    base16-onedark-scheme = {
+      url = "github:LalitMaganti/base16-onedark-scheme";
+      flake = false;
+    };
+
+    # Base16 templates
+    base16-alacritty = {
+      url = "github:aarowill/base16-alacritty";
+      flake = false;
+    };
+    base16-i3status-rust = {
+      url = "github:mystfox/base16-i3status-rust";
+      flake = false;
+    };
+    base16-rofi = {
+      url = "github:jordiorlando/base16-rofi";
+      flake = false;
+    };
+    base16-textmate = {
+      url = "github:chriskempson/base16-textmate";
+      flake = false;
+    };
+    base16-tmux = {
+      url = "github:mattdavis90/base16-tmux";
+      flake = false;
+    };
+    base16-vim = {
+      url = "github:chriskempson/base16-vim";
+      flake = false;
+    };
+    base16-zathura = {
+      url = "github:haozeke/base16-zathura";
+      flake = false;
     };
   };
 
@@ -74,8 +112,8 @@
           (./nixos/machines + "/${hostname}")
         ] ++ commonNixOSModules;
         specialArgs = {
-          nixos-hardware = inputs.nixos-hardware;
-          sops-nix = inputs.sops-nix;
+          inherit inputs;
+
           nur = import inputs.nur {
             nurpkgs = import inputs.nixpkgs { system = arch; };
           };
@@ -101,18 +139,17 @@
         username = user;
         configuration = {
           imports = [
-            (inputs.base16.homeManagerModules.base16)
+            inputs.base16.homeManagerModule
 
             (./home/machines + "/${hostname}")
           ];
 
           programs.home-manager.enable = true;
-          themes.base16 = {
-            enable = true;
-            scheme = "onedark";
-            variant = "onedark";
-          };
+          scheme = "${inputs.base16-onedark-scheme}/onedark.yaml";
         } // commonNixpkgsConfig;
+        extraSpecialArgs = {
+          inherit inputs;
+        };
       };
     in
     {

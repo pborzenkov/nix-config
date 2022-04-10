@@ -37,7 +37,7 @@
       delta = {
         enable = true;
         options = {
-          syntax-theme = config.themes.base16.scheme;
+          syntax-theme = "base16";
           line-numbers = true;
 
           width = 1;

@@ -1,13 +1,11 @@
-{ config, pkgs, ... }:
-let
-  theme = config.themes.base16.scheme;
-in
+{ config, pkgs, inputs, ... }:
+
 {
   programs = {
     bat = {
       enable = true;
       config = {
-        theme = theme;
+        theme = "base16";
       };
     };
 
@@ -52,9 +50,9 @@ in
   ];
 
   xdg.configFile = {
-    "bat-theme-${theme}" = {
-      source = config.lib.base16.base16template "textmate";
-      target = "bat/themes/${theme}.tmTheme";
+    "bat-theme-base16" = {
+      source = config.scheme inputs.base16-textmate;
+      target = "bat/themes/base16.tmTheme";
     };
 
     ripgreprc = {

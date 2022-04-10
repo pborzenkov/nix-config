@@ -1,11 +1,11 @@
-{ config, lib, pkgs, modulesPath, nixos-hardware, ... }:
+{ config, lib, pkgs, modulesPath, inputs, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
 
-    nixos-hardware.nixosModules.common-cpu-amd
-    nixos-hardware.nixosModules.common-pc-ssd
+    inputs.nixos-hardware.nixosModules.common-cpu-amd
+    inputs.nixos-hardware.nixosModules.common-pc-ssd
 
     ../../openssh.nix
 
