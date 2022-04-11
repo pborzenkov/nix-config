@@ -162,7 +162,7 @@
       };
 
       import = [
-        (config.scheme inputs.base16-alacritty)
+        (config.scheme { templateRepo = inputs.base16-alacritty; target = "default-256"; })
       ];
     };
   };
