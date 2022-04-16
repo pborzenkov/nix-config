@@ -1,4 +1,4 @@
-{ config, lib, pkgs, modulesPath, nur, ... }:
+{ config, lib, pkgs, modulesPath, nur, inputs, ... }:
 
 {
   imports = [
@@ -20,7 +20,6 @@
     ./gonic.nix
     ./grafana.nix
     ./jellyfin.nix
-    ./helios64.nix
     ./libvirt.nix
     ./miniflux.nix
     ./photoprism.nix

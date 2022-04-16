@@ -23,6 +23,15 @@
 
     retentionTime = "7d";
 
+    exporters = {
+      node = {
+        enable = true;
+        extraFlags = [
+          "--collector.textfile.directory /var/lib/prometheus-node-exporter"
+        ];
+      };
+    };
+
     scrapeConfigs = [
       {
         job_name = "prometheus";
@@ -34,6 +43,19 @@
           }
         ];
       }
+      {
+        job_name = "node";
+        static_configs = [
+          {
+            targets = [
+              "helios64.lan:9100"
+              "rock.lan:9100"
+            ];
+          }
+        ];
+      }
     ];
   };
+
+  systemd.services."prometheus-node-exporter".serviceConfig.StateDirectory = "prometheus-node-exporter";
 }

@@ -93,7 +93,25 @@ in
 
       hostKeyAlgos = "-o HostKeyAlgorithms=ssh-ed25519";
       sshKeyFile = lib.optionalString (cfg.sshKeyFile != null) "-i ${cfg.sshKeyFile}";
-      sftpCommand = "ssh ${cfg.user}@${cfg.host} ${sshKeyFile} ${hostKeyAlgos} -s sftp";
+      sshCommand = "ssh ${cfg.user}@${cfg.host} ${sshKeyFile} ${hostKeyAlgos}";
+      sftpCommand = "${sshCommand} -s sftp";
+
+      checkRepoSpace = pkgs.writeShellScriptBin "check-repo-space" ''
+        line=$(${sshCommand} quota | tail +3 | head -1)
+        total_space=$(echo $line | awk '{print $3}')
+        total_space=$(echo "$total_space * 1024 * 1024 * 1024 / 1" | ${pkgs.bc}/bin/bc)
+        free_space=$(echo $line | awk '{print $3-$2}')
+        free_space=$(echo "$free_space * 1024 * 1024 * 1024 / 1" | ${pkgs.bc}/bin/bc)
+
+        METRICS_FILE='/var/lib/prometheus-node-exporter/restic-repo.prom'
+        TMP_FILE="$(mktemp ''${METRICS_FILE}.XXXXXXX)"
+
+        echo -e "restic_backup_repo_size_bytes{repo=\"${cfg.host}\"} $total_space" >> "$TMP_FILE"
+        echo -e "restic_backup_repo_free_bytes{repo=\"${cfg.host}\"} $free_space" >> "$TMP_FILE"
+
+        mv "$TMP_FILE" "$METRICS_FILE"
+        chmod a+r "$METRICS_FILE"
+      '';
 
       pruneName = "restic-backups-prune";
     in
@@ -126,6 +144,7 @@ in
               (resticCmd + " forget --prune " + (lib.concatStringsSep " " cfg.prune.options))
               (resticCmd + " check")
             ];
+            ExecStartPost = "${checkRepoSpace}/bin/check-repo-space";
             User = "root";
             RuntimeDirectory = pruneName;
             CacheDirectory = pruneName;

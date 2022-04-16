@@ -216,10 +216,6 @@ in
   };
 
   xdg.configFile = {
-    "i3status-rust-theme-base16" = {
-      source = config.scheme inputs.base16-i3status-rust;
-      target = "i3status-rust/themes/base16.toml";
-    };
     "swaylock/config" = with config.scheme; {
       text = ''
         font=MesloLGS Nerd Font Mono
@@ -275,7 +271,6 @@ in
   programs.i3status-rust = {
     enable = true;
     bars.default = {
-      theme = "base16";
       icons = "awesome5";
       blocks = [
         {
@@ -310,6 +305,23 @@ in
           format = "";
         }
       ];
+      settings = {
+        theme = {
+          name = "solarized-dark"; # fully overwritten
+          overrides = with config.scheme.withHashtag; {
+            idle_bg = base00;
+            idle_fg = base05;
+            info_bg = base0C;
+            info_fg = base00;
+            good_bg = base0B;
+            good_fg = base00;
+            warning_bg = base0A;
+            warning_fg = base00;
+            critical_bg = base08;
+            critical_fg = base00;
+          };
+        };
+      };
     };
   };
 }

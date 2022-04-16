@@ -52,10 +52,6 @@
       url = "github:aarowill/base16-alacritty";
       flake = false;
     };
-    base16-i3status-rust = {
-      url = "github:mystfox/base16-i3status-rust";
-      flake = false;
-    };
     base16-rofi = {
       url = "github:jordiorlando/base16-rofi";
       flake = false;
@@ -85,6 +81,7 @@
           config.allowUnfree = true;
           overlays = [
             inputs.nur.overlay
+            (import ./overlay.nix)
           ];
         };
       };
