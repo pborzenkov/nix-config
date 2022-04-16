@@ -7,7 +7,6 @@ LOGS=
 
 function write_metrics() {
     local text="$1"
-    # $text can be multiple lines, so we need to use -e for echo to interpret them
     echo -e "$text" >> "$TMP_FILE"
 }
 
@@ -92,6 +91,7 @@ function analyze_added_line() {
     local added_unit=$(echo $added_line | awk '{ print $6 }')
     local added_bytes=$(convert_to_bytes $added_value $added_unit)
     if [ -z "$added_bytes" ]; then
+        # this line should be present, fail if its not
         return 1
     fi
     echo "restic_repo_size_bytes{${COMMON_LABELS},state=\"new\"} $added_bytes"
@@ -101,7 +101,7 @@ function main() {
     local unit="${1:-}"
     if [ -z "$unit" ]; then
         echo "Unit is not specified"
-        exit 1
+        return 1
     fi
 
     local log_file="${2:-}"
@@ -123,8 +123,8 @@ function main() {
     # check if unit failed
     if echo "$LOGS" | grep -F "systemd[1]: ${unit}: Failed with result"; then
         write_metrics "restic_backup_failure{${COMMON_LABELS}} 1"
-        write_metrics "restic_backup_last_time_seconds{${COMMON_LABELS}} $(date '+%s')"
         rotate_metric_file
+	return 1
     fi
 
     write_metrics "$(analyze_files_line)"
@@ -133,8 +133,6 @@ function main() {
 
     # everything ok
     write_metrics "restic_backup_failure{${COMMON_LABELS}} 0"
-    write_metrics "restic_backup_last_time_seconds{${COMMON_LABELS}} $(date '+%s')"
-
     rotate_metric_file
 
     return 0
