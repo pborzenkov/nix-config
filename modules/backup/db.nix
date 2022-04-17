@@ -50,7 +50,7 @@ in
                   RESTIC_PASSWORD_FILE = cfg.passwordFile;
                   RESTIC_REPOSITORY = config.lib.backup.repository;
                 };
-                path = [ pkgs.openssh ];
+                path = [ pkgs.openssh pkgs.gawk pkgs.gnugrep ];
                 restartIfChanged = false;
                 serviceConfig = {
                   Type = "oneshot";

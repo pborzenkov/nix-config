@@ -21,6 +21,9 @@ function convert_to_bytes() {
     local factor
 
     case $unit in
+             'B')
+                 factor=1
+                 ;;
              'KiB')
                  factor=1024
                  ;;
@@ -64,9 +67,10 @@ function analyze_files_line() {
         # this line should be present, fail if its not
         return 1
     fi
-    echo "restic_repo_files{${COMMON_LABELS},state=\"new\"} $new_files"
-    echo "restic_repo_files{${COMMON_LABELS},state=\"changed\"} $changed_files"
-    echo "restic_repo_files{${COMMON_LABELS},state=\"unmodified\"} $unmodified_files"
+    echo "# HELP restic_backup_snapshot_files Shows number of new/changed/unmodified files in backup snapshot"
+    echo "restic_backup_snapshot_files{${COMMON_LABELS},state=\"new\"} $new_files"
+    echo "restic_backup_snapshot_files{${COMMON_LABELS},state=\"changed\"} $changed_files"
+    echo "restic_backup_snapshot_files{${COMMON_LABELS},state=\"unmodified\"} $unmodified_files"
 }
 
 function analyze_dirs_line() {
@@ -79,9 +83,10 @@ function analyze_dirs_line() {
         # this line should be present, fail if its not
         return 1
     fi
-    echo "restic_repo_dirs{${COMMON_LABELS},state=\"new\"} $new_dirs"
-    echo "restic_repo_dirs{${COMMON_LABELS},state=\"changed\"} $changed_dirs"
-    echo "restic_repo_dirs{${COMMON_LABELS},state=\"unmodified\"} $unmodified_dirs"
+    echo "# HELP restic_backup_snapshot_dirs Shows number of new/changed/unmodified dirs in backup snapshot"
+    echo "restic_backup_snapshot_dirs{${COMMON_LABELS},state=\"new\"} $new_dirs"
+    echo "restic_backup_snapshot_dirs{${COMMON_LABELS},state=\"changed\"} $changed_dirs"
+    echo "restic_backup_snapshot_dirs{${COMMON_LABELS},state=\"unmodified\"} $unmodified_dirs"
 }
 
 function analyze_added_line() {
@@ -94,7 +99,16 @@ function analyze_added_line() {
         # this line should be present, fail if its not
         return 1
     fi
-    echo "restic_repo_size_bytes{${COMMON_LABELS},state=\"new\"} $added_bytes"
+    echo "# HELP restic_backup_snapshot_size_bytes Shows the amount of data added in backup snapshot"
+    echo "restic_backup_snapshot_size_bytes{${COMMON_LABELS},state=\"new\"} $added_bytes"
+}
+
+function write_backup_failure_state() {
+    local failure="${1:-}"
+
+    write_metrics "# HELP restic_backup_failure Indicates that the backup has failed"
+    write_metrics "restic_backup_failure{${COMMON_LABELS}} $failure"
+    rotate_metric_file
 }
 
 function main() {
@@ -122,8 +136,7 @@ function main() {
 
     # check if unit failed
     if echo "$LOGS" | grep -F "systemd[1]: ${unit}: Failed with result"; then
-        write_metrics "restic_backup_failure{${COMMON_LABELS}} 1"
-        rotate_metric_file
+        write_backup_failure_state "1"
 	return 1
     fi
 
@@ -132,8 +145,7 @@ function main() {
     write_metrics "$(analyze_dirs_line)"
 
     # everything ok
-    write_metrics "restic_backup_failure{${COMMON_LABELS}} 0"
-    rotate_metric_file
+    write_backup_failure_state "0"
 
     return 0
 }

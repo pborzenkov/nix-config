@@ -71,6 +71,7 @@ in
         (
           name: backup:
             lib.nameValuePair "restic-backups-fs-${name}" {
+              path = [ pkgs.gawk pkgs.gnugrep ];
               serviceConfig.ExecStartPost = "${exporter}/bin/restic-exporter %n";
             }
         )

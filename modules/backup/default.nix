@@ -98,9 +98,9 @@ in
 
       checkRepoSpace = pkgs.writeShellScriptBin "check-repo-space" ''
         line=$(${sshCommand} quota | tail +3 | head -1)
-        total_space=$(echo $line | awk '{print $3}')
+        total_space=$(echo $line | ${pkgs.gawk}/bin/awk '{print $3}')
         total_space=$(echo "$total_space * 1024 * 1024 * 1024 / 1" | ${pkgs.bc}/bin/bc)
-        free_space=$(echo $line | awk '{print $3-$2}')
+        free_space=$(echo $line | ${pkgs.gawk}/bin/awk '{print $3-$2}')
         free_space=$(echo "$free_space * 1024 * 1024 * 1024 / 1" | ${pkgs.bc}/bin/bc)
 
         METRICS_FILE='/var/lib/prometheus-node-exporter/restic-repo.prom'
