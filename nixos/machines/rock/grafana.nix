@@ -53,6 +53,8 @@ in
 
       ANALYTICS_CHECK_FOR_UPDATES = "false";
       SECURITY_DISABLE_GRAVATAR = "true";
+
+      UNIFIED_ALERTING_ENABLED = "true";
     };
 
     provision = {

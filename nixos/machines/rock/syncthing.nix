@@ -3,6 +3,7 @@
 {
   services.syncthing = {
     enable = true;
+    openDefaultPorts = true;
 
     user = "pbor";
     group = "users";
@@ -10,15 +11,6 @@
     dataDir = "/home/pbor/.local/share/syncthing";
 
     devices = {
-      # Old MacBook
-      phobos = {
-        id = "NCWMUCL-JCC5VJV-KRMEZWU-UALTJYJ-CDNQ4RQ-GGLUEGR-CQZTJU3-2A3KIQ2";
-        addresses = [
-          "tcp://phobos.lab.borzenkov.net:22000"
-          "dynamic"
-        ];
-      };
-
       # Windows desktop
       jazz = {
         id = "BIDWFHH-NHSNIH3-ICQGA5H-YXSCYSE-7C6IA4D-NF5Y46K-I3YsVLR-OXKAQAA";
@@ -27,6 +19,7 @@
         ];
       };
 
+      # Linux desktop
       metal = {
         id = "52PIOYT-JNTOP7M-KEVFHVF-UO4DPFC-EHOJKNY-4DRHKLN-W2QI57L-TT7JSQX";
         addresses = [
@@ -54,17 +47,17 @@
     folders = {
       "/home/pbor/docs" = {
         id = "docs";
-        devices = [ "phobos" "metal" ];
+        devices = [ "metal" ];
       };
 
       "/home/pbor/books" = {
         id = "books";
-        devices = [ "phobos" "metal" ];
+        devices = [ "metal" ];
       };
 
       "/home/pbor/.local/share/password-store" = {
         id = "password-store";
-        devices = [ "phobos" "jazz" "metal" "booking-laptop" "phone" ];
+        devices = [ "jazz" "metal" "booking-laptop" "phone" ];
       };
     };
   };

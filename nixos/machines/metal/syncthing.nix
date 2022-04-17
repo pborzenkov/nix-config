@@ -3,6 +3,7 @@
 {
   services.syncthing = {
     enable = true;
+    openDefaultPorts = true;
 
     user = "pbor";
     group = "users";
@@ -10,10 +11,19 @@
     dataDir = "/home/pbor/.local/share/syncthing";
 
     devices = {
+      # Linux server
       rock = {
         id = "OVPKWLR-WWRZIQI-SYA6WDV-EZFXE5I-VCX27T7-IWONKV6-DH5MLFH-BUCCLQ4";
         addresses = [
-          "tcp://rock.lab.borzenkov.net:22000"
+          "tcp://rock.lan:22000"
+          "dynamic"
+        ];
+      };
+
+      # Android phone
+      phone = {
+        id = "YY6DZ4F-BSMXRSE-VOIAU2D-5BEXYIH-CGJGIN7-EU7QMBY-PDZ7UQ2-M3UXYQQ";
+        addresses = [
           "dynamic"
         ];
       };
@@ -33,6 +43,13 @@
       "/home/pbor/.local/share/password-store" = {
         id = "password-store";
         devices = [ "rock" ];
+      };
+
+      "/home/pbor/.local/share/photos-for-review" = {
+        id = "photos";
+        type = "receiveonly";
+        ignoreDelete = true;
+        devices = [ "phone" ];
       };
     };
   };
