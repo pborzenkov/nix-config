@@ -11,17 +11,6 @@
     ../../zsh.nix
   ];
 
-  home.packages = [
-    pkgs.tremc
-    (
-      pkgs.filebot.overrideAttrs (
-        oldAttrs: rec {
-          autoPatchelfIgnoreMissingDeps = true;
-        }
-      )
-    )
-  ];
-
   programs.gpg.settings = {
     no-autostart = true;
   };

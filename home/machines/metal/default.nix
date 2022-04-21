@@ -4,11 +4,13 @@
   imports = [
     ../../basetools.nix
     ../../devtools.nix
+    ../../filebot.nix
     ../../firefox.nix
     ../../foot.nix
     ../../gpg.nix
     ../../gtk.nix
     ../../git.nix
+    ../../imv.nix
     ../../mpv.nix
     ../../neovim.nix
     ../../rofi.nix
