@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
 target=${1:-$(hostname)}
-nixos-rebuild --use-remote-sudo switch --flake ".#${target}"
+dtach=""
+[ -n "$SSH_CLIENT" ] && dtach="dtach -A /tmp/s-switch-${target}"
+${dtach} nixos-rebuild --use-remote-sudo switch --flake ".#${target}"
