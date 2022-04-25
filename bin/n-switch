@@ -2,5 +2,5 @@
 
 target=${1:-$(hostname)}
 dtach=""
-[ -n "$SSH_CLIENT" ] && dtach="dtach -A /tmp/s-switch-${target}"
+[ -n "$SSH_CLIENT" ] && dtach="dtach -A /tmp/n-switch-${target}"
 ${dtach} nixos-rebuild --use-remote-sudo switch --flake ".#${target}"
