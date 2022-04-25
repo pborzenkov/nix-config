@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
 
-if [ $# -ne 1 ]; then
-	echo "Usage: $0 <flake target>"
-	exit 1
-fi
-
-nixos-rebuild --use-remote-sudo switch --flake ".#$@"
+target=${1:-$(hostname)}
+nixos-rebuild --use-remote-sudo switch --flake ".#${target}"
