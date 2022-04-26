@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+target=${1:-$(hostname)}
+darwin-rebuild switch --flake ".#${target}"

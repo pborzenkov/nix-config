@@ -7,7 +7,7 @@
   system.stateVersion = 4;
 
   fonts = {
-    enableFontDir = true;
+    fontDir.enable = true;
     fonts = [
       pkgs.corefonts
       pkgs.nerdfonts
