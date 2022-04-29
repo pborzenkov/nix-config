@@ -36,6 +36,8 @@
       nvim-web-devicons
 
       vim-oscyank
+
+      editorconfig-nvim
     ]
       (x: { plugin = x; });
   };
