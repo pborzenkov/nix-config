@@ -35,6 +35,8 @@
     pkgs.hunspellDicts.en_GB-large
     pkgs.hunspellDicts.nl_NL
     pkgs.hunspellDicts.ru_RU
+
+    pkgs.nixos-container
   ];
 
   services.gpg-agent = {

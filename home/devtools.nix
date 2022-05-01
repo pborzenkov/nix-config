@@ -36,6 +36,7 @@
     pkgs.cachix
     pkgs.nix-prefetch-github
     pkgs.nix-update
+    pkgs.nixpkgs-review
   ];
 
   xdg.configFile = {

@@ -18,21 +18,15 @@
     Install.WantedBy = [ "sway-session.target" ];
   };
 
-  xdg.configFile =
-    let
-      conf = ''
-        alang=eng,en,English
-        slang=eng,en,English
-      '';
-    in
-    {
-      jellyfin-mpv-shim-mpv-conf = {
-        target = "jellyfin-mpv-shim/mpv.conf";
-        text = conf;
-      };
-      mpv-conf = {
-        target = "mpv/mpv.conf";
-        text = conf;
-      };
+  programs.mpv = {
+    enable = true;
+    config = {
+      alang = "eng,en,English";
+      slang = "eng,en,English";
     };
+  };
+  xdg.configFile."jellyfin-mpv-shim/mpv.conf" = {
+    target = "jellyfin-mpv-shim/mpv.conf";
+    text = config.xdg.configFile."mpv/mpv.conf".text;
+  };
 }
