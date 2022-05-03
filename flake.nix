@@ -52,6 +52,10 @@
       url = "github:aarowill/base16-alacritty";
       flake = false;
     };
+    base16-helix = {
+      url = "github:krgn/base16-helix";
+      flake = false;
+    };
     base16-rofi = {
       url = "github:jordiorlando/base16-rofi";
       flake = false;

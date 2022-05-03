@@ -10,6 +10,7 @@
     ../../gpg.nix
     ../../gtk.nix
     ../../git.nix
+    ../../helix.nix
     ../../imv.nix
     ../../mpv.nix
     ../../neovim.nix
