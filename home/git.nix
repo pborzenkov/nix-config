@@ -15,7 +15,7 @@
         };
 
         core = {
-          editor = "${config.programs.neovim.package}/bin/nvim";
+          editor = "${pkgs.helix}/bin/hx";
         };
 
         pull = {
@@ -68,7 +68,7 @@
     gh = {
       enable = true;
       settings = {
-        editor = "${config.programs.neovim.package}/bin/nvim";
+        editor = "${pkgs.helix}/bin/helix";
         git_protocol = "ssh";
       };
     };

@@ -31,6 +31,7 @@
     pkgs.tremc
     pkgs.virt-manager
     pkgs.libreoffice
+    pkgs.jellyfin-media-player
 
     pkgs.goldendict
     pkgs.hunspellDicts.en_GB-large
@@ -51,6 +52,13 @@
     MOZ_ENABLE_WAYLAND = "1";
     PATH = "\${HOME}/bin:\${PATH}";
   };
+
+  wayland.windowManager.sway.config.window.commands = [
+    {
+      criteria = { app_id = "org.jellyfin."; };
+      command = "inhibit_idle visible";
+    }
+  ];
 
   xdg.configFile.mkctl = {
     target = "mkctl/mkctl.yml";

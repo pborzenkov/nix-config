@@ -54,4 +54,8 @@
     source = ./zsh/menuselect.zsh;
     target = ".zsh/menuselect.zsh";
   };
+
+  home.sessionVariables = {
+    EDITOR = "${pkgs.helix}/bin/hx";
+  };
 }

@@ -187,7 +187,7 @@
           extraDomainNames = [ "*.${cfg.domain}" ] ++ builtins.map (d: "*.${d}.${cfg.domain}") cfg.subDomains;
           dnsProvider = cfg.acmeDNSProvider;
           dnsResolver = "1.1.1.1:53";
-          credentialsFile = cfg.acmeCredentialsFile;
+          credentialsFile = [ cfg.acmeCredentialsFile ];
           dnsPropagationCheck = true;
           group = config.users.users.nginx.group;
         };

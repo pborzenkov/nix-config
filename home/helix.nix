@@ -18,6 +18,15 @@
       target = "helix/config.toml";
     };
 
+    "helix/languages.toml" = {
+      source = (pkgs.formats.toml { }).generate "languages.toml" {
+        language = [{
+          name = "nix";
+          auto-format = true;
+        }];
+      };
+    };
+
     "helix/themes/base16.toml" = {
       source = config.scheme inputs.base16-helix;
       target = "helix/themes/base16.toml";

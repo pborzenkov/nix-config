@@ -26,10 +26,11 @@ in
     };
   };
 
-  systemd.services."acme-${config.webapps.domain}".environment = {
-    HTTP_PROXY = "http://gw.lab.borzenkov.net:3128";
-    HTTPS_PROXY = "http://gw.lab.borzenkov.net:3128";
-  };
+  systemd.services."acme-${config.webapps.domain}".serviceConfig.EnvironmentFile = [
+    config.sops.secrets.perfect-privacy-proxy-env.path
+  ];
+
+  sops.secrets.perfect-privacy-proxy-env = { };
 
   services.nginx.sso = {
     enable = true;

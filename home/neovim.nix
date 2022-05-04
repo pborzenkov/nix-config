@@ -50,10 +50,6 @@
       (x: { plugin = x; });
   };
 
-  home.sessionVariables = {
-    EDITOR = "nvim";
-  };
-
   xdg.configFile.nvim = {
     source = ./neovim;
     recursive = true;
