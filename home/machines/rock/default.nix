@@ -6,6 +6,7 @@
     ../../devtools.nix
     ../../gpg.nix
     ../../git.nix
+    ../../helix.nix
     ../../neovim.nix
     ../../ssh.nix
     ../../zsh.nix
