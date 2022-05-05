@@ -37,6 +37,13 @@
     pkgs.nix-prefetch-github
     pkgs.nix-update
     pkgs.nixpkgs-review
+
+    # Language servers
+    pkgs.gopls
+    pkgs.rust-analyzer
+    pkgs.rnix-lsp
+    pkgs.sumneko-lua-language-server
+    pkgs.efm-langserver
   ];
 
   xdg.configFile = {

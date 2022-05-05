@@ -229,12 +229,8 @@
           nativeBuildInputs = [
             inputs.deploy-rs.packages.${system}.deploy-rs
 
-            pkgs.rnix-lsp
             pkgs.nixpkgs-fmt
-
-            pkgs.sumneko-lua-language-server
             pkgs.luaformatter
-            pkgs.efm-langserver
           ];
         };
       });

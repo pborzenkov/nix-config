@@ -20,10 +20,16 @@
 
     "helix/languages.toml" = {
       source = (pkgs.formats.toml { }).generate "languages.toml" {
-        language = [{
-          name = "nix";
-          auto-format = true;
-        }];
+        language = [
+          {
+            name = "nix";
+            auto-format = true;
+          }
+          {
+            name = "cpp";
+            auto-format = true;
+          }
+        ];
       };
     };
 
