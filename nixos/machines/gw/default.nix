@@ -39,25 +39,19 @@
       let
         rock = "100.115.192.117";
         iface = "enp1s0";
-        valheimCmd = "-i ${iface} -p udp --match multiport --destination-ports 2456,2457 -j DNAT --to-destination ${rock}";
         nginxCmd = "-i ${iface} -p tcp --match multiport --destination-ports 80,443 -j DNAT --to-destination ${rock}";
       in
       {
         enable = true;
-
-        # Valheim
-        allowedUDPPorts = [ 2456 2457 ];
         # Nginx
         allowedTCPPorts = [ 80 443 ];
 
         extraCommands = ''
           iptables -t nat -I POSTROUTING -o tailscale0 -j MASQUERADE
-          iptables -t nat -I PREROUTING ${valheimCmd}
           iptables -t nat -I PREROUTING ${nginxCmd}
         '';
         extraStopCommands = ''
           iptables -t nat -D PREROUTING ${nginxCmd} || true
-          iptables -t nat -D PREROUTING ${valheimCmd} || true
           iptables -t nat -D POSTROUTING -o tailscale0 -j MASQUERADE || true
         '';
       };
@@ -74,18 +68,6 @@
     };
   };
   services.resolved.enable = true;
-
-  services._3proxy = {
-    enable = true;
-    services = [
-      {
-        type = "proxy";
-        bindAddress = "100.103.2.96";
-        bindPort = 3128;
-        auth = [ "none" ];
-      }
-    ];
-  };
 
   time.timeZone = "Europe/Amsterdam";
 
