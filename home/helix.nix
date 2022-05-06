@@ -22,12 +22,16 @@
       source = (pkgs.formats.toml { }).generate "languages.toml" {
         language = [
           {
+            name = "cpp";
+            auto-format = true;
+          }
+          {
             name = "nix";
             auto-format = true;
           }
           {
-            name = "cpp";
-            auto-format = true;
+            name = "perl";
+            language-server = { command = "pls"; };
           }
         ];
       };

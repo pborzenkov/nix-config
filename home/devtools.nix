@@ -39,11 +39,11 @@
     pkgs.nixpkgs-review
 
     # Language servers
+    pkgs.efm-langserver
     pkgs.gopls
     pkgs.rust-analyzer
     pkgs.rnix-lsp
     pkgs.sumneko-lua-language-server
-    pkgs.efm-langserver
   ];
 
   xdg.configFile = {
