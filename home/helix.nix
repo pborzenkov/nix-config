@@ -33,6 +33,10 @@
             name = "perl";
             language-server = { command = "pls"; };
           }
+          {
+            name = "java";
+            language-server = { command = "java-language-server"; };
+          }
         ];
       };
     };

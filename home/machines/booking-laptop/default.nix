@@ -27,6 +27,8 @@
     pkgs.kubectl
     pkgs.k9s
     pkgs.stern
+
+    pkgs.java-language-server
   ];
 
   home.sessionVariables = {
