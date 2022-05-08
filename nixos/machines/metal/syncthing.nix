@@ -15,7 +15,7 @@
       rock = {
         id = "OVPKWLR-WWRZIQI-SYA6WDV-EZFXE5I-VCX27T7-IWONKV6-DH5MLFH-BUCCLQ4";
         addresses = [
-          "tcp://rock.lan:22000"
+          "tcp://rock.lab.borzenkov.net:22000"
           "dynamic"
         ];
       };

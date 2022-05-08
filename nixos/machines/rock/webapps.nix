@@ -26,6 +26,8 @@ in
     };
   };
 
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
+
   systemd.services."acme-${config.webapps.domain}".serviceConfig.EnvironmentFile = [
     config.sops.secrets.perfect-privacy-proxy-env.path
   ];

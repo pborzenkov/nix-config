@@ -4,7 +4,6 @@
   services.openssh = {
     enable = true;
     logLevel = "INFO";
-    openFirewall = true;
     passwordAuthentication = false;
     permitRootLogin = "no";
 

@@ -24,7 +24,37 @@ let
     footer = false;
     connectivityCheck = false;
     colums = "auto";
-    services = config.lib.webapps.homerServices;
+    services = config.lib.webapps.homerServices ++ [
+      {
+        name = "Network";
+        items = [
+          {
+            name = "Main";
+            icon = "fas fa-network-wired";
+            url = "http://main.mk.lab.borzenkov.net";
+            target = "_blank";
+          }
+          {
+            name = "Living Room";
+            icon = "fas fa-wifi";
+            url = "http://living-room.mk.lab.borzenkov.net";
+            target = "_blank";
+          }
+          {
+            name = "Study Room";
+            icon = "fas fa-wifi";
+            url = "http://study-room.mk.lab.borzenkov.net";
+            target = "_blank";
+          }
+          {
+            name = "Bedroom";
+            icon = "fas fa-wifi";
+            url = "http://bedroom.mk.lab.borzenkov.net";
+            target = "_blank";
+          }
+        ];
+      }
+    ];
   };
 in
 {
@@ -33,20 +63,23 @@ in
       { name = "Applications"; tag = "app"; }
       { name = "Infrastructure"; tag = "infra"; }
     ];
-    apps.dashboard = {
-      subDomain = "dashboard.lab";
-      locations = {
-        "/" = {
-          custom = {
-            root = homer;
+    apps = {
+      dashboard = {
+        subDomain = "dashboard.lab";
+        locations = {
+          "/" = {
+            custom = {
+              root = homer;
+            };
           };
-        };
-        "=/assets/config.yml" = {
-          custom = {
-            alias = pkgs.writeText "homerConfig.yml" (builtins.toJSON homeConfig);
+          "=/assets/config.yml" = {
+            custom = {
+              alias = pkgs.writeText "homerConfig.yml" (builtins.toJSON homeConfig);
+            };
           };
         };
       };
     };
   };
 }
+

@@ -44,6 +44,7 @@
     pkgs.rust-analyzer
     pkgs.rnix-lsp
     pkgs.sumneko-lua-language-server
+    pkgs.terraform-ls
   ];
 
   xdg.configFile = {

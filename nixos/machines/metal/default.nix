@@ -7,8 +7,6 @@
     inputs.nixos-hardware.nixosModules.common-cpu-amd
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
-    ../../openssh.nix
-
     ./login.nix
     ./sound.nix
     ./syncthing.nix
@@ -45,7 +43,7 @@
   };
 
   fileSystems."/storage" = {
-    device = "helios64.lan:/storage";
+    device = "helios64.lab.borzenkov.net:/storage";
     fsType = "nfs";
   };
 
@@ -80,6 +78,9 @@
       DHCP = "ipv4";
       networkConfig = {
         LinkLocalAddressing = "no";
+      };
+      dhcpV4Config = {
+        UseDomains = true;
       };
     };
   };

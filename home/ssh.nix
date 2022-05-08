@@ -36,7 +36,7 @@
         };
       };
 
-      "rock.lan rock.lab.borzenkov.net" = {
+      "rock rock.lab.borzenkov.net" = {
         forwardAgent = true;
         user = "pbor";
         remoteForwards = [
@@ -47,9 +47,13 @@
         ];
       };
 
-      "helios64.lan helios64.lab.borzenkov.net" = {
+      "helios64 helios64.lab.borzenkov.net" = {
         user = "pbor";
         forwardAgent = true;
+      };
+
+      "gw gw.lab.borzenkov.net" = {
+        user = "pbor";
       };
     };
 

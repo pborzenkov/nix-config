@@ -38,7 +38,7 @@
         static_configs = [
           {
             targets = [
-              "rock.lan:9090"
+              "rock.lab.borzenkov.net:9090"
             ];
           }
         ];
@@ -48,8 +48,8 @@
         static_configs = [
           {
             targets = [
-              "helios64.lan:9100"
-              "rock.lan:9100"
+              "helios64.lab.borzenkov.net:9100"
+              "rock.lab.borzenkov.net:9100"
             ];
           }
         ];

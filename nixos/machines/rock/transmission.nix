@@ -45,7 +45,7 @@ in
       };
 
       fileSystems."/storage" = {
-        device = "helios64.lan:/storage";
+        device = "helios64.lab.borzenkov.net:/storage";
         fsType = "nfs";
       };
 
@@ -311,7 +311,7 @@ in
   };
 
   webapps.apps.transmission = {
-    subDomain = "transmission.lab";
+    subDomain = "transmission-ui.lab";
     proxyTo = "http://${transmissionIP}:9091";
     locations."/" = { auth = true; };
     dashboard = {
@@ -335,7 +335,7 @@ in
             ${pkgs.nur.repos.pborzenkov.tg-bot-transmission}/bin/bot \
         -telegram.allow-user=pborzenkov \
         -telegram.allow-user=mashahooyasha \
-        -transmission.url="http://transmission.lan:9091"
+        -transmission.url="http://transmission.lab.borzenkov.net:9091"
       '';
       EnvironmentFile = [
         config.sops.secrets.tg-bot-transmission-environment.path
@@ -352,7 +352,7 @@ in
     serviceConfig = {
       ExecStart = ''
         ${pkgs.nur.repos.pborzenkov.transmission-exporter}/bin/transmission-exporter \
-        --transmission.url="http://transmission.lan:9091"
+        --transmission.url="http://transmission.lab.borzenkov.net:9091"
       '';
       Restart = "always";
       DynamicUser = true;
@@ -365,7 +365,7 @@ in
       static_configs = [
         {
           targets = [
-            "rock.lan:29100"
+            "rock.lab.borzenkov.net:29100"
           ];
         }
       ];

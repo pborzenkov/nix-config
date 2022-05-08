@@ -5,16 +5,17 @@
 { config, pkgs, modulesPath, inputs, ... }:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
+  imports = [
+    ./hardware-configuration.nix
 
-      (modulesPath + "/profiles/headless.nix")
+    (modulesPath + "/profiles/headless.nix")
 
-      inputs.nixos-hardware.nixosModules.common-pc-ssd
+    inputs.nixos-hardware.nixosModules.common-pc-ssd
 
-      ../../openssh.nix
-    ];
+    inputs.sops-nix.nixosModules.sops
+
+    ../../openssh.nix
+  ];
 
   boot = {
     loader.grub = {
@@ -24,9 +25,6 @@
     };
 
     kernelPackages = pkgs.linuxPackages_5_17;
-    kernel.sysctl = {
-      "net.ipv4.ip_forward" = true;
-    };
   };
 
   networking = {
@@ -35,39 +33,80 @@
     dhcpcd.enable = false;
     useNetworkd = true;
 
-    firewall =
-      let
-        rock = "100.115.192.117";
-        iface = "enp1s0";
-        nginxCmd = "-i ${iface} -p tcp --match multiport --destination-ports 80,443 -j DNAT --to-destination ${rock}";
-      in
-      {
-        enable = true;
-        # Nginx
-        allowedTCPPorts = [ 80 443 ];
-
-        extraCommands = ''
-          iptables -t nat -I POSTROUTING -o tailscale0 -j MASQUERADE
-          iptables -t nat -I PREROUTING ${nginxCmd}
-        '';
-        extraStopCommands = ''
-          iptables -t nat -D PREROUTING ${nginxCmd} || true
-          iptables -t nat -D POSTROUTING -o tailscale0 -j MASQUERADE || true
-        '';
-      };
+    firewall = {
+      enable = true;
+      trustedInterfaces = [ "wg0" ];
+    };
   };
 
   systemd.network = {
     enable = true;
-    networks."40-wired" = {
-      name = "enp1s0";
-      DHCP = "yes";
-      networkConfig = {
-        LinkLocalAddressing = "no";
+    netdevs = {
+      "50-wg" = {
+        netdevConfig = {
+          Kind = "wireguard";
+          MTUBytes = "1420";
+          Name = "wg0";
+        };
+        wireguardConfig = {
+          ListenPort = 13231;
+          PrivateKeyFile = config.sops.secrets.wireguard-private-key.path;
+        };
+        wireguardPeers = [
+          {
+            wireguardPeerConfig = {
+              PublicKey = "/arSbTgIIvytkVTQPLiBVfSF3fgl+yBcCkjMSKyQGDg=";
+              AllowedIPs = [ "192.168.88.0/24" "192.168.111.0/24" ];
+              Endpoint = "vpn.borzenkov.net:13231";
+              PersistentKeepalive = 15;
+            };
+          }
+        ];
+      };
+    };
+    networks = {
+      "40-wired" = {
+        name = "enp1s0";
+        DHCP = "yes";
+        networkConfig = {
+          LinkLocalAddressing = "no";
+        };
+      };
+      "50-wg" = {
+        name = "wg0";
+        DHCP = "no";
+        addresses = [
+          {
+            addressConfig = {
+              Address = "192.168.111.2/24";
+            };
+          }
+        ];
+        routes = [
+          {
+            routeConfig = {
+              Destination = "192.168.88.0/24";
+              Scope = "link";
+            };
+          }
+        ];
+        dns = [ "192.168.111.1" ];
+        domains = [ "lab.borzenkov.net" ];
       };
     };
   };
-  services.resolved.enable = true;
+  sops.secrets.wireguard-private-key = {
+    mode = "0640";
+    owner = "root";
+    group = "systemd-network";
+  };
+
+  services = {
+    resolved.enable = true;
+    openssh.openFirewall = false;
+  };
+
+  sops.defaultSopsFile = ./secrets/secrets.yaml;
 
   time.timeZone = "Europe/Amsterdam";
 

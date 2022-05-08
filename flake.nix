@@ -93,7 +93,6 @@
         ./nixos/nix.nix
         ./nixos/users.nix
         ./nixos/sudo.nix
-        ./nixos/tailscale.nix
         ({
           nix.registry.nixpkgs.flake = inputs.nixpkgs;
         } // commonNixpkgsConfig)
@@ -198,7 +197,7 @@
           };
 
           rock = {
-            hostname = "rock.lan";
+            hostname = "rock.lab.borzenkov.net";
             profiles = {
               system = {
                 user = "root";
@@ -212,7 +211,7 @@
           };
 
           gw = {
-            hostname = "borzenkov.net";
+            hostname = "gw.lab.borzenkov.net";
             profiles.system = {
               user = "root";
               path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.gw;
@@ -229,7 +228,6 @@
           nativeBuildInputs = [
             inputs.deploy-rs.packages.${system}.deploy-rs
 
-            pkgs.nixpkgs-fmt
             pkgs.luaformatter
           ];
         };

@@ -16,7 +16,6 @@
 
     ./backup.nix
     ./dashboard.nix
-    ./dns.nix
     ./gonic.nix
     ./grafana.nix
     ./jellyfin.nix
@@ -61,7 +60,7 @@
   };
 
   fileSystems."/storage" = {
-    device = "helios64.lan:/storage";
+    device = "helios64.lab.borzenkov.net:/storage";
     fsType = "nfs";
   };
 
@@ -110,7 +109,10 @@
       };
     };
   };
-  services.resolved.enable = true;
+  services = {
+    resolved.enable = true;
+    openssh.openFirewall = true;
+  };
 
   powerManagement = {
     enable = true;

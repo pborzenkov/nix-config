@@ -166,7 +166,7 @@ in
   };
 
   webapps.apps.wallabag = {
-    subDomain = "wallabag";
+    subDomain = "wallabag.lab";
     custom.root = "${pkgs.wallabag}/web";
     locations = {
       "/" = {
