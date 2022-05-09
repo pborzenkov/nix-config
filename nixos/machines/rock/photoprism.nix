@@ -4,7 +4,7 @@ let
 in
 {
   webapps.apps.photoprism = {
-    subDomain = "photos.lab";
+    subDomain = "photos";
     proxyTo = "http://127.0.0.1:${port}";
     locations."/" = {
       custom = {

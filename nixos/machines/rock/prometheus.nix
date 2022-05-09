@@ -2,7 +2,7 @@
 
 {
   webapps.apps.prometheus = {
-    subDomain = "prometheus.lab";
+    subDomain = "prometheus";
     proxyTo = "http://127.0.0.1:${toString config.services.prometheus.port}";
     locations."/" = { auth = true; };
     dashboard = {

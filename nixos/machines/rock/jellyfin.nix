@@ -12,7 +12,7 @@
   };
 
   webapps.apps.jellyfin = {
-    subDomain = "jellyfin.lab";
+    subDomain = "jellyfin";
     proxyTo = "http://127.0.0.1:8096";
     locations."/" = { };
     dashboard = {

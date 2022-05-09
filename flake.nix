@@ -146,9 +146,17 @@
 
           programs.home-manager.enable = true;
           scheme = "${inputs.base16-onedark-scheme}/onedark.yaml";
-        } // commonNixpkgsConfig;
+        };
         extraSpecialArgs = {
           inherit inputs;
+        };
+        pkgs = import inputs.nixpkgs {
+          system = arch;
+          config.allowUnfree = true;
+          overlays = [
+            inputs.nur.overlay
+            (import ./overlay.nix)
+          ];
         };
       };
     in
@@ -182,8 +190,7 @@
 
         nodes = {
           metal = {
-            hostname = "127.0.0.1";
-            fastConnection = true;
+            hostname = "metal.lab.borzenkov.net";
             profiles = {
               system = {
                 user = "root";

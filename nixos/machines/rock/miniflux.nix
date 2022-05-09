@@ -5,7 +5,7 @@ let
 in
 {
   webapps.apps.miniflux = {
-    subDomain = "rss.lab";
+    subDomain = "rss";
     proxyTo = "http://127.0.0.1:${port}";
     locations."/" = { auth = true; };
     locations."/fever/" = { };

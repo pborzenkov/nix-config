@@ -76,7 +76,7 @@ in
     };
   };
 
-  xsession.pointerCursor = {
+  home.pointerCursor = {
     package = pkgs.capitaine-cursors;
     name = "capitaine-cursors";
     size = 24;

@@ -5,7 +5,7 @@
   ];
 
   webapps.apps.gonic = {
-    subDomain = "music.lab";
+    subDomain = "music";
     proxyTo = "http://127.0.0.1:4747";
     locations."/" = { };
     dashboard = {

@@ -4,7 +4,7 @@ let
 in
 {
   webapps.apps.grafana = {
-    subDomain = "grafana.lab";
+    subDomain = "grafana";
     proxyTo = "http://127.0.0.1:${toString config.services.grafana.port}";
     locations."/" = { auth = true; };
     dashboard = {

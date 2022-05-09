@@ -9,11 +9,10 @@ in
   ];
 
   webapps = {
-    domain = "borzenkov.net";
-    subDomains = [ "lab" ];
+    domain = "lab.borzenkov.net";
     userIDHeader = "X-User";
 
-    ssoSubDomain = "auth.lab";
+    ssoSubDomain = "auth";
     ssoInternalAddress = "http://127.0.0.1:${toString ssoPort}";
 
     acmeDNSProvider = "namecheap";

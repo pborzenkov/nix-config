@@ -65,7 +65,7 @@ in
     ];
     apps = {
       dashboard = {
-        subDomain = "dashboard.lab";
+        subDomain = "dashboard";
         locations = {
           "/" = {
             custom = {
