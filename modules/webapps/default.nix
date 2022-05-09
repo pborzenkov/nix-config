@@ -15,6 +15,7 @@
         Additional sub-domains for wildcard certificate.
       '';
       example = "lab.borzenkov.net";
+      default = [ ];
     };
 
     userIDHeader = lib.mkOption {
