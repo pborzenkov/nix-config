@@ -100,7 +100,6 @@
       commonDarwinModules = [
         ./darwin/nix.nix
         ./darwin/base.nix
-        ./darwin/tailscale.nix
         ({
           nix.registry.nixpkgs.flake = inputs.nixpkgs;
         } // commonNixpkgsConfig)

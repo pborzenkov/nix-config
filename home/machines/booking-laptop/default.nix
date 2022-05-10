@@ -16,6 +16,8 @@
   ];
 
   home.packages = [
+    pkgs.wireguard-go
+    pkgs.wireguard-tools
     pkgs.glab
 
     # AWS
