@@ -3,7 +3,7 @@
 {
   services.mpd = {
     enable = true;
-    musicDirectory = "nfs://helios64.lab.borzenkov.net/storage";
+    musicDirectory = "nfs://helios64.lab.borzenkov.net/storage/music";
     network.listenAddress = "any";
     extraConfig = ''
       auto_update "yes"
