@@ -40,6 +40,7 @@
 
     # Language servers
     pkgs.efm-langserver
+    pkgs.go_1_18
     pkgs.gopls
     pkgs.rust-analyzer
     pkgs.rnix-lsp

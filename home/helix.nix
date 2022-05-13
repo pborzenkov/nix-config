@@ -10,6 +10,7 @@
       source = (pkgs.formats.toml { }).generate "config.toml" {
         theme = "base16";
         editor = {
+          auto-pairs = false;
           line-number = "relative";
           mouse = false;
           shell = [ "${pkgs.zsh}/bin/zsh" "-c" ];

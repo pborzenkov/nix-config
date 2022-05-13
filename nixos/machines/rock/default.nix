@@ -21,6 +21,7 @@
     ./jellyfin.nix
     ./libvirt.nix
     ./miniflux.nix
+    ./mpd.nix
     ./photoprism.nix
     ./postgresql.nix
     ./prometheus.nix
