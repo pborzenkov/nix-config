@@ -302,6 +302,8 @@ in
           };
           unitConfig.RequiresMountsFor = [ "/storage" ];
         };
+
+      system.stateVersion = "20.09";
     };
   };
 
