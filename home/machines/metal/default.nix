@@ -13,6 +13,7 @@
     ../../helix.nix
     ../../imv.nix
     ../../mpv.nix
+    ../../ncmpcpp.nix
     ../../neovim.nix
     ../../rofi.nix
     ../../ssh.nix
@@ -22,6 +23,7 @@
     ../../zathura.nix
     ../../zsh.nix
 
+    ./mpd.nix
     ./sway.nix
   ];
 

@@ -51,7 +51,9 @@ in
           "XF86AudioRaiseVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%";
           "XF86AudioLowerVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%";
           "XF86AudioMute" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
-          "${modifier}+Shift+m" = "exec ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle";
+          "${modifier}+braceleft" = "exec ${pkgs.playerctl}/bin/playerctl previous";
+          "${modifier}+braceright" = "exec ${pkgs.playerctl}/bin/playerctl next";
+          "${modifier}+bar" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
 
           "${modifier}+Shift+n" = "exec dunstctl set-paused toggle";
         };
@@ -158,6 +160,10 @@ in
         {
           criteria = { app_id = "scratch-term"; };
           command = ''mark "scratch-term", move scratchpad, scratchpad show'';
+        }
+        {
+          criteria = { app_id = "ncmpcpp"; };
+          command = "floating enable";
         }
       ];
     };
