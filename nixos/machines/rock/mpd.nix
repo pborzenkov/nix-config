@@ -9,10 +9,30 @@
       auto_update "yes"
       audio_output {
         type "null"
-        name "Null output"
+        name "Void"
       }
     '';
   };
 
   networking.firewall.allowedTCPPorts = [ 6600 ];
+
+  webapps.apps.mpd = {
+    subDomain = "music";
+    locations."/" = {
+      custom = {
+        root = "/storage/music";
+      };
+    };
+    custom = {
+      forceSSL = false; # https://github.com/MusicPlayerDaemon/MPD/issues/1477
+    };
+  };
+
+  backup.fsBackups = {
+    music = {
+      paths = [
+        "/storage/music"
+      ];
+    };
+  };
 }

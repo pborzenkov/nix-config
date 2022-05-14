@@ -16,7 +16,6 @@
 
     ./backup.nix
     ./dashboard.nix
-    ./gonic.nix
     ./grafana.nix
     ./jellyfin.nix
     ./libvirt.nix
