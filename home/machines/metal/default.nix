@@ -34,6 +34,7 @@
     pkgs.virt-manager
     pkgs.libreoffice
     pkgs.jellyfin-media-player
+    pkgs.picard
 
     pkgs.goldendict
     pkgs.hunspellDicts.en_GB-large
