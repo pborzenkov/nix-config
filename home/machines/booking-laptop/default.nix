@@ -9,10 +9,13 @@
     ../../gpg.nix
     ../../git.nix
     ../../helix.nix
+    ../../ncmpcpp.nix
     ../../neovim.nix
     ../../ssh.nix
     ../../tmux.nix
     ../../zsh.nix
+
+    ./mpd.nix
   ];
 
   home.packages = [

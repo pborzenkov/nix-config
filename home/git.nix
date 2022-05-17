@@ -68,7 +68,7 @@
     gh = {
       enable = true;
       settings = {
-        editor = "${pkgs.helix}/bin/helix";
+        editor = "${pkgs.helix}/bin/hx";
         git_protocol = "ssh";
       };
     };
