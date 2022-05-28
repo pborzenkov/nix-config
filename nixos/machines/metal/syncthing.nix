@@ -47,9 +47,7 @@
 
       "/home/pbor/.local/share/photos-for-review" = {
         id = "photos";
-        type = "receiveonly";
-        ignoreDelete = true;
-        devices = [ "phone" ];
+        devices = [ "rock" ];
       };
     };
   };

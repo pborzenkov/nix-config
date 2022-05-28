@@ -64,7 +64,10 @@
     hostName = "metal";
     firewall = {
       enable = true;
-      allowedUDPPorts = [ 5678 ];
+      allowedUDPPorts = [
+        5678 # Mikrotik NDP
+        37008 # traffic sniffer on Mikrotik
+      ];
     };
     useDHCP = false;
     dhcpcd.enable = false;

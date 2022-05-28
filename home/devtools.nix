@@ -37,15 +37,21 @@
     pkgs.nix-prefetch-github
     pkgs.nix-update
     pkgs.nixpkgs-review
+    pkgs.rnix-lsp
 
-    # Language servers
-    pkgs.efm-langserver
+    # Go
     pkgs.go_1_18
     pkgs.gopls
+
+    # Rust
+    (pkgs.rust-bin.stable.latest.default.override { extensions = [ "rust-src" ]; })
     pkgs.rust-analyzer
-    pkgs.rnix-lsp
+
+    # Misc
+    pkgs.efm-langserver
     pkgs.sumneko-lua-language-server
     pkgs.terraform-ls
+    pkgs.gcc
   ];
 
   xdg.configFile = {

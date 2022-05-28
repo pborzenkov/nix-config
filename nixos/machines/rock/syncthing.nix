@@ -59,6 +59,12 @@
         id = "password-store";
         devices = [ "jazz" "metal" "booking-laptop" "phone" ];
       };
+
+      "/home/pbor/.local/share/photos-for-review" = {
+        id = "photos";
+        type = "receiveonly";
+        devices = [ "metal" "phone" ];
+      };
     };
   };
 }

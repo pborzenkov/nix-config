@@ -27,6 +27,10 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     deploy-rs = {
       url = "github:serokell/deploy-rs";
       inputs = {
@@ -85,6 +89,7 @@
           config.allowUnfree = true;
           overlays = [
             inputs.nur.overlay
+            (import inputs.rust-overlay)
             (import ./overlay.nix)
           ];
         };
@@ -154,6 +159,7 @@
           config.allowUnfree = true;
           overlays = [
             inputs.nur.overlay
+            (import inputs.rust-overlay)
             (import ./overlay.nix)
           ];
         };
