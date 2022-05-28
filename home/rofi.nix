@@ -3,7 +3,7 @@
 {
   programs.rofi = {
     enable = true;
-    package = pkgs.nur.repos.kira-bruneau.rofi-wayland;
+    package = pkgs.rofi-wayland;
     cycle = true;
     font = "MesloLGS Nerd Font Mono 12.0";
     location = "center";
