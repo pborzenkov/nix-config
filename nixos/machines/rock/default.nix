@@ -14,6 +14,7 @@
     ../../docker.nix
     ../../openssh.nix
 
+    ./anki.nix
     ./backup.nix
     ./dashboard.nix
     ./grafana.nix
