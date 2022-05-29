@@ -28,6 +28,7 @@
   ];
 
   home.packages = [
+    pkgs.anki
     pkgs.tdesktop
     pkgs.calibre
     pkgs.tremc
