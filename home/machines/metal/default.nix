@@ -27,23 +27,30 @@
     ./sway.nix
   ];
 
-  home.packages = [
-    pkgs.anki
-    pkgs.tdesktop
-    pkgs.calibre
-    pkgs.tremc
-    pkgs.virt-manager
-    pkgs.libreoffice
-    pkgs.jellyfin-media-player
-    pkgs.picard
+  home.packages =
+    let
+      anki = pkgs.writeScriptBin "anki" ''
+        export ANKI_WAYLAND=1
+        exec ${pkgs.anki-bin}/bin/anki
+      '';
+    in
+    [
+      anki
+      pkgs.tdesktop
+      pkgs.calibre
+      pkgs.tremc
+      pkgs.virt-manager
+      pkgs.libreoffice
+      pkgs.jellyfin-media-player
+      pkgs.picard
 
-    pkgs.goldendict
-    pkgs.hunspellDicts.en_GB-large
-    pkgs.hunspellDicts.nl_NL
-    pkgs.hunspellDicts.ru_RU
+      pkgs.goldendict
+      pkgs.hunspellDicts.en_GB-large
+      pkgs.hunspellDicts.nl_NL
+      pkgs.hunspellDicts.ru_RU
 
-    pkgs.nixos-container
-  ];
+      pkgs.nixos-container
+    ];
 
   services.gpg-agent = {
     enable = true;
