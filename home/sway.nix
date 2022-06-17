@@ -166,6 +166,9 @@ in
           command = "floating enable";
         }
       ];
+      startup = [
+        { command = "dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK"; }
+      ];
     };
     extraConfig = ''
       seat seat0 xcursor_theme capitaine-cursors 24
