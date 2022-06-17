@@ -3,7 +3,7 @@
 let
   dataDir = "/var/lib/wallabag";
 
-  phpPackage = pkgs.php74.withExtensions ({ all, ... }: with all;
+  phpPackage = pkgs.php81.withExtensions ({ all, ... }: with all;
     [
       session
       ctype
@@ -20,7 +20,6 @@ let
       intl
       filter
       pdo_pgsql
-      json
     ]);
   configFile = pkgs.writeText "parameters.yml" (builtins.toJSON {
     parameters = {
