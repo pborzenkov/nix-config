@@ -24,7 +24,7 @@
       devices = [ "/dev/vda" ];
     };
 
-    kernelPackages = pkgs.linuxPackages_5_17;
+    kernelPackages = pkgs.linuxPackages_5_18;
   };
 
   networking = {
@@ -103,7 +103,7 @@
 
   services = {
     resolved.enable = true;
-    openssh.openFirewall = false;
+    openssh.openFirewall = true;
   };
 
   sops.defaultSopsFile = ./secrets/secrets.yaml;
