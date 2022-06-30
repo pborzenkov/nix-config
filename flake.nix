@@ -137,20 +137,22 @@
       };
 
       makeHome = { hostname, arch ? "x86_64-linux", home ? "/home", user ? "pbor" }: inputs.home-manager.lib.homeManagerConfiguration {
-        system = arch;
-        stateVersion = "21.05";
-        homeDirectory = "${home}/${user}";
-        username = user;
-        configuration = {
-          imports = [
-            inputs.base16.homeManagerModule
+        modules = [
+          inputs.base16.homeManagerModule
+          (./home/machines + "/${hostname}")
 
-            (./home/machines + "/${hostname}")
-          ];
+          {
+            home = {
+              username = user;
+              homeDirectory = "${home}/${user}";
+              stateVersion = "21.05";
+            };
 
-          programs.home-manager.enable = true;
-          scheme = "${inputs.base16-onedark-scheme}/onedark.yaml";
-        };
+            programs.home-manager.enable = true;
+            scheme = "${inputs.base16-onedark-scheme}/onedark.yaml";
+          }
+        ];
+
         extraSpecialArgs = {
           inherit inputs;
         };
