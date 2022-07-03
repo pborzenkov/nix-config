@@ -58,7 +58,7 @@
           [ -z "$result" ] && exit 0
 
           ext="''${result##*.}"
-          cp "$result" "''${ddir}/folder.''${ext}"
+          cp "$result" "''${ddir}/cover.''${ext}"
         ''; in
       {
         target = "bin/filebot-music";
