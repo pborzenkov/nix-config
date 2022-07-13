@@ -8,7 +8,7 @@
   xdg.configFile = {
     "helix/config.toml" = {
       source = (pkgs.formats.toml { }).generate "config.toml" {
-        theme = "base16";
+        theme = config.scheme.slug;
         editor = {
           auto-pairs = false;
           line-number = "relative";
@@ -40,11 +40,6 @@
           }
         ];
       };
-    };
-
-    "helix/themes/base16.toml" = {
-      source = config.scheme inputs.base16-helix;
-      target = "helix/themes/base16.toml";
     };
   };
 }
