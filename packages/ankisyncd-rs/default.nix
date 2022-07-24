@@ -2,11 +2,11 @@
 
 stdenv.mkDerivation rec {
   pname = "ankisyncd-rs";
-  version = "0.1.9";
+  version = "0.2.0";
 
   src = fetchurl {
-    url = "https://github.com/ankicommunity/anki-sync-server-rs/releases/download/0.1.9/ankisyncd_0.1.9_linux_x86_64_glibc.tar.gz";
-    sha256 = "sha256-D9cFqxbTIZd4vXMwb0QM1137vyHQf9h8XCBdcym/M5A=";
+    url = "https://github.com/ankicommunity/anki-sync-server-rs/releases/download/${version}/ankisyncd_${version}_linux_x64.tar.gz";
+    sha256 = "sha256-JPzYRPx2/Grf7/4oDK0q9Q0oQgN8DOkTZ0277D7H+Nc=";
   };
 
   buildInputs = [ openssl ];
