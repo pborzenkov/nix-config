@@ -1,12 +1,12 @@
-{ fetchurl, stdenv, autoPatchelfHook, openssl }:
+{ fetchurl, lib, stdenv, autoPatchelfHook, openssl }:
 
 stdenv.mkDerivation rec {
   pname = "ankisyncd-rs";
-  version = "0.2.0";
+  version = "0.2.1";
 
   src = fetchurl {
     url = "https://github.com/ankicommunity/anki-sync-server-rs/releases/download/${version}/ankisyncd_${version}_linux_x64.tar.gz";
-    sha256 = "sha256-JPzYRPx2/Grf7/4oDK0q9Q0oQgN8DOkTZ0277D7H+Nc=";
+    sha256 = "sha256-DIMlpoRHo7/bH+AyVyI3+inHRLtx/JETdhlIPJvaotc=";
   };
 
   buildInputs = [ openssl ];
