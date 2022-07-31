@@ -7,6 +7,8 @@
     inputs.nixos-hardware.nixosModules.common-cpu-amd
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
+    ../../docker.nix
+
     ./login.nix
     ./sound.nix
     ./syncthing.nix
@@ -95,7 +97,7 @@
       package = pkgs.wireshark;
     };
   };
-  users.users.pbor.extraGroups = [ "adbusers" "wireshark" ];
+  users.users.pbor.extraGroups = [ "adbusers" "docker" "wireshark" ];
 
   powerManagement = {
     enable = true;

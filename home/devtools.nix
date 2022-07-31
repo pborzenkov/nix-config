@@ -48,6 +48,7 @@
     pkgs.rust-analyzer
 
     # Misc
+    pkgs.act
     pkgs.efm-langserver
     pkgs.sumneko-lua-language-server
     pkgs.terraform-ls
