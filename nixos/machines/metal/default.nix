@@ -70,9 +70,6 @@
         5678 # Mikrotik NDP
         37008 # traffic sniffer on Mikrotik
       ];
-      allowedTCPPorts = [
-        3000
-      ];
     };
     useDHCP = false;
     dhcpcd.enable = false;

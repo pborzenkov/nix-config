@@ -45,34 +45,5 @@
       '';
       executable = true;
     };
-    "filebot-music" =
-      let
-        chooseArtwork = pkgs.writeShellScript "filebot-choose-artwork" ''
-          sdir="$1"
-          ddir="$2"
-
-          images=$(${pkgs.fd}/bin/fd -e jpg -e jpeg -e png -e bmp -a --search-path "$sdir")
-          [ -z "$images" ] && exit 0
-
-          result=$(echo "$images" | ${pkgs.imv}/bin/imv -c 'bind a exec echo "$imv_current_file"; quit')
-          [ -z "$result" ] && exit 0
-
-          ext="''${result##*.}"
-          cp "$result" "''${ddir}/cover.''${ext}"
-        ''; in
-      {
-        target = "bin/filebot-music";
-        source = pkgs.writeShellScript "filebot-music" ''
-          if [ $# -eq 0 ]; then
-            echo "Usage: $0 <path>"
-            exit 1
-          fi
-
-          ${pkgs.filebot}/bin/filebot -script fn:amc --output /storage/music --action copy --mode interactive \
-          --def music=y --def musicFormat="/storage/music/{artist}/{y} - {album}/{pi.pad(02)} - {t}" \
-          --def exec="${chooseArtwork} \"$@\" {quote folder}" "$@"
-        '';
-        executable = true;
-      };
   };
 }
