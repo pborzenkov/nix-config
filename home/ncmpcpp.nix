@@ -11,4 +11,8 @@
       { key = "h"; command = "previous_column"; }
     ];
   };
+
+  home.packages = [
+    pkgs.mpc_cli
+  ];
 }

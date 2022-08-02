@@ -43,6 +43,9 @@
       pkgs.libreoffice
       pkgs.jellyfin-media-player
       pkgs.picard
+      pkgs.shntool
+      pkgs.flac
+      pkgs.cuetools
 
       pkgs.goldendict
       pkgs.hunspellDicts.en_GB-large
