@@ -2,16 +2,16 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "mpdsonic";
-  version = "0.1.0";
+  version = "0.1.1";
 
   src = fetchFromGitHub {
     owner = "pborzenkov";
     repo = "mpdsonic";
     rev = "v${version}";
-    sha256 = "sha256-C5yT855w8Vbg0xAmvFdpn2X3/TT2nqvH+X0CXZ6hebA=";
+    sha256 = "sha256-mTl3nataosfh+iq7M3jZMTwNTX4bj9815MDfFdFPF5s=";
   };
 
-  cargoSha256 = "sha256-SKybrRpnXaLwcnqVVoOD9klxvvLcgeGRsN6bazOc8KU=";
+  cargoSha256 = "sha256-poFLNYt8a7yHaMdDJs4b0s3NP5VKE8W/bvuryE8T34Y=";
 
   nativeBuildInputs = [ pkg-config ];
 
