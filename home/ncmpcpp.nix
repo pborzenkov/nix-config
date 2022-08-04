@@ -10,6 +10,10 @@
       { key = "l"; command = "next_column"; }
       { key = "h"; command = "previous_column"; }
     ];
+    settings = {
+      media_library_primary_tag = "album_artist";
+      media_library_hide_album_dates = true;
+    };
   };
 
   home.packages = [
