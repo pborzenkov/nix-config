@@ -1,15 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  environment = {
-    pathsToLink = [
-      "/share/zsh"
-    ];
-
-    shells = [
-      pkgs.zsh
-    ];
-  };
+  programs.zsh.enable = true;
 
   users = {
     mutableUsers = true;
