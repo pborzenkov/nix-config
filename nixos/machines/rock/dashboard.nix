@@ -31,25 +31,13 @@ let
           {
             name = "Main";
             icon = "fas fa-network-wired";
-            url = "http://main.mk.lab.borzenkov.net";
+            url = "http://router.mk.lab.borzenkov.net";
             target = "_blank";
           }
           {
             name = "Living Room";
             icon = "fas fa-wifi";
             url = "http://living-room.mk.lab.borzenkov.net";
-            target = "_blank";
-          }
-          {
-            name = "Study Room";
-            icon = "fas fa-wifi";
-            url = "http://study-room.mk.lab.borzenkov.net";
-            target = "_blank";
-          }
-          {
-            name = "Bedroom";
-            icon = "fas fa-wifi";
-            url = "http://bedroom.mk.lab.borzenkov.net";
             target = "_blank";
           }
         ];
