@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  transmissionIP = "192.168.88.2";
+  transmissionIP = "192.168.88.200";
 in
 {
   containers.transmission = {
@@ -252,11 +252,10 @@ in
             download-dir = "/storage/torrents";
             incomplete-dir-enabled = false;
 
-            alt-speed-up = 1024;
-            alt-speed-down = 10240;
-            alt-speed-time-enabled = true;
-            alt-speed-time-begin = 480;
-            alt-speed-time-end = 1380;
+            speed-limit-up = 12288;
+            speed-limit-up-enabled = true;
+            speed-limit-down = 12288;
+            speed-limit-down-enabled = true;
 
             peer-limit-global = 1000;
 
