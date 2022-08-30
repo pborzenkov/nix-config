@@ -55,7 +55,7 @@
         wireguardPeers = [
           {
             wireguardPeerConfig = {
-              PublicKey = "/arSbTgIIvytkVTQPLiBVfSF3fgl+yBcCkjMSKyQGDg=";
+              PublicKey = "/qcJiPDpknM7hvAwfrxUS5D8IGJ3RAiTVYlfdg8eZzk=";
               AllowedIPs = [ "192.168.88.0/24" "192.168.111.0/24" ];
               Endpoint = "vpn.borzenkov.net:13231";
               PersistentKeepalive = 15;
