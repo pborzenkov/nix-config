@@ -29,7 +29,7 @@ let
         name = "Network";
         items = [
           {
-            name = "Main";
+            name = "Router";
             icon = "fas fa-network-wired";
             url = "http://router.mk.lab.borzenkov.net";
             target = "_blank";
