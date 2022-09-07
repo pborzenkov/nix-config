@@ -36,7 +36,7 @@
         StateDirectory = "mpdsonic";
         ExecStart = ''
           ${pkgs.mpdsonic}/bin/mpdsonic \
-            -a 127.0.0.1 -p 6601 \
+            -a 127.0.0.1:6601 \
             -u pavel@borzenkov.net \
             --mpd-address 127.0.0.1:6600 \
             --mpd-library /storage/music
