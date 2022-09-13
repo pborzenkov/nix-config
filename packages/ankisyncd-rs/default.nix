@@ -1,4 +1,4 @@
-{ fetchurl, lib, stdenv, autoPatchelfHook, openssl }:
+{ fetchurl, lib, stdenv, autoPatchelfHook, openssl_1_1 }:
 
 stdenv.mkDerivation rec {
   pname = "ankisyncd-rs";
@@ -9,7 +9,7 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-DIMlpoRHo7/bH+AyVyI3+inHRLtx/JETdhlIPJvaotc=";
   };
 
-  buildInputs = [ openssl ];
+  buildInputs = [ openssl_1_1 ];
 
   nativeBuildInputs = [ autoPatchelfHook ];
 

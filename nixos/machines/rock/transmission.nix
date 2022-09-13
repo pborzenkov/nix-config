@@ -81,7 +81,6 @@ in
               updateResolvConf = true;
               config = ''
                 auth-user-pass /run/secrets/perfect-privacy-password
-                auth-nocache
                 client
                 dev pp0
                 dev-type tun
@@ -102,11 +101,9 @@ in
                 route-up ${route-up}
                 route-pre-down ${route-pre-down}
                 script-security 2
-                tls-cipher TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256:TLS-DHE-RSA-WITH-CAMELLIA-256-CBC-SHA:TLS-DHE-RSA-WITH-AES-256-CBC-SHA:TLS-RSA-WITH-CAMELLIA-256-CBC-SHA:TLS-RSA-WITH-AES-256-CBC-SHA
+                tls-cipher TLS_CHACHA20_POLY1305_SHA256:TLS-DHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA:TLS-DHE-RSA-WITH-AES-128-GCM-SHA256:TLS-DHE-RSA-WITH-AES-128-CBC-SHA:TLS_AES_256_GCM_SHA384:TLS-RSA-WITH-AES-256-CBC-SHA
                 tls-timeout 5
                 verb 4
-
-                tun-ipv6
 
                 tun-mtu  1500
                 tun-mtu-extra  32
@@ -177,43 +174,43 @@ in
 
                 <cert>
                 -----BEGIN CERTIFICATE-----
-                MIIG1TCCBL2gAwIBAgIJALL6G05JEskHMA0GCSqGSIb3DQEBDQUAMIGHMQswCQYD
-                VQQGEwJDSDEMMAoGA1UECBMDWnVnMQwwCgYDVQQHEwNadWcxGDAWBgNVBAoTD1Bl
-                cmZlY3QgUHJpdmFjeTEYMBYGA1UEAxMPUGVyZmVjdCBQcml2YWN5MSgwJgYJKoZI
-                hvcNAQkBFhlhZG1pbkBwZXJmZWN0LXByaXZhY3kuY29tMB4XDTIxMDExMjAwMDAw
-                MFoXDTIyMDkwOTAwMDAwMFowgYAxCzAJBgNVBAYTAkNIMQwwCgYDVQQIEwNadWcx
-                GDAWBgNVBAoTD1BlcmZlY3QgUHJpdmFjeTEfMB0GA1UEAxMWUGVyZmVjdCBQcml2
-                YWN5IENsaWVudDEoMCYGCSqGSIb3DQEJARYZYWRtaW5AcGVyZmVjdC1wcml2YWN5
-                LmNvbTCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBANMRRpaoCfXXYJZ0
-                ssZ/qLjwRZ2219t24PoBlajVdkI5+KNBl1sLQyOlrbDYCu3xpl0r4j3vqUhuF/dU
-                WsEQaqC6PLIcjDoV2RsSa1eTfqyyAMkk/FL6Ze+7fnZ9CGjrlKYjN5UaZm+b6jja
-                tQIzMkuJ2hykGt4imlgPAzqsYz3wL8eh+/kHUqikvr3l9sDhkZTZj3gyCPpptpCN
-                8azHgWP6k+Gqsbz6g6iZ8sFClZYv/MCfNFP2jfHei+cgTNU9ZV2bohmW809lyXZS
-                v1IImRcQI1mIm/mQ10hMrvIyoRSrfbn5nbeKDcRiHdNFgDg3GUBgzwFA5M266PPQ
-                emrWluJKlVGHV0brz+PkNEUCYZ7KRUZywf+kFGphS2npUsc0wptJmawcX5+Q1fsH
-                u6ef5u/J8TVFOR3Etar4YFRE31GMqAqDDTv1Wy/phUm0iSAm/kkH59NUbwvaf8bJ
-                k+QJaprCraGGNacEbaZgsC+loSC9If50EKnCcCsYSMPqkyjUm5aBhwNqHSUwDiHr
-                LrHqVi6hy3emGk782S5dsYf9xcQZ4T7WrxQtS4yKJZ+7OUMOnPz5fhki+UTKWEuS
-                oSsMw14iNd14U0AaWTS3W5+j0oX1g0NXUd03QKEahlDjRm2BjeXOH7OdO5r8BEPa
-                +GgiO4FAjexv7plOyAQC6psKcZxtAgMBAAGjggFHMIIBQzAJBgNVHRMEAjAAMCMG
-                CWCGSAGG+EIBDQQWFhRWUE4gVXNlciBDZXJ0aWZpY2F0ZTARBglghkgBhvhCAQEE
-                BAMCB4AwCwYDVR0PBAQDAgeAMBMGA1UdJQQMMAoGCCsGAQUFBwMCMB0GA1UdDgQW
-                BBSUk8vHsMdaEQFyvwr0a+LcRVpQzzCBvAYDVR0jBIG0MIGxgBSGT7htGCobPI8n
-                NCnwgZ+6bmEO4aGBjaSBijCBhzELMAkGA1UEBhMCQ0gxDDAKBgNVBAgTA1p1ZzEM
-                MAoGA1UEBxMDWnVnMRgwFgYDVQQKEw9QZXJmZWN0IFByaXZhY3kxGDAWBgNVBAMT
-                D1BlcmZlY3QgUHJpdmFjeTEoMCYGCSqGSIb3DQEJARYZYWRtaW5AcGVyZmVjdC1w
-                cml2YWN5LmNvbYIJAPoRtcSqaa9pMA0GCSqGSIb3DQEBDQUAA4ICAQAB8Xnr5F0Q
-                y2ffzL/xshNwinU0yNHPMI8RGWq4NIvTyFM+LrByhasfgwEWGbkH7XyDtdSWEkhA
-                bgF/XovxUxOJDDBrd32DxgXaRVvsuUrLELbYftkdvYAisWj1GG4VuEh4r7hN84UF
-                voaMAq0hjZq4UMfaBN+SDpPjAFkEDNqQnupys1T+NTleSwiVJtBPkuRzg4RFa6c4
-                sGKk9tlYMQiR+cJeu23O06tTpigdD9jNLf7AVE45SfgYz/QWUqVSfRqt1s+A5K/B
-                hsaPFoNPdW1mDmZoX+imEPhvAAfpM9ZT4Wfqw7KDAKOVuhlQkFJRjEX4nCGYs2Qb
-                mCKFleVzBKE3zdAz6tTDFMAqkMKhefTbJ7ML+53hcJl28eT2cfRxhIq1eNdN1iOB
-                L2XB2y0S5ha+00JXGH9wijJ8L1lLZEDREvKO1bQrNY6Il3ZljiPHRJup5RLSt9KY
-                YckHnrXEkAWLVdB8iommjXg7foapzw1+YoKBWAnbXwm7Axwjb6Numy+eTXWDB1vj
-                M1z7DuXIbvfXBkXmBpInf45eeQ40HBOEkQxPoq/SpdoMa1AC3ICKT6a/TauFVcB6
-                w1Ck9L2TPvgcWPufP7a37clj9GDWzHtfQ4jFidtQjwjTvYHRIIZc/Q0ah9gwx9dM
-                4LAWUQ2xupC/y+3BzkkRecpwhkEDENL4Aw==
+                MIIG1DCCBLygAwIBAgIISJBF94RzzgcwDQYJKoZIhvcNAQENBQAwgYcxCzAJBgNV
+                BAYTAkNIMQwwCgYDVQQIEwNadWcxDDAKBgNVBAcTA1p1ZzEYMBYGA1UEChMPUGVy
+                ZmVjdCBQcml2YWN5MRgwFgYDVQQDEw9QZXJmZWN0IFByaXZhY3kxKDAmBgkqhkiG
+                9w0BCQEWGWFkbWluQHBlcmZlY3QtcHJpdmFjeS5jb20wHhcNMjIwNzIwMDAwMDAw
+                WhcNMjQwMzE2MDAwMDAwWjCBgDELMAkGA1UEBhMCQ0gxDDAKBgNVBAgTA1p1ZzEY
+                MBYGA1UEChMPUGVyZmVjdCBQcml2YWN5MR8wHQYDVQQDExZQZXJmZWN0IFByaXZh
+                Y3kgQ2xpZW50MSgwJgYJKoZIhvcNAQkBFhlhZG1pbkBwZXJmZWN0LXByaXZhY3ku
+                Y29tMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAyZpB4UJ9l8OV6Ox6
+                ipe4haIHz6TQxeEya5PbVptVhT8Ly1CdPseYnzAL49OmBP4jFo/w6P7ybivoqcSa
+                6+v21M0lisrHj6yBXEPVDMDcP68dXZWmDd+k3YMZMSW7icTMFVNImdkdsiQ1AXho
+                2KP82Tgm8RaASzhV1hbSHLjuEEyO2lY/E5jBX/I4DR+s6mBUUXRm1xOl8j2xju3A
+                kCa2fJpt23ycgQEQ6GE3kpfWflGTYjIW8ejTu/mtS3+eh/Xtwv9s3elsn0Vt8MX0
+                9rt/9AWjAe7o6208zf2crj0n4NtP1pSEX8kV1cJ0O6BRBTlIj5oiuv3afaoQkhQF
+                PohDcB77JcfdjAiwUlu5vu3nJi2pWEh2JiLxd+5Nvoa46BjtOqSY2X1t9ScGcI4p
+                kVTQJvawrGnQhB9fgCBOV275Rjev1F2Cr1ZuZxbUPVRyBNFJBDGTyed1f4UWtfBm
+                Vcn4+oWcuNEIZ8eP474yx+2VnMoJOBmdeYZUfEjgUM4KSRDGLybT9M9Rxwj8TXCt
+                eudMr6qJ7HAszEpw8h7hO0SSBMTqTJAFYEa74V1izQG1xh3WOg2PF2aDlxsfxSta
+                h4XEv6UTzxtwbNCgbUreTThVhBZMb132PQwg1y0tvP4FxOiRP2uw6n9Rv+MAOCja
+                6Ue+wdoaJquACzRAFHavcsJNq3UCAwEAAaOCAUcwggFDMAkGA1UdEwQCMAAwIwYJ
+                YIZIAYb4QgENBBYWFFZQTiBVc2VyIENlcnRpZmljYXRlMBEGCWCGSAGG+EIBAQQE
+                AwIHgDALBgNVHQ8EBAMCB4AwEwYDVR0lBAwwCgYIKwYBBQUHAwIwHQYDVR0OBBYE
+                FOO2rq/+RHtawlvMwiN8hKTqrk99MIG8BgNVHSMEgbQwgbGAFIZPuG0YKhs8jyc0
+                KfCBn7puYQ7hoYGNpIGKMIGHMQswCQYDVQQGEwJDSDEMMAoGA1UECBMDWnVnMQww
+                CgYDVQQHEwNadWcxGDAWBgNVBAoTD1BlcmZlY3QgUHJpdmFjeTEYMBYGA1UEAxMP
+                UGVyZmVjdCBQcml2YWN5MSgwJgYJKoZIhvcNAQkBFhlhZG1pbkBwZXJmZWN0LXBy
+                aXZhY3kuY29tggkA+hG1xKppr2kwDQYJKoZIhvcNAQENBQADggIBAHJ6synAHIKr
+                j3rZq3bGyvlJ1uoFbz+YrflrObWIKG0AEEbRlF5KyZEonObpAmlSA22M1ed01kni
+                WvAJpT3rsVF0zOMucsSSqamEmTdATHhud46salqVfl42r+H4BujOAjxf29tPc4Yo
+                owoNRPuRUK0aol3H7jrk35PN5BlSXdHt5MlbR0YLdioUXwRpvtNjUJd1Y9DG3vkz
+                WvF4ftyyROG0u43Q3iaotgPsHsq4NHhf3UcP2VMSsiyHBENSlMUZO9g3JuIyncyg
+                3BpcPXbhZBscBsSrjtJOhQWIXgme3ENhdPeNzCMe6Uz+770243cHWBg6QfR5E6WT
+                2YxN2tQH/xFqZtMk7k2eqcnxbWZQHMZC/UEXxjPY/ubwsdPFdfIDAkfFcVrXuTyd
+                X9fjCckBBTYjbnoSRgKqrG2vmxtpUgI5wyqI/sjNsKvEUTO4pHCnoCSuKKzql6og
+                6rwHhqu4tEH+euGNWWTVhqKsQ1b4Q0ElwOmC8inaM3nhFQjRuzE9bwv4X29N/4Cy
+                3XpLSZYuef/O07MxltAOY289k7Io8rBU6/poz0YhTyaTqNmPoZRdEFtyO+2n/P6W
+                bUVhK3sJvd9A1UwpaI0akOBk663O2Kx3nun/p5tQaYGp5U7VKf+faq5HH7hsQRwd
+                Xhf9G/ruaU3ojvr/CCTPcR5PSJCxY1vU
                 -----END CERTIFICATE-----
                 </cert>
 
@@ -277,6 +274,8 @@ in
             builtins.toJSON cfg.settings
           );
           configDir = "${cfg.home}/.config/transmission-daemon";
+
+          transmission = pkgs.transmission.override { openssl = pkgs.openssl_1_1; };
         in
         {
           wantedBy = lib.mkForce [ ];
@@ -291,7 +290,7 @@ in
             ];
             ExecStart = lib.mkForce (
               pkgs.writeShellScript "transmission-start" ''
-                ${pkgs.transmission}/bin/transmission-daemon \
+                ${transmission}/bin/transmission-daemon \
                     --bind-address-ipv4 "$VPN_IP" \
                     --peerport "$VPN_PORT" \
                     --config-dir "${configDir}" \
