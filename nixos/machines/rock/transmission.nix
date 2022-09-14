@@ -247,7 +247,7 @@ in
             port-forwarding-enabled = false;
 
             download-dir = "/storage/torrents";
-            incomplete-dir-enabled = false;
+            incomplete-dir-enabled = true;
 
             speed-limit-up = 12288;
             speed-limit-up-enabled = true;
