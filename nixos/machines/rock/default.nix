@@ -34,8 +34,6 @@
     ./vlmcsd.nix
     ./wallabag.nix
     ./webapps.nix
-
-    ./ziggo.nix
   ];
 
   boot = {
