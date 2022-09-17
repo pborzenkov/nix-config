@@ -262,8 +262,6 @@ in
             builtins.toJSON cfg.settings
           );
           configDir = "${cfg.home}/.config/transmission-daemon";
-
-          transmission = pkgs.transmission.override { openssl = pkgs.openssl_1_1; };
         in
         {
           wantedBy = lib.mkForce [ ];
@@ -278,7 +276,7 @@ in
             ];
             ExecStart = lib.mkForce (
               pkgs.writeShellScript "transmission-start" ''
-                ${transmission}/bin/transmission-daemon \
+                ${pkgs.transmission}/bin/transmission-daemon \
                     --bind-address-ipv4 "$VPN_IP" \
                     --peerport "$VPN_PORT" \
                     --config-dir "${configDir}" \
