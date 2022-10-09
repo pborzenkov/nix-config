@@ -32,5 +32,11 @@
       COMMAND ${if pkgs.stdenv.isDarwin then "/usr/bin/open" else "${pkgs.xdg-utils}/bin/xdg-open"}
     '';
   };
+
+  xdg.mimeApps = {
+    defaultApplications = {
+      "text/html" = [ "firefox.desktop" ];
+    };
+  };
 }
 

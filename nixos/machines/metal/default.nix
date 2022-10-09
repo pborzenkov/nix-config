@@ -49,7 +49,10 @@
     fsType = "nfs";
   };
 
-  hardware.enableRedistributableFirmware = true;
+  hardware = {
+    enableRedistributableFirmware = true;
+    video.hidpi.enable = true;
+  };
 
   fonts = {
     enableDefaultFonts = true;

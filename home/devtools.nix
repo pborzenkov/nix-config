@@ -53,6 +53,7 @@
     pkgs.sumneko-lua-language-server
     pkgs.terraform-ls
     pkgs.gcc
+    pkgs.gdb
   ];
 
   xdg.configFile = {
