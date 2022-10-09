@@ -28,9 +28,12 @@
   };
 
   home.packages = [
-    # Misc
+    # Common
     pkgs.man-pages
     pkgs.gnumake
+    pkgs.gcc
+    pkgs.gdb
+    pkgs.bcc
 
     # Nix
     pkgs.cachix
@@ -47,13 +50,10 @@
     (pkgs.rust-bin.stable.latest.default.override { extensions = [ "rust-src" ]; })
     pkgs.rust-analyzer
 
-    # Misc
     pkgs.act
     pkgs.efm-langserver
     pkgs.sumneko-lua-language-server
     pkgs.terraform-ls
-    pkgs.gcc
-    pkgs.gdb
   ];
 
   xdg.configFile = {

@@ -299,7 +299,7 @@ in
   webapps.apps.transmission = {
     subDomain = "transmission-ui";
     proxyTo = "http://${transmissionIP}:9091";
-    locations."/" = { auth = true; };
+    locations."/" = { };
     dashboard = {
       name = "Transmission";
       category = "app";
