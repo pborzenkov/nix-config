@@ -14,7 +14,12 @@
         isDefault = true;
         name = "default";
 
-        settings = { };
+        settings = {
+          "browser.download.folderList" = 2;
+          "browser.download.dir" = "${config.home.homeDirectory}/down";
+
+          "signon.rememberSignons" = false;
+        };
       };
       extensions = [
         pkgs.nur.repos.rycee.firefox-addons.browserpass

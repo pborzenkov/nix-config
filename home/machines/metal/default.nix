@@ -76,6 +76,7 @@
 
   xdg = {
     mimeApps.enable = true;
+    userDirs.download = "${config.home.homeDirectory}/down";
     configFile.mkctl = {
       target = "mkctl/mkctl.yml";
       text = builtins.toJSON {
