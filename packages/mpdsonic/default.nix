@@ -1,21 +1,26 @@
-{ lib, fetchFromGitHub, rustPlatform, openssl, pkg-config }:
+{ lib, fetchFromGitHub, rustPlatform, libnfs, openssl, pkg-config }:
 
+let
+  libnfs-pthread = libnfs.overrideAttrs (old: {
+    configureFlags = [ "--enable-pthread" ];
+  });
+in
 rustPlatform.buildRustPackage rec {
   pname = "mpdsonic";
-  version = "0.2.0";
+  version = "0.3.1";
 
   src = fetchFromGitHub {
     owner = "pborzenkov";
     repo = "mpdsonic";
     rev = "v${version}";
-    sha256 = "sha256-pFW/2nX4ui42RDdro2pa7rWI4sh+TduQLjkV6AbBQtU=";
+    sha256 = "sha256-Q6RtGELVWIUnlb/XMMmHtyUpcnt/aqMirlJIdWwlZU4=";
   };
 
-  cargoSha256 = "sha256-1nuanZarniQiKqUUsG5FfIPbPoD+X85wRgHCrP6zD/Q=";
+  cargoSha256 = "sha256-8XZ0UMcgzYwSG8v64E2LsL9ZX18fC0q2HDpAoZxHIFY=";
 
-  nativeBuildInputs = [ pkg-config ];
+  nativeBuildInputs = [ pkg-config rustPlatform.bindgenHook ];
 
-  buildInputs = [ openssl ];
+  buildInputs = [ libnfs-pthread openssl ];
 
   meta = with lib; {
     description = "mpdsonic - expose MPD library via Subsonic protocol";

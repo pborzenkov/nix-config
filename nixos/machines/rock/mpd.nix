@@ -39,12 +39,9 @@
             -a 127.0.0.1:6601 \
             -u pavel@borzenkov.net \
             --mpd-address 127.0.0.1:6600 \
-            --mpd-library /storage/music
+            --mpd-library nfs://helios64.lab.borzenkov.net/storage/music
         '';
         Restart = "always";
-        Environment = [
-          ''RUST_LOG="mpdsonic=debug"''
-        ];
         EnvironmentFile = [
           config.sops.secrets.mpdsonic-environment.path
         ];
