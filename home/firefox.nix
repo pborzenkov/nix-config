@@ -21,13 +21,18 @@
           "signon.rememberSignons" = false;
         };
       };
-      extensions = [
-        pkgs.nur.repos.rycee.firefox-addons.browserpass
-        pkgs.nur.repos.rycee.firefox-addons.translate-web-pages
-        pkgs.nur.repos.rycee.firefox-addons.ublock-origin
+      extensions =
+        let
+          rycee = pkgs.nur.repos.rycee.firefox-addons;
+          pborzenkov = pkgs.nur.repos.pborzenkov.firefox-addons;
+        in
+        [
+          rycee.browserpass
+          rycee.translate-web-pages
+          rycee.ublock-origin
 
-        pkgs.nur.repos.pborzenkov.firefox-addons.wallabagger
-      ];
+          pborzenkov.wallabagger
+        ];
     };
   };
 

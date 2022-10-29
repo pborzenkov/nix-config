@@ -29,6 +29,7 @@
     pkgs.xh
     pkgs.jq
     pkgs.gron
+    pkgs.dig
 
     # Viewers
     pkgs.glow
