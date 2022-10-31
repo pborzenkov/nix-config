@@ -32,6 +32,7 @@
     ./transmission.nix
     #    ./valheim.nix
     ./vlmcsd.nix
+    ./vpn.nix
     ./wallabag.nix
     ./webapps.nix
   ];

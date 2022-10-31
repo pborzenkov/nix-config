@@ -2,7 +2,7 @@
   description = "pborzenkov's nix config";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable-small";
+    nixpkgs.url = "github:pborzenkov/nixpkgs/custom-nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
     nixos-hardware.url = "github:nixos/nixos-hardware";
     darwin = {
