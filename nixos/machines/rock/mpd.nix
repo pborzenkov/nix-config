@@ -42,6 +42,7 @@
             --mpd-library nfs://helios64.lab.borzenkov.net/storage/music
         '';
         Restart = "always";
+        RestartSec = 5;
         EnvironmentFile = [
           config.sops.secrets.mpdsonic-environment.path
         ];

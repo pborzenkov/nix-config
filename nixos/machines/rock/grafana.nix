@@ -5,7 +5,7 @@ in
 {
   webapps.apps.grafana = {
     subDomain = "grafana";
-    proxyTo = "http://127.0.0.1:${toString config.services.grafana.port}";
+    proxyTo = "http://127.0.0.1:${toString config.services.grafana.settings.server.http_port}";
     locations."/" = { auth = true; };
     dashboard = {
       name = "Grafana";
@@ -25,68 +25,90 @@ in
 
   services.grafana = {
     enable = true;
-    analytics.reporting.enable = false;
-    auth.anonymous.enable = false;
-    addr = "0.0.0.0";
 
-    database = {
-      type = "postgres";
-      host = "/run/postgresql:5432";
-      name = "grafana";
-      user = "grafana";
-    };
+    settings = {
+      analytics = {
+        check_for_updates = false;
+        reporting_enabled = false;
+      };
 
-    domain = dashboardDomain;
-    rootUrl = "https://${dashboardDomain}";
-    security = {
-      adminUser = "pavel@borzenkov.net";
-      adminPasswordFile = config.sops.secrets.grafana-admin-password.path;
-    };
+      auth = {
+        disable_login_form = true;
+        disable_signout_menu = true;
+      };
 
-    extraOptions = {
-      AUTH_PROXY_ENABLED = "true";
-      AUTH_PROXY_HEADER_NAME = config.webapps.userIDHeader;
-      AUTH_PROXY_AUTO_SIGN_UP = "true";
-      AUTH_DISABLE_LOGIN_FORM = "true";
-      AUTH_DISABLE_SIGNOUT_MENU = "true";
-      AUTH_AUTH_BASIC_ENABLED = "false";
+      "auth.anonymous" = {
+        enabled = false;
+      };
 
-      ANALYTICS_CHECK_FOR_UPDATES = "false";
-      SECURITY_DISABLE_GRAVATAR = "true";
+      "auth.basic" = {
+        enabled = false;
+      };
 
-      UNIFIED_ALERTING_ENABLED = "true";
+      "auth.proxy" = {
+        enabled = true;
+        header_name = config.webapps.userIDHeader;
+        auto_sign_up = true;
+      };
+
+      database = {
+        type = "postgres";
+        host = "/run/postgresql:5432";
+        name = "grafana";
+        user = "grafana";
+      };
+
+      security = {
+        admin_user = "pavel@borzenkov.net";
+        admin_password__file = config.sops.secrets.grafana-admin-password.path;
+        disable_gravatar = true;
+      };
+
+      server = {
+        domain = dashboardDomain;
+        http_addr = "0.0.0.0";
+        root_url = "https://${dashboardDomain}";
+      };
+
+      unified_alerting = {
+        enabled = true;
+      };
     };
 
     provision = {
       enable = true;
-      datasources = [
-        {
-          name = "Prometheus";
-          type = "prometheus";
-          url = "http://127.0.0.1:${toString config.services.prometheus.port}";
-          access = "proxy";
-          isDefault = true;
-          jsonData = {
-            timeInterval = config.services.prometheus.globalConfig.scrape_interval;
-          };
-        }
-      ];
+      datasources.settings = {
+        apiVersion = 1;
+        datasources = [
+          {
+            name = "Prometheus";
+            type = "prometheus";
+            url = "http://127.0.0.1:${toString config.services.prometheus.port}";
+            access = "proxy";
+            isDefault = true;
+            jsonData = {
+              timeInterval = config.services.prometheus.globalConfig.scrape_interval;
+            };
+          }
+        ];
+      };
 
-      notifiers = [
-        {
-          name = "Telegram";
-          type = "telegram";
-          uid = "telegram";
-          is_default = true;
-          send_reminder = true;
-          frequency = "4h";
-          settings = {
-            chatid = "321151402";
-            bottoken = "\${TELEGRAM_TOKEN}";
-            uploadImage = false;
-          };
-        }
-      ];
+      alerting.contactPoints.settings = {
+        contactPoints = [
+          {
+            name = "Telegram";
+            receivers = [{
+              type = "telegram";
+              uid = "telegram";
+              settings = {
+                chatid = "321151402";
+                bottoken = "\${TELEGRAM_TOKEN}";
+                uploadImage = false;
+              };
+            }];
+          }
+        ];
+      };
     };
   };
 
