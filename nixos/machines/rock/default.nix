@@ -26,6 +26,7 @@
     ./postgresql.nix
     ./prometheus.nix
     ./redis.nix
+    ./rtorrent.nix
     ./skyeng.nix
     ./syncthing.nix
     ./terraform.nix

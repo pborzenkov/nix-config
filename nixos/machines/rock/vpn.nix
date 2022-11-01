@@ -1,7 +1,12 @@
 { config, pkgs, ... }:
 {
   services.netns.namespaces = {
-    amsterdam = { };
+    amsterdam = {
+      sysctl = {
+        "net.core.rmem_max" = 4194304;
+        "net.core.wmem_max" = 12582912;
+      };
+    };
   };
 
   services.openvpn.servers.amsterdam =
