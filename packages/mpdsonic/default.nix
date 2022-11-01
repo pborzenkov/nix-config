@@ -3,6 +3,9 @@
 let
   libnfs-pthread = libnfs.overrideAttrs (old: {
     configureFlags = [ "--enable-pthread" ];
+    patches = [
+      ./libnfs-fix.diff
+    ];
   });
 in
 rustPlatform.buildRustPackage rec {

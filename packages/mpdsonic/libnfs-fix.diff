@@ -1,0 +1,13 @@
+diff --git a/lib/multithreading.c b/lib/multithreading.c
+index b0e717e..0db9923 100644
+--- a/lib/multithreading.c
++++ b/lib/multithreading.c
+@@ -81,7 +81,7 @@ static void *nfs_mt_service_thread(void *arg)
+ 		pfd.events = nfs_which_events(nfs);
+ 		pfd.revents = 0;
+ 
+-		ret = poll(&pfd, 1, 0);
++		ret = poll(&pfd, 1, -1);
+ 		if (ret < 0) {
+ 			nfs_set_error(nfs, "Poll failed");
+ 			revents = -1;
