@@ -44,6 +44,10 @@
     };
   };
 
+  environment.systemPackages = [
+    config.boot.kernelPackages.perf
+  ];
+
   fileSystems."/storage" = {
     device = "helios64.lab.borzenkov.net:/storage";
     fsType = "nfs";

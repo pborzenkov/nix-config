@@ -181,6 +181,40 @@ in
         '';
       };
     };
+
+    rtorrent-exporter = {
+      description = "Prometheus exporter for RTorrent";
+      after = [ "network.target" ];
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        ExecStart = ''
+          ${pkgs.rtorrent-exporter}/bin/rtorrent-exporter \
+            -a 0.0.0.0:29201 \
+            -r https://torrents.lab.borzenkov.net/RPC2
+        '';
+        Restart = "always";
+        DynamicUser = true;
+      };
+    };
+
+  };
+
+  services.prometheus.scrapeConfigs = [
+    {
+      job_name = "rtorrent";
+      static_configs = [
+        {
+          targets = [
+            "rock.lab.borzenkov.net:29201"
+          ];
+        }
+      ];
+    }
+  ];
+
+  sops.secrets = {
+    perfect-privacy-password = { };
+    perfect-privacy-openvpn-key = { };
   };
 
   webapps.apps.torrents = {

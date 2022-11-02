@@ -30,6 +30,7 @@
   home.packages = [
     # Common
     pkgs.man-pages
+    pkgs.man-pages-posix
     pkgs.gnumake
     pkgs.gcc
     pkgs.gdb
