@@ -163,6 +163,7 @@ in
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];
       description = "flood system service";
+      path = [ pkgs.mediainfo ];
       serviceConfig = {
         User = "flood";
         Group = "rtorrent";

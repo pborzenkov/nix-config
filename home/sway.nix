@@ -165,6 +165,10 @@ in
           criteria = { app_id = "ncmpcpp"; };
           command = "floating enable";
         }
+        {
+          criteria = { app_id = "firefox"; title = "Firefox — Sharing Indicator"; };
+          command = "move scratchpad";
+        }
       ];
       startup = [
         { command = "dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK"; }
