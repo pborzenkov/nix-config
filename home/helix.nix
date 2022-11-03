@@ -11,9 +11,18 @@
         theme = config.scheme.slug;
         editor = {
           auto-pairs = false;
+          indent-guides = {
+            render = true;
+          };
           line-number = "relative";
           mouse = false;
           shell = [ "${pkgs.zsh}/bin/zsh" "-c" ];
+          whitespace = {
+            render = {
+              space = "all";
+              tab = "all";
+            };
+          };
         };
       };
       target = "helix/config.toml";
