@@ -109,6 +109,9 @@ in
         method.insert = d.move_to_complete, simple, "execute=mkdir,-p,$argument.1=; execute=cp,-rp,$argument.0=,$argument.1=; d.stop=; d.directory.set=$argument.1=; d.start=;d.save_full_session=; execute=rm, -r, $argument.0="
         method.set_key = event.download.finished,move_complete,"d.move_to_complete=$d.get_data_full_path=,$d.get_finished_dir="
 
+        # Stop uploading after 5x
+        schedule2 = stop_after_5x_ratio, 0, 60, "d.multicall.filtered=started,\"greater=d.ratio=,value=5000\",d.try_stop="
+
         # Limit upload/download to 15M/s
         throttle.global_down.max_rate.set_kb = 15360
         throttle.global_up.max_rate.set_kb = 15360
@@ -123,81 +126,118 @@ in
     };
   };
 
-  systemd.services = {
-    rtorrent =
-      let
-        configFile = pkgs.writeText "rtorrent.rc" cfg.configText;
-      in
-      {
-        after = [ "netns-${vpn}.service" "openvpn-${vpn}.service" ];
-        bindsTo = [ "netns-${vpn}.service" "openvpn-${vpn}.service" ];
-        unitConfig = {
-          JoinsNamespaceOf = [ "netns-${vpn}.service" ];
-          RequiresMountsFor = [ "/storage" ];
-        };
-        serviceConfig = {
-          PrivateNetwork = true;
-          BindReadOnlyPaths = [ "/etc/netns/${vpn}/resolv.conf:/etc/resolv.conf" ];
-          LimitNOFILE = 10240;
+  systemd = {
+    services = {
+      rtorrent =
+        let
+          configFile = pkgs.writeText "rtorrent.rc" cfg.configText;
+        in
+        {
+          after = [ "netns-${vpn}.service" "openvpn-${vpn}.service" ];
+          bindsTo = [ "netns-${vpn}.service" "openvpn-${vpn}.service" ];
+          unitConfig = {
+            JoinsNamespaceOf = [ "netns-${vpn}.service" ];
+            RequiresMountsFor = [ "/storage" ];
+          };
+          serviceConfig = {
+            PrivateNetwork = true;
+            BindReadOnlyPaths = [ "/etc/netns/${vpn}/resolv.conf:/etc/resolv.conf" ];
+            LimitNOFILE = 10240;
 
-          EnvironmentFile = [ "-/var/run/rtorrent/dynamic.env" ];
-          ExecStartPre = lib.mkForce
-            (pkgs.writeShellScript "rtorrent-prestart.sh" ''
-              ${pkgs.bash}/bin/bash -c "if test -e ${cfg.dataDir}/session/rtorrent.lock && test -z $(${pkgs.procps}/bin/pidof rtorrent); then rm -f ${cfg.dataDir}/session/rtorrent.lock; fi"
-              echo "EXTERNAL_ADDRESS=$(${pkgs.curl}/bin/curl ifconfig.co)" > /var/run/rtorrent/dynamic.env
-              echo "PEER_PORT=1$(${get_vpn_port})" >> /var/run/rtorrent/dynamic.env
-              echo "DHT_PORT=2$(${get_vpn_port})" >> /var/run/rtorrent/dynamic.env
-            ''
-            );
-          ExecStart = lib.mkForce ''
-            ${cfg.package}/bin/rtorrent -n -o system.daemon.set=true \
-              -o network.local_address.set=''${EXTERNAL_ADDRESS} \
-              -o network.port_range.set=''${PEER_PORT}-''${PEER_PORT} \
-              -o dht.port.set=''${DHT_PORT} \
-              -o import=${configFile}
+            EnvironmentFile = [ "-/var/run/rtorrent/dynamic.env" ];
+            ExecStartPre = lib.mkForce
+              (pkgs.writeShellScript "rtorrent-prestart.sh" ''
+                ${pkgs.bash}/bin/bash -c "if test -e ${cfg.dataDir}/session/rtorrent.lock && test -z $(${pkgs.procps}/bin/pidof rtorrent); then rm -f ${cfg.dataDir}/session/rtorrent.lock; fi"
+                echo "EXTERNAL_ADDRESS=$(${pkgs.curl}/bin/curl ifconfig.co)" > /var/run/rtorrent/dynamic.env
+                echo "PEER_PORT=1$(${get_vpn_port})" >> /var/run/rtorrent/dynamic.env
+                echo "DHT_PORT=2$(${get_vpn_port})" >> /var/run/rtorrent/dynamic.env
+              ''
+              );
+            ExecStart = lib.mkForce ''
+              ${cfg.package}/bin/rtorrent -n -o system.daemon.set=true \
+                -o network.local_address.set=''${EXTERNAL_ADDRESS} \
+                -o network.port_range.set=''${PEER_PORT}-''${PEER_PORT} \
+                -o dht.port.set=''${DHT_PORT} \
+                -o import=${configFile}
+            '';
+          };
+        };
+
+      flood = {
+        wantedBy = [ "multi-user.target" ];
+        after = [ "network.target" ];
+        description = "flood system service";
+        path = [ pkgs.mediainfo ];
+        serviceConfig = {
+          User = "flood";
+          Group = "rtorrent";
+          DynamicUser = true;
+          Type = "simple";
+          Restart = "on-failure";
+          StateDirectory = "flood";
+          ExecStart = ''
+            ${pkgs.flood}/lib/node_modules/flood/dist/index.js \
+              --auth none \
+              --rundir /var/lib/flood \
+              --host 127.0.0.1 \
+              --port 29200 \
+              --rtsocket ${cfg.rpcSocket} \
+              --allowedpath ${cfg.downloadDir} --allowedpath /storage/torrents
           '';
         };
       };
 
-    flood = {
-      wantedBy = [ "multi-user.target" ];
-      after = [ "network.target" ];
-      description = "flood system service";
-      path = [ pkgs.mediainfo ];
-      serviceConfig = {
-        User = "flood";
-        Group = "rtorrent";
-        DynamicUser = true;
-        Type = "simple";
-        Restart = "on-failure";
-        StateDirectory = "flood";
-        ExecStart = ''
-          ${pkgs.flood}/lib/node_modules/flood/dist/index.js \
-            --auth none \
-            --rundir /var/lib/flood \
-            --host 127.0.0.1 \
-            --port 29200 \
-            --rtsocket ${cfg.rpcSocket} \
-            --allowedpath ${cfg.downloadDir} --allowedpath /storage/torrents
-        '';
+      rtorrent-exporter = {
+        description = "Prometheus exporter for RTorrent";
+        after = [ "network.target" ];
+        wantedBy = [ "multi-user.target" ];
+        serviceConfig = {
+          ExecStart = ''
+            ${pkgs.rtorrent-exporter}/bin/rtorrent-exporter \
+              -a 0.0.0.0:29201 \
+              -r https://torrents.lab.borzenkov.net/RPC2
+          '';
+          Restart = "always";
+          DynamicUser = true;
+        };
+      };
+
+      # Hack until RTorrent is able to change listen port at runtime
+      rtorrent-check-port = {
+        after = [ "rtorrent.service" ];
+        unitConfig = {
+          JoinsNamespaceOf = [ "netns-${vpn}.service" ];
+        };
+        serviceConfig = {
+          PrivateNetwork = true;
+          ExecStart = pkgs.writeShellScript "rtorrent-check-port.sh" ''
+            HAS_PORT=$(${pkgs.procps}/bin/ps ax | ${pkgs.gnugrep}/bin/grep -oP 'network.port_range.set=\K(\d+)')
+            if [ -z "''${HAS_PORT}" ]; then
+              exit 1
+            fi
+
+            WANT_PORT=1$(${get_vpn_port})
+            if [ -z "''${WANT_PORT}" ]; then
+              exit 1
+            fi
+
+            if [ "''${HAS_PORT}" -ne "''${WANT_PORT}" ]; then
+              echo "want: ''${WANT_PORT}, has: ''${HAS_PORT}, restarting rtorrent"
+              ${pkgs.systemd}/bin/systemctl restart rtorrent
+            else
+              echo "want: ''${WANT_PORT}, has: ''${HAS_PORT}"
+            fi
+          '';
+        };
       };
     };
 
-    rtorrent-exporter = {
-      description = "Prometheus exporter for RTorrent";
-      after = [ "network.target" ];
-      wantedBy = [ "multi-user.target" ];
-      serviceConfig = {
-        ExecStart = ''
-          ${pkgs.rtorrent-exporter}/bin/rtorrent-exporter \
-            -a 0.0.0.0:29201 \
-            -r https://torrents.lab.borzenkov.net/RPC2
-        '';
-        Restart = "always";
-        DynamicUser = true;
+    timers.rtorrent-check-port = {
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnCalendar = "minutely";
       };
     };
-
   };
 
   services.prometheus.scrapeConfigs = [
