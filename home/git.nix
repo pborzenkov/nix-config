@@ -10,10 +10,6 @@
       enable = true;
 
       extraConfig = {
-        add.interactive = {
-          useBuiltin = false;
-        };
-
         color = {
           ui = "auto";
         };
