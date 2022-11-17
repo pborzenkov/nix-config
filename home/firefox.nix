@@ -17,6 +17,7 @@
         settings = {
           "browser.download.folderList" = 2;
           "browser.download.dir" = "${config.home.homeDirectory}/down";
+          "browser.startup.page" = 3;
 
           "signon.rememberSignons" = false;
         };

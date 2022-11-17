@@ -35,6 +35,7 @@
     pkgs.glow
 
     # Misc
+    pkgs.bc
     pkgs.envsubst
     pkgs.zip
     pkgs.unzip

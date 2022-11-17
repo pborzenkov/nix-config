@@ -19,7 +19,7 @@ in
   };
 
   virtualisation.oci-containers.containers.photoprism = {
-    image = "photoprism/photoprism:220901-bullseye";
+    image = "photoprism/photoprism:221117-jammy";
     ports = [
       "${port}:${port}"
     ];
