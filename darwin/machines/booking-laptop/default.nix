@@ -9,6 +9,14 @@
     pkgs.slack
   ];
 
+  fonts = {
+    fontDir.enable = true;
+    fonts = [
+      pkgs.corefonts
+      pkgs.nerdfonts
+    ];
+  };
+
   launchd.agents = {
     syncthing = {
       environment = {

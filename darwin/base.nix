@@ -6,14 +6,6 @@
   users.nix.configureBuildUsers = true;
   system.stateVersion = 4;
 
-  fonts = {
-    fontDir.enable = true;
-    fonts = [
-      pkgs.corefonts
-      pkgs.nerdfonts
-    ];
-  };
-
   system = {
     defaults = {
       NSGlobalDomain = {
