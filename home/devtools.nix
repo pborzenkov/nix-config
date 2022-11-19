@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   programs = {
@@ -32,9 +32,6 @@
     pkgs.man-pages
     pkgs.man-pages-posix
     pkgs.gnumake
-    pkgs.gcc
-    pkgs.gdb
-    pkgs.bcc
 
     # Nix
     pkgs.cachix
@@ -55,6 +52,10 @@
     pkgs.efm-langserver
     pkgs.sumneko-lua-language-server
     pkgs.terraform-ls
+  ] ++ lib.optionals (pkgs.stdenv.isLinux) [
+    pkgs.gcc
+    pkgs.gdb
+    pkgs.bcc
   ];
 
   xdg.configFile = {
