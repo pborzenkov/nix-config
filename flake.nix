@@ -171,7 +171,7 @@
 
       darwinConfigurations = {
         booking-laptop = makeDarwin { hostname = "booking-laptop"; };
-        macos = makeDarwin { hostname = "macos"; };
+        macos = makeDarwin { hostname = "macos"; arch = "x86_64-darwin"; };
       };
 
       homeConfigurations = {
