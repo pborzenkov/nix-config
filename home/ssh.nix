@@ -54,6 +54,9 @@
 
       "macos macos.lab.borzenkov.net" = {
         forwardAgent = true;
+        extraOptions = {
+          SetEnv = "TERM=screen-256color";
+        };
       };
 
       "gw gw.lab.borzenkov.net" = {
