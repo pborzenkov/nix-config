@@ -7,6 +7,7 @@
     ../../git.nix
     ../../helix.nix
     ../../ssh.nix
+    ../../tmux.nix
     ../../zsh.nix
   ];
 }
