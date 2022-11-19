@@ -52,6 +52,10 @@
         forwardAgent = true;
       };
 
+      "macos macos.lab.borzenkov.net" = {
+        forwardAgent = true;
+      };
+
       "gw gw.lab.borzenkov.net" = {
         user = "pbor";
       };

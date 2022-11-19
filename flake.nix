@@ -171,12 +171,14 @@
 
       darwinConfigurations = {
         booking-laptop = makeDarwin { hostname = "booking-laptop"; };
+        macos = makeDarwin { hostname = "macos"; };
       };
 
       homeConfigurations = {
         metal = makeHome { hostname = "metal"; };
         rock = makeHome { hostname = "rock"; };
         booking-laptop = makeHome { hostname = "booking-laptop"; arch = "aarch64-darwin"; home = "/Users"; user = "pborzenkov"; };
+        macos = makeHome { hostname = "macos"; arch = "x86_64-darwin"; home = "/Users"; };
       };
 
       deploy = {

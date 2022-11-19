@@ -53,6 +53,7 @@
       pkgs.hunspellDicts.ru_RU
 
       pkgs.nixos-container
+      pkgs.libvirt
     ];
 
   services.gpg-agent = {
@@ -65,6 +66,7 @@
   home.sessionVariables = {
     MOZ_ENABLE_WAYLAND = "1";
     PATH = "\${HOME}/bin:\${PATH}";
+    VIRSH_DEFAULT_CONNECT_URI = "qemu+ssh://rock.lab.borzenkov.net/system";
   };
 
   wayland.windowManager.sway.config.window.commands = [
