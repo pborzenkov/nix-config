@@ -15,11 +15,11 @@
       options = "--delete-older-than 14d";
     };
 
-    allowedUsers = [
-      "@admin"
-    ];
-
     settings = {
+      allowed-users = [
+        "@admin"
+      ];
+
       substituters = [
         "https://nix-community.cachix.org"
         "https://pborzenkov.cachix.org"
