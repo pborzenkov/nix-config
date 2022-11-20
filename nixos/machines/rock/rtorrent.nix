@@ -72,6 +72,9 @@ in
         # Max memory that can be occupied by data pieces
         pieces.memory.max.set = 8G
 
+        # Preload pieces
+        pieces.preload.type.set = 1
+
         # Max number of open HTTP connections
         network.http.max_open.set = 50
 
