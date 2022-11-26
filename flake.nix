@@ -2,7 +2,7 @@
   description = "pborzenkov's nix config";
 
   inputs = {
-    nixpkgs.url = "github:pborzenkov/nixpkgs/custom-nixpkgs";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable-small";
     flake-utils.url = "github:numtide/flake-utils";
     nixos-hardware.url = "github:nixos/nixos-hardware";
     darwin = {
@@ -67,6 +67,8 @@
       url = "github:haozeke/base16-zathura";
       flake = false;
     };
+
+    nixpkgs-openvpn.url = "github:ju1m/nixpkgs/openvpn";
   };
 
   outputs = { self, ... } @ inputs:
@@ -97,11 +99,11 @@
         } // commonNixpkgsConfig)
       ];
 
-      makeNixOS = { hostname, arch ? "x86_64-linux" }: inputs.nixpkgs.lib.nixosSystem {
+      makeNixOS = { hostname, arch ? "x86_64-linux", customModules ? [ ] }: inputs.nixpkgs.lib.nixosSystem {
         system = arch;
         modules = [
           (./nixos/machines + "/${hostname}")
-        ] ++ commonNixOSModules;
+        ] ++ commonNixOSModules ++ customModules;
         specialArgs = {
           inherit inputs;
 
@@ -145,7 +147,12 @@
         };
         pkgs = import inputs.nixpkgs {
           system = arch;
-          config.allowUnfree = true;
+          config = {
+            allowUnfree = true;
+            permittedInsecurePackages = [
+              "qtwebkit-5.212.0-alpha4"
+            ];
+          };
           overlays = [
             inputs.nur.overlay
             (import inputs.rust-overlay)
@@ -157,16 +164,27 @@
     {
       nixosConfigurations = {
         metal = makeNixOS { hostname = "metal"; };
-        rock = makeNixOS { hostname = "rock"; };
-        gw = makeNixOS { hostname = "gw"; };
+        rock = makeNixOS
+          {
+            hostname = "rock";
+            customModules = [
+              "${inputs.nixpkgs-openvpn}/nixos/modules/services/networking/netns.nix"
+              "${inputs.nixpkgs-openvpn}/nixos/modules/services/networking/openvpn.nix"
+            ];
+          } // {
+          disabledModules = [ "services/networking/openvpn.nix" ];
+        };
+        gw = makeNixOS
+          { hostname = "gw"; };
 
         # nix build .#nixosConfigurations.yubikey.config.system.build.isoImage
-        yubikey = inputs.nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./images/yubikey
-          ];
-        };
+        yubikey = inputs.nixpkgs.lib.nixosSystem
+          {
+            system = "x86_64-linux";
+            modules = [
+              ./images/yubikey
+            ];
+          };
       };
 
       darwinConfigurations = {
@@ -222,17 +240,18 @@
           };
         };
       };
-    } // inputs.flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = import inputs.nixpkgs { inherit system; };
-      in
-      {
-        devShell = pkgs.mkShell {
-          nativeBuildInputs = [
-            inputs.deploy-rs.packages.${system}.deploy-rs
+    } // inputs.flake-utils.lib.eachDefaultSystem
+      (system:
+        let
+          pkgs = import inputs.nixpkgs { inherit system; };
+        in
+        {
+          devShell = pkgs.mkShell {
+            nativeBuildInputs = [
+              inputs.deploy-rs.packages.${system}.deploy-rs
 
-            pkgs.luaformatter
-          ];
-        };
-      });
+              pkgs.luaformatter
+            ];
+          };
+        });
 }
