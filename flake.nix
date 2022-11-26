@@ -99,10 +99,13 @@
         } // commonNixpkgsConfig)
       ];
 
-      makeNixOS = { hostname, arch ? "x86_64-linux", customModules ? [ ] }: inputs.nixpkgs.lib.nixosSystem {
+      makeNixOS = { hostname, arch ? "x86_64-linux", disabledModules ? [ ], customModules ? [ ] }: inputs.nixpkgs.lib.nixosSystem {
         system = arch;
         modules = [
           (./nixos/machines + "/${hostname}")
+          {
+            disabledModules = disabledModules;
+          }
         ] ++ commonNixOSModules ++ customModules;
         specialArgs = {
           inherit inputs;
@@ -167,13 +170,12 @@
         rock = makeNixOS
           {
             hostname = "rock";
+            disabledModules = [ "services/networking/openvpn.nix" ];
             customModules = [
               "${inputs.nixpkgs-openvpn}/nixos/modules/services/networking/netns.nix"
               "${inputs.nixpkgs-openvpn}/nixos/modules/services/networking/openvpn.nix"
             ];
-          } // {
-          disabledModules = [ "services/networking/openvpn.nix" ];
-        };
+          };
         gw = makeNixOS
           { hostname = "gw"; };
 
