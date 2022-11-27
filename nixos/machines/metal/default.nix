@@ -7,7 +7,7 @@
     inputs.nixos-hardware.nixosModules.common-cpu-amd
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
-    ../../docker.nix
+    ../../podman.nix
 
     ./login.nix
     ./sound.nix
@@ -104,7 +104,7 @@
       package = pkgs.wireshark;
     };
   };
-  users.users.pbor.extraGroups = [ "adbusers" "docker" "wireshark" ];
+  users.users.pbor.extraGroups = [ "adbusers" "kvm" "wireshark" ];
 
   powerManagement = {
     enable = true;
@@ -132,5 +132,5 @@
 
   time.timeZone = "Europe/Amsterdam";
 
-  system.stateVersion = "21.11";
+  system.stateVersion = "22.05";
 }

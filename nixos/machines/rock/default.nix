@@ -11,7 +11,6 @@
 
     inputs.sops-nix.nixosModules.sops
 
-    ../../docker.nix
     ../../openssh.nix
 
     ./anki.nix
@@ -64,7 +63,7 @@
     fsType = "nfs";
   };
 
-  users.users.pbor.extraGroups = [ "docker" "libvirtd" ];
+  users.users.pbor.extraGroups = [ "libvirtd" ];
 
   hardware.enableRedistributableFirmware = true;
 
@@ -126,10 +125,6 @@
   '';
 
   time.timeZone = "Europe/Amsterdam";
-
-  virtualisation = {
-    oci-containers.backend = "docker";
-  };
 
   system.stateVersion = "20.09";
 }
