@@ -37,7 +37,7 @@ in
     environment = {
       PHOTOPRISM_AUTH_MODE = "password";
 
-      PHOTOPRISM_LOG_LEVEL = "trace";
+      PHOTOPRISM_LOG_LEVEL = "info";
       PHOTOPRISM_ORIGINALS_PATH = "/storage/photos";
       PHOTOPRISM_STORAGE_PATH = "/var/lib/photoprism";
       PHOTOPRISM_IMPORT_PATH = "/var/lib/photoprism/import";
