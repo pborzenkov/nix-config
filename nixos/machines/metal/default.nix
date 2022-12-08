@@ -10,6 +10,7 @@
     ../../podman.nix
 
     ./login.nix
+    ./nix.nix
     ./sound.nix
     ./syncthing.nix
   ];

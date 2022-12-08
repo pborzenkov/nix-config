@@ -152,9 +152,6 @@
           system = arch;
           config = {
             allowUnfree = true;
-            permittedInsecurePackages = [
-              "qtwebkit-5.212.0-alpha4"
-            ];
           };
           overlays = [
             inputs.nur.overlay

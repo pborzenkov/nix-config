@@ -47,11 +47,6 @@
       pkgs.flac
       pkgs.cuetools
 
-      pkgs.goldendict
-      pkgs.hunspellDicts.en_GB-large
-      pkgs.hunspellDicts.nl_NL
-      pkgs.hunspellDicts.ru_RU
-
       pkgs.nixos-container
       pkgs.libvirt
     ];
