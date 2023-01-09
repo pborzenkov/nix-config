@@ -61,6 +61,7 @@
 
   home.sessionVariables = {
     MOZ_ENABLE_WAYLAND = "1";
+    NIXOS_OZONE_WL = "1";
     PATH = "\${HOME}/bin:\${PATH}";
     VIRSH_DEFAULT_CONNECT_URI = "qemu+ssh://rock.lab.borzenkov.net/system";
   };
