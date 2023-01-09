@@ -40,6 +40,10 @@
           }
           {
             name = "nix";
+            formatter = {
+              command = "alejandra";
+              args = ["-"];
+            };
             auto-format = true;
           }
           {
