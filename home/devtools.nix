@@ -38,7 +38,8 @@
     pkgs.nix-prefetch-github
     pkgs.nix-update
     pkgs.nixpkgs-review
-    pkgs.rnix-lsp
+    pkgs.nil
+    pkgs.alejandra
 
     # Go
     pkgs.go_1_18

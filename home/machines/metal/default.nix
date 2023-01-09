@@ -1,6 +1,9 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   imports = [
     ../../basetools.nix
     ../../devtools.nix
@@ -27,30 +30,28 @@
     ./sway.nix
   ];
 
-  home.packages =
-    let
-      anki = pkgs.writeScriptBin "anki" ''
-        export ANKI_WAYLAND=1
-        exec ${pkgs.anki-bin}/bin/anki
-      '';
-    in
-    [
-      anki
-      pkgs.tdesktop
-      pkgs.calibre
-      pkgs.tremc
-      pkgs.virt-manager
-      pkgs.libreoffice
-      pkgs.jellyfin-media-player
-      pkgs.picard
-      pkgs.shntool
-      pkgs.flac
-      pkgs.cuetools
-      pkgs.slack
+  home.packages = let
+    anki = pkgs.writeScriptBin "anki" ''
+      export ANKI_WAYLAND=1
+      exec ${pkgs.anki-bin}/bin/anki
+    '';
+  in [
+    anki
+    pkgs.tdesktop
+    pkgs.calibre
+    pkgs.tremc
+    pkgs.virt-manager
+    pkgs.libreoffice
+    pkgs.jellyfin-media-player
+    pkgs.picard
+    pkgs.shntool
+    pkgs.flac
+    pkgs.cuetools
+    pkgs.slack
 
-      pkgs.nixos-container
-      pkgs.libvirt
-    ];
+    pkgs.nixos-container
+    pkgs.libvirt
+  ];
 
   services.gpg-agent = {
     enable = true;
@@ -68,13 +69,18 @@
 
   wayland.windowManager.sway.config.window.commands = [
     {
-      criteria = { app_id = "org.jellyfin."; };
+      criteria = {app_id = "org.jellyfin.";};
       command = "inhibit_idle visible";
     }
   ];
 
   xdg = {
-    mimeApps.enable = true;
+    mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "x-scheme-handler/tg" = ["org.telegram.desktop.desktop"];
+      };
+    };
     userDirs.download = "${config.home.homeDirectory}/down";
     configFile.mkctl = {
       target = "mkctl/mkctl.yml";
@@ -83,7 +89,7 @@
           "router" = {
             MAC = "18:fd:74:78:3d:99";
             SSH = {
-              password_cmd = [ "${pkgs.pass}/bin/pass" "show" "misc/mikrotik-router" ];
+              password_cmd = ["${pkgs.pass}/bin/pass" "show" "misc/mikrotik-router"];
               host_key = ''
                 -----BEGIN PUBLIC KEY-----
                 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA41mNHUIM4HK1hrUMuYrl
@@ -100,7 +106,7 @@
           "living-room" = {
             MAC = "2c:c8:1b:7b:6b:3b";
             SSH = {
-              password_cmd = [ "${pkgs.pass}/bin/pass" "show" "misc/mikrotik-router" ];
+              password_cmd = ["${pkgs.pass}/bin/pass" "show" "misc/mikrotik-router"];
               host_key = ''
                 -----BEGIN PUBLIC KEY-----
                 MIIBIDANBgkqhkiG9w0BAQEFAAOCAQ0AMIIBCAKCAQEAsCIdE1htpX5jsecWL8Yd
