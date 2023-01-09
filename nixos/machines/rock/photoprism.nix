@@ -1,8 +1,11 @@
-{ config, pkgs, webapps, ... }:
-let
-  port = "8084";
-in
 {
+  config,
+  pkgs,
+  webapps,
+  ...
+}: let
+  port = "8084";
+in {
   webapps.apps.photoprism = {
     subDomain = "photos";
     proxyTo = "http://127.0.0.1:${port}";
@@ -19,8 +22,8 @@ in
   };
 
   systemd.services.photoprism = {
-    wantedBy = [ "multi-user.target" ];
-    after = [ "network.target" ];
+    wantedBy = ["multi-user.target"];
+    after = ["network.target"];
     description = "photoprism system service";
 
     serviceConfig = {
@@ -31,7 +34,7 @@ in
       Restart = "on-failure";
       StateDirectory = "photoprism";
       ExecStart = "${pkgs.photoprism}/bin/photoprism start";
-      EnvironmentFile = [ config.sops.secrets.photoprism-environment.path ];
+      EnvironmentFile = [config.sops.secrets.photoprism-environment.path];
     };
 
     environment = {
@@ -80,11 +83,11 @@ in
     };
 
     unitConfig = {
-      RequiresMountsFor = [ "/storage" ];
+      RequiresMountsFor = ["/storage"];
     };
   };
 
-  sops.secrets.photoprism-environment = { };
+  sops.secrets.photoprism-environment = {};
 
   backup.fsBackups = {
     photos = {

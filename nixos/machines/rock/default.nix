@@ -1,6 +1,12 @@
-{ config, lib, pkgs, modulesPath, nur, inputs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  nur,
+  inputs,
+  ...
+}: {
   imports = [
     ./hardware-configuration.nix
 
@@ -55,7 +61,7 @@
       "nct6775"
     ];
 
-    supportedFilesystems = [ "ntfs" ];
+    supportedFilesystems = ["ntfs"];
   };
 
   fileSystems."/storage" = {
@@ -63,7 +69,7 @@
     fsType = "nfs";
   };
 
-  users.users.pbor.extraGroups = [ "libvirtd" ];
+  users.users.pbor.extraGroups = ["libvirtd"];
 
   hardware.enableRedistributableFirmware = true;
 
@@ -101,7 +107,7 @@
       "40-enp2s0" = {
         enable = true;
         name = "enp2s0";
-        macvlan = [ "mv-host" ];
+        macvlan = ["mv-host"];
         networkConfig = {
           LinkLocalAddressing = "no";
         };

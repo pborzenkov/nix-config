@@ -1,6 +1,9 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   programs = {
     direnv = {
       enable = true;
@@ -27,38 +30,40 @@
     };
   };
 
-  home.packages = [
-    # Common
-    pkgs.man-pages
-    pkgs.man-pages-posix
-    pkgs.gnumake
+  home.packages =
+    [
+      # Common
+      pkgs.man-pages
+      pkgs.man-pages-posix
+      pkgs.gnumake
 
-    # Nix
-    pkgs.cachix
-    pkgs.nix-prefetch-github
-    pkgs.nix-update
-    pkgs.nixpkgs-review
-    pkgs.nil
-    pkgs.alejandra
+      # Nix
+      pkgs.cachix
+      pkgs.nix-prefetch-github
+      pkgs.nix-update
+      pkgs.nixpkgs-review
+      pkgs.nil
+      pkgs.alejandra
 
-    # Go
-    pkgs.go_1_18
-    pkgs.gopls
+      # Go
+      pkgs.go_1_18
+      pkgs.gopls
 
-    # Rust
-    (pkgs.rust-bin.stable.latest.default.override { extensions = [ "rust-src" ]; })
-    pkgs.rust-analyzer
+      # Rust
+      (pkgs.rust-bin.stable.latest.default.override {extensions = ["rust-src"];})
+      pkgs.rust-analyzer
 
-    pkgs.act
-    pkgs.efm-langserver
-    pkgs.sumneko-lua-language-server
-    pkgs.terraform-ls
-    pkgs.radare2
-  ] ++ lib.optionals (pkgs.stdenv.isLinux) [
-    pkgs.gcc
-    pkgs.gdb
-    pkgs.bcc
-  ];
+      pkgs.act
+      pkgs.efm-langserver
+      pkgs.sumneko-lua-language-server
+      pkgs.terraform-ls
+      pkgs.radare2
+    ]
+    ++ lib.optionals (pkgs.stdenv.isLinux) [
+      pkgs.gcc
+      pkgs.gdb
+      pkgs.bcc
+    ];
 
   xdg.configFile = {
     "psqlrc" = {

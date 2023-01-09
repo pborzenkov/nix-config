@@ -1,5 +1,8 @@
-{ config, pkgs, ... }:
 {
+  config,
+  pkgs,
+  ...
+}: {
   virtualisation.oci-containers.containers.valheim = {
     image = "ghcr.io/lloesche/valheim-server";
     ports = [
@@ -27,9 +30,9 @@
     ];
   };
 
-  networking.firewall.allowedUDPPorts = [ 2456 2457 ];
+  networking.firewall.allowedUDPPorts = [2456 2457];
 
-  sops.secrets.valheim-environment = { };
+  sops.secrets.valheim-environment = {};
 
   backup.fsBackups = {
     valheim = {

@@ -1,6 +1,9 @@
-{ config, pkgs, lib, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   programs.ssh = {
     enable = true;
 
@@ -42,7 +45,10 @@
         remoteForwards = [
           {
             bind.address = "/run/user/1000/gnupg/S.gpg-agent";
-            host.address = if pkgs.stdenv.isLinux then "/run/user/1000/gnupg/S.gpg-agent.extra" else "${config.home.homeDirectory}/.gnupg/S.gpg-agent.extra";
+            host.address =
+              if pkgs.stdenv.isLinux
+              then "/run/user/1000/gnupg/S.gpg-agent.extra"
+              else "${config.home.homeDirectory}/.gnupg/S.gpg-agent.extra";
           }
         ];
       };
@@ -64,6 +70,6 @@
       };
     };
 
-    includes = [ "config.local" ];
+    includes = ["config.local"];
   };
 }

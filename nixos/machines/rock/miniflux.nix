@@ -1,14 +1,16 @@
-{ config, pkgs, webapps, ... }:
-
-let
-  port = "8083";
-in
 {
+  config,
+  pkgs,
+  webapps,
+  ...
+}: let
+  port = "8083";
+in {
   webapps.apps.miniflux = {
     subDomain = "rss";
     proxyTo = "http://127.0.0.1:${port}";
-    locations."/" = { auth = true; };
-    locations."/fever/" = { };
+    locations."/" = {auth = true;};
+    locations."/fever/" = {};
     dashboard = {
       name = "Miniflux";
       category = "app";
@@ -32,5 +34,5 @@ in
     database = "miniflux";
   };
 
-  sops.secrets.miniflux-admin-credentials = { };
+  sops.secrets.miniflux-admin-credentials = {};
 }

@@ -1,6 +1,9 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   options.webapps = {
     domain = lib.mkOption {
       type = lib.types.str;
@@ -15,7 +18,7 @@
         Additional sub-domains for wildcard certificate.
       '';
       example = "lab.borzenkov.net";
-      default = [ ];
+      default = [];
     };
 
     userIDHeader = lib.mkOption {
@@ -85,11 +88,12 @@
           tag = "app";
         }
       ];
-      default = [ ];
+      default = [];
     };
 
     apps = lib.mkOption {
-      type = lib.types.attrsOf
+      type =
+        lib.types.attrsOf
         (lib.types.submodule {
           options = {
             subDomain = lib.mkOption {
@@ -124,10 +128,9 @@
                       Custom config merged into the location config.
                     '';
                     default = null;
-                    example =
-                      {
-                        proxyWebsockets = true;
-                      };
+                    example = {
+                      proxyWebsockets = true;
+                    };
                   };
                 };
               });
@@ -138,10 +141,9 @@
                 Custom config merged into the virtual host config.
               '';
               default = null;
-              example =
-                {
-                  root = "/var/root";
-                };
+              example = {
+                root = "/var/root";
+              };
             };
             dashboard.name = lib.mkOption {
               type = lib.types.nullOr lib.types.str;
@@ -172,111 +174,121 @@
       description = ''
         Defines a web application.
       '';
-      default = { };
+      default = {};
     };
   };
 
-  config =
-    let
-      cfg = config.webapps;
-    in
-    {
-      security.acme = {
-        acceptTerms = true;
-        defaults.email = "pavel@borzenkov.net";
-        certs."${cfg.domain}" = {
-          extraDomainNames = [ "*.${cfg.domain}" ] ++ builtins.map (d: "*.${d}.${cfg.domain}") cfg.subDomains;
-          dnsProvider = cfg.acmeDNSProvider;
-          dnsResolver = "1.1.1.1:53";
-          credentialsFile = cfg.acmeCredentialsFile;
-          dnsPropagationCheck = true;
-          group = config.users.users.nginx.group;
-        };
+  config = let
+    cfg = config.webapps;
+  in {
+    security.acme = {
+      acceptTerms = true;
+      defaults.email = "pavel@borzenkov.net";
+      certs."${cfg.domain}" = {
+        extraDomainNames = ["*.${cfg.domain}"] ++ builtins.map (d: "*.${d}.${cfg.domain}") cfg.subDomains;
+        dnsProvider = cfg.acmeDNSProvider;
+        dnsResolver = "1.1.1.1:53";
+        credentialsFile = cfg.acmeCredentialsFile;
+        dnsPropagationCheck = true;
+        group = config.users.users.nginx.group;
       };
-      systemd.services."acme-${cfg.domain}".after = [ "network-online.target" ];
+    };
+    systemd.services."acme-${cfg.domain}".after = ["network-online.target"];
 
-      services.nginx = {
-        enable = true;
+    services.nginx = {
+      enable = true;
 
-        recommendedGzipSettings = true;
-        recommendedOptimisation = true;
-        recommendedProxySettings = true;
-        recommendedTlsSettings = true;
+      recommendedGzipSettings = true;
+      recommendedOptimisation = true;
+      recommendedProxySettings = true;
+      recommendedTlsSettings = true;
 
-        virtualHosts = {
+      virtualHosts =
+        {
           "${cfg.domain}" = {
             default = true;
             locations."/".return = "404";
             forceSSL = true;
             useACMEHost = cfg.domain;
           };
-        } // lib.mapAttrs'
-          (vhostName: vhostConfig: lib.nameValuePair ("${vhostConfig.subDomain}.${cfg.domain}") (
-            let
-              needAuth = lib.any (x: x) (lib.mapAttrsToList (locName: locConfig: locConfig.auth) vhostConfig.locations);
-            in
-            {
-              forceSSL = true;
-              useACMEHost = cfg.domain;
-              locations = (lib.mapAttrs
-                (locName: locConfig: ({
-                  proxyPass = if vhostConfig.proxyTo != null then "${vhostConfig.proxyTo}$request_uri" else null;
-                  extraConfig = lib.optionalString locConfig.auth ''
-                    auth_request /auth;
-                    error_page 401 = @error401;
+        }
+        // lib.mapAttrs'
+        (
+          vhostName: vhostConfig:
+            lib.nameValuePair "${vhostConfig.subDomain}.${cfg.domain}" (
+              let
+                needAuth = lib.any (x: x) (lib.mapAttrsToList (locName: locConfig: locConfig.auth) vhostConfig.locations);
+              in
+                {
+                  forceSSL = true;
+                  useACMEHost = cfg.domain;
+                  locations =
+                    (lib.mapAttrs
+                      (locName: locConfig: ({
+                          proxyPass =
+                            if vhostConfig.proxyTo != null
+                            then "${vhostConfig.proxyTo}$request_uri"
+                            else null;
+                          extraConfig = lib.optionalString locConfig.auth ''
+                            auth_request /auth;
+                            error_page 401 = @error401;
 
-                    auth_request_set $cookie $upstream_http_set_cookie;
-                    add_header Set-Cookie $cookie;
-                    auth_request_set $username $upstream_http_x_username;
-                    proxy_set_header ${cfg.userIDHeader} $username;
-                  '';
-                } // lib.optionalAttrs (locConfig.custom != null) locConfig.custom))
-                vhostConfig.locations) // lib.optionalAttrs needAuth {
-                "/auth" = {
-                  proxyPass = "${cfg.ssoInternalAddress}/auth";
-                  extraConfig = ''
-                    internal;
+                            auth_request_set $cookie $upstream_http_set_cookie;
+                            add_header Set-Cookie $cookie;
+                            auth_request_set $username $upstream_http_x_username;
+                            proxy_set_header ${cfg.userIDHeader} $username;
+                          '';
+                        }
+                        // lib.optionalAttrs (locConfig.custom != null) locConfig.custom))
+                      vhostConfig.locations)
+                    // lib.optionalAttrs needAuth {
+                      "/auth" = {
+                        proxyPass = "${cfg.ssoInternalAddress}/auth";
+                        extraConfig = ''
+                          internal;
 
-                    proxy_pass_request_body off;
-                    proxy_set_header Content-Length "";
+                          proxy_pass_request_body off;
+                          proxy_set_header Content-Length "";
 
-                    proxy_set_header X-Host $http_host;
-                    proxy_set_header X-Origin-URI $request_uri;
-                  '';
-                };
+                          proxy_set_header X-Host $http_host;
+                          proxy_set_header X-Origin-URI $request_uri;
+                        '';
+                      };
 
-                "@error401" = lib.optionalAttrs needAuth {
-                  return = "302 https://${cfg.ssoSubDomain}.${cfg.domain}/login?go=$scheme://$http_host$request_uri";
-                };
-              };
-            } // lib.optionalAttrs (vhostConfig.custom != null) vhostConfig.custom
-          )
-          )
-          cfg.apps;
-      };
-
-      lib.webapps.homerServices =
-        let
-          apps = builtins.filter (a: a.dashboard.name != null) (lib.attrValues cfg.apps);
-        in
-        lib.forEach cfg.dashboardCategories (cat:
-          let
-            catApps = lib.sort (a: b: a.dashboard.name < b.dashboard.name) (
-              builtins.filter
-                (a:
-                  a.dashboard.category != null && a.dashboard.category == cat.tag ||
-                  a.dashboard.category == null && cat.tag == "misc")
-                apps);
-          in
-          {
-            name = cat.name;
-            items = lib.forEach catApps (a: {
-              name = a.dashboard.name;
-              icon = lib.optionalString (a.dashboard.icon != null) "fas fa-${a.dashboard.icon}";
-              url = "https://${a.subDomain}.${cfg.domain}";
-              target = "_blank";
-            });
-          }
-        );
+                      "@error401" = lib.optionalAttrs needAuth {
+                        return = "302 https://${cfg.ssoSubDomain}.${cfg.domain}/login?go=$scheme://$http_host$request_uri";
+                      };
+                    };
+                }
+                // lib.optionalAttrs (vhostConfig.custom != null) vhostConfig.custom
+            )
+        )
+        cfg.apps;
     };
+
+    lib.webapps.homerServices = let
+      apps = builtins.filter (a: a.dashboard.name != null) (lib.attrValues cfg.apps);
+    in
+      lib.forEach cfg.dashboardCategories (
+        cat: let
+          catApps = lib.sort (a: b: a.dashboard.name < b.dashboard.name) (
+            builtins.filter
+            (a:
+              a.dashboard.category
+              != null
+              && a.dashboard.category == cat.tag
+              || a.dashboard.category == null && cat.tag == "misc")
+            apps
+          );
+        in {
+          name = cat.name;
+          items = lib.forEach catApps (a: {
+            name = a.dashboard.name;
+            icon = lib.optionalString (a.dashboard.icon != null) "fas fa-${a.dashboard.icon}";
+            url = "https://${a.subDomain}.${cfg.domain}";
+            target = "_blank";
+          });
+        }
+      );
+  };
 }

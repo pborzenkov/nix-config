@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
-let
+{
+  config,
+  pkgs,
+  ...
+}: let
   sway-run = pkgs.writeShellScriptBin "sway-run" ''
     export XDG_SESSION_TYPE=wayland;
     export XDG_SESSION_DESKTOP=wayland;
@@ -10,8 +12,7 @@ let
 
     systemd-cat --identifier=sway sway $@
   '';
-in
-{
+in {
   services.greetd = {
     enable = true;
     settings = {
@@ -33,4 +34,3 @@ in
     ];
   };
 }
-

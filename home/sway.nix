@@ -1,6 +1,10 @@
-{ config, pkgs, lib, inputs, ... }:
-
-let
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}: let
   scratchTerm = pkgs.writeShellScript "scratch-term.sh" ''
     jq=${pkgs.jq}/bin/jq
     tree=$(${pkgs.sway}/bin/swaymsg -t get_tree)
@@ -16,8 +20,7 @@ let
 
     exec ${pkgs.sway}/bin/swaymsg '[con_mark="scratch-term"] move scratchpad'
   '';
-in
-{
+in {
   wayland.windowManager.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
@@ -28,10 +31,9 @@ in
       terminal = "${pkgs.foot}/bin/foot";
 
       bindkeysToCode = true;
-      keybindings =
-        let
-          modifier = config.wayland.windowManager.sway.config.modifier;
-        in
+      keybindings = let
+        modifier = config.wayland.windowManager.sway.config.modifier;
+      in
         lib.mkOptionDefault {
           "${modifier}+Return" = lib.mkForce null;
           "${modifier}+space" = lib.mkForce null;
@@ -76,7 +78,7 @@ in
           position = "top";
           statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ${config.xdg.configHome}/i3status-rust/config-default.toml";
           fonts = {
-            names = [ "MesloLGS Nerd Font Mono" "Font Awesome 5 Free" ];
+            names = ["MesloLGS Nerd Font Mono" "Font Awesome 5 Free"];
             style = "Regular";
             size = 12.0;
           };
@@ -154,24 +156,27 @@ in
 
       window.commands = [
         {
-          criteria = { app_id = "zoom"; };
+          criteria = {app_id = "zoom";};
           command = "floating enable";
         }
         {
-          criteria = { app_id = "scratch-term"; };
+          criteria = {app_id = "scratch-term";};
           command = ''mark "scratch-term", move scratchpad, scratchpad show'';
         }
         {
-          criteria = { app_id = "ncmpcpp"; };
+          criteria = {app_id = "ncmpcpp";};
           command = "floating enable";
         }
         {
-          criteria = { app_id = "firefox"; title = "Firefox — Sharing Indicator"; };
+          criteria = {
+            app_id = "firefox";
+            title = "Firefox — Sharing Indicator";
+          };
           command = "move scratchpad";
         }
       ];
       startup = [
-        { command = "dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK"; }
+        {command = "dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK";}
       ];
     };
     extraConfig = ''
@@ -187,18 +192,18 @@ in
   systemd.user.services.swayidle = {
     Unit = {
       Description = "Idle manager for Wayland";
-      PartOf = [ "sway-session.target" ];
-      After = [ "sway-session.target" ];
+      PartOf = ["sway-session.target"];
+      After = ["sway-session.target"];
     };
 
     Service = {
       Type = "simple";
       Restart = "on-failure";
       RestartSec = "1sec";
-      Environment = [ "PATH=${dirOf pkgs.stdenv.shell}:$PATH" ];
+      Environment = ["PATH=${dirOf pkgs.stdenv.shell}:$PATH"];
       ExecStart = "${pkgs.swayidle}/bin/swayidle -w";
     };
-    Install.WantedBy = [ "sway-session.target" ];
+    Install.WantedBy = ["sway-session.target"];
   };
 
   services.dunst = {

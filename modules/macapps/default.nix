@@ -1,16 +1,18 @@
-{ config, lib, pkgs, ... }:
-
-let
-  cfg = config.macapps;
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  cfg = config.macapps;
+in {
   options.macapps = {
     packages = lib.mkOption {
       type = lib.types.listOf lib.types.package;
       description = ''
         List of packages to link to ~/Applications
       '';
-      example = [ pkgs.alacritty ];
+      example = [pkgs.alacritty];
     };
   };
 
@@ -24,23 +26,21 @@ in
         }
       );
 
-      activationScripts.applications.text = lib.mkForce (
-        ''
-          if [[ -L "$HOME/Applications" ]]; then
-            rm "$HOME/Applications"
-            mkdir -p "$HOME/Applications/Nix";
-          fi
+      activationScripts.applications.text = lib.mkForce ''
+        if [[ -L "$HOME/Applications" ]]; then
+          rm "$HOME/Applications"
+          mkdir -p "$HOME/Applications/Nix";
+        fi
 
-          rm -rf "$HOME/Applications/Nix"
-          mkdir -p "$HOME/Applications/Nix"
+        rm -rf "$HOME/Applications/Nix"
+        mkdir -p "$HOME/Applications/Nix"
 
-          for app in $(find ${config.system.build.applications}/Applications -maxdepth 1 -type l); do
-            src="$(/usr/bin/stat -f%Y "$app")"
-            echo "Copying $app"
-            cp -rL "$src" "$HOME/Applications/Nix"
-          done
-        ''
-      );
+        for app in $(find ${config.system.build.applications}/Applications -maxdepth 1 -type l); do
+          src="$(/usr/bin/stat -f%Y "$app")"
+          echo "Copying $app"
+          cp -rL "$src" "$HOME/Applications/Nix"
+        done
+      '';
     };
   };
 }

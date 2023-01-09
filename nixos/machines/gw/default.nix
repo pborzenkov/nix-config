@@ -1,10 +1,13 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, modulesPath, inputs, ... }:
-
 {
+  config,
+  pkgs,
+  modulesPath,
+  inputs,
+  ...
+}: {
   imports = [
     ./hardware-configuration.nix
 
@@ -21,7 +24,7 @@
     loader.grub = {
       enable = true;
       version = 2;
-      devices = [ "/dev/vda" ];
+      devices = ["/dev/vda"];
     };
 
     kernelPackages = pkgs.linuxPackages_6_0;
@@ -35,7 +38,7 @@
 
     firewall = {
       enable = true;
-      trustedInterfaces = [ "wg0" ];
+      trustedInterfaces = ["wg0"];
     };
   };
 
@@ -56,7 +59,7 @@
           {
             wireguardPeerConfig = {
               PublicKey = "/qcJiPDpknM7hvAwfrxUS5D8IGJ3RAiTVYlfdg8eZzk=";
-              AllowedIPs = [ "192.168.88.0/24" "192.168.111.0/24" ];
+              AllowedIPs = ["192.168.88.0/24" "192.168.111.0/24"];
               Endpoint = "vpn.borzenkov.net:13231";
               PersistentKeepalive = 15;
             };
@@ -90,8 +93,8 @@
             };
           }
         ];
-        dns = [ "192.168.111.1" ];
-        domains = [ "lab.borzenkov.net" ];
+        dns = ["192.168.111.1"];
+        domains = ["lab.borzenkov.net"];
       };
     };
   };

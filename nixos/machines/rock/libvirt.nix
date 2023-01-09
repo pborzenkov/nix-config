@@ -1,6 +1,9 @@
-{ config, pkgs, lib, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   virtualisation.libvirtd.enable = true;
   security.polkit.enable = true;
 

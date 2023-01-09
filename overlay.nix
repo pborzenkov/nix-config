@@ -1,9 +1,7 @@
-final: prev:
+final: prev: {
+  ankisyncd-rs = final.callPackage ./packages/ankisyncd-rs {};
 
-{
-  ankisyncd-rs = final.callPackage ./packages/ankisyncd-rs { };
+  mpdsonic = final.callPackage ./packages/mpdsonic {};
 
-  mpdsonic = final.callPackage ./packages/mpdsonic { };
-
-  rtorrent-exporter = final.callPackage ./packages/rtorrent-exporter { };
+  rtorrent-exporter = final.callPackage ./packages/rtorrent-exporter {};
 }

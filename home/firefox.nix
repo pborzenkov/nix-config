@@ -1,10 +1,12 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs = {
     browserpass = {
       enable = true;
-      browsers = [ "firefox" ];
+      browsers = ["firefox"];
     };
 
     firefox = {
@@ -22,32 +24,33 @@
           "signon.rememberSignons" = false;
         };
       };
-      extensions =
-        let
-          rycee = pkgs.nur.repos.rycee.firefox-addons;
-          pborzenkov = pkgs.nur.repos.pborzenkov.firefox-addons;
-        in
-        [
-          rycee.browserpass
-          rycee.translate-web-pages
-          rycee.ublock-origin
+      extensions = let
+        rycee = pkgs.nur.repos.rycee.firefox-addons;
+        pborzenkov = pkgs.nur.repos.pborzenkov.firefox-addons;
+      in [
+        rycee.browserpass
+        rycee.translate-web-pages
+        rycee.ublock-origin
 
-          pborzenkov.wallabagger
-        ];
+        pborzenkov.wallabagger
+      ];
     };
   };
 
   home.file.urlview = {
     target = ".urlview";
     text = ''
-      COMMAND ${if pkgs.stdenv.isDarwin then "/usr/bin/open" else "${pkgs.xdg-utils}/bin/xdg-open"}
+      COMMAND ${
+        if pkgs.stdenv.isDarwin
+        then "/usr/bin/open"
+        else "${pkgs.xdg-utils}/bin/xdg-open"
+      }
     '';
   };
 
   xdg.mimeApps = {
     defaultApplications = {
-      "text/html" = [ "firefox.desktop" ];
+      "text/html" = ["firefox.desktop"];
     };
   };
 }
-

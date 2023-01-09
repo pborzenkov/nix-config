@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
-let
+{
+  config,
+  pkgs,
+  ...
+}: let
   cfg = {
     listen = {
       host = "127.0.0.1";
@@ -15,31 +17,28 @@ let
       key_file = "";
     };
   };
-in
-{
+in {
   webapps.apps.anki = {
     subDomain = "anki";
     proxyTo = "http://127.0.0.1:${toString cfg.listen.port}";
-    locations."/" = { };
+    locations."/" = {};
   };
 
-  systemd.services.ankisyncd-rs =
-    let
-      cfg-toml = (pkgs.formats.toml { }).generate "config.toml" cfg;
-    in
-    {
-      description = "ankisyncd-rs - Anki sync server";
-      after = [ "network.target" ];
-      wantedBy = [ "multi-user.target" ];
+  systemd.services.ankisyncd-rs = let
+    cfg-toml = (pkgs.formats.toml {}).generate "config.toml" cfg;
+  in {
+    description = "ankisyncd-rs - Anki sync server";
+    after = ["network.target"];
+    wantedBy = ["multi-user.target"];
 
-      serviceConfig = {
-        Type = "simple";
-        DynamicUser = true;
-        StateDirectory = "ankisyncd-rs";
-        ExecStart = "${pkgs.ankisyncd-rs}/bin/ankisyncd --config ${cfg-toml}";
-        Restart = "always";
-      };
+    serviceConfig = {
+      Type = "simple";
+      DynamicUser = true;
+      StateDirectory = "ankisyncd-rs";
+      ExecStart = "${pkgs.ankisyncd-rs}/bin/ankisyncd --config ${cfg-toml}";
+      Restart = "always";
     };
+  };
 
   backup.fsBackups.anki = {
     paths = [

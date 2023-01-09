@@ -1,12 +1,14 @@
-{ config, pkgs, ... }:
-let
-  dashboardDomain = "${config.webapps.apps.grafana.subDomain}.${config.webapps.domain}";
-in
 {
+  config,
+  pkgs,
+  ...
+}: let
+  dashboardDomain = "${config.webapps.apps.grafana.subDomain}.${config.webapps.domain}";
+in {
   webapps.apps.grafana = {
     subDomain = "grafana";
     proxyTo = "http://127.0.0.1:${toString config.services.grafana.settings.server.http_port}";
-    locations."/" = { auth = true; };
+    locations."/" = {auth = true;};
     dashboard = {
       name = "Grafana";
       category = "infra";
@@ -16,11 +18,13 @@ in
 
   services.postgresql = {
     enable = true;
-    ensureDatabases = [ "grafana" ];
-    ensureUsers = [{
-      name = "grafana";
-      ensurePermissions."DATABASE grafana" = "ALL PRIVILEGES";
-    }];
+    ensureDatabases = ["grafana"];
+    ensureUsers = [
+      {
+        name = "grafana";
+        ensurePermissions."DATABASE grafana" = "ALL PRIVILEGES";
+      }
+    ];
   };
 
   services.grafana = {
@@ -97,15 +101,17 @@ in
         contactPoints = [
           {
             name = "Telegram";
-            receivers = [{
-              type = "telegram";
-              uid = "telegram";
-              settings = {
-                chatid = "321151402";
-                bottoken = "\${TELEGRAM_TOKEN}";
-                uploadImage = false;
-              };
-            }];
+            receivers = [
+              {
+                type = "telegram";
+                uid = "telegram";
+                settings = {
+                  chatid = "321151402";
+                  bottoken = "\${TELEGRAM_TOKEN}";
+                  uploadImage = false;
+                };
+              }
+            ];
           }
         ];
       };
@@ -113,10 +119,10 @@ in
   };
 
   systemd.services.grafana = {
-    after = [ "postgresql.service" ];
-    requires = [ "postgresql.service" ];
+    after = ["postgresql.service"];
+    requires = ["postgresql.service"];
     serviceConfig = {
-      SupplementaryGroups = [ config.users.groups.keys.name ];
+      SupplementaryGroups = [config.users.groups.keys.name];
       EnvironmentFile = [
         config.sops.secrets.tg-bot-alerting-environment.path
       ];
@@ -125,7 +131,7 @@ in
 
   sops.secrets = {
     grafana-admin-password.owner = config.users.users.grafana.name;
-    tg-bot-alerting-environment = { };
+    tg-bot-alerting-environment = {};
   };
 
   backup.dbBackups.grafana = {

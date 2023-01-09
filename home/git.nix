@@ -1,6 +1,9 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   home.packages = [
     pkgs.gitui
   ];
@@ -22,7 +25,7 @@
           rebase = true;
         };
 
-        pager = lib.genAttrs [ "diff" "log" "show" ] (
+        pager = lib.genAttrs ["diff" "log" "show"] (
           name: "${pkgs.delta}/bin/delta --navigate"
         );
       };

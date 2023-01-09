@@ -1,10 +1,12 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   webapps.apps.prometheus = {
     subDomain = "prometheus";
     proxyTo = "http://127.0.0.1:${toString config.services.prometheus.port}";
-    locations."/" = { auth = true; };
+    locations."/" = {auth = true;};
     dashboard = {
       name = "Prometheus";
       category = "infra";

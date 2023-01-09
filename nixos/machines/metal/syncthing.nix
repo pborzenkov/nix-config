@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   services.syncthing = {
     enable = true;
     openDefaultPorts = true;
@@ -32,22 +34,22 @@
     folders = {
       "/home/pbor/docs" = {
         id = "docs";
-        devices = [ "rock" ];
+        devices = ["rock"];
       };
 
       "/home/pbor/books" = {
         id = "books";
-        devices = [ "rock" ];
+        devices = ["rock"];
       };
 
       "/home/pbor/.local/share/password-store" = {
         id = "password-store";
-        devices = [ "rock" ];
+        devices = ["rock"];
       };
 
       "/home/pbor/.local/share/photos-for-review" = {
         id = "photos";
-        devices = [ "rock" ];
+        devices = ["rock"];
       };
     };
   };

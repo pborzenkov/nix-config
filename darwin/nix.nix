@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   nix = {
     configureBuildUsers = true;
     package = pkgs.nixVersions.stable;

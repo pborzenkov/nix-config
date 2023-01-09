@@ -1,26 +1,28 @@
-{ config, lib, pkgs, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   dataDir = "/var/lib/wallabag";
 
-  phpPackage = pkgs.php81.withExtensions ({ all, ... }: with all;
-    [
-      session
-      ctype
-      dom
-      simplexml
-      gd
-      mbstring
-      tidy
-      iconv
-      curl
-      gettext
-      tokenizer
-      bcmath
-      intl
-      filter
-      pdo_pgsql
-    ]);
+  phpPackage = pkgs.php81.withExtensions ({all, ...}: with all; [
+    session
+    ctype
+    dom
+    simplexml
+    gd
+    mbstring
+    tidy
+    iconv
+    curl
+    gettext
+    tokenizer
+    bcmath
+    intl
+    filter
+    pdo_pgsql
+  ]);
   configFile = pkgs.writeText "parameters.yml" (builtins.toJSON {
     parameters = {
       database_driver = "pdo_pgsql";
@@ -78,7 +80,7 @@ let
 
   setupConfig = pkgs.writeShellScriptBin "setup_config.sh" ''
     #!${pkgs.runtimeShell}
-    export PATH="$PATH:${lib.makeBinPath [ pkgs.coreutils ]}";
+    export PATH="$PATH:${lib.makeBinPath [pkgs.coreutils]}";
     rm -rf ${dataDir}/var/cache/*
     mkdir -p ${dataDir}/app
     chmod -R u+w ${dataDir}/app
@@ -91,7 +93,7 @@ let
   '';
   console = pkgs.writeShellScriptBin "wallabag-console" ''
     #! ${pkgs.runtimeShell}
-    export PATH="$PATH:${lib.makeBinPath [ phpPackage pkgs.sudo ]}";
+    export PATH="$PATH:${lib.makeBinPath [phpPackage pkgs.sudo]}";
     cd ${pkgs.wallabag}
     export WALLABAG_DATA="${dataDir}"
     # export secrets
@@ -102,25 +104,26 @@ let
     fi
     $sudo ${phpPackage}/bin/php ${pkgs.wallabag}/bin/console --env=prod "$@"
   '';
-in
-{
+in {
   users.users.wallabag = {
     home = dataDir;
     group = "wallabag";
     createHome = true;
     isSystemUser = true;
   };
-  users.groups.wallabag.members = [ "wallabag" ];
+  users.groups.wallabag.members = ["wallabag"];
 
-  environment.systemPackages = [ console ];
+  environment.systemPackages = [console];
 
   services.postgresql = {
     enable = true;
-    ensureDatabases = [ "wallabag" ];
-    ensureUsers = [{
-      name = "wallabag";
-      ensurePermissions."DATABASE wallabag" = "ALL PRIVILEGES";
-    }];
+    ensureDatabases = ["wallabag"];
+    ensureUsers = [
+      {
+        name = "wallabag";
+        ensurePermissions."DATABASE wallabag" = "ALL PRIVILEGES";
+      }
+    ];
   };
 
   services.phpfpm.pools.wallabag = {
@@ -140,7 +143,7 @@ in
     phpPackage = phpPackage;
     phpEnv = {
       WALLABAG_DATA = "${dataDir}";
-      "PATH" = lib.makeBinPath [ phpPackage ];
+      "PATH" = lib.makeBinPath [phpPackage];
     };
     phpOptions = ''
       date.timezone = ${config.time.timeZone}
@@ -150,8 +153,8 @@ in
     '';
   };
   systemd.services."phpfpm-wallabag" = {
-    requires = [ "postgresql.service" ];
-    after = [ "postgresql.service" ];
+    requires = ["postgresql.service"];
+    after = ["postgresql.service"];
     serviceConfig = {
       EnvironmentFile = [
         config.sops.secrets.wallabag.path
@@ -217,4 +220,4 @@ in
       ];
     };
   };
-} 
+}

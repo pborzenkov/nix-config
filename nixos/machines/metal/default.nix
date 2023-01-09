@@ -1,6 +1,11 @@
-{ config, lib, pkgs, modulesPath, inputs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  inputs,
+  ...
+}: {
   imports = [
     ./hardware-configuration.nix
 
@@ -34,7 +39,7 @@
       "quiet"
       "rd.systemd.show_status=false"
     ];
-    supportedFilesystems = [ "ntfs" ];
+    supportedFilesystems = ["ntfs"];
 
     binfmt.registrations = {
       DOSWin = {
@@ -105,7 +110,7 @@
       package = pkgs.wireshark;
     };
   };
-  users.users.pbor.extraGroups = [ "adbusers" "kvm" "wireshark" ];
+  users.users.pbor.extraGroups = ["adbusers" "kvm" "wireshark"];
 
   powerManagement = {
     enable = true;
@@ -121,7 +126,7 @@
     journald.extraConfig = ''
       SystemMaxUse=100M
     '';
-    dbus.packages = [ pkgs.gcr ];
+    dbus.packages = [pkgs.gcr];
     flatpak.enable = true;
     udev.extraRules = ''
       # Disable wakeup from suspend by mouse movement/click

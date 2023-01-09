@@ -1,5 +1,9 @@
-{ config, pkgs, nur, ... }:
 {
+  config,
+  pkgs,
+  nur,
+  ...
+}: {
   imports = [
     nur.repos.pborzenkov.modules.vlmcsd
   ];

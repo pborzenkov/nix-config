@@ -1,12 +1,14 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   home.packages = [
     pkgs.termshark
   ];
 
   xdg.configFile.termshark = {
-    source = (pkgs.formats.toml { }).generate "termshark.toml" {
+    source = (pkgs.formats.toml {}).generate "termshark.toml" {
       main = {
         colors = true;
         dark-mode = true;

@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   services.mpd = {
     enable = true;
     musicDirectory = "nfs://helios64.lab.borzenkov.net/storage/music";
@@ -14,42 +16,41 @@
     '';
   };
 
-  networking.firewall.allowedTCPPorts = [ 6600 ];
+  networking.firewall.allowedTCPPorts = [6600];
 
   webapps.apps.mpdsonic = {
     subDomain = "music";
     proxyTo = "http://127.0.0.1:6601";
-    locations."/" = { };
+    locations."/" = {};
   };
 
-  systemd.services.mpdsonic =
-    {
-      description = "mpdsonic - expose MPD library via Subsonic protocol";
-      after = [ "network.target" ];
-      wantedBy = [ "multi-user.target" ];
+  systemd.services.mpdsonic = {
+    description = "mpdsonic - expose MPD library via Subsonic protocol";
+    after = ["network.target"];
+    wantedBy = ["multi-user.target"];
 
-      path = [ pkgs.ffmpeg ];
+    path = [pkgs.ffmpeg];
 
-      serviceConfig = {
-        Type = "simple";
-        DynamicUser = true;
-        StateDirectory = "mpdsonic";
-        ExecStart = ''
-          ${pkgs.mpdsonic}/bin/mpdsonic \
-            -a 127.0.0.1:6601 \
-            -u pavel@borzenkov.net \
-            --mpd-address 127.0.0.1:6600 \
-            --mpd-library nfs://helios64.lab.borzenkov.net/storage/music
-        '';
-        Restart = "always";
-        RestartSec = 5;
-        EnvironmentFile = [
-          config.sops.secrets.mpdsonic-environment.path
-        ];
-      };
+    serviceConfig = {
+      Type = "simple";
+      DynamicUser = true;
+      StateDirectory = "mpdsonic";
+      ExecStart = ''
+        ${pkgs.mpdsonic}/bin/mpdsonic \
+          -a 127.0.0.1:6601 \
+          -u pavel@borzenkov.net \
+          --mpd-address 127.0.0.1:6600 \
+          --mpd-library nfs://helios64.lab.borzenkov.net/storage/music
+      '';
+      Restart = "always";
+      RestartSec = 5;
+      EnvironmentFile = [
+        config.sops.secrets.mpdsonic-environment.path
+      ];
     };
+  };
 
-  sops.secrets.mpdsonic-environment = { };
+  sops.secrets.mpdsonic-environment = {};
 
   backup.fsBackups = {
     music = {

@@ -1,5 +1,10 @@
-{ lib, fetchFromGitHub, rustPlatform, openssl, pkg-config }:
-
+{
+  lib,
+  fetchFromGitHub,
+  rustPlatform,
+  openssl,
+  pkg-config,
+}:
 rustPlatform.buildRustPackage rec {
   pname = "rtorrent-exporter";
   version = "0.1.0";
@@ -13,14 +18,14 @@ rustPlatform.buildRustPackage rec {
 
   cargoSha256 = "sha256-2Mm96001KFuAgthzvs4GdMjAj0dH9NNHVCEdHsoA9do=";
 
-  nativeBuildInputs = [ pkg-config ];
+  nativeBuildInputs = [pkg-config];
 
-  buildInputs = [ openssl ];
+  buildInputs = [openssl];
 
   meta = with lib; {
     description = "rtorrent-exporter - Prometheus exporter for RTorrent";
     homepage = "https://github.com/pborzenkov/rtorrent-exporter";
     license = licenses.mit;
-    maintainers = with maintainers; [ pborzenkov ];
+    maintainers = with maintainers; [pborzenkov];
   };
 }

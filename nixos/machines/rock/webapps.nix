@@ -1,9 +1,11 @@
-{ config, lib, pkgs, ... }:
-
-let
-  ssoPort = 8082;
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  ssoPort = 8082;
+in {
   imports = [
     ../../../modules/webapps
   ];
@@ -21,18 +23,18 @@ in
     apps."sso" = {
       subDomain = config.webapps.ssoSubDomain;
       proxyTo = config.webapps.ssoInternalAddress;
-      locations."/" = { };
+      locations."/" = {};
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
+  networking.firewall.allowedTCPPorts = [80 443];
 
   systemd.services."acme-${config.webapps.domain}".serviceConfig.EnvironmentFile = lib.mkForce [
     config.webapps.acmeCredentialsFile
     config.sops.secrets.perfect-privacy-proxy-env.path
   ];
 
-  sops.secrets.perfect-privacy-proxy-env = { };
+  sops.secrets.perfect-privacy-proxy-env = {};
 
   services.nginx.sso = {
     enable = true;
@@ -84,7 +86,7 @@ in
                 regexp = ".*${config.webapps.domain}$";
               }
             ];
-            allow = [ "@_authenticated" ];
+            allow = ["@_authenticated"];
           }
         ];
       };
@@ -107,7 +109,7 @@ in
   };
 
   sops.secrets = {
-    namecheap-environment = { };
-    nginx-sso-environment = { };
+    namecheap-environment = {};
+    nginx-sso-environment = {};
   };
 }

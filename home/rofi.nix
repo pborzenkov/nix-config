@@ -1,6 +1,9 @@
-{ config, pkgs, inputs, ... }:
-
 {
+  config,
+  pkgs,
+  inputs,
+  ...
+}: {
   programs.rofi = {
     enable = true;
     package = pkgs.rofi-wayland;
@@ -8,7 +11,7 @@
     font = "MesloLGS Nerd Font Mono 12.0";
     location = "center";
     terminal = "${pkgs.foot}/bin/foot";
-    plugins = [ pkgs.rofi-emoji ];
+    plugins = [pkgs.rofi-emoji];
     extraConfig = {
       modi = "run";
     };

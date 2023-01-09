@@ -1,5 +1,10 @@
-{ lib, fetchurl, stdenv, autoPatchelfHook, openssl }:
-
+{
+  lib,
+  fetchurl,
+  stdenv,
+  autoPatchelfHook,
+  openssl,
+}:
 stdenv.mkDerivation rec {
   pname = "ankisyncd-rs";
   version = "0.2.9";
@@ -9,9 +14,9 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-ZXMUdvNHNOlKQxdDxAHyTwDhO2TewLs9+eiFLy/UOzw=";
   };
 
-  buildInputs = [ openssl ];
+  buildInputs = [openssl];
 
-  nativeBuildInputs = [ autoPatchelfHook ];
+  nativeBuildInputs = [autoPatchelfHook];
 
   installPhase = ''
     runHook preInstall

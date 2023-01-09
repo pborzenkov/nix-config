@@ -1,6 +1,9 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   imports = [
     ../../basetools.nix
     ../../devtools.nix
@@ -26,7 +29,7 @@
       ExecStart = "${pkgs.gnupg}/bin/gpgconf --create-socketdir";
     };
     Install = {
-      WantedBy = [ "default.target" ];
+      WantedBy = ["default.target"];
     };
   };
 }

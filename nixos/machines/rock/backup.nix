@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     ../../../modules/backup
   ];
@@ -30,10 +32,10 @@
     };
   };
 
-  sops.secrets.restic-repo-password = { };
+  sops.secrets.restic-repo-password = {};
 
   programs.ssh.knownHosts."zh1012.rsync.net" = {
-    hostNames = [ "zh1012.rsync.net" ];
+    hostNames = ["zh1012.rsync.net"];
     publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJtclizeBy1Uo3D86HpgD3LONGVH0CJ0NT+YfZlldAJd";
   };
 

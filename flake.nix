@@ -71,64 +71,86 @@
     nixpkgs-openvpn.url = "github:ju1m/nixpkgs/openvpn";
   };
 
-  outputs = { self, ... } @ inputs:
-    let
-      commonNixpkgsConfig = {
-        nixpkgs = {
-          config.allowUnfree = true;
-          overlays = [
-            inputs.nur.overlay
-            (import inputs.rust-overlay)
-            (import ./overlay.nix)
-          ];
-        };
+  outputs = {self, ...} @ inputs: let
+    commonNixpkgsConfig = {
+      nixpkgs = {
+        config.allowUnfree = true;
+        overlays = [
+          inputs.nur.overlay
+          (import inputs.rust-overlay)
+          (import ./overlay.nix)
+        ];
       };
-      commonNixOSModules = [
-        ./nixos/nix.nix
-        ./nixos/users.nix
-        ./nixos/sudo.nix
-        ({
+    };
+    commonNixOSModules = [
+      ./nixos/nix.nix
+      ./nixos/users.nix
+      ./nixos/sudo.nix
+      ({
           nix.registry.nixpkgs.flake = inputs.nixpkgs;
-        } // commonNixpkgsConfig)
-      ];
-      commonDarwinModules = [
-        ./darwin/nix.nix
-        ./darwin/base.nix
-        ({
+        }
+        // commonNixpkgsConfig)
+    ];
+    commonDarwinModules = [
+      ./darwin/nix.nix
+      ./darwin/base.nix
+      ({
           nix.registry.nixpkgs.flake = inputs.nixpkgs;
-        } // commonNixpkgsConfig)
-      ];
+        }
+        // commonNixpkgsConfig)
+    ];
 
-      makeNixOS = { hostname, arch ? "x86_64-linux", disabledModules ? [ ], customModules ? [ ] }: inputs.nixpkgs.lib.nixosSystem {
+    makeNixOS = {
+      hostname,
+      arch ? "x86_64-linux",
+      disabledModules ? [],
+      customModules ? [],
+    }:
+      inputs.nixpkgs.lib.nixosSystem {
         system = arch;
-        modules = [
-          (./nixos/machines + "/${hostname}")
-          {
-            disabledModules = disabledModules;
-          }
-        ] ++ commonNixOSModules ++ customModules;
+        modules =
+          [
+            (./nixos/machines + "/${hostname}")
+            {
+              disabledModules = disabledModules;
+            }
+          ]
+          ++ commonNixOSModules
+          ++ customModules;
         specialArgs = {
           inherit inputs;
 
           nur = import inputs.nur {
-            nurpkgs = import inputs.nixpkgs { system = arch; };
+            nurpkgs = import inputs.nixpkgs {system = arch;};
           };
         };
       };
 
-      makeDarwin = { hostname, arch ? "aarch64-darwin" }: inputs.darwin.lib.darwinSystem {
+    makeDarwin = {
+      hostname,
+      arch ? "aarch64-darwin",
+    }:
+      inputs.darwin.lib.darwinSystem {
         system = arch;
-        modules = [
-          (./darwin/machines + "/${hostname}")
-        ] ++ commonDarwinModules;
+        modules =
+          [
+            (./darwin/machines + "/${hostname}")
+          ]
+          ++ commonDarwinModules;
         specialArgs = {
           nur = import inputs.nur {
-            nurpkgs = import inputs.nixpkgs { system = arch; };
+            nurpkgs = import inputs.nixpkgs {system = arch;};
           };
         };
       };
 
-      makeHome = { hostname, arch ? "x86_64-linux", home ? "/home", user ? "pbor" }: inputs.home-manager.lib.homeManagerConfiguration {
+    makeHome = {
+      hostname,
+      arch ? "x86_64-linux",
+      home ? "/home",
+      user ? "pbor",
+    }:
+      inputs.home-manager.lib.homeManagerConfiguration {
         modules = [
           inputs.base16.homeManagerModule
           (./home/machines + "/${hostname}")
@@ -160,24 +182,27 @@
           ];
         };
       };
-    in
+  in
     {
       nixosConfigurations = {
-        metal = makeNixOS { hostname = "metal"; };
-        rock = makeNixOS
+        metal = makeNixOS {hostname = "metal";};
+        rock =
+          makeNixOS
           {
             hostname = "rock";
-            disabledModules = [ "services/networking/openvpn.nix" ];
+            disabledModules = ["services/networking/openvpn.nix"];
             customModules = [
               "${inputs.nixpkgs-openvpn}/nixos/modules/services/networking/netns.nix"
               "${inputs.nixpkgs-openvpn}/nixos/modules/services/networking/openvpn.nix"
             ];
           };
-        gw = makeNixOS
-          { hostname = "gw"; };
+        gw =
+          makeNixOS
+          {hostname = "gw";};
 
         # nix build .#nixosConfigurations.yubikey.config.system.build.isoImage
-        yubikey = inputs.nixpkgs.lib.nixosSystem
+        yubikey =
+          inputs.nixpkgs.lib.nixosSystem
           {
             system = "x86_64-linux";
             modules = [
@@ -187,15 +212,27 @@
       };
 
       darwinConfigurations = {
-        booking-laptop = makeDarwin { hostname = "booking-laptop"; };
-        macos = makeDarwin { hostname = "macos"; arch = "x86_64-darwin"; };
+        booking-laptop = makeDarwin {hostname = "booking-laptop";};
+        macos = makeDarwin {
+          hostname = "macos";
+          arch = "x86_64-darwin";
+        };
       };
 
       homeConfigurations = {
-        metal = makeHome { hostname = "metal"; };
-        rock = makeHome { hostname = "rock"; };
-        booking-laptop = makeHome { hostname = "booking-laptop"; arch = "aarch64-darwin"; home = "/Users"; user = "pborzenkov"; };
-        macos = makeHome { hostname = "macos"; arch = "x86_64-darwin"; home = "/Users"; };
+        metal = makeHome {hostname = "metal";};
+        rock = makeHome {hostname = "rock";};
+        booking-laptop = makeHome {
+          hostname = "booking-laptop";
+          arch = "aarch64-darwin";
+          home = "/Users";
+          user = "pborzenkov";
+        };
+        macos = makeHome {
+          hostname = "macos";
+          arch = "x86_64-darwin";
+          home = "/Users";
+        };
       };
 
       deploy = {
@@ -239,18 +276,17 @@
           };
         };
       };
-    } // inputs.flake-utils.lib.eachDefaultSystem
-      (system:
-        let
-          pkgs = import inputs.nixpkgs { inherit system; };
-        in
-        {
-          devShell = pkgs.mkShell {
-            nativeBuildInputs = [
-              inputs.deploy-rs.packages.${system}.deploy-rs
+    }
+    // inputs.flake-utils.lib.eachDefaultSystem
+    (system: let
+      pkgs = import inputs.nixpkgs {inherit system;};
+    in {
+      devShell = pkgs.mkShell {
+        nativeBuildInputs = [
+          inputs.deploy-rs.packages.${system}.deploy-rs
 
-              pkgs.luaformatter
-            ];
-          };
-        });
+          pkgs.luaformatter
+        ];
+      };
+    });
 }

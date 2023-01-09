@@ -1,6 +1,10 @@
-{ config, pkgs, lib, modulesPath, ... }:
-
-let
+{
+  config,
+  pkgs,
+  lib,
+  modulesPath,
+  ...
+}: let
   guide = pkgs.stdenv.mkDerivation {
     name = "yubikey-guide-2021-10-24.html";
     src = pkgs.fetchFromGitHub {
@@ -9,7 +13,7 @@ let
       rev = "fe6434577bce964aefd33d5e085d6ac0008e17ce";
       sha256 = "sha256-HQrS2+yvSXi/XCOzWRIV4S/riKpCvnHTSGZfbYXEmrg=";
     };
-    buildInputs = [ pkgs.pandoc ];
+    buildInputs = [pkgs.pandoc];
     installPhase = ''
       pandoc --highlight-style pygments -s --toc README.md | \
         sed -e 's/<keyid>/\&lt;keyid\&gt;/g' > $out
@@ -22,34 +26,33 @@ let
     ${pkgs.tmux}/bin/tmux select-pane -t 0
     ${pkgs.tmux}/bin/tmux attach-session -d
   '';
-in
-{
+in {
   imports = [
     (modulesPath + "/installer/cd-dvd/installation-cd-minimal-new-kernel.nix")
   ];
 
   environment.interactiveShellInit = ''
-      export GNUPGHOME=/run/user/$(id -u)/gnupghome
-      if [ -d $GNUPGHOME ]; then
-        return
-      fi
+    export GNUPGHOME=/run/user/$(id -u)/gnupghome
+    if [ -d $GNUPGHOME ]; then
+      return
+    fi
 
-      mkdir $GNUPGHOME
-      cp ${pkgs.fetchurl {
+    mkdir $GNUPGHOME
+    cp ${pkgs.fetchurl {
       url = "https://raw.githubusercontent.com/drduh/config/2334d3d1d058d9d16ca797f49740643f793303ed/gpg.conf";
       sha256 = "0va62sgnah8rjgp4m6zygs4z9gbpmqvq9m3x4byywk1dha6nvvaj";
     }} "$GNUPGHOME/gpg.conf"
-        cp ${pkgs.writeTextFile {
+      cp ${pkgs.writeTextFile {
       name = "gpg-agent.conf";
       text = ''
         pinentry-program /run/current-system/sw/bin/pinentry-curses
       '';
     }} "$GNUPGHOME/gpg-agent.conf"
-      echo "\$GNUPGHOME has been set up for you. Generated keys will be in $GNUPGHOME."
+    echo "\$GNUPGHOME has been set up for you. Generated keys will be in $GNUPGHOME."
   '';
 
   boot = {
-    supportedFilesystems = lib.mkForce [ "vfat" ];
+    supportedFilesystems = lib.mkForce ["vfat"];
   };
 
   environment.systemPackages = with pkgs; [
@@ -65,7 +68,7 @@ in
     yubikey-shell
   ];
 
-  services.udev.packages = with pkgs; [ yubikey-personalization ];
+  services.udev.packages = with pkgs; [yubikey-personalization];
   services.pcscd.enable = true;
 
   system.nixos.label = "YubiKey";
@@ -79,7 +82,7 @@ in
   security.sudo.wheelNeedsPassword = false;
   users.users.yubikey = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = ["wheel"];
     shell = "/run/current-system/sw/bin/bash";
   };
   services.getty = {

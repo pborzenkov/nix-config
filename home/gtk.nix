@@ -1,7 +1,9 @@
-{ config, pkgs, ... }:
-
-let
-  rendersvg = pkgs.runCommand "rendersvg" { } ''
+{
+  config,
+  pkgs,
+  ...
+}: let
+  rendersvg = pkgs.runCommand "rendersvg" {} ''
     mkdir -p $out/bin
     ln -s ${pkgs.resvg}/bin/resvg $out/bin/rendersvg
   '';
@@ -28,7 +30,7 @@ let
       optipng
     ];
 
-    phases = [ "unpackPhase" "installPhase" ];
+    phases = ["unpackPhase" "installPhase"];
     installPhase = with config.scheme; ''
       HOME=/build
       chmod 777 -R .
@@ -66,8 +68,7 @@ let
       chmod 555 -R .
     '';
   };
-in
-{
+in {
   gtk = {
     enable = true;
     theme = {

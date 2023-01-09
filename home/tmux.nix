@@ -1,6 +1,9 @@
-{ config, pkgs, inputs, ... }:
-
 {
+  config,
+  pkgs,
+  inputs,
+  ...
+}: {
   programs.tmux = {
     enable = true;
     baseIndex = 1;
@@ -56,9 +59,11 @@
     plugins = [
       {
         plugin = pkgs.tmuxPlugins.urlview.overrideAttrs (oldAttrs: {
-          postInstall = oldAttrs.postInstall + ''
-            sed -i -e '{s|tmux bind-key|tmux bind-key -n|g}' $target/urlview.tmux
-          '';
+          postInstall =
+            oldAttrs.postInstall
+            + ''
+              sed -i -e '{s|tmux bind-key|tmux bind-key -n|g}' $target/urlview.tmux
+            '';
         });
         extraConfig = "set -g @urlview-key 'M-U'";
       }
