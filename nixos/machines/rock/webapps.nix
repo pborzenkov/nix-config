@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   ssoPort = 8082;
@@ -27,7 +27,8 @@ in
 
   networking.firewall.allowedTCPPorts = [ 80 443 ];
 
-  systemd.services."acme-${config.webapps.domain}".serviceConfig.EnvironmentFile = [
+  systemd.services."acme-${config.webapps.domain}".serviceConfig.EnvironmentFile = lib.mkForce [
+    config.webapps.acmeCredentialsFile
     config.sops.secrets.perfect-privacy-proxy-env.path
   ];
 
