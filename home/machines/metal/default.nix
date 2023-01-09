@@ -46,6 +46,7 @@
       pkgs.shntool
       pkgs.flac
       pkgs.cuetools
+      pkgs.slack
 
       pkgs.nixos-container
       pkgs.libvirt
