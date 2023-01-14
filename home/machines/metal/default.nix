@@ -79,6 +79,7 @@
       enable = true;
       defaultApplications = {
         "x-scheme-handler/tg" = ["org.telegram.desktop.desktop"];
+        "application/pdf" = ["org.pwmt.zathura.desktop"];
       };
     };
     userDirs.download = "${config.home.homeDirectory}/down";
