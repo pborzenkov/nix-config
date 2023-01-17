@@ -5,9 +5,11 @@
 }: {
   services.openssh = {
     enable = true;
-    logLevel = "INFO";
-    passwordAuthentication = false;
-    permitRootLogin = "no";
+    settings = {
+      LogLevel = "INFO";
+      PasswordAuthentication = false;
+      PermitRootLogin = "no";
+    };
 
     extraConfig = ''
       StreamLocalBindUnlink yes
