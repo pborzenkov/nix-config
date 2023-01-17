@@ -48,6 +48,7 @@
     pkgs.flac
     pkgs.cuetools
     pkgs.slack
+    pkgs.zeal
 
     pkgs.nixos-container
     pkgs.libvirt
