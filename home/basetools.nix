@@ -46,6 +46,7 @@
     pkgs.nur.repos.pborzenkov.osccopy
     pkgs.dtach
     pkgs.dua
+    pkgs.usbutils
 
     # Backups
     pkgs.restic

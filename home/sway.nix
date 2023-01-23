@@ -20,6 +20,15 @@
 
     exec ${pkgs.sway}/bin/swaymsg '[con_mark="scratch-term"] move scratchpad'
   '';
+  launcher = pkgs.writeShellScript "launcher.sh" ''
+    programs=(
+      "ncpamixer"
+    )
+    exec $(printf "%s\n" ''${programs[@]} | ${pkgs.skim}/bin/sk)
+  '';
+  launcherTerm = pkgs.writeShellScript "launcher-term.sh" ''
+    exec ${pkgs.foot}/bin/foot -a launcher-term ${launcher}
+  '';
 in {
   wayland.windowManager.sway = {
     enable = true;
@@ -38,6 +47,7 @@ in {
           "${modifier}+Return" = lib.mkForce null;
           "${modifier}+space" = lib.mkForce null;
           "Mod1+Return" = "exec ${scratchTerm}";
+          "Mod1+Shift+Return" = "exec ${launcherTerm}";
           "${modifier}+Shift+e" = "exec rofi -modi emoji -show emoji";
           "${modifier}+Shift+s" = ''
             exec rofi -theme-str 'window {width: 20%;} listview{scrollbar: false; lines: 6;}' \
@@ -164,7 +174,7 @@ in {
           command = ''mark "scratch-term", move scratchpad, scratchpad show'';
         }
         {
-          criteria = {app_id = "ncmpcpp";};
+          criteria = {app_id = "launcher-term";};
           command = "floating enable";
         }
         {

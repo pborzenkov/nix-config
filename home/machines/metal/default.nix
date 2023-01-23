@@ -52,6 +52,9 @@
 
     pkgs.nixos-container
     pkgs.libvirt
+
+    pkgs.pulseaudio
+    pkgs.ncpamixer
   ];
 
   services.gpg-agent = {
