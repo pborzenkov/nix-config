@@ -305,7 +305,11 @@ in {
           block = "sound";
           driver = "pulseaudio";
           device_kind = "sink";
-          headphones_indicator = true;
+          format = "{output_name}{volume}";
+          mappings = {
+            "alsa_output.usb-Razer_Razer_USB_Sound_Card_00000000-00.analog-stereo" = " ";
+            "alsa_output.pci-0000_12_00.4.analog-stereo" = "";
+          };
           on_click = "${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
         }
         {
