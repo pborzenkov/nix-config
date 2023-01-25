@@ -132,5 +132,7 @@
 
   time.timeZone = "Europe/Amsterdam";
 
+  virtualisation.oci-containers.backend = "docker";
+
   system.stateVersion = "20.09";
 }

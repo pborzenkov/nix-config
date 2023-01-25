@@ -15,7 +15,7 @@
     devices = {
       # Windows desktop
       jazz = {
-        id = "BIDWFHH-NHSNIH3-ICQGA5H-YXSCYSE-7C6IA4D-NF5Y46K-I3YsVLR-OXKAQAA";
+        id = "ZJ2IFF7-HCYBH2T-SONJZXN-B3LOL3M-L6XM33H-M5UQ2S3-6PNIVLI-MI2JJAE";
         addresses = [
           "dynamic"
         ];
