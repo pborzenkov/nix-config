@@ -35,7 +35,7 @@
     ./skyeng.nix
     ./syncthing.nix
     ./terraform.nix
-    #    ./valheim.nix
+    ./valheim.nix
     ./vlmcsd.nix
     ./vpn.nix
     ./wallabag.nix
