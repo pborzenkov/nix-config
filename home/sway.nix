@@ -83,6 +83,13 @@ in {
         };
       };
 
+      seat = {
+        "*" = {
+          "xcursor_theme" = "capitaine-cursors 24";
+          "hide_cursor" = "when-typing enable";
+        };
+      };
+
       bars = [
         {
           position = "top";
@@ -189,9 +196,6 @@ in {
         {command = "dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK";}
       ];
     };
-    extraConfig = ''
-      seat seat0 xcursor_theme capitaine-cursors 24
-    '';
   };
 
   xdg.dataFile."wallpaper.jpg" = {
