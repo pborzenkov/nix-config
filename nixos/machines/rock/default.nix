@@ -33,6 +33,7 @@
     ./redis.nix
     ./rtorrent.nix
     ./skyeng.nix
+    ./sound.nix
     ./syncthing.nix
     ./terraform.nix
     ./valheim.nix
@@ -115,6 +116,7 @@
     };
   };
   services = {
+    avahi.enable = true;
     resolved.enable = true;
     openssh.openFirewall = true;
   };

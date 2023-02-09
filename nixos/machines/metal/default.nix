@@ -83,6 +83,10 @@
         5678 # Mikrotik NDP
         37008 # traffic sniffer on Mikrotik
       ];
+      extraCommands = ''
+        # Mikrotik MAC Telnet
+        iptables -A INPUT -p udp --sport 20561 -j ACCEPT
+      '';
     };
     useDHCP = false;
     dhcpcd.enable = false;

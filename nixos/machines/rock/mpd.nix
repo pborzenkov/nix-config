@@ -10,8 +10,8 @@
     extraConfig = ''
       auto_update "yes"
       audio_output {
-        type "null"
-        name "Void"
+        type "pipewire"
+        name "Living Room"
       }
     '';
   };
@@ -49,6 +49,8 @@
       ];
     };
   };
+
+  users.users.mpd.extraGroups = ["pipewire"];
 
   sops.secrets.mpdsonic-environment = {};
 
