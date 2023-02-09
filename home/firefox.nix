@@ -23,17 +23,18 @@
 
           "signon.rememberSignons" = false;
         };
-      };
-      extensions = let
-        rycee = pkgs.nur.repos.rycee.firefox-addons;
-        pborzenkov = pkgs.nur.repos.pborzenkov.firefox-addons;
-      in [
-        rycee.browserpass
-        rycee.translate-web-pages
-        rycee.ublock-origin
 
-        pborzenkov.wallabagger
-      ];
+        extensions = let
+          rycee = pkgs.nur.repos.rycee.firefox-addons;
+          pborzenkov = pkgs.nur.repos.pborzenkov.firefox-addons;
+        in [
+          rycee.browserpass
+          rycee.translate-web-pages
+          rycee.ublock-origin
+
+          pborzenkov.wallabagger
+        ];
+      };
     };
   };
 

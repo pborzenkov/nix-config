@@ -26,7 +26,7 @@
 
   systemd.services.mpdsonic = {
     description = "mpdsonic - expose MPD library via Subsonic protocol";
-    after = ["network.target"];
+    after = ["network.target" "mpd.service"];
     wantedBy = ["multi-user.target"];
 
     path = [pkgs.ffmpeg];
