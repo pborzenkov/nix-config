@@ -7,11 +7,11 @@
 }:
 stdenv.mkDerivation rec {
   pname = "ankisyncd-rs";
-  version = "0.2.9";
+  version = "1.0.0";
 
   src = fetchurl {
     url = "https://github.com/ankicommunity/anki-sync-server-rs/releases/download/${version}/ankisyncd_${version}_linux_x64.tar.gz";
-    sha256 = "sha256-ZXMUdvNHNOlKQxdDxAHyTwDhO2TewLs9+eiFLy/UOzw=";
+    sha256 = "sha256-iK3bJ93Mz3lZq9uK/gUB1/GuzYP6Zg0PiZqcEXMXxlQ=";
   };
 
   buildInputs = [openssl];
