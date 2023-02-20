@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
-if [ $# -ne 1 ]; then
-	echo "Usage: $0 <flake target>"
+if [ $# -lt 1 ]; then
+	echo "Usage: $0 <flake target> [opts]"
 	exit 1
 fi
 
-deploy -skr /nix/var/nix/gcroots/per-user/${USER}/deploy-rs ".#$@"
+target=$1;
+shift 1;
+
+deploy -skr /nix/var/nix/gcroots/per-user/${USER}/deploy-rs ".#$target" "$@"

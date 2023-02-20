@@ -28,6 +28,7 @@
     ./miniflux.nix
     ./mpd.nix
     ./photoprism.nix
+    ./pim.nix
     ./postgresql.nix
     ./prometheus.nix
     ./redis.nix

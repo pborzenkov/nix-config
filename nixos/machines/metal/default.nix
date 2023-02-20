@@ -12,10 +12,13 @@
     inputs.nixos-hardware.nixosModules.common-cpu-amd
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
+    inputs.sops-nix.nixosModules.sops
+
     ../../podman.nix
 
     ./login.nix
     ./nix.nix
+    ./secrets.nix
     ./sound.nix
     ./syncthing.nix
   ];
@@ -123,6 +126,11 @@
     powerDownCommands = ''
       sleep 0.1
     '';
+  };
+
+  sops = {
+    defaultSopsFile = ./secrets/secrets.yaml;
+    gnupg.sshKeyPaths = ["/etc/ssh/ssh_host_rsa_key"];
   };
 
   services = {

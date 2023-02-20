@@ -1,10 +1,16 @@
 # vim: set ts=2 sw=2 et:
 keys:
   - &pbor D45ECBD522E389A8A377925FB1392A8089E0A994
+  - &metal 1CC5BC1820CB88574942167AFA49FE295A280035
   - &rock 03985A107FED4BAC061E93D5E7AF1C3727A8DBF1
   - &gw E85FA73EC96464C9B5F8F45303F39D775A273F6C
 
 creation_rules:
+  - path_regex: nixos/machines/metal/secrets/[^/]+.yaml$
+    key_groups:
+      - pgp:
+        - *pbor
+        - *metal
   - path_regex: nixos/machines/rock/secrets/[^/]+.yaml$
     key_groups:
       - pgp:
