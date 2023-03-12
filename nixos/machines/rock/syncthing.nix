@@ -29,14 +29,6 @@
         ];
       };
 
-      # Booking.com laptop
-      booking-laptop = {
-        id = "GF7I7ZP-73IOOMA-W2A54EB-ICD6C2B-LYFNFNX-PALHQBS-MTJNOHK-BT5BRQA";
-        addresses = [
-          "dynamic"
-        ];
-      };
-
       # Android phone
       phone = {
         id = "YY6DZ4F-BSMXRSE-VOIAU2D-5BEXYIH-CGJGIN7-EU7QMBY-PDZ7UQ2-M3UXYQQ";
@@ -59,7 +51,7 @@
 
       "/home/pbor/.local/share/password-store" = {
         id = "password-store";
-        devices = ["jazz" "metal" "booking-laptop" "phone"];
+        devices = ["jazz" "metal" "phone"];
       };
 
       "/home/pbor/.local/share/photos-for-review" = {

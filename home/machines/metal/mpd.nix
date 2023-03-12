@@ -6,7 +6,7 @@
   services = {
     mpd = {
       enable = true;
-      musicDirectory = "nfs://helios64.lab.borzenkov.net/storage/music";
+      musicDirectory = "https://storage.lab.borzenkov.net/music";
       dbFile = null;
       extraConfig = ''
         database {

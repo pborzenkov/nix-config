@@ -6,7 +6,7 @@
   services.vdirsyncer = {
     enable = true;
     jobs = {
-      borzenkov_net = {
+      "borzenkov.net" = {
         enable = true;
         additionalGroups = [config.users.groups.keys.name];
         forceDiscover = true;
@@ -27,7 +27,7 @@
           storages = {
             borzenkov_net_contacts_local = {
               type = "filesystem";
-              path = "/var/lib/vdirsyncer/borzenkov_net/contacts";
+              path = "/var/lib/vdirsyncer/borzenkov.net/contacts";
               fileext = ".vcf";
             };
             borzenkov_net_contacts_remote = {
@@ -40,7 +40,7 @@
 
             borzenkov_net_calendar_local = {
               type = "filesystem";
-              path = "/var/lib/vdirsyncer/borzenkov_net/calendar";
+              path = "/var/lib/vdirsyncer/borzenkov.net/calendar";
               fileext = ".ics";
             };
             borzenkov_net_calendar_remote = {
@@ -58,8 +58,8 @@
 
   backup.fsBackups.pim = {
     paths = [
-      "/var/lib/vdirsyncer/borzenkov_net/contacts"
-      "/var/lib/vdirsyncer/borzenkov_net/calendar"
+      "/var/lib/vdirsyncer/borzenkov.net/contacts"
+      "/var/lib/vdirsyncer/borzenkov.net/calendar"
     ];
   };
 

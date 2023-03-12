@@ -60,6 +60,10 @@ in {
         name = "Infrastructure";
         tag = "infra";
       }
+      {
+        name = "Arrs";
+        tag = "arr";
+      }
     ];
     apps = {
       dashboard = {

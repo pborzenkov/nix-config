@@ -113,6 +113,11 @@
       e34b1bca685b8499916826d9aee11c13
       -----END OpenVPN Static key V1-----
     '';
+
+    myanonamouseUpdate = pkgs.writeShellScript "myanonamouse-update" ''
+      ${pkgs.coreutils}/bin/sleep 5
+      ${pkgs.curl}/bin/curl -c /var/lib/openvpn-amsterdam/mam.cookies -b /var/lib/openvpn-amsterdam/mam.cookies https://t.myanonamouse.net/json/dynamicSeedbox.php > /dev/null 2>&1
+    '';
   in {
     netns = "amsterdam";
     settings = {
@@ -155,6 +160,17 @@
 
       inherit ca cert tls-crypt;
       key = config.sops.secrets.perfect-privacy-openvpn-key.path;
+
+      route-up = ''
+        ${myanonamouseUpdate} &
+      '';
     };
+  };
+
+  systemd.services.openvpn-amsterdam.serviceConfig.StateDirectory = "openvpn-amsterdam";
+
+  sops.secrets = {
+    perfect-privacy-password = {};
+    perfect-privacy-openvpn-key = {};
   };
 }

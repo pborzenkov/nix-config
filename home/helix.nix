@@ -36,6 +36,14 @@
         };
         auto-format = true;
       }
+      {
+        name = "eml";
+        scope = "text.eml";
+        roots = [];
+        file-types = ["eml"];
+        max-line-length = 72;
+        rulers = [72];
+      }
     ];
   };
 }

@@ -22,12 +22,13 @@
   '';
   launcher = pkgs.writeShellScript "launcher.sh" ''
     programs=(
+      "bashmount"
       "ncpamixer"
     )
     exec $(printf "%s\n" ''${programs[@]} | ${pkgs.skim}/bin/sk)
   '';
   launcherTerm = pkgs.writeShellScript "launcher-term.sh" ''
-    exec ${pkgs.foot}/bin/foot -a launcher-term ${launcher}
+    exec ${pkgs.foot}/bin/foot -W 160x50 -a launcher-term ${launcher}
   '';
 in {
   wayland.windowManager.sway = {
@@ -178,7 +179,7 @@ in {
         }
         {
           criteria = {app_id = "scratch-term";};
-          command = ''mark "scratch-term", move scratchpad, scratchpad show'';
+          command = ''mark "scratch-term", move scratchpad, scratchpad show, resize set 1128 758'';
         }
         {
           criteria = {app_id = "launcher-term";};

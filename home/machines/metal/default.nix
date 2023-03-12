@@ -56,13 +56,17 @@
 
     pkgs.pulseaudio
     pkgs.ncpamixer
+    pkgs.vdirsyncer
+    pkgs.bashmount
   ];
 
-  services.gpg-agent = {
-    enable = true;
-    enableSshSupport = true;
-    enableExtraSocket = true;
-    pinentryFlavor = "gnome3";
+  services = {
+    gpg-agent = {
+      enable = true;
+      enableSshSupport = true;
+      enableExtraSocket = true;
+      pinentryFlavor = "gnome3";
+    };
   };
 
   home.sessionVariables = {

@@ -20,6 +20,7 @@
     ../../openssh.nix
 
     ./anki.nix
+    ./arr.nix
     ./backup.nix
     ./dashboard.nix
     ./grafana.nix
@@ -32,12 +33,13 @@
     ./postgresql.nix
     ./prometheus.nix
     ./redis.nix
-    ./rtorrent.nix
+    ./torrent.nix
     ./skyeng.nix
     ./sound.nix
+    ./storage.nix
     ./syncthing.nix
     ./terraform.nix
-    ./valheim.nix
+    # ./valheim.nix
     ./vlmcsd.nix
     ./vpn.nix
     ./wallabag.nix
@@ -64,11 +66,6 @@
     ];
 
     supportedFilesystems = ["ntfs"];
-  };
-
-  fileSystems."/storage" = {
-    device = "helios64.lab.borzenkov.net:/storage";
-    fsType = "nfs";
   };
 
   users.users.pbor.extraGroups = ["libvirtd"];

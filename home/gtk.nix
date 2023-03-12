@@ -75,6 +75,10 @@ in {
       name = themeName;
       package = gtkTheme;
     };
+    iconTheme = {
+      name = "Papirus";
+      package = pkgs.papirus-icon-theme;
+    };
   };
 
   home.pointerCursor = {

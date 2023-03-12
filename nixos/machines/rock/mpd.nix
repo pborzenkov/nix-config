@@ -5,7 +5,7 @@
 }: {
   services.mpd = {
     enable = true;
-    musicDirectory = "nfs://helios64.lab.borzenkov.net/storage/music";
+    musicDirectory = "/storage/music";
     network.listenAddress = "any";
     extraConfig = ''
       auto_update "yes"
@@ -14,6 +14,9 @@
         name "Living Room"
       }
     '';
+  };
+  systemd.services.mpd.unitConfig = {
+    RequiresMountsFor = ["/storage"];
   };
 
   networking.firewall.allowedTCPPorts = [6600];
@@ -40,13 +43,16 @@
           -a 127.0.0.1:6601 \
           -u pavel@borzenkov.net \
           --mpd-address 127.0.0.1:6600 \
-          --mpd-library nfs://helios64.lab.borzenkov.net/storage/music
+          --mpd-library /storage/music
       '';
       Restart = "always";
       RestartSec = 5;
       EnvironmentFile = [
         config.sops.secrets.mpdsonic-environment.path
       ];
+    };
+    unitConfig = {
+      RequiresMountsFor = ["/storage"];
     };
   };
 
