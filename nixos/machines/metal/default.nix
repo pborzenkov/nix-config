@@ -41,6 +41,7 @@
     kernelParams = [
       "quiet"
       "rd.systemd.show_status=false"
+      "memmap=64M$20548M" # disable bad RAM
     ];
     supportedFilesystems = ["ntfs"];
 

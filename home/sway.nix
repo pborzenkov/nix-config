@@ -98,7 +98,7 @@ in {
           fonts = {
             names = ["MesloLGS Nerd Font Mono" "Font Awesome 5 Free"];
             style = "Regular";
-            size = 12.0;
+            size = 10.0;
           };
           colors = with config.scheme.withHashtag; {
             background = base00;
@@ -310,18 +310,8 @@ in {
           block = "sound";
           driver = "pulseaudio";
           device_kind = "sink";
-          format = "{output_name}{volume}";
-          mappings = {
-            "alsa_output.usb-Razer_Razer_USB_Sound_Card_00000000-00.analog-stereo" = " ";
-            "alsa_output.pci-0000_12_00.4.analog-stereo" = "";
-          };
+          format = "{volume}";
           on_click = "${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
-        }
-        {
-          block = "sound";
-          driver = "pulseaudio";
-          device_kind = "source";
-          on_click = "${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle";
         }
         {
           block = "keyboard_layout";
@@ -336,10 +326,6 @@ in {
           block = "time";
           interval = 60;
           format = "%a %d/%m %R";
-        }
-        {
-          block = "notify";
-          format = "";
         }
       ];
       settings = {
