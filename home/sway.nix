@@ -2,7 +2,6 @@
   config,
   pkgs,
   lib,
-  inputs,
   ...
 }: let
   scratchTerm = pkgs.writeShellScript "scratch-term.sh" ''
@@ -19,16 +18,6 @@
     [ $is_visible -eq 0 ] && exec ${pkgs.sway}/bin/swaymsg '[con_mark="scratch-term"] scratchpad show, [con_mark="scratch-term"] move to workspace $cw'
 
     exec ${pkgs.sway}/bin/swaymsg '[con_mark="scratch-term"] move scratchpad'
-  '';
-  launcher = pkgs.writeShellScript "launcher.sh" ''
-    programs=(
-      "bashmount"
-      "ncpamixer"
-    )
-    exec $(printf "%s\n" ''${programs[@]} | ${pkgs.skim}/bin/sk)
-  '';
-  launcherTerm = pkgs.writeShellScript "launcher-term.sh" ''
-    exec ${pkgs.foot}/bin/foot -W 160x50 -a launcher-term ${launcher}
   '';
 in {
   wayland.windowManager.sway = {
@@ -48,7 +37,6 @@ in {
           "${modifier}+Return" = lib.mkForce null;
           "${modifier}+space" = lib.mkForce null;
           "Mod1+Return" = "exec ${scratchTerm}";
-          "Mod1+Shift+Return" = "exec ${launcherTerm}";
           "${modifier}+Shift+e" = "exec rofi -modi emoji -show emoji";
           "${modifier}+Shift+s" = ''
             exec rofi -theme-str 'window {width: 20%;} listview{scrollbar: false; lines: 6;}' \
@@ -96,13 +84,13 @@ in {
           position = "top";
           statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ${config.xdg.configHome}/i3status-rust/config-default.toml";
           fonts = {
-            names = ["MesloLGS Nerd Font Mono" "Font Awesome 5 Free"];
+            names = ["MesloLGS Nerd Font Mono" "Font Awesome 6 Free"];
             style = "Regular";
             size = 10.0;
           };
           colors = with config.scheme.withHashtag; {
             background = base00;
-            separator = base01;
+            separator = base03;
             statusline = base04;
             focusedWorkspace = {
               border = base05;
@@ -180,10 +168,6 @@ in {
         {
           criteria = {app_id = "scratch-term";};
           command = ''mark "scratch-term", move scratchpad, scratchpad show, resize set 1128 758'';
-        }
-        {
-          criteria = {app_id = "launcher-term";};
-          command = "floating enable";
         }
         {
           criteria = {
@@ -304,19 +288,28 @@ in {
   programs.i3status-rust = {
     enable = true;
     bars.default = {
-      icons = "awesome5";
       blocks = [
         {
           block = "sound";
           driver = "pulseaudio";
           device_kind = "sink";
-          format = "{volume}";
-          on_click = "${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
+          format = "$output_name{ $volume|}";
+          mappings = {
+            "alsa_output.usb-Razer_Razer_USB_Sound_Card_00000000-00.analog-stereo" = "";
+            "alsa_output.pci-0000_12_00.4.analog-stereo" = "";
+            "alsa_output.pci-0000_10_00.1.hdmi-stereo-extra4" = "";
+          };
+          click = [
+            {
+              button = "left";
+              cmd = "${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
+            }
+          ];
         }
         {
           block = "keyboard_layout";
           driver = "sway";
-          format = "{layout}";
+          format = "$layout";
           mappings = {
             "English (US)" = "EN";
             "Russian (N/A)" = "RU";
@@ -325,12 +318,15 @@ in {
         {
           block = "time";
           interval = 60;
-          format = "%a %d/%m %R";
+          format = "$icon $timestamp.datetime(f:'%a %d/%m %R')";
         }
       ];
       settings = {
+        icons = lib.mkForce {
+          icons = "awesome6";
+        };
         theme = {
-          name = "solarized-dark"; # fully overwritten
+          theme = "native"; # fully overwritten
           overrides = with config.scheme.withHashtag; {
             idle_bg = base00;
             idle_fg = base05;
