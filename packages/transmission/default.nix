@@ -36,14 +36,14 @@
   apparmorRulesFromClosure,
 }:
 stdenv.mkDerivation rec {
-  version = "4.0.1";
+  version = "4.0.2";
   pname = "transmission";
 
   src = fetchFromGitHub {
     owner = "transmission";
     repo = "transmission";
     rev = version;
-    hash = "sha256-t988aBtuMlhJ5IdATXgNGtRTDMBPjyQoaBTH+rWNboc=";
+    hash = "sha256-DaaJnnWEZOl6zLVxgg+U8C5ztv7Iq0wJ9yle0Gxwybc=";
     fetchSubmodules = true;
   };
 

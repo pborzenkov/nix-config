@@ -24,6 +24,7 @@
     ../../termshark.nix
     ../../tmux.nix
     ../../zathura.nix
+    ../../zellij.nix
     ../../zsh.nix
 
     ./mpd.nix
@@ -50,14 +51,17 @@
     pkgs.cuetools
     pkgs.slack
     pkgs.zeal
+    pkgs.claws-mail
 
     pkgs.nixos-container
     pkgs.libvirt
 
     pkgs.pulseaudio
     pkgs.ncpamixer
-    pkgs.vdirsyncer
     pkgs.bashmount
+
+    pkgs.hunspellDicts.en_GB-large
+    pkgs.hunspellDicts.ru_RU
   ];
 
   services = {
@@ -69,11 +73,17 @@
     };
   };
 
-  home.sessionVariables = {
-    MOZ_ENABLE_WAYLAND = "1";
-    NIXOS_OZONE_WL = "1";
-    PATH = "\${HOME}/bin:\${PATH}";
-    VIRSH_DEFAULT_CONNECT_URI = "qemu+ssh://rock.lab.borzenkov.net/system";
+  home = {
+    sessionVariables = {
+      MOZ_ENABLE_WAYLAND = "1";
+      NIXOS_OZONE_WL = "1";
+      PATH = "\${HOME}/bin:\${PATH}";
+      VIRSH_DEFAULT_CONNECT_URI = "qemu+ssh://rock.lab.borzenkov.net/system";
+    };
+    shellAliases = {
+      mixer = "ncpamixer -t o";
+      pmixer = "ncpamixer -t p";
+    };
   };
 
   wayland.windowManager.sway.config.window.commands = [

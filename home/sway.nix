@@ -14,7 +14,7 @@
     is_visible=0
     [ -n "$(echo $cwt | $jq '.nodes[] | select(.app_id == "scratch-term")')" ] && is_visible=1 || is_visible=0
 
-    [ $is_running -eq 0 ] && exec ${pkgs.foot}/bin/foot -a scratch-term tmux new-session -s scratch
+    [ $is_running -eq 0 ] && exec ${pkgs.foot}/bin/foot -a scratch-term ${pkgs.tmux}/bin/tmux new-session -s scratch
     [ $is_visible -eq 0 ] && exec ${pkgs.sway}/bin/swaymsg '[con_mark="scratch-term"] scratchpad show, [con_mark="scratch-term"] move to workspace $cw'
 
     exec ${pkgs.sway}/bin/swaymsg '[con_mark="scratch-term"] move scratchpad'
@@ -36,7 +36,7 @@ in {
         lib.mkOptionDefault {
           "${modifier}+Return" = lib.mkForce null;
           "${modifier}+space" = lib.mkForce null;
-          "Mod1+Return" = "exec ${scratchTerm}";
+          "Mod1+Shift+Return" = "exec ${scratchTerm}";
           "${modifier}+Shift+e" = "exec rofi -modi emoji -show emoji";
           "${modifier}+Shift+s" = ''
             exec rofi -theme-str 'window {width: 20%;} listview{scrollbar: false; lines: 6;}' \
@@ -167,7 +167,7 @@ in {
         }
         {
           criteria = {app_id = "scratch-term";};
-          command = ''mark "scratch-term", move scratchpad, scratchpad show, resize set 1128 758'';
+          command = ''mark "scratch-term", move scratchpad, resize set 1128 758, scratchpad show'';
         }
         {
           criteria = {
@@ -179,8 +179,12 @@ in {
       ];
       startup = [
         {command = "dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK";}
+        {command = "system --user import-environment";}
       ];
     };
+    extraConfig = ''
+      hide_edge_borders --i3 none
+    '';
   };
 
   xdg.dataFile."wallpaper.jpg" = {

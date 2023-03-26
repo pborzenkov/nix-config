@@ -1,8 +1,10 @@
 {
-  config,
   pkgs,
+  inputs,
   ...
-}: {
+}: let
+  nixpkgsPath = "/etc/nixpkgs/channels/nixpkgs";
+in {
   nix = {
     package = pkgs.nixVersions.stable;
     extraOptions = ''
@@ -33,5 +35,13 @@
         "pborzenkov.cachix.org-1:ffVB/S9v4T+PecDRk83gPmbWnVQpjRc76k6bGtnk6YM="
       ];
     };
+
+    nixPath = [
+      "nixpkgs=${nixpkgsPath}"
+    ];
   };
+
+  systemd.tmpfiles.rules = [
+    "L+ ${nixpkgsPath} - - - - ${inputs.nixpkgs}"
+  ];
 }

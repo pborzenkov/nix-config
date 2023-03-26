@@ -116,7 +116,8 @@ in {
             get_vpn_port = pkgs.writeShellScript "get_vpn_port.sh" ''
               IP_ADDR=$(${pkgs.iproute2}/bin/ip -4 addr show ${vpn} | ${pkgs.gawk}/bin/awk '/inet/{ print ''$2 }' | cut -d/ -f1)
               if [ $? -ne 0 ]; then
-                exit 1
+                echo "No VPN interface"
+                exit 0
               fi
 
               IFS='.' read -ra ADDR <<< "''$IP_ADDR"
@@ -130,12 +131,12 @@ in {
             pkgs.writeShellScript "transmission-set-port.sh" ''
               HAS_PORT=$(${pkgs.transmission}/bin/transmission-remote --unix-socket /run/transmission/rpc.sock --json -si | ${pkgs.jq}/bin/jq -r '.arguments."peer-port"')
               if [ -z "''${HAS_PORT}" ]; then
-                exit 1
+                echo "Transmission not running"
               fi
 
               WANT_PORT=1$(${get_vpn_port})
               if [ -z "''${WANT_PORT}" ]; then
-                exit 1
+                echo "Can't get desired port"
               fi
 
               if [ "''${HAS_PORT}" -ne "''${WANT_PORT}" ]; then

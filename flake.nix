@@ -43,10 +43,6 @@
     };
 
     # Base16 templates
-    base16-aerc = {
-      url = "sourcehut:~h4n1/base16-aerc";
-      flake = false;
-    };
     base16-alacritty = {
       url = "github:aarowill/base16-alacritty";
       flake = false;

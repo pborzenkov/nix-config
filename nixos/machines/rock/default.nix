@@ -1,9 +1,6 @@
 {
-  config,
-  lib,
   pkgs,
   modulesPath,
-  nur,
   inputs,
   ...
 }: {
@@ -25,6 +22,7 @@
     ./dashboard.nix
     ./grafana.nix
     ./jellyfin.nix
+    ./koreader.nix
     ./libvirt.nix
     ./miniflux.nix
     ./mpd.nix
@@ -60,7 +58,7 @@
       efi.canTouchEfiVariables = true;
     };
 
-    kernelPackages = pkgs.linuxPackages_6_1;
+    kernelPackages = pkgs.linuxPackages_6_2;
     kernelModules = [
       "nct6775"
     ];

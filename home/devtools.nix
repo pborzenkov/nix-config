@@ -39,6 +39,7 @@
 
       # Nix
       pkgs.cachix
+      pkgs.nix-prefetch-git
       pkgs.nix-prefetch-github
       pkgs.nix-update
       pkgs.nixpkgs-review
@@ -50,7 +51,10 @@
       pkgs.gopls
 
       # Rust
-      (pkgs.rust-bin.stable.latest.default.override {extensions = ["rust-src"];})
+      (pkgs.rust-bin.stable.latest.default.override {
+        extensions = ["rust-src"];
+        targets = ["wasm32-wasi"];
+      })
       pkgs.rust-analyzer
 
       pkgs.act

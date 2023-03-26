@@ -12,13 +12,10 @@
     inputs.nixos-hardware.nixosModules.common-cpu-amd
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
-    inputs.sops-nix.nixosModules.sops
-
     ../../podman.nix
 
     ./login.nix
     ./nix.nix
-    ./secrets.nix
     ./sound.nix
     ./syncthing.nix
   ];
@@ -37,7 +34,7 @@
       efi.canTouchEfiVariables = true;
     };
 
-    kernelPackages = pkgs.linuxPackages_6_1;
+    kernelPackages = pkgs.linuxPackages_6_2;
     kernelParams = [
       "quiet"
       "rd.systemd.show_status=false"
@@ -65,7 +62,6 @@
 
   hardware = {
     enableRedistributableFirmware = true;
-    video.hidpi.enable = true;
   };
 
   fonts = {
@@ -76,13 +72,18 @@
       pkgs.nerdfonts
       pkgs.font-awesome_5
     ];
-    fontconfig.enable = true;
+    fontconfig = {
+      enable = true;
+    };
   };
 
   networking = {
     hostName = "metal";
     firewall = {
       enable = true;
+      allowedTCPPorts = [
+        9090 # Calibre sync server
+      ];
       allowedUDPPorts = [
         5678 # Mikrotik NDP
         37008 # traffic sniffer on Mikrotik
@@ -127,11 +128,6 @@
     powerDownCommands = ''
       sleep 0.1
     '';
-  };
-
-  sops = {
-    defaultSopsFile = ./secrets/secrets.yaml;
-    gnupg.sshKeyPaths = ["/etc/ssh/ssh_host_rsa_key"];
   };
 
   services = {

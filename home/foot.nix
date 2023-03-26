@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{config, ...}: {
   programs.foot = {
     enable = true;
 
@@ -16,6 +12,11 @@
 
       mouse = {
         hide-when-typing = "yes";
+      };
+
+      key-bindings = {
+        clipboard-copy = "Mod1+Shift+p";
+        clipboard-paste = "Mod1+p";
       };
 
       colors = with config.scheme; {
