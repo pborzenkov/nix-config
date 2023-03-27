@@ -22,6 +22,4 @@ final: prev: {
   rtorrent-exporter = final.callPackage ./packages/rtorrent-exporter {};
 
   transmission = final.callPackage ./packages/transmission {};
-
-  z-tab-bar = final.callPackage ./packages/z-tab-bar {};
 }

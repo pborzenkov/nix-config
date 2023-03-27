@@ -18,8 +18,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nur.url = "github:nix-community/NUR";
-    rust-overlay = {
-      url = "github:oxalica/rust-overlay";
+    fenix = {
+      url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     deploy-rs = {
@@ -77,7 +77,7 @@
         config.allowUnfree = true;
         overlays = [
           inputs.nur.overlay
-          (import inputs.rust-overlay)
+          inputs.fenix.overlays.default
           (import ./overlay.nix)
         ];
       };
@@ -177,7 +177,7 @@
           };
           overlays = [
             inputs.nur.overlay
-            (import inputs.rust-overlay)
+            inputs.fenix.overlays.default
             (import ./overlay.nix)
           ];
         };

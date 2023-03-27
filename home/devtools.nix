@@ -51,11 +51,8 @@
       pkgs.gopls
 
       # Rust
-      (pkgs.rust-bin.stable.latest.default.override {
-        extensions = ["rust-src"];
-        targets = ["wasm32-wasi"];
-      })
-      pkgs.rust-analyzer
+      (pkgs.fenix.stable.withComponents ["cargo" "clippy" "rust-src" "rustc" "rustfmt"])
+      pkgs.rust-analyzer-nightly
 
       pkgs.act
       pkgs.efm-langserver

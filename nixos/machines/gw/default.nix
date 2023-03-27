@@ -113,5 +113,5 @@
 
   time.timeZone = "Europe/Amsterdam";
 
-  system.stateVersion = "20.09";
+  system.stateVersion = "23.05";
 }

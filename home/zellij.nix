@@ -96,7 +96,6 @@
           status-bar { path "status-bar"; }
           strider { path "strider"; }
           compact-bar { path "compact-bar"; }
-          z-tab-bar { path "${pkgs.z-tab-bar}/lib/z-tab-bar"; }
         }
 
         theme "base16"

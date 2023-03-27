@@ -110,6 +110,7 @@
         };
       };
     };
+    wait-online.anyInterface = true;
   };
   services = {
     avahi.enable = true;
@@ -132,5 +133,5 @@
 
   virtualisation.oci-containers.backend = "docker";
 
-  system.stateVersion = "20.09";
+  system.stateVersion = "23.05";
 }
