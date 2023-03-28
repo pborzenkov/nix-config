@@ -1,8 +1,6 @@
 {
   config,
-  lib,
   pkgs,
-  modulesPath,
   inputs,
   ...
 }: {
@@ -11,6 +9,8 @@
 
     inputs.nixos-hardware.nixosModules.common-cpu-amd
     inputs.nixos-hardware.nixosModules.common-pc-ssd
+
+    inputs.sops-nix.nixosModules.sops
 
     ../../podman.nix
 
@@ -128,6 +128,19 @@
     powerDownCommands = ''
       sleep 0.1
     '';
+  };
+
+  sops = {
+    defaultSopsFile = ./secrets/secrets.yaml;
+    gnupg.sshKeyPaths = ["/etc/ssh/ssh_host_rsa_key"];
+
+    secrets = {
+      listenbrainz-mpd-token = {
+        mode = "0400";
+        owner = config.users.users.pbor.name;
+        group = config.users.users.pbor.group;
+      };
+    };
   };
 
   services = {

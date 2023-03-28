@@ -58,6 +58,7 @@
       pkgs.efm-langserver
       pkgs.sumneko-lua-language-server
       pkgs.terraform-ls
+      pkgs.ltex-ls
       pkgs.radare2
     ]
     ++ lib.optionals (pkgs.stdenv.isLinux) [
