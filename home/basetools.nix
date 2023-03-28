@@ -12,7 +12,10 @@
       };
     };
 
-    password-store.enable = true;
+    password-store = {
+      enable = true;
+      package = pkgs.pass.withExtensions (ext: [ext.pass-otp]);
+    };
 
     skim = {
       enable = true;
@@ -67,6 +70,12 @@
       text = ''
         --smart-case
       '';
+    };
+    browserpass = {
+      text = builtins.toJSON {
+        enableOTP = true;
+      };
+      target = "${config.programs.password-store.settings.PASSWORD_STORE_DIR}/.browserpass.json";
     };
   };
 
