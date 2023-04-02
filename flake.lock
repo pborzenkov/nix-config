@@ -100,6 +100,22 @@
         "type": "github"
       }
     },
+    "base16-tridactyl": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1673649179,
+        "narHash": "sha256-Fog7b4qv5HfTtkJ/5eQt1bdWrVMayjvGHpd3LRJSfi4=",
+        "owner": "tridactyl",
+        "repo": "base16-tridactyl",
+        "rev": "448ff5863ea65532f9c7c7b86f7c650fbb1555d2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tridactyl",
+        "repo": "base16-tridactyl",
+        "type": "github"
+      }
+    },
     "base16-vim": {
       "flake": false,
       "locked": {
@@ -335,6 +351,7 @@
         "base16-rofi": "base16-rofi",
         "base16-textmate": "base16-textmate",
         "base16-tmux": "base16-tmux",
+        "base16-tridactyl": "base16-tridactyl",
         "base16-vim": "base16-vim",
         "base16-zathura": "base16-zathura",
         "darwin": "darwin",

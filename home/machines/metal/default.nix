@@ -18,6 +18,7 @@
     ../../mpv.nix
     ../../ncmpcpp.nix
     ../../neovim.nix
+    ../../pim.nix
     ../../rofi.nix
     ../../ssh.nix
     ../../sway.nix

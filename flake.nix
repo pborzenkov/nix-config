@@ -59,6 +59,10 @@
       url = "github:mattdavis90/base16-tmux";
       flake = false;
     };
+    base16-tridactyl = {
+      url = "github:tridactyl/base16-tridactyl";
+      flake = false;
+    };
     base16-vim = {
       url = "github:chriskempson/base16-vim";
       flake = false;
@@ -149,6 +153,7 @@
       arch ? "x86_64-linux",
       home ? "/home",
       user ? "pbor",
+      extra ? {},
     }:
       inputs.home-manager.lib.homeManagerConfiguration {
         modules = [
@@ -165,6 +170,7 @@
             programs.home-manager.enable = true;
             scheme = "${inputs.base16-onedark-scheme}/onedark.yaml";
           }
+          extra
         ];
 
         extraSpecialArgs = {
@@ -225,6 +231,12 @@
           hostname = "macos";
           arch = "x86_64-darwin";
           home = "/Users";
+        };
+        trance = makeHome {
+          hostname = "trance";
+          extra = {
+            nix.registry.nixpkgs.flake = inputs.nixpkgs;
+          };
         };
       };
 

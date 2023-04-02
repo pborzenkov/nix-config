@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   pkgs,
   ...
 }: {
@@ -11,6 +12,11 @@
 
     firefox = {
       enable = pkgs.stdenv.isLinux;
+      package = pkgs.firefox.override {
+        cfg = {
+          enableTridactylNative = true;
+        };
+      };
       profiles.default = {
         id = 0;
         isDefault = true;
@@ -30,6 +36,7 @@
         in [
           rycee.browserpass
           rycee.translate-web-pages
+          rycee.tridactyl
           rycee.ublock-origin
 
           pborzenkov.wallabagger
@@ -49,9 +56,25 @@
     '';
   };
 
-  xdg.mimeApps = {
-    defaultApplications = {
-      "text/html" = ["firefox.desktop"];
+  xdg = {
+    configFile = {
+      tridactyl = {
+        target = "tridactyl/tridactylrc";
+        text = ''
+          colourscheme base16
+
+          blacklistadd https://rss.lab.borzenkov.net
+        '';
+      };
+      tridactyl-base16 = {
+        target = "tridactyl/themes/base16.css";
+        text = builtins.readFile "${inputs.base16-tridactyl}/base16-${config.scheme.slug}.css";
+      };
+    };
+    mimeApps = {
+      defaultApplications = {
+        "text/html" = ["firefox.desktop"];
+      };
     };
   };
 }

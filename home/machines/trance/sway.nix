@@ -1,9 +1,9 @@
 {pkgs, ...}: {
   wayland.windowManager.sway = {
     config.output = {
-      "DP-2" = {
-        scale = "2";
-      };
+      # "DP-2" = {
+      #   scale = "2";
+      # };
     };
   };
 
@@ -27,6 +27,11 @@
         ];
       }
       {
+        block = "net";
+        device = "wlan0";
+        format = "$icon {$signal_strengh}";
+      }
+      {
         block = "keyboard_layout";
         driver = "sway";
         format = "$layout";
@@ -34,6 +39,10 @@
           "English (US)" = "EN";
           "Russian (N/A)" = "RU";
         };
+      }
+      {
+        block = "battery";
+        driver = "sysfs";
       }
       {
         block = "time";
