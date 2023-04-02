@@ -15,8 +15,6 @@
         primary = true;
         maildir.path = "borzenkov.net";
 
-        userName = "pavel@borzenkov.net";
-
         mujmap = {
           enable = true;
           settings = {
@@ -40,6 +38,7 @@
     mujmap.enable = true;
     notmuch = {
       enable = true;
+      new.tags = ["new"];
       extraConfig = {
         "bower:addressbook" = {
           meme = "Pavel Borzenkov <pavel@borzenkov.net>";

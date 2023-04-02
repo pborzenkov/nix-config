@@ -21,7 +21,10 @@
         id = 0;
         isDefault = true;
         name = "default";
-        search.default = "DuckDuckGo";
+        search = {
+          force = true;
+          default = "DuckDuckGo";
+        };
 
         settings = {
           "browser.download.folderList" = 2;

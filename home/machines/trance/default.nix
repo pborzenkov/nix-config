@@ -97,6 +97,6 @@
       };
     };
     userDirs.download = "${config.home.homeDirectory}/down";
-    systemDirs.data = ["/home/pbor/.local/state/nix/profiles/profile"];
+    systemDirs.data = ["/home/pbor/.local/state/nix/profiles/profile/share"];
   };
 }
