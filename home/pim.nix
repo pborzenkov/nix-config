@@ -38,7 +38,6 @@
     mujmap.enable = true;
     notmuch = {
       enable = true;
-      new.tags = ["new"];
       extraConfig = {
         "bower:addressbook" = {
           meme = "Pavel Borzenkov <pavel@borzenkov.net>";

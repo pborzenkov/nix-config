@@ -25,7 +25,6 @@ in {
         lieer = {
           enable = true;
           settings = {
-            ignore_tags = ["new"];
             local_trash_tag = "deleted";
           };
         };
