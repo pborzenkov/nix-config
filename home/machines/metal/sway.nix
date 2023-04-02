@@ -5,6 +5,10 @@
 }: let
   cfg = config.wayland.windowManager.sway;
 in {
+  home.packages = [
+    pkgs.swaylock
+  ];
+
   wayland.windowManager.sway = {
     config = {
       keybindings = {

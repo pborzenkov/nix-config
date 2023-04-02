@@ -46,7 +46,7 @@
       serviceConfig = {
         Type = "simple";
         DynamicUser = true;
-        LoadCredentials = "token:${config.sops.secrets.listenbrainz-mpd-token.path}";
+        LoadCredential = "token:${config.sops.secrets.listenbrainz-mpd-token.path}";
         ExecStart = "${pkgs.listenbrainz-mpd}/bin/listenbrainz-mpd -c ${cfg}";
         Restart = "always";
       };

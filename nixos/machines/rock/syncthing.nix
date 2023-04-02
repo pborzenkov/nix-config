@@ -36,22 +36,30 @@
           "dynamic"
         ];
       };
+
+      # Work laptop
+      trance = {
+        id = "UQA7VGD-ZWYO6AD-G7PFTZS-AE7QD4V-GGU6ECB-WD65QYR-DXMWQXU-4L5SDAL";
+        addresses = [
+          "dynamic"
+        ];
+      };
     };
 
     folders = {
       "/home/pbor/docs" = {
         id = "docs";
-        devices = ["metal"];
+        devices = ["metal" "trance"];
       };
 
       "/home/pbor/books" = {
         id = "books";
-        devices = ["metal"];
+        devices = ["metal" "trance"];
       };
 
       "/home/pbor/.local/share/password-store" = {
         id = "password-store";
-        devices = ["jazz" "metal" "phone"];
+        devices = ["jazz" "metal" "phone" "trance"];
       };
 
       "/home/pbor/.local/share/photos-for-review" = {
