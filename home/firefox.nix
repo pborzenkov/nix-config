@@ -21,11 +21,13 @@
         id = 0;
         isDefault = true;
         name = "default";
+        search.default = "DuckDuckGo";
 
         settings = {
           "browser.download.folderList" = 2;
           "browser.download.dir" = "${config.home.homeDirectory}/down";
           "browser.startup.page" = 3;
+          "browser.warnOnQuitShortcut" = false;
 
           "signon.rememberSignons" = false;
         };

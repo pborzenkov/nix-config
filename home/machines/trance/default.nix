@@ -23,6 +23,7 @@
     ../../zsh.nix
 
     ./mpd.nix
+    ./pim.nix
     ./sway.nix
   ];
 
@@ -41,6 +42,7 @@
     pkgs.slack
     pkgs.zeal
     pkgs.claws-mail
+    pkgs.google-chrome
 
     pkgs.pulseaudio
     pkgs.ncpamixer
@@ -70,6 +72,10 @@
       mixer = "ncpamixer -t o";
       pmixer = "ncpamixer -t p";
     };
+    file.gtk-theme = {
+      source = "${config.gtk.theme.package}/share/themes/base16";
+      target = ".themes/base16";
+    };
   };
 
   wayland.windowManager.sway.config.window.commands = [
@@ -86,8 +92,11 @@
         "x-scheme-handler/tg" = ["org.telegram.desktop.desktop"];
         "application/pdf" = ["org.pwmt.zathura.desktop"];
         "application/epub+zip" = ["org.pwmt.zathura.desktop"];
+        "x-scheme-handler/http" = ["google-chrome.desktop"];
+        "x-scheme-handler/https" = ["google-chrome.desktop"];
       };
     };
     userDirs.download = "${config.home.homeDirectory}/down";
+    systemDirs.data = ["/home/pbor/.local/state/nix/profiles/profile"];
   };
 }

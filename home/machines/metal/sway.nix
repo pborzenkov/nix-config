@@ -1,8 +1,23 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: let
+  cfg = config.wayland.windowManager.sway;
+in {
   wayland.windowManager.sway = {
-    config.output = {
-      "DP-2" = {
-        scale = "2";
+    config = {
+      keybindings = {
+        "${cfg.config.modifier}+Shift+s" = ''
+          exec rofi -theme-str 'window {width: 20%;} listview{scrollbar: false; lines: 6;}' \
+          -show power \
+          -modi "power:${pkgs.nur.repos.pborzenkov.rofi-power-menu}/bin/rofi-power-menu --choices lockscreen/logout/reboot/shutdown/suspend/windows"
+        '';
+      };
+      output = {
+        "DP-2" = {
+          scale = "2";
+        };
       };
     };
   };
