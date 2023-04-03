@@ -12,7 +12,7 @@ in {
         "${cfg.config.modifier}+Shift+s" = ''
           exec rofi -theme-str 'window {width: 20%;} listview{scrollbar: false; lines: 6;}' \
           -show power \
-          -modi "power:${pkgs.nur.repos.pborzenkov.rofi-power-menu}/bin/rofi-power-menu --choices lockscreen/logout/reboot/shutdown/suspend"
+          -modi "power:${pkgs.nur.repos.pborzenkov.rofi-power-menu}/bin/rofi-power-menu --choices lockscreen/logout/reboot/shutdown/suspend/hibernate"
         '';
       };
       input = {
