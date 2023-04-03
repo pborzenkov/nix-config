@@ -29,7 +29,6 @@
     ../../zsh.nix
 
     ./mpd.nix
-    ./pim.nix
     ./sway.nix
   ];
 
