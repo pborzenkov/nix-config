@@ -29,6 +29,7 @@
     ../../zsh.nix
 
     ./mpd.nix
+    ./photos.nix
     ./sway.nix
   ];
 
