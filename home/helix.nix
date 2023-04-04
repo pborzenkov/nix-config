@@ -1,14 +1,12 @@
 {
   config,
   pkgs,
-  inputs,
   ...
 }: {
   programs.helix = {
     enable = true;
 
     settings = {
-      theme = config.scheme.slug;
       editor = {
         auto-pairs = false;
         cursor-shape = {
@@ -18,9 +16,19 @@
           render = true;
         };
         line-number = "relative";
+        lsp = {
+          display-inlay-hints = true;
+        };
         mouse = false;
         shell = ["${pkgs.zsh}/bin/zsh" "-c"];
+        soft-wrap = {
+          enable = true;
+        };
       };
+      keys.normal.space = {
+        H = ":toggle lsp.display-inlay-hints";
+      };
+      theme = config.scheme.slug;
     };
 
     languages = [
@@ -41,7 +49,7 @@
         scope = "text.eml";
         roots = [];
         file-types = ["eml"];
-        max-line-length = 72;
+        text-width = 72;
         rulers = [72];
       }
     ];

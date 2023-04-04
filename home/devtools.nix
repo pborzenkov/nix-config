@@ -36,6 +36,7 @@
       pkgs.man-pages
       pkgs.man-pages-posix
       pkgs.gnumake
+      pkgs.just
 
       # Nix
       pkgs.cachix
@@ -47,11 +48,18 @@
       pkgs.alejandra
 
       # Go
-      pkgs.go_1_18
+      pkgs.go
       pkgs.gopls
 
       # Rust
-      (pkgs.fenix.stable.withComponents ["cargo" "clippy" "rust-src" "rustc" "rustfmt"])
+      (pkgs.fenix.combine (with pkgs.fenix.stable; [
+        cargo
+        clippy
+        rust-src
+        rustc
+        rustfmt
+        pkgs.fenix.targets.x86_64-unknown-linux-musl.stable.rust-std
+      ]))
       pkgs.rust-analyzer-nightly
 
       pkgs.act

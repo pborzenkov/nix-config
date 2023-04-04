@@ -36,7 +36,7 @@
     pkgs.tdesktop
     pkgs.calibre
     pkgs.virt-manager
-    pkgs.libreoffice
+    # pkgs.libreoffice
     pkgs.jellyfin-media-player
     pkgs.slack
     pkgs.zeal
