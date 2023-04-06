@@ -68,6 +68,7 @@
       pkgs.terraform-ls
       pkgs.ltex-ls
       pkgs.radare2
+      pkgs.teleport
     ]
     ++ lib.optionals (pkgs.stdenv.isLinux) [
       pkgs.gcc

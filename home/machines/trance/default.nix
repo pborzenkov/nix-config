@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  inputs,
   ...
 }: {
   imports = [
@@ -71,9 +72,16 @@
       mixer = "ncpamixer -t o";
       pmixer = "ncpamixer -t p";
     };
-    file.gtk-theme = {
-      source = "${config.gtk.theme.package}/share/themes/base16";
-      target = ".themes/base16";
+    file = {
+      gtk-theme = {
+        source = "${config.gtk.theme.package}/share/themes/base16";
+        target = ".themes/base16";
+      };
+
+      nixpkgs = {
+        source = inputs.nixpkgs;
+        target = ".nix-defexpr/channels/nixpkgs";
+      };
     };
   };
 

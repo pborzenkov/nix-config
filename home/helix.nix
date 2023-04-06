@@ -17,7 +17,7 @@
         };
         line-number = "relative";
         lsp = {
-          display-inlay-hints = true;
+          display-inlay-hints = false;
         };
         mouse = false;
         shell = ["${pkgs.zsh}/bin/zsh" "-c"];
