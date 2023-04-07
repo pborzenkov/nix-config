@@ -44,7 +44,7 @@
     pkgs.calibre
     pkgs.tremc
     pkgs.virt-manager
-    pkgs.libreoffice
+    # pkgs.libreoffice
     pkgs.jellyfin-media-player
     pkgs.picard
     pkgs.shntool
