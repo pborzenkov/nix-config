@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  lib,
   ...
 }: let
   cfg = config.wayland.windowManager.sway;
@@ -8,6 +9,8 @@ in {
   home.packages = [
     pkgs.swaylock
   ];
+
+  systemd.user.services.swayidle.Service.ExecStart = lib.mkForce "${pkgs.swayidle}/bin/swayidle -w";
 
   wayland.windowManager.sway = {
     config = {

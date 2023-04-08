@@ -69,6 +69,9 @@
           colourscheme base16
 
           blacklistadd https://rss.lab.borzenkov.net
+
+          bind J tabnext
+          bind K tabprev
         '';
       };
       tridactyl-base16 = {

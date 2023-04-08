@@ -88,9 +88,13 @@ in {
         "XF86AudioRaiseVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%";
         "XF86AudioLowerVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%";
         "XF86AudioMute" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
-        "${modifier}+braceleft" = "exec ${pkgs.playerctl}/bin/playerctl previous";
-        "${modifier}+braceright" = "exec ${pkgs.playerctl}/bin/playerctl next";
-        "${modifier}+bar" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
+        "XF86AudioPrev" = "exec ${pkgs.playerctl}/bin/playerctl previous";
+        "XF86AudioNext" = "exec ${pkgs.playerctl}/bin/playerctl next";
+        "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
+        Print = ''exec ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp -d)" - | ${pkgs.wl-clipboard}/bin/wl-copy'';
+        "Shift+Print" = ''exec ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp -d)"'';
+        "Ctrl+Print" = ''exec ${pkgs.grim}/bin/grim -o $(${pkgs.sway}/bin/swaymsg -t get_outputs | ${pkgs.jq}/bin/jq -r '.[] | select(.focused) | .name') - | ${pkgs.wl-clipboard}/bin/wl-copy'';
+        "Ctrl+Shift+Print" = ''exec ${pkgs.grim}/bin/grim -o $(${pkgs.sway}/bin/swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')'';
 
         "${modifier}+Shift+n" = "exec dunstctl set-paused toggle";
 
@@ -350,6 +354,11 @@ in {
           };
         };
       };
+    };
+  };
+  home = {
+    sessionVariables = {
+      GRIM_DEFAULT_DIR = "${config.home.homeDirectory}/down";
     };
   };
 }

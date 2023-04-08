@@ -6,8 +6,8 @@
       main = {
         term = "xterm-256color";
 
-        font = "MesloLGS Nerd Font Mono:size=12";
-        dpi-aware = "yes";
+        font = "MesloLGS Nerd Font Mono:size=10";
+        dpi-aware = "no";
       };
 
       mouse = {
