@@ -1,6 +1,5 @@
 {
   config,
-  lib,
   pkgs,
   ...
 }: {
@@ -29,6 +28,7 @@
     ../../zsh.nix
 
     ./mpd.nix
+    ./orpheus.nix
     ./photos.nix
     ./sway.nix
   ];
