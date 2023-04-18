@@ -18,7 +18,12 @@ rustPlatform.buildRustPackage rec {
     sha256 = "sha256-zVo4STa2bWWhLu85lWpwrGPTYDTEhwnAU+l9gvcjhBY=";
   };
 
-  cargoSha256 = "sha256-fEes9SY4v7v56UGKXUBZLpXibbT6JsOTmC2uRAbbaHA=";
+  cargoLock = {
+    lockFile = ./Cargo.lock;
+    outputHashes = {
+      "nfs-0.1.0" = "sha256-By0Crtggzd6RqKpBjTRtqvk7DbqQQa1QqxWU2TSuRqk=";
+    };
+  };
 
   nativeBuildInputs = [pkg-config] ++ lib.optionals withNFS [rustPlatform.bindgenHook];
   buildInputs = [openssl] ++ lib.optionals withNFS [libnfs];
