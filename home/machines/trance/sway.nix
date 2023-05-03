@@ -50,6 +50,7 @@ in {
         mappings = {
           "alsa_output.usb-Razer_Razer_USB_Sound_Card_00000000-00.analog-stereo" = "";
           "alsa_output.pci-0000_00_1f.3.analog-stereo" = "";
+          "bluez_output.94_DB_56_88_F4_0E.1" = "";
         };
         click = [
           {
