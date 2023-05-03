@@ -62,6 +62,10 @@
       ]))
       pkgs.rust-analyzer-nightly
 
+      # Erlang
+      pkgs.erlang
+      pkgs.erlang-ls
+
       pkgs.act
       pkgs.efm-langserver
       pkgs.sumneko-lua-language-server
