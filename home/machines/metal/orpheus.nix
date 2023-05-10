@@ -49,6 +49,7 @@
     '';
   in [
     orpheus
+    pkgs.mktorrent
   ];
 
   home.file.orpheus-version = {
