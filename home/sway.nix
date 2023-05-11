@@ -88,9 +88,11 @@ in {
         "XF86AudioRaiseVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%";
         "XF86AudioLowerVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%";
         "XF86AudioMute" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
-        "XF86AudioPrev" = "exec ${pkgs.playerctl}/bin/playerctl previous";
-        "XF86AudioNext" = "exec ${pkgs.playerctl}/bin/playerctl next";
-        "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
+        "XF86AudioPrev" = "exec ${pkgs.playerctl}/bin/playerctl -p mpd previous";
+        "XF86AudioNext" = "exec ${pkgs.playerctl}/bin/playerctl -p mpd next";
+        "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl -p mpd play-pause";
+        "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set +5%";
+        "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set 5%-";
         Print = ''exec ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp -d)" - | ${pkgs.wl-clipboard}/bin/wl-copy'';
         "Shift+Print" = ''exec ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp -d)"'';
         "Ctrl+Print" = ''exec ${pkgs.grim}/bin/grim -o $(${pkgs.sway}/bin/swaymsg -t get_outputs | ${pkgs.jq}/bin/jq -r '.[] | select(.focused) | .name') - | ${pkgs.wl-clipboard}/bin/wl-copy'';
