@@ -61,6 +61,7 @@
         pkgs.fenix.targets.x86_64-unknown-linux-musl.stable.rust-std
       ]))
       pkgs.rust-analyzer-nightly
+      pkgs.cargo-nextest
 
       # Erlang
       pkgs.erlang
