@@ -50,6 +50,7 @@
       # Go
       pkgs.go
       pkgs.gopls
+      pkgs.golangci-lint
 
       # Rust
       (pkgs.fenix.combine (with pkgs.fenix.stable; [
