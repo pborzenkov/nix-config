@@ -23,11 +23,10 @@
   boot = {
     loader.grub = {
       enable = true;
-      version = 2;
       devices = ["/dev/vda"];
     };
 
-    kernelPackages = pkgs.linuxPackages_6_2;
+    kernelPackages = pkgs.linuxPackages_6_3;
   };
 
   networking = {

@@ -34,7 +34,7 @@
       efi.canTouchEfiVariables = true;
     };
 
-    kernelPackages = pkgs.linuxPackages_6_2;
+    kernelPackages = pkgs.linuxPackages_6_3;
     kernelParams = [
       "quiet"
       "rd.systemd.show_status=false"
