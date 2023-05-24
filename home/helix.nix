@@ -31,27 +31,29 @@
       theme = config.scheme.slug;
     };
 
-    languages = [
-      {
-        name = "cpp";
-        auto-format = true;
-      }
-      {
-        name = "nix";
-        formatter = {
-          command = "alejandra";
-          args = ["-"];
-        };
-        auto-format = true;
-      }
-      {
-        name = "eml";
-        scope = "text.eml";
-        roots = [];
-        file-types = ["eml"];
-        text-width = 72;
-        rulers = [72];
-      }
-    ];
+    languages = {
+      language = [
+        {
+          name = "cpp";
+          auto-format = true;
+        }
+        {
+          name = "nix";
+          formatter = {
+            command = "alejandra";
+            args = ["-"];
+          };
+          auto-format = true;
+        }
+        {
+          name = "eml";
+          scope = "text.eml";
+          roots = [];
+          file-types = ["eml"];
+          text-width = 72;
+          rulers = [72];
+        }
+      ];
+    };
   };
 }
