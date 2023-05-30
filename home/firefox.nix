@@ -69,6 +69,7 @@
           colourscheme base16
 
           blacklistadd https://rss.lab.borzenkov.net
+          blacklistadd https://app.fastmail.com
 
           bind J tabnext
           bind K tabprev
