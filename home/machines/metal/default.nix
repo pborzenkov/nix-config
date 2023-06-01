@@ -84,6 +84,7 @@
     shellAliases = {
       mixer = "ncpamixer -t o";
       pmixer = "ncpamixer -t p";
+      unflac = ''${pkgs.unflac}/bin/unflac -n "{{.Input.Artist | Elem}} - {{with .Input.Title}}{{. | Elem}}{{else}}Unknown Album{{end}} ({{- with .Input.Date}}{{.}}{{end}})/ {{- printf .Input.TrackNumberFmt .Track.Number}} - {{.Track.Title | Elem}}"'';
     };
   };
 
