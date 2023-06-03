@@ -42,6 +42,7 @@
     pkgs.glow
 
     # Misc
+    pkgs.file
     pkgs.bc
     pkgs.envsubst
     pkgs.zip
