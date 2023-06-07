@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-target=${1:-$(hostname -s)}
-home-manager switch --flake ".#${target}"

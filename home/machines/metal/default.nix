@@ -44,7 +44,7 @@
     pkgs.calibre
     pkgs.tremc
     pkgs.virt-manager
-    # pkgs.libreoffice
+    pkgs.libreoffice
     pkgs.jellyfin-media-player
     pkgs.picard
     pkgs.shntool
@@ -53,6 +53,7 @@
     pkgs.slack
     pkgs.zeal
     pkgs.claws-mail
+    pkgs.steam
 
     pkgs.nixos-container
     pkgs.libvirt
