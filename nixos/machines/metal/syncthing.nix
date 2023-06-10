@@ -47,6 +47,11 @@
         id = "photos";
         devices = ["rock"];
       };
+
+      "/home/pbor/.local/share/synced-state" = {
+        id = "synced-state";
+        devices = ["rock"];
+      };
     };
   };
 }

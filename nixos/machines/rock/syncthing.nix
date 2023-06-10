@@ -63,6 +63,11 @@
         type = "receiveonly";
         devices = ["metal" "phone"];
       };
+
+      "/home/pbor/.local/share/synced-state" = {
+        id = "synced-state";
+        devices = ["metal" "trance"];
+      };
     };
   };
 
