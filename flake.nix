@@ -33,7 +33,6 @@
     # Base16 generator
     base16 = {
       url = "github:SenchoPens/base16.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Base16 themes

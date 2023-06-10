@@ -19,6 +19,7 @@
     ./anki.nix
     ./arr.nix
     ./backup.nix
+    ./books.nix
     ./dashboard.nix
     ./grafana.nix
     ./jellyfin.nix

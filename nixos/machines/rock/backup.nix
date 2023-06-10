@@ -49,11 +49,6 @@
         "**/src/**/bin/**"
       ];
     };
-    books = {
-      paths = [
-        "/home/pbor/books"
-      ];
-    };
     docs = {
       paths = [
         "/home/pbor/docs"

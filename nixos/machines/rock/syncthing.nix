@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{...}: {
   services.syncthing = {
     enable = true;
     openDefaultPorts = true;
@@ -52,7 +48,7 @@
         devices = ["metal" "trance"];
       };
 
-      "/home/pbor/books" = {
+      "/storage/books" = {
         id = "books";
         devices = ["metal" "trance"];
       };
@@ -67,6 +63,12 @@
         type = "receiveonly";
         devices = ["metal" "phone"];
       };
+    };
+  };
+
+  systemd.services.syncthing = {
+    unitConfig = {
+      RequiresMountsFor = ["/storage"];
     };
   };
 }
