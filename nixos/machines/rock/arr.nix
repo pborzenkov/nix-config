@@ -1,17 +1,28 @@
 {lib, ...}: {
   services = {
+    bazarr.enable = true;
     prowlarr.enable = true;
     radarr.enable = true;
-    readarr.enable = true;
+    sonarr.enable = true;
   };
 
-  systemd.services = lib.genAttrs ["radarr" "readarr"] (name: {
+  systemd.services = lib.genAttrs ["bazarr" "radarr" "sonarr"] (name: {
     unitConfig = {
       RequiresMountsFor = ["/storage"];
     };
   });
 
   webapps.apps = {
+    bazarr = {
+      subDomain = "bazarr";
+      proxyTo = "http://127.0.0.1:6767";
+      locations."/" = {};
+      dashboard = {
+        name = "Bazaar";
+        category = "arr";
+        icon = "indent";
+      };
+    };
     prowlarr = {
       subDomain = "prowlarr";
       proxyTo = "http://127.0.0.1:9696";
@@ -32,12 +43,12 @@
         icon = "indent";
       };
     };
-    readarr = {
-      subDomain = "readarr";
-      proxyTo = "http://127.0.0.1:8787";
+    sonarr = {
+      subDomain = "sonarr";
+      proxyTo = "http://127.0.0.1:8989";
       locations."/" = {};
       dashboard = {
-        name = "Readarr";
+        name = "Sonaar";
         category = "arr";
         icon = "indent";
       };
