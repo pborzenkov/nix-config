@@ -19,6 +19,8 @@ final: prev: {
     });
   });
 
+  p1-exporter = final.callPackage ./packages/p1-exporter {};
+
   rtorrent-exporter = final.callPackage ./packages/rtorrent-exporter {};
 
   transmission = final.callPackage ./packages/transmission {};

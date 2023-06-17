@@ -96,6 +96,7 @@ in {
           enable_basic_auth = false;
           users = {
             "pavel@borzenkov.net" = "$2y$10$0wBRpG0umcfGOGqouy1lWO7lsZLZCvlMLu4I3Ja0nDMYCEluQl.1a";
+            "pachmu" = "$2a$10$o7yVA5XXTQkOv0KqtllXZOzyUpHvWqVOZUxABDP76MntOydGiTrYa";
           };
         };
       };

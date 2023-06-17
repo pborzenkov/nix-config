@@ -56,8 +56,34 @@
           }
         ];
       }
+      {
+        job_name = "p1";
+        static_configs = [
+          {
+            targets = [
+              "rock.lab.borzenkov.net:4545"
+            ];
+          }
+        ];
+      }
     ];
   };
 
-  systemd.services."prometheus-node-exporter".serviceConfig.StateDirectory = "prometheus-node-exporter";
+  systemd.services = {
+    prometheus-node-exporter.serviceConfig.StateDirectory = "prometheus-node-exporter";
+    p1-exporter = {
+      description = "Prometheus exporter for DMSR meter";
+      after = ["network.target"];
+      wantedBy = ["multi-user.target"];
+      serviceConfig = {
+        DynamicUser = true;
+        ExecStart = ''
+          ${pkgs.p1-exporter}/bin/p1-exporter \
+            --address 0.0.0.0:4545 \
+            --p1-address 192.168.88.20:23
+        '';
+        Restart = "always";
+      };
+    };
+  };
 }

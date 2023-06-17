@@ -83,6 +83,7 @@
       enable = true;
       allowedTCPPorts = [
         9090 # Calibre sync server
+        3000
       ];
       allowedUDPPorts = [
         5678 # Mikrotik NDP
