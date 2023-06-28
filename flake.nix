@@ -29,6 +29,7 @@
         utils.follows = "flake-utils";
       };
     };
+    devenv.url = "github:cachix/devenv/latest";
 
     # Base16 generator
     base16 = {

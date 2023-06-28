@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }: {
   programs = {
@@ -46,6 +47,7 @@
       pkgs.nixpkgs-review
       pkgs.nil
       pkgs.alejandra
+      inputs.devenv.defaultPackage.x86_64-linux
 
       # Go
       pkgs.go
