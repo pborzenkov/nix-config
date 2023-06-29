@@ -70,6 +70,10 @@
       pkgs.erlang
       pkgs.erlang-ls
 
+      # Elixir
+      pkgs.elixir
+      pkgs.elixir-ls
+
       pkgs.act
       pkgs.efm-langserver
       pkgs.sumneko-lua-language-server
