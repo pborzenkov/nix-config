@@ -47,7 +47,7 @@
       pkgs.nixpkgs-review
       pkgs.nil
       pkgs.alejandra
-      inputs.devenv.defaultPackage.x86_64-linux
+      inputs.devenv.packages.x86_64-linux.default
 
       # Go
       pkgs.go
