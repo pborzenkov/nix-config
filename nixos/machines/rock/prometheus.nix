@@ -3,70 +3,104 @@
   pkgs,
   ...
 }: {
-  webapps.apps.prometheus = {
-    subDomain = "prometheus";
-    proxyTo = "http://127.0.0.1:${toString config.services.prometheus.port}";
-    locations."/" = {auth = true;};
-    dashboard = {
-      name = "Prometheus";
-      category = "infra";
-      icon = "chart-line";
+  webapps.apps = {
+    prometheus = {
+      subDomain = "prometheus";
+      proxyTo = "http://127.0.0.1:${toString config.services.prometheus.port}";
+      locations."/" = {auth = true;};
+      dashboard = {
+        name = "Prometheus";
+        category = "infra";
+        icon = "chart-line";
+      };
+    };
+    victoriametrics = {
+      subDomain = "vicky";
+      proxyTo = "http://127.0.0.1:8428";
+      locations."/" = {auth = true;};
+      dashboard = {
+        name = "Victoria Metrics";
+        category = "infra";
+        icon = "chart-line";
+      };
     };
   };
 
-  services.prometheus = {
-    enable = true;
-    checkConfig = true;
+  services = {
+    prometheus = {
+      enable = true;
+      checkConfig = true;
 
-    globalConfig = {
-      scrape_interval = "15s";
-      scrape_timeout = "10s";
-    };
-
-    retentionTime = "7d";
-
-    exporters = {
-      node = {
-        enable = true;
-        extraFlags = [
-          "--collector.textfile.directory /var/lib/prometheus-node-exporter"
-        ];
+      globalConfig = {
+        scrape_interval = "15s";
+        scrape_timeout = "10s";
       };
+
+      retentionTime = "7d";
+
+      exporters = {
+        node = {
+          enable = true;
+          extraFlags = [
+            "--collector.textfile.directory /var/lib/prometheus-node-exporter"
+          ];
+        };
+      };
+
+      scrapeConfigs = [
+        {
+          job_name = "prometheus";
+          static_configs = [
+            {
+              targets = [
+                "rock.lab.borzenkov.net:9090"
+              ];
+            }
+          ];
+        }
+        {
+          job_name = "node";
+          static_configs = [
+            {
+              targets = [
+                "helios64.lab.borzenkov.net:9100"
+                "rock.lab.borzenkov.net:9100"
+              ];
+            }
+          ];
+        }
+        {
+          job_name = "p1";
+          static_configs = [
+            {
+              targets = [
+                "rock.lab.borzenkov.net:4545"
+              ];
+            }
+          ];
+        }
+      ];
+
+      remoteWrite = [
+        {
+          name = "Victoria Metrics";
+          url = "http://127.0.0.1:8428/api/v1/write";
+          write_relabel_configs = [
+            {
+              source_labels = ["job"];
+              regex = "^p1$";
+              action = "keep";
+            }
+          ];
+        }
+      ];
     };
 
-    scrapeConfigs = [
-      {
-        job_name = "prometheus";
-        static_configs = [
-          {
-            targets = [
-              "rock.lab.borzenkov.net:9090"
-            ];
-          }
-        ];
-      }
-      {
-        job_name = "node";
-        static_configs = [
-          {
-            targets = [
-              "helios64.lab.borzenkov.net:9100"
-              "rock.lab.borzenkov.net:9100"
-            ];
-          }
-        ];
-      }
-      {
-        job_name = "p1";
-        static_configs = [
-          {
-            targets = [
-              "rock.lab.borzenkov.net:4545"
-            ];
-          }
-        ];
-      }
-    ];
+    victoriametrics = {
+      enable = true;
+      listenAddress = "127.0.0.1:8428";
+      retentionPeriod = 600;
+    };
   };
 
   systemd.services = {
