@@ -69,6 +69,7 @@
       # Erlang
       pkgs.erlang
       pkgs.erlang-ls
+      pkgs.rebar3
 
       # Elixir
       pkgs.elixir
