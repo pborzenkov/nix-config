@@ -6,6 +6,7 @@
   programs.zathura = {
     enable = true;
     options = {
+      continuous-hist-save = true;
       selection-clipboard = "clipboard";
     };
     extraConfig = builtins.readFile (config.scheme inputs.base16-zathura);
