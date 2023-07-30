@@ -24,6 +24,9 @@
         soft-wrap = {
           enable = true;
         };
+        statusline = {
+          right = ["version-control" "diagnostics" "selections" "position" "file-encoding"];
+        };
       };
       keys.normal.space = {
         H = ":toggle lsp.display-inlay-hints";

@@ -27,13 +27,7 @@
     ./sway.nix
   ];
 
-  home.packages = let
-    anki = pkgs.writeScriptBin "anki" ''
-      export ANKI_WAYLAND=1
-      exec ${pkgs.anki-bin}/bin/anki
-    '';
-  in [
-    anki
+  home.packages = [
     pkgs.tdesktop
     pkgs.calibre
     pkgs.virt-manager
