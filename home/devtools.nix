@@ -55,15 +55,9 @@
       pkgs.golangci-lint
 
       # Rust
-      (pkgs.fenix.combine (with pkgs.fenix.stable; [
-        cargo
-        clippy
-        rust-src
-        rustc
-        rustfmt
-        pkgs.fenix.targets.x86_64-unknown-linux-musl.stable.rust-std
-      ]))
-      pkgs.rust-analyzer-nightly
+      pkgs.cargo
+      pkgs.rustc
+      pkgs.rust-analyzer
       pkgs.cargo-nextest
 
       # Erlang

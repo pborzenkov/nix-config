@@ -18,10 +18,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nur.url = "github:nix-community/NUR";
-    fenix = {
-      url = "github:nix-community/fenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     deploy-rs = {
       url = "github:serokell/deploy-rs";
       inputs = {
@@ -81,7 +77,6 @@
         config.allowUnfree = true;
         overlays = [
           inputs.nur.overlay
-          inputs.fenix.overlays.default
           (import ./overlay.nix)
         ];
       };
@@ -183,7 +178,6 @@
           };
           overlays = [
             inputs.nur.overlay
-            inputs.fenix.overlays.default
             (import ./overlay.nix)
           ];
         };
