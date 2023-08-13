@@ -10,11 +10,24 @@
       config = {
         theme = "base16";
       };
+      themes = {
+        base16 = builtins.readFile (config.scheme inputs.base16-textmate);
+      };
+      extraPackages = with pkgs.bat-extras; [
+        batman
+      ];
     };
 
     password-store = {
       enable = true;
       package = pkgs.pass.withExtensions (ext: [ext.pass-otp]);
+    };
+
+    ripgrep = {
+      enable = true;
+      arguments = [
+        "--smart-case"
+      ];
     };
 
     skim = {
@@ -61,17 +74,6 @@
   ];
 
   xdg.configFile = {
-    "bat-theme-base16" = {
-      source = config.scheme inputs.base16-textmate;
-      target = "bat/themes/base16.tmTheme";
-    };
-
-    ripgreprc = {
-      target = "ripgreprc";
-      text = ''
-        --smart-case
-      '';
-    };
     browserpass = {
       text = builtins.toJSON {
         enableOTP = true;
@@ -81,8 +83,6 @@
   };
 
   home.sessionVariables = {
-    RIPGREP_CONFIG_PATH = "${config.home.homeDirectory}/${config.xdg.configFile.ripgreprc.target}";
-
     RESTIC_REPOSITORY = "sftp:zh1012@zh1012.rsync.net:restic";
     RESTIC_PASSWORD_COMMAND = "${pkgs.pass}/bin/pass misc/restic@rsync.net";
   };
