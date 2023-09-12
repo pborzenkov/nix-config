@@ -8,6 +8,7 @@
     options = {
       continuous-hist-save = true;
       selection-clipboard = "clipboard";
+      guioptions = "";
     };
     extraConfig = builtins.readFile (config.scheme inputs.base16-zathura);
   };
