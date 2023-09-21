@@ -26,7 +26,7 @@
       devices = ["/dev/vda"];
     };
 
-    kernelPackages = pkgs.linuxPackages_6_3;
+    kernelPackages = pkgs.linuxPackages_6_5;
   };
 
   networking = {
