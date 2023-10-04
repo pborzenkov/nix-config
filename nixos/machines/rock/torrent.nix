@@ -9,6 +9,7 @@
 in {
   services.transmission = {
     enable = true;
+    package = pkgs.transmission_4;
     performanceNetParameters = true;
     settings = {
       download-dir = "/storage/torrents";
