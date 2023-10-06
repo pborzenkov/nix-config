@@ -10,15 +10,14 @@
   '';
 
   vdirsync = pkgs.writeScriptBin "vdirsync" ''
-    ${pkgs.coreutils}/bin/yes | ${pkgs.vdirsyncer}/bin/vdirsyncer -c ${config.xdg.configHome}/vdirsyncer/borzenkov.net discover
-    ${pkgs.vdirsyncer}/bin/vdirsyncer -c ${config.xdg.configHome}/vdirsyncer/borzenkov.net sync
+    ${pkgs.vdirsyncer}/bin/vdirsyncer sync
   '';
 in {
-  accounts.email = {
-    maildirBasePath = ".local/share/mail";
+  accounts = {
+    email = {
+      maildirBasePath = ".local/share/mail";
 
-    accounts = {
-      "borzenkov.net" = {
+      accounts."borzenkov.net" = {
         realName = "Pavel Borzenkov";
         address = "pavel@borzenkov.net";
         flavor = "fastmail.com";
@@ -37,11 +36,63 @@ in {
         notmuch.enable = true;
       };
     };
+
+    calendar = {
+      basePath = ".local/share/calendar";
+
+      accounts."borzenkov_net" = {
+        primary = true;
+        primaryCollection = "borzenkov_net";
+
+        local = {
+          type = "filesystem";
+          fileExt = ".ics";
+          path = "${config.accounts.calendar.basePath}/borzenkov.net";
+        };
+        remote = {
+          type = "caldav";
+          url = "https://caldav.fastmail.com/dav/calendars/user/pavel@borzenkov.net/67fd863c-ebc6-4c6a-afcd-0e72126e5116";
+          userName = "pavel@borzenkov.net";
+          passwordCommand = ["${pkgs.pass}/bin/pass" "show" "misc/fastmail"];
+        };
+
+        khal = {
+          enable = true;
+          type = "calendar";
+          color = "light red";
+        };
+        vdirsyncer.enable = true;
+      };
+    };
+
+    contact = {
+      basePath = ".local/share/contacts";
+
+      accounts."borzenkov_net" = {
+        local = {
+          type = "filesystem";
+          fileExt = ".vcf";
+          path = "${config.accounts.contact.basePath}/borzenkov.net";
+        };
+        remote = {
+          type = "carddav";
+          url = "https://carddav.fastmail.com/dav/addressbooks/user/pavel@borzenkov.net/Default/";
+          userName = "pavel@borzenkov.net";
+          passwordCommand = ["${pkgs.pass}/bin/pass" "show" "misc/fastmail"];
+        };
+
+        # khal = {
+        #   enable = true;
+        #   readOnly = true;
+        # };
+        khard.enable = true;
+        vdirsyncer.enable = true;
+      };
+    };
   };
 
   home.packages = [
     pkgs.notmuch-bower
-    pkgs.vdirsyncer
     mailsync
     vdirsync
   ];
@@ -62,6 +113,12 @@ in {
           drafts_folder = "drafts";
         };
       };
+    };
+    khal.enable = true;
+    khard.enable = true;
+    vdirsyncer = {
+      enable = true;
+      statusPath = "${config.xdg.stateHome}/vdirsyncer/status";
     };
   };
 
@@ -95,57 +152,5 @@ in {
         };
       };
     };
-  };
-
-  xdg.configFile.vdirsyncer = {
-    text =
-      lib.generators.toINI {
-        mkKeyValue = lib.generators.mkKeyValueDefault {
-          mkValueString = builtins.toJSON;
-        } "=";
-      } {
-        general = {
-          status_path = "${config.xdg.stateHome}/vdirsyncer/borzenkov.net";
-        };
-
-        "pair borzenkov_net_contacts" = {
-          a = "borzenkov_net_contacts_local";
-          b = "borzenkov_net_contacts_remote";
-          collections = ["from a" "from b"];
-        };
-
-        "storage borzenkov_net_contacts_local" = {
-          type = "filesystem";
-          path = "${config.xdg.dataHome}/contacts/borzenkov.net";
-          fileext = ".vcf";
-        };
-
-        "storage borzenkov_net_contacts_remote" = {
-          type = "carddav";
-          url = "https://carddav.fastmail.com/";
-          username = "pavel@borzenkov.net";
-          "password.fetch" = ["command" "${pkgs.pass}/bin/pass" "show" "misc/fastmail"];
-        };
-
-        "pair borzenkov_net_calendar" = {
-          a = "borzenkov_net_calendar_local";
-          b = "borzenkov_net_calendar_remote";
-          collections = ["from a" "from b"];
-        };
-
-        "storage borzenkov_net_calendar_local" = {
-          type = "filesystem";
-          path = "${config.xdg.dataHome}/calendar/borzenkov.net";
-          fileext = ".ics";
-        };
-
-        "storage borzenkov_net_calendar_remote" = {
-          type = "caldav";
-          url = "https://caldav.fastmail.com/";
-          username = "pavel@borzenkov.net";
-          "password.fetch" = ["command" "${pkgs.pass}/bin/pass" "show" "misc/fastmail"];
-        };
-      };
-    target = "vdirsyncer/borzenkov.net";
   };
 }
