@@ -11,7 +11,9 @@
         theme = "base16";
       };
       themes = {
-        base16 = builtins.readFile (config.scheme inputs.base16-textmate);
+        base16 = {
+          src = config.scheme inputs.base16-textmate;
+        };
       };
       extraPackages = with pkgs.bat-extras; [
         batman
