@@ -167,7 +167,10 @@
     };
   };
 
-  systemd.services.openvpn-amsterdam.serviceConfig.StateDirectory = "openvpn-amsterdam";
+  systemd.services = {
+    netns-amsterdam.serviceConfig.PrivateMounts = "no";
+    openvpn-amsterdam.serviceConfig.StateDirectory = "openvpn-amsterdam";
+  };
 
   sops.secrets = {
     perfect-privacy-password = {};

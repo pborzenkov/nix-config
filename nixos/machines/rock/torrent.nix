@@ -130,7 +130,7 @@ in {
             '';
           in
             pkgs.writeShellScript "transmission-set-port.sh" ''
-              HAS_PORT=$(${pkgs.transmission}/bin/transmission-remote --unix-socket /run/transmission/rpc.sock --json -si | ${pkgs.jq}/bin/jq -r '.arguments."peer-port"')
+              HAS_PORT=$(${pkgs.transmission_4}/bin/transmission-remote --unix-socket /run/transmission/rpc.sock --json -si | ${pkgs.jq}/bin/jq -r '.arguments."peer-port"')
               if [ -z "''${HAS_PORT}" ]; then
                 echo "Transmission not running"
               fi
@@ -142,7 +142,7 @@ in {
 
               if [ "''${HAS_PORT}" -ne "''${WANT_PORT}" ]; then
                 echo "want: ''${WANT_PORT}, has: ''${HAS_PORT}, reconfiguring"
-                ${pkgs.transmission}/bin/transmission-remote --unix-socket /run/transmission/rpc.sock -p ''${WANT_PORT}
+                ${pkgs.transmission_4}/bin/transmission-remote --unix-socket /run/transmission/rpc.sock -p ''${WANT_PORT}
               else
                 echo "want: ''${WANT_PORT}, has: ''${HAS_PORT}"
               fi
