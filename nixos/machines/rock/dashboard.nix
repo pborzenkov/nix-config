@@ -45,6 +45,12 @@
               url = "http://living-room.mk.lab.borzenkov.net";
               target = "_blank";
             }
+            {
+              name = "Attic";
+              icon = "fas fa-wifi";
+              url = "http://attic.mk.lab.borzenkov.net";
+              target = "_blank";
+            }
           ];
         }
       ];

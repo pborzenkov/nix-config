@@ -114,7 +114,7 @@ in {
         };
       };
     };
-    khal.enable = true;
+    # khal.enable = true;
     khard.enable = true;
     vdirsyncer = {
       enable = true;
