@@ -76,6 +76,8 @@
       pkgs.ltex-ls
       pkgs.radare2
       pkgs.teleport_12
+      pkgs.prox
+      pkgs.hurl
     ]
     ++ lib.optionals (pkgs.stdenv.isLinux) [
       pkgs.gcc
