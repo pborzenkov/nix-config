@@ -65,9 +65,9 @@
   };
 
   fonts = {
-    enableDefaultFonts = true;
+    enableDefaultPackages = true;
     fontDir.enable = true;
-    fonts = [
+    packages = [
       pkgs.corefonts
       pkgs.nerdfonts
       pkgs.font-awesome_5
