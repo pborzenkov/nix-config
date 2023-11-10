@@ -118,18 +118,7 @@ function main() {
         return 1
     fi
 
-    local log_file="${2:-}"
-    if [ -n "${log_file}" ]; then
-        # get logs from file (useful for debugging / testing)
-        LOGS="$(cat $log_file)"
-    else
-        # get last invocation id
-        # from: https://unix.stackexchange.com/a/506887/214474
-        local id=$(systemctl show -p InvocationID --value "$unit")
-
-        # get logs from last invocation
-        LOGS="$(journalctl -o short-iso INVOCATION_ID=${id} + _SYSTEMD_INVOCATION_ID=${id})"
-    fi
+    LOGS="$(journalctl -o short-iso INVOCATION_ID=${INVOCATION_ID} + _SYSTEMD_INVOCATION_ID=${INVOCATION_ID})"
     METRICS_FILE="/var/lib/prometheus-node-exporter/${unit}.prom"
     TMP_FILE="$(mktemp ${METRICS_FILE}.XXXXXXX)"
     COMMON_LABELS="unit=\"${unit}\""
@@ -137,7 +126,7 @@ function main() {
     # check if unit failed
     if echo "$LOGS" | grep -F "systemd[1]: ${unit}: Failed with result"; then
         write_backup_failure_state "1"
-	return 1
+        return 1
     fi
 
     write_metrics "$(analyze_files_line)"

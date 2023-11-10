@@ -60,8 +60,9 @@ in {
             repository = config.lib.backup.repository;
             passwordFile = cfg.passwordFile;
             extraOptions = config.lib.backup.extraOptions;
-            extraBackupArgs = (map (x: "--exclude ${x}") backup.excludes) ++ ["--exclude-caches"];
+            extraBackupArgs = ["--exclude-caches"];
             paths = backup.paths;
+            exclude = backup.excludes;
             timerConfig = config.lib.backup.timerConfig;
           }
       )
