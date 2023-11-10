@@ -91,7 +91,7 @@ function analyze_dirs_line() {
 
 function analyze_added_line() {
     # Added to the repo: 223.291 MiB
-    local added_line=$(echo "$LOGS" | grep 'Added to the repo:' | cut -d':' -f4-)
+    local added_line=$(echo "$LOGS" | grep 'Added to the repository:' | cut -d':' -f4-)
     local added_value=$(echo $added_line | awk '{ print $5 }')
     local added_unit=$(echo $added_line | awk '{ print $6 }')
     local added_bytes=$(convert_to_bytes $added_value $added_unit)
