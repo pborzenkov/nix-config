@@ -1,12 +1,8 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ../../basetools.nix
     ../../devtools.nix
+    ../../filebot.nix
     ../../gpg.nix
     ../../git.nix
     ../../helix.nix
