@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  webapps,
-  ...
-}: let
+{config, ...}: let
   port = "8083";
 in {
   webapps.apps.miniflux = {

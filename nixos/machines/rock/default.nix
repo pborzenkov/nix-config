@@ -33,6 +33,7 @@
     ./prometheus.nix
     ./redis.nix
     ./torrent.nix
+    ./shiori.nix
     ./skyeng.nix
     ./sound.nix
     ./storage.nix
@@ -41,7 +42,6 @@
     # ./valheim.nix
     ./vlmcsd.nix
     ./vpn.nix
-    ./wallabag.nix
     ./webapps.nix
   ];
 
@@ -59,7 +59,7 @@
       efi.canTouchEfiVariables = true;
     };
 
-    kernelPackages = pkgs.linuxPackages_6_5;
+    kernelPackages = pkgs.linuxPackages_6_6;
     kernelModules = [
       "nct6775"
     ];
