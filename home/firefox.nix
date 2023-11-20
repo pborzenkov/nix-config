@@ -43,8 +43,9 @@
           rycee.translate-web-pages
           rycee.tridactyl
           rycee.ublock-origin
+          rycee.istilldontcareaboutcookies
 
-          pborzenkov.wallabagger
+          pborzenkov.shiori_ext
         ];
       };
     };
