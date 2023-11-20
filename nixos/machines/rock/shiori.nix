@@ -3,14 +3,14 @@
     shiori = {
       enable = true;
       address = "127.0.0.1";
-      port = 8384;
+      port = 8085;
     };
   };
 
   webapps.apps = {
     shiori = {
       subDomain = "shiori";
-      proxyTo = "http://127.0.0.1:8384";
+      proxyTo = "http://127.0.0.1:8085";
       locations."/" = {};
       dashboard = {
         name = "Shiori";

@@ -94,7 +94,6 @@
     pkgs.dtach
     pkgs.dua
     pkgs.usbutils
-    pkgs.shiori
 
     # Backups
     pkgs.restic
