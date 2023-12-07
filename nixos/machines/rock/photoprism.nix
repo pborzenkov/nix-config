@@ -1,14 +1,7 @@
-{
-  config,
-  pkgs,
-  webapps,
-  ...
-}: let
-  port = "8084";
-in {
+{config, ...}: {
   webapps.apps.photoprism = {
     subDomain = "photos";
-    proxyTo = "http://127.0.0.1:${port}";
+    proxyTo = "http://127.0.0.1:8084";
     locations."/" = {
       custom = {
         proxyWebsockets = true;
@@ -21,31 +14,15 @@ in {
     };
   };
 
-  systemd.services.photoprism = {
-    wantedBy = ["multi-user.target"];
-    after = ["network.target"];
-    description = "photoprism system service";
-
-    serviceConfig = {
-      User = "photoprism";
-      Group = "photoprism";
-      DynamicUser = true;
-      Type = "simple";
-      Restart = "on-failure";
-      StateDirectory = "photoprism";
-      ExecStart = "${pkgs.photoprism}/bin/photoprism start";
-      EnvironmentFile = [config.sops.secrets.photoprism-environment.path];
-    };
-
-    environment = {
+  services.photoprism = {
+    address = "127.0.0.1";
+    port = 8084;
+    importPath = "/var/lib/photoprism/import";
+    originalsPath = "/storage/photos";
+    storagePath = "/var/lib/photoprism";
+    settings = {
       PHOTOPRISM_AUTH_MODE = "password";
-
       PHOTOPRISM_LOG_LEVEL = "info";
-      PHOTOPRISM_ORIGINALS_PATH = "/storage/photos";
-      PHOTOPRISM_STORAGE_PATH = "/var/lib/photoprism";
-      PHOTOPRISM_IMPORT_PATH = "/var/lib/photoprism/import";
-      PHOTOPRISM_ASSETS_PATH = "${pkgs.photoprism}/share/photoprism";
-
       PHOTOPRISM_READONLY = "false";
       PHOTOPRISM_EXPERIMENTAL = "true";
       PHOTOPRISM_DISABLE_WEBDAV = "false";
@@ -65,26 +42,17 @@ in {
       PHOTOPRISM_EXIF_BRUTEFORCE = "true";
       PHOTOPRISM_DETECT_NSFW = "false";
       PHOTOPRISM_UPLOAD_NSFW = "true";
-
       PHOTOPRISM_SITE_URL = "https://${config.webapps.apps.photoprism.subDomain}.${config.webapps.domain}";
       PHOTOPRISM_SITE_AUTHOR = "Pavel Borzenkov";
       PHOTOPRISM_SITE_TITLE = "PhotoPrism";
       PHOTOPRISM_SITE_CAPTION = "Pavel's Photos";
       PHOTOPRISM_SITE_DESCRIPTION = "Pavel's Photos";
-
-      PHOTOPRISM_HTTP_COMPRESSION = "none";
-      PHOTOPRISM_HTTP_PORT = port;
-
-      PHOTOPRISM_DARKTABLE_BIN = "${pkgs.darktable}/bin/darktable";
-      PHOTOPRISM_RAWTHERAPEE_BIN = "${pkgs.rawtherapee}/bin/rawtherapee";
-      PHOTOPRISM_HEIFCONVERT_BIN = "${pkgs.libheif}/bin/heif-convert";
-      PHOTOPRISM_FFMPEG_BIN = "${pkgs.ffmpeg}/bin/ffmpeg";
-      PHOTOPRISM_EXIFTOOL_BIN = "${pkgs.exiftool}/bin/exiftool";
     };
+  };
 
-    unitConfig = {
-      RequiresMountsFor = ["/storage"];
-    };
+  systemd.services.photoprism = {
+    serviceConfig.EnvironmentFile = [config.sops.secrets.photoprism-environment.path];
+    unitConfig.RequiresMountsFor = ["/storage"];
   };
 
   sops.secrets.photoprism-environment = {};

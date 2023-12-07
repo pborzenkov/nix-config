@@ -54,4 +54,13 @@
       };
     };
   };
+
+  backup.fsBackups.arr = {
+    paths = [
+      "/var/lib/bazarr"
+      "/var/lib/prowlarr"
+      "/var/lib/radarr"
+      "/var/lib/sonarr"
+    ];
+  };
 }

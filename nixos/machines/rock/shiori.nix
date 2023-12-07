@@ -1,12 +1,4 @@
-{...}: {
-  services = {
-    shiori = {
-      enable = true;
-      address = "127.0.0.1";
-      port = 8085;
-    };
-  };
-
+{config, ...}: {
   webapps.apps = {
     shiori = {
       subDomain = "shiori";
@@ -18,6 +10,20 @@
         icon = "shopping-bag";
       };
     };
+  };
+
+  services.shiori = {
+    enable = true;
+    address = "127.0.0.1";
+    port = 8085;
+  };
+
+  systemd.services.shiori.serviceConfig.EnvironmentFile = [
+    config.sops.secrets.shiori-environment.path
+  ];
+
+  sops.secrets = {
+    shiori-environment = {};
   };
 
   backup.fsBackups.shiori = {

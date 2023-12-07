@@ -20,9 +20,9 @@ in {
       rpc-socket-mode = "0666";
       rpc-whitelist-enabled = false;
 
-      speed-limit-down = 15360;
+      speed-limit-down = 30720;
       speed-limit-down-enabled = true;
-      speed-limit-up = 15360;
+      speed-limit-up = 30720;
       speed-limit-up-enabled = true;
 
       ratio-limit = 5;
