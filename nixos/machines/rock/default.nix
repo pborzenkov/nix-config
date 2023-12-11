@@ -59,7 +59,7 @@
       efi.canTouchEfiVariables = true;
     };
 
-    kernelPackages = pkgs.linuxPackages_6_6;
+    kernelPackages = pkgs.linuxPackages_latest;
     kernelModules = [
       "nct6775"
     ];
