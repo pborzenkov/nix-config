@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   ssoPort = 8082;
@@ -31,10 +30,10 @@ in {
 
   systemd.services."acme-${config.webapps.domain}".serviceConfig.EnvironmentFile = lib.mkForce [
     config.webapps.acmeCredentialsFile
-    config.sops.secrets.perfect-privacy-proxy-env.path
+    config.sops.secrets.gw-proxy-env.path
   ];
 
-  sops.secrets.perfect-privacy-proxy-env = {};
+  sops.secrets.gw-proxy-env = {};
 
   services.nginx.sso = {
     enable = true;
