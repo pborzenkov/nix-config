@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: let
+{config, ...}: let
   dashboardDomain = "${config.webapps.apps.grafana.subDomain}.${config.webapps.domain}";
 in {
   webapps.apps.grafana = {
@@ -22,7 +18,7 @@ in {
     ensureUsers = [
       {
         name = "grafana";
-        ensurePermissions."DATABASE grafana" = "ALL PRIVILEGES";
+        ensureDBOwnership = true;
       }
     ];
   };
