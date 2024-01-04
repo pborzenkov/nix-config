@@ -41,9 +41,7 @@
       };
     };
 
-  sops.secrets = {
-    autobrr-environment = {};
-  };
+  sops.secrets.autobrr-environment = {};
 
   webapps.apps = {
     autobrr = {

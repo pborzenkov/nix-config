@@ -1,6 +1,4 @@
 final: prev: {
-  ankisyncd-rs = final.callPackage ./packages/ankisyncd-rs {};
-
   mpdsonic = final.callPackage ./packages/mpdsonic {};
 
   mujmap = prev.mujmap.overrideAttrs (old: rec {

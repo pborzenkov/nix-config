@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable-small";
     nixos-hardware.url = "github:nixos/nixos-hardware";
     darwin = {
       url = "github:LnL7/nix-darwin";
@@ -122,6 +123,7 @@
           nur = import inputs.nur {
             nurpkgs = import inputs.nixpkgs {system = arch;};
           };
+          pkgs-unstable = import inputs.nixpkgs-unstable {system = arch;};
         };
       };
 
@@ -194,6 +196,7 @@
             customModules = [
               "${inputs.nixpkgs-openvpn}/nixos/modules/services/networking/netns.nix"
               "${inputs.nixpkgs-openvpn}/nixos/modules/services/networking/openvpn.nix"
+              "${inputs.nixpkgs-unstable}/nixos/modules/services/misc/anki-sync-server.nix"
             ];
           };
         gw =

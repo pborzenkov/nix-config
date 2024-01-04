@@ -150,7 +150,6 @@
       SystemMaxUse=100M
     '';
     dbus.packages = [pkgs.gcr];
-    flatpak.enable = true;
     udev.extraRules = ''
       # Disable wakeup from suspend by mouse movement/click
       ACTION=="add", ATTRS{idVendor}=="17ef", ATTRS{idProduct}=="60e6", ATTR{power/wakeup}="disabled"
