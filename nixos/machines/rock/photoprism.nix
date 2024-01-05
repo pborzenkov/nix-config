@@ -15,8 +15,10 @@
   };
 
   services.photoprism = {
+    enable = true;
     address = "127.0.0.1";
     port = 8084;
+    passwordFile = config.sops.secrets.photoprism.path;
     importPath = "/var/lib/photoprism/import";
     originalsPath = "/storage/photos";
     storagePath = "/var/lib/photoprism";
@@ -50,12 +52,9 @@
     };
   };
 
-  systemd.services.photoprism = {
-    serviceConfig.EnvironmentFile = [config.sops.secrets.photoprism-environment.path];
-    unitConfig.RequiresMountsFor = ["/storage"];
-  };
+  systemd.services.photoprism.unitConfig.RequiresMountsFor = ["/storage"];
 
-  sops.secrets.photoprism-environment = {};
+  sops.secrets.photoprism = {};
 
   backup.fsBackups = {
     photos = {
