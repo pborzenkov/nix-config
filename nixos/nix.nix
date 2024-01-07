@@ -22,7 +22,6 @@ in {
       subs = [
         "https://nix-community.cachix.org"
         "https://pborzenkov.cachix.org"
-        "https://devenv.cachix.org"
       ];
     in {
       trusted-users = [
@@ -37,7 +36,6 @@ in {
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "pborzenkov.cachix.org-1:ffVB/S9v4T+PecDRk83gPmbWnVQpjRc76k6bGtnk6YM="
-        "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
       ];
     };
 
