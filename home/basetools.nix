@@ -79,6 +79,7 @@
     pkgs.jq
     pkgs.gron
     pkgs.dig
+    pkgs.trippy
 
     # Viewers
     pkgs.glow
