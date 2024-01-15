@@ -53,7 +53,7 @@
     pkgs.slack
     pkgs.zeal
     pkgs.claws-mail
-    pkgs.steam
+    pkgs.zoom-us
 
     pkgs.nixos-container
     pkgs.libvirt
