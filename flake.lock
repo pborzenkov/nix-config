@@ -292,22 +292,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-openvpn": {
-      "locked": {
-        "lastModified": 1686259320,
-        "narHash": "sha256-mYWjL8T1PFBIWRc+gbqF7l3yTAyCMGYpBCdcN1UJsHc=",
-        "owner": "ju1m",
-        "repo": "nixpkgs",
-        "rev": "5cc1efba0e356c61ccb6100124434e11ca2b08b5",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ju1m",
-        "ref": "openvpn",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1704290814,
@@ -372,7 +356,6 @@
         "home-manager": "home-manager",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-openvpn": "nixpkgs-openvpn",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nur": "nur",
         "sops-nix": "sops-nix"

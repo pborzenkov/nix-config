@@ -19,5 +19,7 @@ final: prev: {
 
   p1-exporter = final.callPackage ./packages/p1-exporter {};
 
+  transmission-protonvpn-nat-pmp = final.callPackage ./packages/transmission-protonvpn-nat-pmp {};
+
   rtorrent-exporter = final.callPackage ./packages/rtorrent-exporter {};
 }

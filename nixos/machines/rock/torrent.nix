@@ -4,7 +4,6 @@
   lib,
   ...
 }: let
-  vpn = "amsterdam";
   cfg = config.services.transmission;
 in {
   services.transmission = {
@@ -46,15 +45,15 @@ in {
   systemd = {
     services = {
       transmission = {
-        after = ["netns-${vpn}.service"];
-        bindsTo = ["netns-${vpn}.service"];
+        after = ["wireguard-amsterdam.service"];
+        bindsTo = ["wireguard-amsterdam.service"];
         unitConfig = {
-          JoinsNamespaceOf = ["netns-${vpn}.service"];
+          JoinsNamespaceOf = ["netns@amsterdam.service"];
           RequiresMountsFor = ["/storage"];
         };
         serviceConfig = {
           PrivateNetwork = true;
-          BindReadOnlyPaths = ["/etc/netns/${vpn}/resolv.conf:/etc/resolv.conf"];
+          BindReadOnlyPaths = ["/etc/netns/amsterdam/resolv.conf:/etc/resolv.conf"];
           LimitNOFILE = 10240;
           StateDirectory = lib.mkForce [
             "transmission"
@@ -106,55 +105,22 @@ in {
         };
       };
 
-      transmission-set-port = {
+      transmission-protonvpn-nat-pmp = {
+        after = ["wireguard-amsterdam.service"];
+        bindsTo = ["wireguard-amsterdam.service"];
+        wantedBy = ["multi-user.target"];
         unitConfig = {
-          JoinsNamespaceOf = ["netns-${vpn}.service"];
+          JoinsNamespaceOf = ["netns@amsterdam.service"];
         };
         serviceConfig = {
           DynamicUser = true;
           PrivateNetwork = true;
-          ExecStart = let
-            get_vpn_port = pkgs.writeShellScript "get_vpn_port.sh" ''
-              IP_ADDR=$(${pkgs.iproute2}/bin/ip -4 addr show ${vpn} | ${pkgs.gawk}/bin/awk '/inet/{ print ''$2 }' | cut -d/ -f1)
-              if [ $? -ne 0 ]; then
-                echo "No VPN interface"
-                exit 0
-              fi
-
-              IFS='.' read -ra ADDR <<< "''$IP_ADDR"
-              function d2b() {
-                  printf "%08d" $(echo "obase=2;$1"|${pkgs.bc}/bin/bc)
-              }
-              port_bin="$(d2b ''${ADDR[2]})$(d2b ''${ADDR[3]})"
-              echo $(printf "%04d" $(echo "ibase=2; ''${port_bin:4}" | ${pkgs.bc}/bin/bc))
-            '';
-          in
-            pkgs.writeShellScript "transmission-set-port.sh" ''
-              HAS_PORT=$(${pkgs.transmission_4}/bin/transmission-remote --unix-socket /run/transmission/rpc.sock --json -si | ${pkgs.jq}/bin/jq -r '.arguments."peer-port"')
-              if [ -z "''${HAS_PORT}" ]; then
-                echo "Transmission not running"
-              fi
-
-              WANT_PORT=1$(${get_vpn_port})
-              if [ -z "''${WANT_PORT}" ]; then
-                echo "Can't get desired port"
-              fi
-
-              if [ "''${HAS_PORT}" -ne "''${WANT_PORT}" ]; then
-                echo "want: ''${WANT_PORT}, has: ''${HAS_PORT}, reconfiguring"
-                ${pkgs.transmission_4}/bin/transmission-remote --unix-socket /run/transmission/rpc.sock -p ''${WANT_PORT}
-              else
-                echo "want: ''${WANT_PORT}, has: ''${HAS_PORT}"
-              fi
-            '';
+          ExecStart = ''
+            ${pkgs.transmission-protonvpn-nat-pmp}/bin/transmission-protonvpn-nat-pmp \
+              -transmission.url unix:///run/transmission/rpc.sock \
+              -gateway.ip 10.2.0.1
+          '';
         };
-      };
-    };
-
-    timers.transmission-set-port = {
-      wantedBy = ["timers.target"];
-      timerConfig = {
-        OnCalendar = "minutely";
       };
     };
   };

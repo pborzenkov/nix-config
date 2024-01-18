@@ -67,8 +67,6 @@
       url = "github:haozeke/base16-zathura";
       flake = false;
     };
-
-    nixpkgs-openvpn.url = "github:ju1m/nixpkgs/openvpn";
   };
 
   outputs = {self, ...} @ inputs: let
@@ -193,8 +191,6 @@
             hostname = "rock";
             disabledModules = ["services/networking/openvpn.nix"];
             customModules = [
-              "${inputs.nixpkgs-openvpn}/nixos/modules/services/networking/netns.nix"
-              "${inputs.nixpkgs-openvpn}/nixos/modules/services/networking/openvpn.nix"
               "${inputs.nixpkgs-unstable}/nixos/modules/services/misc/anki-sync-server.nix"
             ];
           };
