@@ -19,10 +19,22 @@ in {
     acmeDNSProvider = "namecheap";
     acmeCredentialsFile = config.sops.secrets.namecheap-environment.path;
 
-    apps."sso" = {
-      subDomain = config.webapps.ssoSubDomain;
-      proxyTo = config.webapps.ssoInternalAddress;
-      locations."/" = {};
+    apps = {
+      sso = {
+        subDomain = config.webapps.ssoSubDomain;
+        proxyTo = config.webapps.ssoInternalAddress;
+        locations."/" = {};
+      };
+      ldap = {
+        subDomain = "ldap";
+        proxyTo = "http://127.0.0.1:17170";
+        locations."/" = {};
+        dashboard = {
+          name = "LLDAP";
+          category = "infra";
+          icon = "key";
+        };
+      };
     };
   };
 
@@ -30,10 +42,23 @@ in {
 
   systemd.services."acme-${config.webapps.domain}".serviceConfig.EnvironmentFile = lib.mkForce [
     config.webapps.acmeCredentialsFile
-    config.sops.secrets.gw-proxy-env.path
+    config.sops.secrets.gw-proxy-environment.path
   ];
 
-  sops.secrets.gw-proxy-env = {};
+  services = {
+    lldap = {
+      enable = true;
+      environmentFile = config.sops.secrets.lldap-environment.path;
+      settings = {
+        http_host = "127.0.0.1";
+        http_url = "https://ldap.lab.borzenkov.net";
+        ldap_base_dn = "dc=borzenkov,dc=net";
+        ldap_host = "::";
+        ldap_user_dn = "admin";
+        ldap_user_email = "admin@borzenkov.net";
+      };
+    };
+  };
 
   services.nginx.sso = {
     enable = true;
@@ -109,7 +134,15 @@ in {
   };
 
   sops.secrets = {
+    gw-proxy-environment = {};
+    lldap-environment = {};
     namecheap-environment = {};
     nginx-sso-environment = {};
+  };
+
+  backup.fsBackups.lldap = {
+    paths = [
+      "/var/lib/lldap"
+    ];
   };
 }
