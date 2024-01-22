@@ -1,4 +1,8 @@
-{config, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   programs.taskwarrior = {
     enable = true;
     config = {
@@ -12,5 +16,13 @@
     };
     colorTheme = "dark-gray-blue-256";
     dataLocation = "${config.xdg.dataHome}/task";
+  };
+  home = {
+    packages = [
+      pkgs.taskwarrior-tui
+    ];
+    shellAliases = {
+      tasktui = "taskwarrior-tui";
+    };
   };
 }
