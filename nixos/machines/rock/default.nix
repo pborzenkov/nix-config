@@ -38,6 +38,7 @@
     ./sound.nix
     ./storage.nix
     ./syncthing.nix
+    ./taskserver.nix
     ./terraform.nix
     # ./valheim.nix
     ./vlmcsd.nix
