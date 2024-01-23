@@ -19,6 +19,7 @@
     ../../rofi.nix
     ../../ssh.nix
     ../../sway.nix
+    ../../taskwarrior.nix
     ../../tmux.nix
     ../../zathura.nix
     ../../zsh.nix
