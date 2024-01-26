@@ -35,6 +35,10 @@
     };
 
     languages = {
+      language-server.rust-analyzer.config = {
+        check.command = "clippy";
+      };
+
       language = [
         {
           name = "cpp";
