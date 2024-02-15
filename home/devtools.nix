@@ -2,7 +2,7 @@
   config,
   lib,
   pkgs,
-  inputs,
+  pkgs-unstable,
   ...
 }: {
   programs = {
@@ -77,6 +77,7 @@
       pkgs.teleport_12
       pkgs.prox
       pkgs.hurl
+      pkgs-unstable.prr
     ]
     ++ lib.optionals (pkgs.stdenv.isLinux) [
       pkgs.gcc

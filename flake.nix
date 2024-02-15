@@ -172,6 +172,8 @@
 
         extraSpecialArgs = {
           inherit inputs;
+
+          pkgs-unstable = import inputs.nixpkgs-unstable {system = arch;};
         };
         pkgs = import inputs.nixpkgs {
           system = arch;
