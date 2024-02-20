@@ -20,6 +20,10 @@
       ];
     };
 
+    bottom = {
+      enable = true;
+    };
+
     password-store = {
       enable = true;
       package = pkgs.pass.withExtensions (ext: [ext.pass-otp]);
