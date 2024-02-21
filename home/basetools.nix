@@ -20,7 +20,7 @@
       ];
     };
 
-    bottom = {
+    htop = {
       enable = true;
     };
 
