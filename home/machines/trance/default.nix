@@ -45,6 +45,7 @@
 
     pkgs.hunspellDicts.en_GB-large
     pkgs.hunspellDicts.ru_RU
+    pkgs.kubectl
   ];
 
   services = {
