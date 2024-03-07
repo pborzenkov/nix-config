@@ -78,6 +78,7 @@
       pkgs.prox
       pkgs.hurl
       pkgs-unstable.prr
+      pkgs.oha
     ]
     ++ lib.optionals (pkgs.stdenv.isLinux) [
       pkgs.gcc
