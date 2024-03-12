@@ -84,6 +84,7 @@
     pkgs.gron
     pkgs.dig
     pkgs.trippy
+    pkgs.q
 
     # Viewers
     pkgs.glow
