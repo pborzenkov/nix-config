@@ -14,7 +14,7 @@
     is_visible=0
     [ -n "$(echo $cwt | $jq '.nodes[] | select(.app_id == "scratch-term")')" ] && is_visible=1 || is_visible=0
 
-    [ $is_running -eq 0 ] && exec ${pkgs.foot}/bin/foot -a scratch-term ${pkgs.tmux}/bin/tmux new-session -s scratch
+    [ $is_running -eq 0 ] && exec ${pkgs.foot}/bin/foot -a scratch-term ${pkgs.zellij}/bin/zellij attach -c scratch
     [ $is_visible -eq 0 ] && exec ${pkgs.sway}/bin/swaymsg '[con_mark="scratch-term"] scratchpad show, [con_mark="scratch-term"] move to workspace $cw'
 
     exec ${pkgs.sway}/bin/swaymsg '[con_mark="scratch-term"] move scratchpad'

@@ -65,6 +65,9 @@ in {
         interval = 60;
         format = "$icon $timestamp.datetime(f:'%a %d/%m %R')";
       }
+      {
+        block = "notify";
+      }
     ];
   };
 }

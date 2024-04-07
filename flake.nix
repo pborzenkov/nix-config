@@ -5,10 +5,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable-small";
     nixos-hardware.url = "github:nixos/nixos-hardware";
-    darwin = {
-      url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     home-manager = {
       url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -36,16 +32,12 @@
     };
 
     # Base16 themes
-    base16-onedark-scheme = {
-      url = "github:LalitMaganti/base16-onedark-scheme";
+    tt-schemes = {
+      url = "github:tinted-theming/schemes";
       flake = false;
     };
 
     # Base16 templates
-    base16-alacritty = {
-      url = "github:aarowill/base16-alacritty";
-      flake = false;
-    };
     base16-rofi = {
       url = "github:jordiorlando/base16-rofi";
       flake = false;
@@ -54,16 +46,8 @@
       url = "github:chriskempson/base16-textmate";
       flake = false;
     };
-    base16-tmux = {
-      url = "github:mattdavis90/base16-tmux";
-      flake = false;
-    };
     base16-tridactyl = {
       url = "github:tridactyl/base16-tridactyl";
-      flake = false;
-    };
-    base16-vim = {
-      url = "github:chriskempson/base16-vim";
       flake = false;
     };
     base16-zathura = {
@@ -86,14 +70,6 @@
       ./nixos/nix.nix
       ./nixos/users.nix
       ./nixos/sudo.nix
-      ({
-          nix.registry.nixpkgs.flake = inputs.nixpkgs;
-        }
-        // commonNixpkgsConfig)
-    ];
-    commonDarwinModules = [
-      ./darwin/nix.nix
-      ./darwin/base.nix
       ({
           nix.registry.nixpkgs.flake = inputs.nixpkgs;
         }
@@ -127,24 +103,6 @@
         };
       };
 
-    makeDarwin = {
-      hostname,
-      arch ? "aarch64-darwin",
-    }:
-      inputs.darwin.lib.darwinSystem {
-        system = arch;
-        modules =
-          [
-            (./darwin/machines + "/${hostname}")
-          ]
-          ++ commonDarwinModules;
-        specialArgs = {
-          nur = import inputs.nur {
-            nurpkgs = import inputs.nixpkgs {system = arch;};
-          };
-        };
-      };
-
     makeHome = {
       hostname,
       arch ? "x86_64-linux",
@@ -165,7 +123,7 @@
             };
 
             programs.home-manager.enable = true;
-            scheme = "${inputs.base16-onedark-scheme}/onedark.yaml";
+            scheme = "${inputs.tt-schemes}/base16/onedark.yaml";
           }
           extra
         ];
@@ -214,21 +172,9 @@
           };
       };
 
-      darwinConfigurations = {
-        macos = makeDarwin {
-          hostname = "macos";
-          arch = "x86_64-darwin";
-        };
-      };
-
       homeConfigurations = {
         metal = makeHome {hostname = "metal";};
         rock = makeHome {hostname = "rock";};
-        macos = makeHome {
-          hostname = "macos";
-          arch = "x86_64-darwin";
-          home = "/Users";
-        };
         trance = makeHome {
           hostname = "trance";
           extra = {

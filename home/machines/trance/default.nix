@@ -14,15 +14,14 @@
     ../../git.nix
     ../../helix.nix
     ../../ncmpcpp.nix
-    ../../neovim.nix
     ../../pim.nix
     ../../rofi.nix
+    ../../shell.nix
     ../../ssh.nix
     ../../sway.nix
     ../../taskwarrior.nix
     ../../tmux.nix
     ../../zathura.nix
-    ../../zsh.nix
 
     ./mpd.nix
     ./sway.nix

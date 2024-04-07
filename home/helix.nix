@@ -20,7 +20,7 @@
           display-inlay-hints = false;
         };
         mouse = false;
-        shell = ["${pkgs.zsh}/bin/zsh" "-c"];
+        shell = ["${pkgs.fish}/bin/fish" "-c"];
         soft-wrap = {
           enable = true;
         };

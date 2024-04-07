@@ -6,9 +6,8 @@
     ../../gpg.nix
     ../../git.nix
     ../../helix.nix
-    ../../neovim.nix
+    ../../shell.nix
     ../../ssh.nix
-    ../../zsh.nix
   ];
 
   programs.gpg.settings = {

@@ -40,7 +40,6 @@
           pborzenkov = pkgs.nur.repos.pborzenkov.firefox-addons;
         in [
           rycee.browserpass
-          rycee.translate-web-pages
           rycee.tridactyl
           rycee.ublock-origin
           rycee.istilldontcareaboutcookies

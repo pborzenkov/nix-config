@@ -14,19 +14,17 @@
     ../../git.nix
     ../../helix.nix
     ../../imv.nix
-    ../../mpv.nix
+    ../../media.nix
     ../../ncmpcpp.nix
-    ../../neovim.nix
     ../../pim.nix
     ../../rofi.nix
+    ../../shell.nix
     ../../ssh.nix
     ../../sway.nix
     ../../taskwarrior.nix
     ../../termshark.nix
-    ../../tmux.nix
     ../../zathura.nix
     ../../zellij.nix
-    ../../zsh.nix
 
     ./mpd.nix
     ./orpheus.nix

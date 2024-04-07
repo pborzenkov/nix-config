@@ -1,9 +1,5 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
-  programs.zsh.enable = true;
+{pkgs, ...}: {
+  programs.fish.enable = true;
 
   users = {
     mutableUsers = true;
@@ -20,7 +16,7 @@
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDTeiZ5C7zFAkxo5HGMZfxdAbDtLp6Ktv304NwrhKvkl cardno:000614470090"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOct5dqoDnGMNHecQaAr6ZxmXtqs2LuAYomaQXuOj4JO Booking.com work laptop"
       ];
-      shell = pkgs.zsh;
+      shell = pkgs.fish;
     };
   };
 }
