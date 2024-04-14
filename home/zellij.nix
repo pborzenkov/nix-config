@@ -28,7 +28,7 @@
         }
 
         keybinds {
-          shared_except "tmux" "locked" {
+          shared_except "scroll" "search" {
             unbind "Ctrl b"
           }
           search {
