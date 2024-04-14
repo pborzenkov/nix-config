@@ -50,17 +50,5 @@
         }
       '';
     };
-
-    zellij-z-tab-bar-layout = {
-      target = "zellij/layouts/z-tab-bar.kdl";
-      text = ''
-        layout {
-          pane
-          pane size=1 borderless=true {
-            plugin location="zellij:z-tab-bar"
-          }
-        }
-      '';
-    };
   };
 }
