@@ -18,6 +18,7 @@
         simplified_ui true
         copy_on_select true
         scrollback_editor "${pkgs.helix}/bin/hx"
+        session_serialization false
 
         plugins {
           tab-bar { path "tab-bar"; }
@@ -27,6 +28,9 @@
         }
 
         keybinds {
+          shared_except "tmux" "locked" {
+            unbind "Ctrl b"
+          }
           search {
             bind "e" { EditScrollback; SwitchToMode "Normal"; }
           }
