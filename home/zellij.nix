@@ -12,7 +12,7 @@
       target = "zellij/config.kdl";
       text = with config.scheme.withHashtag; ''
         default_layout "compact"
-        default_mode "locked"
+        default_mode "normal"
         mouse_mode false
         pane_frames false
         simplified_ui true
@@ -28,8 +28,38 @@
         }
 
         keybinds {
+          shared {
+            unbind "Ctrl h"
+            unbind "Ctrl n"
+            unbind "Ctrl p"
+            unbind "Ctrl t"
+          }
           shared_except "scroll" "search" {
             unbind "Ctrl b"
+          }
+          shared_except "move" "locked" {
+            bind "Ctrl ;" { SwitchToMode "Move"; }
+          }
+          shared_except "resize" "locked" {
+            bind "Ctrl '" { SwitchToMode "Resize"; }
+          }
+          shared_except "pane" "locked" {
+            bind "Ctrl ," { SwitchToMode "Pane"; }
+          }
+          shared_except "tab" "locked" {
+            bind "Ctrl ." { SwitchToMode "Tab"; }
+          }
+          move {
+            bind "Ctrl ;" { SwitchToMode "Normal"; }
+          }
+          resize {
+            bind "Ctrl '" { SwitchToMode "Normal"; }
+          }
+          pane {
+            bind "Ctrl ," { SwitchToMode "Normal"; }
+          }
+          tab {
+            bind "Ctrl ." { SwitchToMode "Normal"; }
           }
           search {
             bind "e" { EditScrollback; SwitchToMode "Normal"; }
