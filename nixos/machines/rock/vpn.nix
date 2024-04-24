@@ -42,10 +42,6 @@
             publicKey = "YgGdHIXeCQgBc4nXKJ4vct8S0fPqBpTgk4I8gh3uMEg=";
           }
         ];
-        postSetup = ''
-          ${pkgs.coreutils}/bin/sleep 5
-          ${pkgs.curl}/bin/curl -c /var/lib/wireguard-amsterdam/mam.cookies -b /var/lib/wireguard-amsterdam/mam.cookies https://t.myanonamouse.net/json/dynamicSeedbox.php
-        '';
       };
     };
   };

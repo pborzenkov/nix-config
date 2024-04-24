@@ -17,12 +17,12 @@
     ../../media.nix
     ../../ncmpcpp.nix
     ../../pim.nix
-    ../../rofi.nix
     ../../shell.nix
     ../../ssh.nix
     ../../sway.nix
     ../../taskwarrior.nix
     ../../termshark.nix
+    ../../wofi.nix
     ../../zathura.nix
     ../../zellij.nix
 
@@ -96,6 +96,20 @@
   ];
 
   xdg = {
+    configFile."wofi-power-menu.toml" = {
+      source = (pkgs.formats.toml {}).generate "wofi-power-menu.toml" {
+        wofi = {
+          extra_args = "--width 20% --allow-markup --columns=1 --hide-scroll";
+        };
+        menu.hibernate.enabled = "false";
+        menu.windows = {
+          title = "Reboot to Windows";
+          cmd = "sudo systemctl reboot --boot-loader-entry auto-windows";
+          icon = "";
+          requires_confirmation = "true";
+        };
+      };
+    };
     mimeApps = {
       enable = true;
       defaultApplications = {
@@ -105,46 +119,5 @@
       };
     };
     userDirs.download = "${config.home.homeDirectory}/down";
-    configFile.mkctl = {
-      target = "mkctl/mkctl.yml";
-      text = builtins.toJSON {
-        devices = {
-          "router" = {
-            MAC = "18:fd:74:78:3d:99";
-            SSH = {
-              password_cmd = ["${pkgs.pass}/bin/pass" "show" "misc/mikrotik-router"];
-              host_key = ''
-                -----BEGIN PUBLIC KEY-----
-                MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA41mNHUIM4HK1hrUMuYrl
-                QzIFmaPbNIpdKxdE5dBxK9P7HjI6nCh2lh1QBWo5mLx6NP3VFbeEjWMbTb94aX1D
-                HpOxAmdvIY/ihvBSPJx1Oc31FdHSGnMF7HCaH0XFg3vRozpTHg+7iEed2RaO2gkK
-                DgENqRt24xopzO7C8fNSwTX1mlicTjL/Q9GXvNeU+BwRzd7aOvgDIMJZlBN9m8VO
-                S4j6ygTFK+mdfn0qN5tk0GlOsRnRNsaRz5uyKZwIf6C0eJmSMKHPpdJqUusshvWh
-                fQzlRXz8LhJFcmzBxZ73/2VNLyWgf0V0uM7dJLQR4KwZssFKt3pVxrnhJeFmTwZ1
-                LQIDAQAB
-                -----END PUBLIC KEY-----
-              '';
-            };
-          };
-          "living-room" = {
-            MAC = "2c:c8:1b:7b:6b:3b";
-            SSH = {
-              password_cmd = ["${pkgs.pass}/bin/pass" "show" "misc/mikrotik-router"];
-              host_key = ''
-                -----BEGIN PUBLIC KEY-----
-                MIIBIDANBgkqhkiG9w0BAQEFAAOCAQ0AMIIBCAKCAQEAsCIdE1htpX5jsecWL8Yd
-                mQ9jl2rxhkFonLe905oyiMIFJsfyeqjssKnEh4tNP7vNsfNebADhTvJ8JQg0rMlP
-                0FKT7OXEUoIkqC/cdDqmnHLjvzNrFC2qcNCnOAj7KSNrHFUeJ/2CLrm91BZY1tqE
-                /C47aQg8V5O9KaYfLJDnFi+QAUHvg9fldZKpwHfpPJiZdrhJhJ7++PTWv432leZZ
-                RzkznGMbhxtjtvbjzSYI4QAm40FBDLKqx5apG8louiaEOWyjro5qbwcTMGQ/Umau
-                RBiwfdA7GlzE59MrIjQ6X2FoO5t5AjZRYkijo5XvbQiJDZG7c0zV3/Hq1b1pkyoZ
-                zwIBAw==
-                -----END PUBLIC KEY-----
-              '';
-            };
-          };
-        };
-      };
-    };
   };
 }

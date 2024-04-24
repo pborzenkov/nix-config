@@ -26,16 +26,16 @@ in {
     config = {
       modifier = "Mod4";
 
-      menu = "rofi -show run";
+      menu = "wofi -S run";
       terminal = "${pkgs.foot}/bin/foot";
 
       bindkeysToCode = true;
       keybindings = let
         modifier = config.wayland.windowManager.sway.config.modifier;
       in {
-        "${modifier}+d" = "exec rofi -show run";
+        "${modifier}+d" = "exec wofi -S run";
         "Mod1+Shift+Return" = "exec ${scratchTerm}";
-        "${modifier}+Shift+e" = "exec rofi -modi emoji -show emoji";
+        "${modifier}+Shift+s" = ''exec wofi-power-menu'';
         "${modifier}+q" = "kill";
 
         "${modifier}+1" = "workspace number 1";

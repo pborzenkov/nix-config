@@ -25,6 +25,13 @@
         utils.follows = "flake-utils";
       };
     };
+    wofi-power-menu = {
+      url = "github:szaffarano/wofi-power-menu";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+        flake-utils.follows = "flake-utils";
+      };
+    };
 
     # Base16 generator
     base16 = {
@@ -38,8 +45,8 @@
     };
 
     # Base16 templates
-    base16-rofi = {
-      url = "github:jordiorlando/base16-rofi";
+    base16-wofi = {
+      url = "sourcehut:~knezi/base16-wofi";
       flake = false;
     };
     base16-textmate = {
