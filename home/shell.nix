@@ -37,6 +37,7 @@
           "$git_status"
           "$git_state"
           "$fill"
+          "$hostname"
           "$direnv"
           "$nix_shell"
           "\n[╰─](20)$character"
@@ -69,6 +70,10 @@
         };
         git_state.style = "16";
         fill.symbol = " ";
+        hostname = {
+          format = "[$ssh_symbol$hostname]($style) ";
+          style = "11";
+        };
         direnv = {
           disabled = false;
           symbol = "Ⲇ ";
