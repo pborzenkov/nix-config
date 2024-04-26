@@ -44,10 +44,10 @@
             bind "Ctrl '" { SwitchToMode "Resize"; }
           }
           shared_except "pane" "locked" {
-            bind "Ctrl ," { SwitchToMode "Pane"; }
+            bind "Ctrl ." { SwitchToMode "Pane"; }
           }
           shared_except "tab" "locked" {
-            bind "Ctrl ." { SwitchToMode "Tab"; }
+            bind "Ctrl ," { SwitchToMode "Tab"; }
           }
           move {
             bind "Ctrl ;" { SwitchToMode "Normal"; }
@@ -56,10 +56,10 @@
             bind "Ctrl '" { SwitchToMode "Normal"; }
           }
           pane {
-            bind "Ctrl ," { SwitchToMode "Normal"; }
+            bind "Ctrl ." { SwitchToMode "Normal"; }
           }
           tab {
-            bind "Ctrl ." { SwitchToMode "Normal"; }
+            bind "Ctrl ," { SwitchToMode "Normal"; }
           }
           search {
             bind "e" { EditScrollback; SwitchToMode "Normal"; }
