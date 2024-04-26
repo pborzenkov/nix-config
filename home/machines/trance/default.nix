@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   inputs,
   ...
 }: {
@@ -15,13 +16,13 @@
     ../../helix.nix
     ../../ncmpcpp.nix
     ../../pim.nix
-    ../../rofi.nix
     ../../shell.nix
     ../../ssh.nix
     ../../sway.nix
     ../../taskwarrior.nix
-    ../../tmux.nix
     ../../zathura.nix
+    ../../zellij.nix
+    ../../wofi.nix
 
     ./mpd.nix
     ./sway.nix
@@ -36,11 +37,12 @@
     pkgs.slack
     pkgs.zeal
     pkgs.claws-mail
-    pkgs.google-chrome
+    # pkgs.google-chrome
 
     pkgs.pulseaudio
     pkgs.ncpamixer
     pkgs.bashmount
+    pkgs.networkmanager_dmenu
 
     pkgs.hunspellDicts.en_GB-large
     pkgs.hunspellDicts.ru_RU
@@ -101,6 +103,26 @@
   ];
 
   xdg = {
+    configFile = {
+      "networkmanager-dmenu/config.ini" = {
+        text = (lib.generators.toINI {}) {
+          dmenu = {
+            dmenu_command = "wofi -d";
+            pinentry = "pinentry-gnome3";
+            format = "{name} {sec} {icon}";
+            wifi_icons = "󰤟󰤢󰤥󰤨";
+          };
+        };
+      };
+      "wofi-power-menu.toml" = {
+        source = (pkgs.formats.toml {}).generate "wofi-power-menu.toml" {
+          wofi = {
+            extra_args = "--width 20% --allow-markup --columns=1 --hide-scroll";
+          };
+          menu.hibernate.enabled = "false";
+        };
+      };
+    };
     mimeApps = {
       enable = true;
       defaultApplications = {

@@ -2,18 +2,14 @@
   pkgs,
   config,
   ...
-}: let
-  cfg = config.wayland.windowManager.sway;
-in {
+}: {
   wayland.windowManager.sway = {
     package = null;
     config = {
-      keybindings = {
-        "${cfg.config.modifier}+Shift+s" = ''
-          exec rofi -theme-str 'window {width: 20%;} listview{scrollbar: false; lines: 6;}' \
-          -show power \
-          -modi "power:${pkgs.nur.repos.pborzenkov.rofi-power-menu}/bin/rofi-power-menu --choices lockscreen/logout/reboot/shutdown/suspend/hibernate"
-        '';
+      keybindings = let
+        modifier = config.wayland.windowManager.sway.config.modifier;
+      in {
+        "${modifier}+Shift+w" = ''exec networkmanager_dmenu'';
       };
       input = {
         "2362:628:PIXA3854:00_093A:0274_Touchpad" = {
