@@ -27,21 +27,20 @@
 
         keybinds clear-defaults=true {
           locked {
-            bind "Ctrl 7" { SwitchToMode "Normal"; }
+            bind "Ctrl 1" { SwitchToMode "Normal"; }
           }
           shared_except "locked" {
-            bind "Ctrl 7" { SwitchToMode "Locked"; }
+            bind "Ctrl 1" { SwitchToMode "Locked"; }
           }
 
           normal {
-            bind "Ctrl 8" { SwitchToMode "Scroll"; }
-            bind "Ctrl 9" { SwitchToMode "Session"; }
+            bind "Ctrl <" { SwitchToMode "Scroll"; }
+            bind "Ctrl >" { SwitchToMode "Session"; }
             bind "Ctrl ;" { SwitchToMode "Move"; }
             bind "Ctrl '" { SwitchToMode "Resize"; }
             bind "Ctrl ." { SwitchToMode "Pane"; }
             bind "Ctrl ," { SwitchToMode "Tab"; }
 
-            bind "Ctrl q" { Quit; }
             bind "Alt n" { NewPane; }
             bind "Alt h" { MoveFocus "Left"; }
             bind "Alt l" { MoveFocus "Right"; }
@@ -50,7 +49,7 @@
           }
 
           scroll {
-            bind "Ctrl 8" { SwitchToMode "Normal"; }
+            bind "Ctrl <" { SwitchToMode "Normal"; }
 
             bind "e" { EditScrollback; SwitchToMode "Normal"; }
             bind "s" { SwitchToMode "EnterSearch"; SearchInput 0; }
@@ -67,7 +66,7 @@
             bind "Enter" { SwitchToMode "Search"; }
           }
           search {
-            bind "Ctrl 8" { SwitchToMode "Normal"; }
+            bind "Ctrl <" { SwitchToMode "Normal"; }
 
             bind "e" { EditScrollback; SwitchToMode "Normal"; }
             bind "Ctrl c" { ScrollToBottom; SwitchToMode "Normal"; }
@@ -85,7 +84,7 @@
           }
 
           session {
-            bind "Ctrl 9" { SwitchToMode "Normal"; }
+            bind "Ctrl >" { SwitchToMode "Normal"; }
 
             bind "d" { Detach; }
             bind "w" {
