@@ -34,10 +34,10 @@
           }
 
           normal {
-            bind "Ctrl <" { SwitchToMode "Scroll"; }
-            bind "Ctrl >" { SwitchToMode "Session"; }
-            bind "Ctrl ;" { SwitchToMode "Move"; }
-            bind "Ctrl '" { SwitchToMode "Resize"; }
+            bind "Ctrl '" { SwitchToMode "Scroll"; }
+            bind "Ctrl ;" { SwitchToMode "Session"; }
+            bind "Ctrl >" { SwitchToMode "Move"; }
+            bind "Ctrl <" { SwitchToMode "Resize"; }
             bind "Ctrl ." { SwitchToMode "Pane"; }
             bind "Ctrl ," { SwitchToMode "Tab"; }
 
@@ -49,7 +49,7 @@
           }
 
           scroll {
-            bind "Ctrl <" { SwitchToMode "Normal"; }
+            bind "Ctrl '" { SwitchToMode "Normal"; }
 
             bind "e" { EditScrollback; SwitchToMode "Normal"; }
             bind "s" { SwitchToMode "EnterSearch"; SearchInput 0; }
@@ -66,7 +66,7 @@
             bind "Enter" { SwitchToMode "Search"; }
           }
           search {
-            bind "Ctrl <" { SwitchToMode "Normal"; }
+            bind "Ctrl '" { SwitchToMode "Normal"; }
 
             bind "e" { EditScrollback; SwitchToMode "Normal"; }
             bind "Ctrl c" { ScrollToBottom; SwitchToMode "Normal"; }
@@ -84,7 +84,7 @@
           }
 
           session {
-            bind "Ctrl >" { SwitchToMode "Normal"; }
+            bind "Ctrl ;" { SwitchToMode "Normal"; }
 
             bind "d" { Detach; }
             bind "w" {
@@ -97,7 +97,7 @@
           }
 
           move {
-            bind "Ctrl ;" { SwitchToMode "Normal"; }
+            bind "Ctrl >" { SwitchToMode "Normal"; }
 
             bind "n" { MovePane; }
             bind "p" { MovePaneBackwards; }
@@ -108,7 +108,7 @@
           }
 
           resize {
-            bind "Ctrl '" { SwitchToMode "Normal"; }
+            bind "Ctrl <" { SwitchToMode "Normal"; }
 
             bind "h" { Resize "Increase Left"; }
             bind "j" { Resize "Increase Down"; }
