@@ -41,7 +41,6 @@
             bind "Ctrl ." { SwitchToMode "Pane"; }
             bind "Ctrl ," { SwitchToMode "Tab"; }
 
-            bind "Alt n" { NewPane; }
             bind "Alt h" { MoveFocus "Left"; }
             bind "Alt l" { MoveFocus "Right"; }
             bind "Alt j" { MoveFocus "Down"; }
