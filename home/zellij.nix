@@ -33,6 +33,7 @@
             unbind "Ctrl n"
             unbind "Ctrl p"
             unbind "Ctrl t"
+            unbind "Ctrl o"
           }
           shared_except "scroll" "search" {
             unbind "Ctrl b"
@@ -49,6 +50,9 @@
           shared_except "tab" "locked" {
             bind "Ctrl ," { SwitchToMode "Tab"; }
           }
+          shared_except "session" "locked" {
+            bind "Ctrl 9" { SwitchToMode "Session"; }
+          }
           move {
             bind "Ctrl ;" { SwitchToMode "Normal"; }
           }
@@ -60,6 +64,9 @@
           }
           tab {
             bind "Ctrl ," { SwitchToMode "Normal"; }
+          }
+          session {
+            bind "Ctrl 9" { SwitchToMode "Normal"; }
           }
           search {
             bind "e" { EditScrollback; SwitchToMode "Normal"; }
