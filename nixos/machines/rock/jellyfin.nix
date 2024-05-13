@@ -13,6 +13,9 @@
     subDomain = "jellyfin";
     proxyTo = "http://127.0.0.1:8096";
     locations."/" = {};
+    custom = {
+      forceSSL = false;
+    };
     dashboard = {
       name = "Jellyfin";
       category = "app";
