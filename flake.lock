@@ -255,6 +255,7 @@
         "nur": "nur",
         "sops-nix": "sops-nix",
         "tt-schemes": "tt-schemes",
+        "valheim-server": "valheim-server",
         "wofi-power-menu": "wofi-power-menu"
       }
     },
@@ -278,6 +279,27 @@
       "original": {
         "owner": "Mic92",
         "repo": "sops-nix",
+        "type": "github"
+      }
+    },
+    "steam-fetcher": {
+      "inputs": {
+        "nixpkgs": [
+          "valheim-server",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1714795926,
+        "narHash": "sha256-PkgC9jqoN6cJ8XYzTA2PlrWs7aPJkM3BGiTxNqax0cA=",
+        "owner": "nix-community",
+        "repo": "steam-fetcher",
+        "rev": "12f66eafb7862d91b3e30c14035f96a21941bd9c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "steam-fetcher",
         "type": "github"
       }
     },
@@ -309,6 +331,27 @@
       "original": {
         "owner": "tinted-theming",
         "repo": "schemes",
+        "type": "github"
+      }
+    },
+    "valheim-server": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "steam-fetcher": "steam-fetcher"
+      },
+      "locked": {
+        "lastModified": 1715833534,
+        "narHash": "sha256-ZsbjxO/F2bcn3mm0FkPJmWgu8z2XY05V4VeJ39k1Ksw=",
+        "owner": "aidalgol",
+        "repo": "valheim-server-flake",
+        "rev": "871aac4adedb5089d94bb0fb0dbf7ba27217297f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "aidalgol",
+        "repo": "valheim-server-flake",
         "type": "github"
       }
     },

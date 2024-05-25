@@ -32,6 +32,10 @@
         flake-utils.follows = "flake-utils";
       };
     };
+    valheim-server = {
+      url = "github:aidalgol/valheim-server-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Base16 generator
     base16 = {
@@ -162,6 +166,7 @@
             disabledModules = ["services/networking/openvpn.nix"];
             customModules = [
               "${inputs.nixpkgs-unstable}/nixos/modules/services/misc/anki-sync-server.nix"
+              inputs.valheim-server.nixosModules.default
             ];
           };
         gw =

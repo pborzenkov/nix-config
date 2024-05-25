@@ -40,7 +40,7 @@
     ./syncthing.nix
     ./taskserver.nix
     ./terraform.nix
-    # ./valheim.nix
+    ./valheim.nix
     ./vlmcsd.nix
     ./vpn.nix
     ./webapps.nix
