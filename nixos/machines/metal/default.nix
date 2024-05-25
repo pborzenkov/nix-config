@@ -119,6 +119,7 @@
       enable = true;
       package = pkgs.wireshark;
     };
+    steam.enable = true;
   };
   users.users.pbor.extraGroups = ["adbusers" "kvm" "wireshark"];
 
