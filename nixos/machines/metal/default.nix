@@ -44,7 +44,7 @@
 
     binfmt.registrations = {
       DOSWin = {
-        interpreter = "${pkgs.wine}/bin/wine";
+        interpreter = "${pkgs.wine64}/bin/wine64";
         magicOrExtension = "MZ";
         recognitionType = "magic";
       };
