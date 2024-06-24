@@ -5,7 +5,6 @@
   };
 
   systemd.services.jellyfin = {
-    after = ["network-online.target"];
     unitConfig.RequiresMountsFor = ["/storage"];
   };
 

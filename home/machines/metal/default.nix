@@ -70,12 +70,13 @@
       enable = true;
       enableSshSupport = true;
       enableExtraSocket = true;
-      pinentryFlavor = "gnome3";
+      pinentryPackage = pkgs.pinentry-gnome3;
     };
   };
 
   home = {
     sessionVariables = {
+      EDITOR = "hx";
       MOZ_ENABLE_WAYLAND = "1";
       NIXOS_OZONE_WL = "1";
       PATH = "\${HOME}/bin:\${PATH}";
@@ -96,20 +97,6 @@
   ];
 
   xdg = {
-    configFile."wofi-power-menu.toml" = {
-      source = (pkgs.formats.toml {}).generate "wofi-power-menu.toml" {
-        wofi = {
-          extra_args = "--width 20% --allow-markup --columns=1 --hide-scroll";
-        };
-        menu.hibernate.enabled = "false";
-        menu.windows = {
-          title = "Reboot to Windows";
-          cmd = "sudo systemctl reboot --boot-loader-entry auto-windows";
-          icon = "";
-          requires_confirmation = "true";
-        };
-      };
-    };
     mimeApps = {
       enable = true;
       defaultApplications = {

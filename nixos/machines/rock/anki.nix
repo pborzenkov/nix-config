@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs-unstable,
-  ...
-}: {
+{config, ...}: {
   webapps.apps.anki = {
     subDomain = "anki";
     proxyTo = "http://127.0.0.1:${toString config.services.anki-sync-server.port}";
@@ -11,7 +7,6 @@
 
   services.anki-sync-server = {
     enable = true;
-    package = pkgs-unstable.anki-sync-server;
     address = "127.0.0.1";
     users = [
       {

@@ -1,6 +1,5 @@
 {
   config,
-  lib,
   pkgs,
   ...
 }: {
@@ -23,6 +22,7 @@
   in {
     description = "Telegram bot for Skyeng word lists";
     after = ["network-online.target"];
+    wants = ["network-online.target"];
     wantedBy = ["multi-user.target"];
     serviceConfig = {
       ExecStart = ''

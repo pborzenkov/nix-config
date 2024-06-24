@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  inputs,
   ...
 }: let
   scratchTerm = pkgs.writeShellScript "scratch-term.sh" ''
@@ -112,7 +113,7 @@ in {
 
       output = {
         "*" = {
-          bg = "${config.xdg.dataHome}/sway/wallpaper.jpg fill";
+          bg = "${inputs.self}/assets/wallpaper.jpg fill";
         };
       };
 
@@ -229,11 +230,6 @@ in {
     extraConfig = ''
       hide_edge_borders --i3 none
     '';
-  };
-
-  xdg.dataFile."wallpaper.jpg" = {
-    source = ../assets/wallpaper.jpg;
-    target = "sway/wallpaper.jpg";
   };
 
   systemd.user.services.swayidle = {

@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+{lib, ...}: {
   services = {
     bazarr.enable = true;
     prowlarr.enable = true;
@@ -11,49 +6,48 @@
     sonarr.enable = true;
   };
 
-  systemd.services =
-    (lib.genAttrs ["bazarr" "radarr" "sonarr"] (name: {
-      unitConfig = {
-        RequiresMountsFor = ["/storage"];
-      };
-    }))
-    // {
-      autobrr = {
-        description = "Modern, easy to use download automation for torrents and usenet.";
-        after = ["network.target"];
-        wantedBy = ["multi-user.target"];
-        serviceConfig = {
-          DynamicUser = true;
-          Type = "simple";
-          Restart = "on-failure";
-          StateDirectory = "autobrr";
-          ExecStart = "${pkgs.nur.repos.pborzenkov.autobrr}/bin/autobrr --config /var/lib/autobrr";
-          EnvironmentFile = [
-            config.sops.secrets.autobrr-environment.path
-          ];
-        };
-        environment = {
-          AUTOBRR_HOST = "127.0.0.1";
-          AUTOBRR_PORT = "7474";
-          AUTOBRR_DATABASE_TYPE = "sqlite";
-          AUTOBRR_CHECK_FOR_UPDATES = "false";
-        };
-      };
+  systemd.services = lib.genAttrs ["bazarr" "radarr" "sonarr"] (name: {
+    unitConfig = {
+      RequiresMountsFor = ["/storage"];
     };
+  });
+  # // {
+  #   autobrr = {
+  #     description = "Modern, easy to use download automation for torrents and usenet.";
+  #     after = ["network.target"];
+  #     wantedBy = ["multi-user.target"];
+  #     serviceConfig = {
+  #       DynamicUser = true;
+  #       Type = "simple";
+  #       Restart = "on-failure";
+  #       StateDirectory = "autobrr";
+  #       ExecStart = "${pkgs.nur.repos.pborzenkov.autobrr}/bin/autobrr --config /var/lib/autobrr";
+  #       EnvironmentFile = [
+  #         config.sops.secrets.autobrr-environment.path
+  #       ];
+  #     };
+  #     environment = {
+  #       AUTOBRR_HOST = "127.0.0.1";
+  #       AUTOBRR_PORT = "7474";
+  #       AUTOBRR_DATABASE_TYPE = "sqlite";
+  #       AUTOBRR_CHECK_FOR_UPDATES = "false";
+  #     };
+  #   };
+  # };
 
-  sops.secrets.autobrr-environment = {};
+  # sops.secrets.autobrr-environment = {};
 
   webapps.apps = {
-    autobrr = {
-      subDomain = "autobrr";
-      proxyTo = "http://127.0.0.1:7474";
-      locations."/" = {};
-      dashboard = {
-        name = "Autobrr";
-        category = "arr";
-        icon = "download";
-      };
-    };
+    # autobrr = {
+    #   subDomain = "autobrr";
+    #   proxyTo = "http://127.0.0.1:7474";
+    #   locations."/" = {};
+    #   dashboard = {
+    #     name = "Autobrr";
+    #     category = "arr";
+    #     icon = "download";
+    #   };
+    # };
     bazarr = {
       subDomain = "bazarr";
       proxyTo = "http://127.0.0.1:6767";

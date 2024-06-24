@@ -20,6 +20,10 @@
       ];
     };
 
+    fd = {
+      enable = true;
+    };
+
     htop = {
       enable = true;
     };
@@ -52,8 +56,6 @@
 
   home.packages = [
     # Search
-    pkgs.fd
-    pkgs.ripgrep
     pkgs.sd
 
     # Network

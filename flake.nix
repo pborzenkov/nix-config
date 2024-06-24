@@ -2,11 +2,11 @@
   description = "pborzenkov's nix config";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable-small";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable-small";
     nixos-hardware.url = "github:nixos/nixos-hardware";
     home-manager = {
-      url = "github:nix-community/home-manager/release-23.11";
+      url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-utils.url = "github:numtide/flake-utils";
@@ -23,13 +23,6 @@
       inputs = {
         nixpkgs.follows = "nixpkgs";
         utils.follows = "flake-utils";
-      };
-    };
-    wofi-power-menu = {
-      url = "github:szaffarano/wofi-power-menu";
-      inputs = {
-        nixpkgs.follows = "nixpkgs-unstable";
-        flake-utils.follows = "flake-utils";
       };
     };
     valheim-server = {
@@ -110,7 +103,7 @@
           nur = import inputs.nur {
             nurpkgs = import inputs.nixpkgs {system = arch;};
           };
-          pkgs-unstable = import inputs.nixpkgs-unstable {system = arch;};
+          # pkgs-unstable = import inputs.nixpkgs-unstable {system = arch;};
         };
       };
 
@@ -142,7 +135,7 @@
         extraSpecialArgs = {
           inherit inputs;
 
-          pkgs-unstable = import inputs.nixpkgs-unstable {system = arch;};
+          # pkgs-unstable = import inputs.nixpkgs-unstable {system = arch;};
         };
         pkgs = import inputs.nixpkgs {
           system = arch;
@@ -165,7 +158,6 @@
             hostname = "rock";
             disabledModules = ["services/networking/openvpn.nix"];
             customModules = [
-              "${inputs.nixpkgs-unstable}/nixos/modules/services/misc/anki-sync-server.nix"
               inputs.valheim-server.nixosModules.default
             ];
           };

@@ -29,6 +29,21 @@
   };
 
   home.packages = [
-    inputs.wofi-power-menu.packages."x86_64-linux".wofi-power-menu
+    pkgs.nur.repos.pborzenkov.wofi-power-menu
   ];
+
+  xdg.configFile."wofi-power-menu.toml" = {
+    source = (pkgs.formats.toml {}).generate "wofi-power-menu.toml" {
+      wofi = {
+        extra_args = "--width 20% --allow-markup --columns=1 --hide-scroll";
+      };
+      menu.hibernate.enabled = "false";
+      menu.windows = {
+        title = "Reboot to Windows";
+        cmd = "sudo systemctl reboot --boot-loader-entry auto-windows";
+        icon = "";
+        requires_confirmation = "true";
+      };
+    };
+  };
 }

@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  pkgs-unstable,
   ...
 }: {
   programs = {
@@ -73,10 +72,9 @@
       pkgs.terraform-ls
       pkgs.ltex-ls
       pkgs.radare2
-      pkgs.teleport_12
       pkgs.prox
       pkgs.hurl
-      pkgs-unstable.prr
+      pkgs.prr
       pkgs.oha
     ]
     ++ lib.optionals (pkgs.stdenv.isLinux) [
