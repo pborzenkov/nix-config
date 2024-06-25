@@ -59,7 +59,7 @@ function convert_to_bytes() {
 function analyze_files_line() {
     # example line:
     # Files:          68 new,    38 changed, 109657 unmodified
-    local files_line=$(echo "$LOGS" | grep 'Files:' | cut -d':' -f4-)
+    local files_line=$(echo "$LOGS" | grep 'Files:' | cut -d':' -f2-)
     local new_files=$(echo $files_line | awk '{ print $2 }')
     local changed_files=$(echo $files_line | awk '{ print $4 }')
     local unmodified_files=$(echo $files_line | awk '{ print $6 }')
@@ -75,7 +75,7 @@ function analyze_files_line() {
 
 function analyze_dirs_line() {
     # Dirs:            0 new,     1 changed,     1 unmodified
-    local files_line=$(echo "$LOGS" | grep 'Dirs:' | cut -d':' -f4-)
+    local files_line=$(echo "$LOGS" | grep 'Dirs:' | cut -d':' -f2-)
     local new_dirs=$(echo $files_line | awk '{ print $2 }')
     local changed_dirs=$(echo $files_line | awk '{ print $4 }')
     local unmodified_dirs=$(echo $files_line | awk '{ print $6 }')
@@ -91,7 +91,7 @@ function analyze_dirs_line() {
 
 function analyze_added_line() {
     # Added to the repo: 223.291 MiB
-    local added_line=$(echo "$LOGS" | grep 'Added to the repository:' | cut -d':' -f4-)
+    local added_line=$(echo "$LOGS" | grep 'Added to the repository:' | cut -d':' -f2-)
     local added_value=$(echo $added_line | awk '{ print $5 }')
     local added_unit=$(echo $added_line | awk '{ print $6 }')
     local added_bytes=$(convert_to_bytes $added_value $added_unit)
@@ -118,7 +118,7 @@ function main() {
         return 1
     fi
 
-    LOGS="$(journalctl -o short-iso INVOCATION_ID=${INVOCATION_ID} + _SYSTEMD_INVOCATION_ID=${INVOCATION_ID})"
+    LOGS="$(journalctl -o short-unix INVOCATION_ID=${INVOCATION_ID} + _SYSTEMD_INVOCATION_ID=${INVOCATION_ID})"
     METRICS_FILE="/var/lib/prometheus-node-exporter/${unit}.prom"
     TMP_FILE="$(mktemp ${METRICS_FILE}.XXXXXXX)"
     COMMON_LABELS="unit=\"${unit}\""
