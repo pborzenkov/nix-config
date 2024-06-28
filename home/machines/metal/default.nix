@@ -89,13 +89,6 @@
     };
   };
 
-  wayland.windowManager.sway.config.window.commands = [
-    {
-      criteria = {app_id = "org.jellyfin.";};
-      command = "inhibit_idle visible";
-    }
-  ];
-
   xdg = {
     mimeApps = {
       enable = true;

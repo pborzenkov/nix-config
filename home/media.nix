@@ -26,7 +26,7 @@
 
   wayland.windowManager.sway.config.window.commands = [
     {
-      criteria = {app_id = "org.jellyfin.";};
+      criteria = {app_id = "com.github.iwalton3.jellyfin-media-player";};
       command = "inhibit_idle visible";
     }
   ];
