@@ -28,6 +28,10 @@
       enable = true;
     };
 
+    jq = {
+      enable = true;
+    };
+
     password-store = {
       enable = true;
       package = pkgs.pass.withExtensions (ext: [ext.pass-otp]);
@@ -60,7 +64,6 @@
 
     # Network
     pkgs.xh
-    pkgs.jq
     pkgs.gron
     pkgs.dig
     pkgs.trippy

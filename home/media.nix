@@ -3,16 +3,28 @@
   config,
   ...
 }: {
-  programs.mpv = {
-    enable = true;
-    config = {
-      alang = "eng,en,English";
-      slang = "eng,en,English";
-      vo = "dmabuf-wayland";
-      gpu-api = "vulkan";
-      hwdec = "auto";
-      gpu-context = "waylandvk";
-      hdr-compute-peak = "no";
+  programs = {
+    imv = {
+      enable = true;
+      settings = {
+        binds = {
+          "<Shift+greater>" = "next 1";
+          "<Shift+less>" = "prev 1";
+        };
+      };
+    };
+
+    mpv = {
+      enable = true;
+      config = {
+        alang = "eng,en,English";
+        slang = "eng,en,English";
+        vo = "dmabuf-wayland";
+        gpu-api = "vulkan";
+        hwdec = "auto";
+        gpu-context = "waylandvk";
+        hdr-compute-peak = "no";
+      };
     };
   };
 

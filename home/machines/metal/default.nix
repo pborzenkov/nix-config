@@ -13,7 +13,6 @@
     ../../gtk.nix
     ../../git.nix
     ../../helix.nix
-    ../../imv.nix
     ../../media.nix
     ../../ncmpcpp.nix
     ../../pim.nix
@@ -44,7 +43,6 @@
     pkgs.tremc
     pkgs.virt-manager
     pkgs.libreoffice
-    pkgs.jellyfin-media-player
     pkgs.picard
     pkgs.shntool
     pkgs.flac
@@ -76,7 +74,6 @@
 
   home = {
     sessionVariables = {
-      EDITOR = "hx";
       MOZ_ENABLE_WAYLAND = "1";
       NIXOS_OZONE_WL = "1";
       PATH = "\${HOME}/bin:\${PATH}";
