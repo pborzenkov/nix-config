@@ -23,7 +23,6 @@
     ../../termshark.nix
     ../../wofi.nix
     ../../zathura.nix
-    ../../zellij.nix
 
     ./mpd.nix
     ./orpheus.nix
@@ -31,13 +30,8 @@
     ./sway.nix
   ];
 
-  home.packages = let
-    anki = pkgs.writeScriptBin "anki" ''
-      export ANKI_WAYLAND=1
-      exec ${pkgs.anki-bin}/bin/anki
-    '';
-  in [
-    anki
+  home.packages = [
+    pkgs.anki
     pkgs.tdesktop
     pkgs.calibre
     pkgs.tremc
@@ -47,9 +41,7 @@
     pkgs.shntool
     pkgs.flac
     pkgs.cuetools
-    pkgs.slack
     pkgs.zeal
-    pkgs.claws-mail
     pkgs.zoom-us
 
     pkgs.nixos-container
@@ -74,14 +66,10 @@
 
   home = {
     sessionVariables = {
-      MOZ_ENABLE_WAYLAND = "1";
-      NIXOS_OZONE_WL = "1";
       PATH = "\${HOME}/bin:\${PATH}";
       VIRSH_DEFAULT_CONNECT_URI = "qemu+ssh://rock.lab.borzenkov.net/system";
     };
     shellAliases = {
-      mixer = "ncpamixer -t o";
-      pmixer = "ncpamixer -t p";
       unflac = ''${pkgs.unflac}/bin/unflac -n "{{.Input.Artist | Elem}} - {{with .Input.Title}}{{. | Elem}}{{else}}Unknown Album{{end}} ({{- with .Input.Date}}{{.}}{{end}})/ {{- printf .Input.TrackNumberFmt .Track.Number}} - {{.Track.Title | Elem}}"'';
     };
   };

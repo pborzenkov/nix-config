@@ -37,12 +37,19 @@
       wofi = {
         extra_args = "--width 20% --allow-markup --columns=1 --hide-scroll";
       };
-      menu.hibernate.enabled = "false";
-      menu.windows = {
-        title = "Reboot to Windows";
-        cmd = "sudo systemctl reboot --boot-loader-entry auto-windows";
-        icon = "";
-        requires_confirmation = "true";
+      menu = {
+        logout = {
+          cmd = "loginctl terminate-session self";
+          requires_confirmation = "true";
+        };
+        suspend.requires_confirmation = "false";
+        hibernate.enabled = "false";
+        windows = {
+          title = "Reboot to Windows";
+          cmd = "sudo systemctl reboot --boot-loader-entry auto-windows";
+          icon = "";
+          requires_confirmation = "true";
+        };
       };
     };
   };

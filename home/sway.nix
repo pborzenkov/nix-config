@@ -5,108 +5,106 @@
   inputs,
   ...
 }: let
-  scratchTerm = pkgs.writeShellScript "scratch-term.sh" ''
-    jq=${pkgs.jq}/bin/jq
-    tree=$(${pkgs.sway}/bin/swaymsg -t get_tree)
-    cw=$(echo $tree | $jq -r '.nodes[] | select(has("current_workspace")) | .current_workspace')
-    cwt=$(echo $tree | $jq '.nodes[].nodes[] | select(.name == "'$cw'")')
-
-    [ -n "$(echo $tree | $jq '.. | objects | select ( .app_id == "scratch-term")')" ] && is_running=1 || is_running=0
-    is_visible=0
-    [ -n "$(echo $cwt | $jq '.nodes[] | select(.app_id == "scratch-term")')" ] && is_visible=1 || is_visible=0
-
-    [ $is_running -eq 0 ] && exec ${pkgs.foot}/bin/foot -a scratch-term ${pkgs.zellij}/bin/zellij attach -c scratch
-    [ $is_visible -eq 0 ] && exec ${pkgs.sway}/bin/swaymsg '[con_mark="scratch-term"] scratchpad show, [con_mark="scratch-term"] move to workspace $cw'
-
-    exec ${pkgs.sway}/bin/swaymsg '[con_mark="scratch-term"] move scratchpad'
-  '';
+  scratch-term = pkgs.writeShellApplication {
+    name = "scratch-term";
+    text = builtins.readFile "${inputs.self}/home/sway/scratch-term.sh";
+    runtimeInputs = [pkgs.sway pkgs.jq pkgs.foot];
+  };
+  screenshot = pkgs.writeShellApplication {
+    name = "screenshot";
+    text = builtins.readFile "${inputs.self}/home/sway/screenshot.sh";
+    runtimeInputs = [pkgs.sway pkgs.jq pkgs.grim pkgs.slurp pkgs.wl-clipboard];
+  };
 in {
   wayland.windowManager.sway = {
     enable = true;
+    package = null;
     wrapperFeatures.gtk = true;
     config = {
       modifier = "Mod4";
-
-      menu = "wofi -S run";
-      terminal = "${pkgs.foot}/bin/foot";
-
       bindkeysToCode = true;
       keybindings = let
-        modifier = config.wayland.windowManager.sway.config.modifier;
+        cfg = config.wayland.windowManager.sway.config;
       in {
-        "${modifier}+d" = "exec wofi -S run";
-        "Mod1+Shift+Return" = "exec ${scratchTerm}";
-        "${modifier}+Shift+s" = ''exec wofi-power-menu'';
-        "${modifier}+q" = "kill";
+        "${cfg.modifier}+Return" = "exec ${pkgs.foot}/bin/foot";
+        "Mod1+Shift+Return" = "exec ${scratch-term}/bin/scratch-term toggle";
 
-        "${modifier}+1" = "workspace number 1";
-        "${modifier}+2" = "workspace number 2";
-        "${modifier}+3" = "workspace number 3";
-        "${modifier}+4" = "workspace number 4";
-        "${modifier}+5" = "workspace number 5";
-        "${modifier}+6" = "workspace number 6";
-        "${modifier}+7" = "workspace number 7";
-        "${modifier}+8" = "workspace number 8";
-        "${modifier}+9" = "workspace number 9";
-        "${modifier}+h" = "focus left";
-        "${modifier}+j" = "focus down";
-        "${modifier}+k" = "focus up";
-        "${modifier}+l" = "focus right";
-        "${modifier}+F1" = "focus output DP-4";
-        "${modifier}+F2" = "focus output eDP-1";
+        "${cfg.modifier}+d" = "exec ${pkgs.wofi}/bin/wofi -S run";
+        "${cfg.modifier}+Shift+s" = "exec wofi-power-menu";
 
-        "${modifier}+Shift+1" = "move container to workspace number 1";
-        "${modifier}+Shift+2" = "move container to workspace number 2";
-        "${modifier}+Shift+3" = "move container to workspace number 3";
-        "${modifier}+Shift+4" = "move container to workspace number 4";
-        "${modifier}+Shift+5" = "move container to workspace number 5";
-        "${modifier}+Shift+6" = "move container to workspace number 6";
-        "${modifier}+Shift+7" = "move container to workspace number 7";
-        "${modifier}+Shift+8" = "move container to workspace number 8";
-        "${modifier}+Shift+9" = "move container to workspace number 9";
-        "${modifier}+Shift+h" = "move left";
-        "${modifier}+Shift+j" = "move down";
-        "${modifier}+Shift+k" = "move up";
-        "${modifier}+Shift+l" = "move right";
+        "${cfg.modifier}+q" = "kill";
 
-        "${modifier}+Shift+F1" = "move workspace to output DP-4";
-        "${modifier}+Shift+F2" = "move workspace to output eDP-1";
+        "${cfg.modifier}+h" = "focus left";
+        "${cfg.modifier}+j" = "focus down";
+        "${cfg.modifier}+k" = "focus up";
+        "${cfg.modifier}+l" = "focus right";
 
-        "${modifier}+f" = "fullscreen toggle";
-        "${modifier}+Shift+space" = "floating toggle";
-        "${modifier}+e" = "layout toggle split";
-        "${modifier}+s" = "layout stacking";
-        "${modifier}+w" = "layout tabbed";
-        "${modifier}+r" = "mode resize";
-        "${modifier}+Shift+minus" = "move scratchpad";
-        "${modifier}+minus" = "scratchpad show";
+        "${cfg.modifier}+Shift+h" = "move left";
+        "${cfg.modifier}+Shift+j" = "move down";
+        "${cfg.modifier}+Shift+k" = "move up";
+        "${cfg.modifier}+Shift+l" = "move right";
 
-        "${modifier}+bracketleft" = "focus parent";
-        "${modifier}+bracketright" = "focus child";
-        "${modifier}+v" = "splith";
-        "${modifier}+b" = "splitv";
+        "${cfg.modifier}+b" = "splitb";
+        "${cfg.modifier}+v" = "splitv";
+        "${cfg.modifier}+f" = "fullscreen toggle";
+        "${cfg.modifier}+a" = "focus parent";
+        "${cfg.modifier}+c" = "focus child";
+
+        "${cfg.modifier}+s" = "layout stacking";
+        "${cfg.modifier}+w" = "layout tabbed";
+        "${cfg.modifier}+e" = "layout toggle split";
+
+        "${cfg.modifier}+Shift+space" = "floating toggle";
+
+        "${cfg.modifier}+1" = "workspace number 1";
+        "${cfg.modifier}+2" = "workspace number 2";
+        "${cfg.modifier}+3" = "workspace number 3";
+        "${cfg.modifier}+4" = "workspace number 4";
+        "${cfg.modifier}+5" = "workspace number 5";
+        "${cfg.modifier}+6" = "workspace number 6";
+        "${cfg.modifier}+7" = "workspace number 7";
+        "${cfg.modifier}+8" = "workspace number 8";
+        "${cfg.modifier}+9" = "workspace number 9";
+
+        "${cfg.modifier}+Shift+1" = "move container to workspace number 1";
+        "${cfg.modifier}+Shift+2" = "move container to workspace number 2";
+        "${cfg.modifier}+Shift+3" = "move container to workspace number 3";
+        "${cfg.modifier}+Shift+4" = "move container to workspace number 4";
+        "${cfg.modifier}+Shift+5" = "move container to workspace number 5";
+        "${cfg.modifier}+Shift+6" = "move container to workspace number 6";
+        "${cfg.modifier}+Shift+7" = "move container to workspace number 7";
+        "${cfg.modifier}+Shift+8" = "move container to workspace number 8";
+        "${cfg.modifier}+Shift+9" = "move container to workspace number 9";
+
+        "${cfg.modifier}+r" = "mode resize";
+
+        "${cfg.modifier}+Shift+n" = "exec ${pkgs.dunst}/bin/dunstctl set-paused toggle";
 
         "XF86AudioRaiseVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%";
         "XF86AudioLowerVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%";
         "XF86AudioMute" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
+
         "XF86AudioPrev" = "exec ${pkgs.playerctl}/bin/playerctl -p mpd previous";
         "XF86AudioNext" = "exec ${pkgs.playerctl}/bin/playerctl -p mpd next";
         "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl -p mpd play-pause";
+
         "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set +5%";
         "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set 5%-";
-        Print = ''exec ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp -d)" - | ${pkgs.wl-clipboard}/bin/wl-copy'';
-        "Shift+Print" = ''exec ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp -d)"'';
-        "Ctrl+Print" = ''exec ${pkgs.grim}/bin/grim -o $(${pkgs.sway}/bin/swaymsg -t get_outputs | ${pkgs.jq}/bin/jq -r '.[] | select(.focused) | .name') - | ${pkgs.wl-clipboard}/bin/wl-copy'';
-        "Ctrl+Shift+Print" = ''exec ${pkgs.grim}/bin/grim -o $(${pkgs.sway}/bin/swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')'';
 
-        "${modifier}+Shift+n" = "exec dunstctl set-paused toggle";
+        "Print" = "exec ${screenshot}/bin/screenshot select-copy";
+        "Shift+Print" = "exec ${screenshot}/bin/screenshot select-file";
+        "Ctrl+Print" = "exec ${screenshot}/bin/screenshot fullscreen-copy";
+        "Ctrl+Shift+Print" = "exec ${screenshot}/bin/screenshot fullscreen-file";
+      };
 
-        "${modifier}+Shift+c" = "reload";
+      focus = {
+        followMouse = false;
+        wrapping = "no";
       };
 
       input = {
         "*" = {
-          xkb_layout = " us,ru";
+          xkb_layout = "us,ru";
           xkb_options = "grp:win_space_toggle,caps:escape";
         };
       };
@@ -207,12 +205,12 @@ in {
 
       window.commands = [
         {
-          criteria = {app_id = "zoom";};
-          command = "floating enable";
+          criteria = {app_id = "scratch-term";};
+          command = "split vertical, layout tabbed, mark scratch-term-finalize";
         }
         {
-          criteria = {app_id = "scratch-term";};
-          command = ''mark "scratch-term", move scratchpad, resize set 1128 758, scratchpad show'';
+          criteria = {con_mark = "scratch-term-finalize";};
+          command = "exec ${scratch-term}/bin/scratch-term finalize";
         }
         {
           criteria = {
@@ -222,11 +220,11 @@ in {
           command = "move scratchpad";
         }
       ];
-      startup = [
-        {command = "dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK";}
-        {command = "system --user import-environment";}
-      ];
     };
+    systemd = {
+      enable = true;
+    };
+
     extraConfig = ''
       hide_edge_borders --i3 none
     '';

@@ -1,12 +1,9 @@
 {config, ...}: {
   programs.foot = {
     enable = true;
-    server.enable = true;
 
     settings = {
       main = {
-        term = "xterm-256color";
-
         font = "MesloLGS Nerd Font Mono:size=10";
         dpi-aware = "no";
       };
