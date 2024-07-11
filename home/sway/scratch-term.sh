@@ -19,7 +19,7 @@ case "$1" in
       exec swaymsg '[con_mark="scratch-term"] move window to workspace current, move scratchpad, scratchpad show'
     fi
 
-    swaymsg 'focus mode_toggle'
+    swaymsg 'focus mode_toggle' || true
     exec swaymsg '[con_mark="scratch-term"] move scratchpad'
     ;;
 

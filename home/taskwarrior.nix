@@ -5,17 +5,20 @@
 }: {
   programs.taskwarrior = {
     enable = true;
-    config = {
-      taskd = {
-        server = "taskserver.lab.borzenkov.net:53589";
-        credentials = "personal/pavel/b461aae5-46ff-4657-809c-81fcbcac38dd";
-        certificate = "${config.xdg.dataHome}/task/keys/public.cert";
-        key = "${config.xdg.dataHome}/task/keys/private.key";
-        ca = "${config.xdg.dataHome}/task/keys/ca.cert";
-      };
-    };
+    package = pkgs.taskwarrior3;
     colorTheme = "dark-gray-blue-256";
     dataLocation = "${config.xdg.dataHome}/task";
+    config = {
+      sync = {
+        server = {
+          origin = "https://taskwarrior.lab.borzenkov.net";
+          client_id = "e064beb7-49bf-4214-beec-49dd794fed50";
+        };
+      };
+    };
+    extraConfig = ''
+      include /run/secrets/taskwarrior-sync
+    '';
   };
   home = {
     packages = [

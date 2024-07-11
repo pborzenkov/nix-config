@@ -27,7 +27,7 @@ in {
         cfg = config.wayland.windowManager.sway.config;
       in {
         "${cfg.modifier}+Return" = "exec ${pkgs.foot}/bin/foot";
-        "Mod1+Shift+Return" = "exec ${scratch-term}/bin/scratch-term toggle";
+        "${cfg.modifier}+Shift+Return" = "exec ${scratch-term}/bin/scratch-term toggle";
 
         "${cfg.modifier}+d" = "exec ${pkgs.wofi}/bin/wofi -S run";
         "${cfg.modifier}+Shift+s" = "exec wofi-power-menu";

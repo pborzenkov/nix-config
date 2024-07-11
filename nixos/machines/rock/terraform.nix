@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{config, ...}: {
   services.postgresql = {
     enable = true;
     enableTCPIP = true;
@@ -14,7 +10,7 @@
 
   systemd.services.postgresql = {
     postStart = ''
-      PSQL="psql --port=${toString config.services.postgresql.port}"
+      PSQL="psql --port=${toString config.services.postgresql.settings.port}"
 
       $PSQL -tAc "SELECT 1 FROM pg_roles WHERE rolname='terraform'" | grep -q 1 || $PSQL -tAc "CREATE USER terraform PASSWORD '$TERRAFORM_PG_PASSWORD'"
       $PSQL -tAc 'GRANT ALL PRIVILEGES ON DATABASE tf_infra TO "terraform"'

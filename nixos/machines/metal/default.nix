@@ -44,7 +44,7 @@
 
     binfmt.registrations = {
       DOSWin = {
-        interpreter = "${pkgs.wine64}/bin/wine64";
+        interpreter = "${pkgs.wineWowPackages.waylandFull}/bin/wine64";
         magicOrExtension = "MZ";
         recognitionType = "magic";
       };
@@ -53,6 +53,7 @@
 
   environment.systemPackages = [
     config.boot.kernelPackages.perf
+    pkgs.wineWowPackages.waylandFull
   ];
 
   fileSystems."/storage" = {
@@ -138,6 +139,11 @@
 
     secrets = {
       listenbrainz-mpd-token = {
+        mode = "0400";
+        owner = config.users.users.pbor.name;
+        group = config.users.users.pbor.group;
+      };
+      taskwarrior-sync = {
         mode = "0400";
         owner = config.users.users.pbor.name;
         group = config.users.users.pbor.group;
