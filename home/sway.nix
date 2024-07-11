@@ -219,6 +219,12 @@ in {
           };
           command = "move scratchpad";
         }
+        {
+          criteria = {
+            class = "steam";
+          };
+          command = "floating enable, move to workspace 9";
+        }
       ];
     };
     systemd = {
