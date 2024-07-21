@@ -1,6 +1,5 @@
 {
   config,
-  lib,
   pkgs,
   ...
 }: let
@@ -43,6 +42,12 @@
               name = "Living Room";
               icon = "fas fa-wifi";
               url = "http://living-room.mk.lab.borzenkov.net";
+              target = "_blank";
+            }
+            {
+              name = "Bedroom";
+              icon = "fas fa-wifi";
+              url = "http://bedroom.mk.lab.borzenkov.net";
               target = "_blank";
             }
             {

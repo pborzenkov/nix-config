@@ -284,7 +284,11 @@
           items = lib.forEach catApps (a: {
             name = a.dashboard.name;
             icon = lib.optionalString (a.dashboard.icon != null) "fas fa-${a.dashboard.icon}";
-            url = "https://${a.subDomain}.${cfg.domain}";
+            url = "${
+              if lib.attrByPath ["custom" "forceSSL"] true a
+              then "https"
+              else "http"
+            }://${a.subDomain}.${cfg.domain}";
             target = "_blank";
           });
         }
