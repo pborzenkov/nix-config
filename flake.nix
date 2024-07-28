@@ -107,47 +107,7 @@
         };
       };
 
-    makeHome = {
-      hostname,
-      arch ? "x86_64-linux",
-      home ? "/home",
-      user ? "pbor",
-      extra ? {},
-    }:
-      inputs.home-manager.lib.homeManagerConfiguration {
-        modules = [
-          inputs.base16.homeManagerModule
-          (./home/machines + "/${hostname}")
-
-          {
-            home = {
-              username = user;
-              homeDirectory = "${home}/${user}";
-              stateVersion = "21.05";
-            };
-
-            programs.home-manager.enable = true;
-            scheme = "${inputs.tt-schemes}/base16/onedark.yaml";
-          }
-          extra
-        ];
-
-        extraSpecialArgs = {
-          inherit inputs;
-
-          # pkgs-unstable = import inputs.nixpkgs-unstable {system = arch;};
-        };
-        pkgs = import inputs.nixpkgs {
-          system = arch;
-          config = {
-            allowUnfree = true;
-          };
-          overlays = [
-            inputs.nur.overlay
-            (import ./overlay.nix)
-          ];
-        };
-      };
+    lib = import ./lib {inherit inputs;};
   in
     {
       nixosConfigurations = {
@@ -177,13 +137,17 @@
       };
 
       homeConfigurations = {
-        metal = makeHome {hostname = "metal";};
-        rock = makeHome {hostname = "rock";};
-        trance = makeHome {
+        metal = lib.makeHome {
+          hostname = "metal";
+          stateVersion = "21.05";
+        };
+        rock = lib.makeHome {
+          hostname = "rock";
+          stateVersion = "21.05";
+        };
+        trance = lib.makeHome {
           hostname = "trance";
-          extra = {
-            nix.registry.nixpkgs.flake = inputs.nixpkgs;
-          };
+          stateVersion = "24.05";
         };
       };
 
@@ -236,8 +200,6 @@
       devShell = pkgs.mkShell {
         nativeBuildInputs = [
           inputs.deploy-rs.packages.${system}.deploy-rs
-
-          pkgs.luaformatter
         ];
       };
     });
