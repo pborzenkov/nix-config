@@ -22,6 +22,17 @@ in {
         name = "Vimix-cursors";
         size = 24;
       };
+
+      fonts = {
+        monospace = {
+          name = "MesloLGS Nerd Font Mono";
+          package = pkgs.nerdfonts;
+        };
+
+        sizes = {
+          terminal = 10;
+        };
+      };
     };
 
     home.pointerCursor = {

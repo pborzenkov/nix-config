@@ -7,7 +7,6 @@
     ../../devtools.nix
     ../../filebot.nix
     ../../firefox.nix
-    ../../foot.nix
     ../../gpg.nix
     ../../gtk.nix
     ../../git.nix

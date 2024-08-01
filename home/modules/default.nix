@@ -1,6 +1,7 @@
 {...}: {
   imports = [
     ./basetools
+    ./foot
     ./helix
     ./stylix
     ./zathura
