@@ -1,4 +1,5 @@
 {
+  inputs,
   lib,
   username,
   hostname,
@@ -12,7 +13,10 @@ in {
   programs.home-manager.enable = true;
 
   imports =
-    []
+    [
+      inputs.stylix.homeManagerModules.stylix
+      ./modules
+    ]
     ++ lib.optional (builtins.pathExists machineConfig) machineConfig
     ++ lib.optional (builtins.pathExists userConfig) userConfig;
 

@@ -12,7 +12,6 @@
     ../../gpg.nix
     ../../gtk.nix
     ../../git.nix
-    ../../helix.nix
     ../../media.nix
     ../../ncmpcpp.nix
     ../../pim.nix

@@ -80,17 +80,4 @@ in {
       package = pkgs.papirus-icon-theme;
     };
   };
-
-  home.pointerCursor = {
-    package = pkgs.capitaine-cursors;
-    name = "capitaine-cursors";
-    size = 24;
-  };
-
-  dconf.settings = {
-    "org/gnome/desktop/interface" = {
-      cursor-theme = "capitaine-cursors";
-      cursor-size = 24;
-    };
-  };
 }
