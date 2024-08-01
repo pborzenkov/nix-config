@@ -57,10 +57,6 @@
       url = "github:tridactyl/base16-tridactyl";
       flake = false;
     };
-    base16-zathura = {
-      url = "github:haozeke/base16-zathura";
-      flake = false;
-    };
   };
 
   outputs = {self, ...} @ inputs: let

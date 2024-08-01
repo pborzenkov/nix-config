@@ -20,7 +20,6 @@
     ../../taskwarrior.nix
     ../../termshark.nix
     ../../wofi.nix
-    ../../zathura.nix
 
     ./mpd.nix
     ./orpheus.nix

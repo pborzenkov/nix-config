@@ -3,6 +3,7 @@
     ./basetools
     ./helix
     ./stylix
+    ./zathura
   ];
 
   config = {

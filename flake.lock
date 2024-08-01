@@ -146,22 +146,6 @@
         "type": "sourcehut"
       }
     },
-    "base16-zathura": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1643130739,
-        "narHash": "sha256-nVJoygnytYN40VHXpAFwO7ruVbaSydeR547MU45VSuY=",
-        "owner": "haozeke",
-        "repo": "base16-zathura",
-        "rev": "9f148b4001dc67d399e645919225943d47e50125",
-        "type": "github"
-      },
-      "original": {
-        "owner": "haozeke",
-        "repo": "base16-zathura",
-        "type": "github"
-      }
-    },
     "base16_2": {
       "inputs": {
         "fromYaml": "fromYaml_2"
@@ -391,7 +375,6 @@
         "base16": "base16",
         "base16-tridactyl": "base16-tridactyl",
         "base16-wofi": "base16-wofi",
-        "base16-zathura": "base16-zathura",
         "deploy-rs": "deploy-rs",
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
