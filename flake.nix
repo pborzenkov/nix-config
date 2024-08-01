@@ -142,6 +142,7 @@
         };
         rock = lib.makeHome {
           hostname = "rock";
+          isDesktop = false;
           stateVersion = "21.05";
         };
         trance = lib.makeHome {
