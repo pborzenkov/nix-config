@@ -3,6 +3,7 @@
     ./basetools
     ./foot
     ./helix
+    ./shell
     ./stylix
     ./zathura
   ];

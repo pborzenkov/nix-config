@@ -8,12 +8,10 @@
     ../../filebot.nix
     ../../firefox.nix
     ../../gpg.nix
-    ../../gtk.nix
     ../../git.nix
     ../../media.nix
     ../../ncmpcpp.nix
     ../../pim.nix
-    ../../shell.nix
     ../../ssh.nix
     ../../sway.nix
     ../../taskwarrior.nix
