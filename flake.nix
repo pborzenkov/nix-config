@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
-    # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable-small";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable-small";
     nixos-hardware.url = "github:nixos/nixos-hardware";
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
@@ -51,10 +51,6 @@
     # Base16 templates
     base16-wofi = {
       url = "sourcehut:~knezi/base16-wofi";
-      flake = false;
-    };
-    base16-textmate = {
-      url = "github:chriskempson/base16-textmate";
       flake = false;
     };
     base16-tridactyl = {
@@ -207,6 +203,7 @@
       devShell = pkgs.mkShell {
         nativeBuildInputs = [
           inputs.deploy-rs.packages.${system}.deploy-rs
+          pkgs.sops
         ];
       };
     });

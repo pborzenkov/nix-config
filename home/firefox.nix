@@ -79,6 +79,12 @@
         target = "tridactyl/themes/base16.css";
         text = builtins.readFile "${inputs.base16-tridactyl}/base16-${config.scheme.slug}.css";
       };
+      browserpass = {
+        text = builtins.toJSON {
+          enableOTP = true;
+        };
+        target = "${config.programs.password-store.settings.PASSWORD_STORE_DIR}/.browserpass.json";
+      };
     };
     mimeApps = {
       defaultApplications = {

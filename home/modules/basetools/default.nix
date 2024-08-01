@@ -1,0 +1,45 @@
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  cfg = config.pbor.basetools;
+in {
+  imports = [
+    ./bat
+    ./fd
+    ./htop
+    ./jq
+    ./pass
+    ./restic
+    ./ripgrep
+    ./skim
+    ./zoxide
+  ];
+
+  options = {
+    pbor.basetools.enable = (lib.mkEnableOption "Enable basetools") // {default = true;};
+  };
+
+  config = lib.mkIf cfg.enable {
+    home.packages = with pkgs; [
+      moreutils
+      findutils
+      file
+      bc
+      zip
+      unzip
+      unrar
+      usbutils
+      pciutils
+      sd
+      unstable.md-tui
+      xh
+      gron
+      q
+      trippy
+      iproute2
+    ];
+  };
+}

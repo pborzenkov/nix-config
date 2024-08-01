@@ -82,22 +82,6 @@
         "type": "github"
       }
     },
-    "base16-textmate": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1660753756,
-        "narHash": "sha256-reYGXrhhHNSp/1k6YJ2hxj4jnJQCDgy2Nzxse2PviTA=",
-        "owner": "chriskempson",
-        "repo": "base16-textmate",
-        "rev": "0e51ddd568bdbe17189ac2a07eb1c5f55727513e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "chriskempson",
-        "repo": "base16-textmate",
-        "type": "github"
-      }
-    },
     "base16-tmux": {
       "flake": false,
       "locked": {
@@ -371,6 +355,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-unstable": {
+      "locked": {
+        "lastModified": 1722495206,
+        "narHash": "sha256-kJ/MgnoLxuVVnGcVrnZuzZ2eUasKhD7SJG/HI8ugWVQ=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "43c433f2931b803dbe7853e0438ea0744ee48574",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable-small",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nur": {
       "locked": {
         "lastModified": 1721571991,
@@ -389,7 +389,6 @@
     "root": {
       "inputs": {
         "base16": "base16",
-        "base16-textmate": "base16-textmate",
         "base16-tridactyl": "base16-tridactyl",
         "base16-wofi": "base16-wofi",
         "base16-zathura": "base16-zathura",
@@ -398,6 +397,7 @@
         "home-manager": "home-manager",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-unstable": "nixpkgs-unstable",
         "nur": "nur",
         "sops-nix": "sops-nix",
         "stylix": "stylix",

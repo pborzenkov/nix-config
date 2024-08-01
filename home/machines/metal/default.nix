@@ -4,7 +4,6 @@
   ...
 }: {
   imports = [
-    ../../basetools.nix
     ../../devtools.nix
     ../../filebot.nix
     ../../firefox.nix
@@ -65,7 +64,6 @@
 
   home = {
     sessionVariables = {
-      PATH = "\${HOME}/bin:\${PATH}";
       VIRSH_DEFAULT_CONNECT_URI = "qemu+ssh://rock.lab.borzenkov.net/system";
     };
     shellAliases = {
