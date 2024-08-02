@@ -253,33 +253,6 @@ in {
     Install.WantedBy = ["sway-session.target"];
   };
 
-  services.dunst = {
-    enable = true;
-
-    settings = with config.scheme.withHashtag; {
-      global = {
-        frame_color = base05-hex;
-        separator_color = base05-hex;
-      };
-
-      base16_low = {
-        msg_urgency = "low";
-        background = base01;
-        foreground = base03;
-      };
-      base16_normal = {
-        msg_urgency = "normal";
-        background = base02;
-        foreground = base05;
-      };
-      base16_critical = {
-        msg_urgency = "critical";
-        background = base08;
-        foreground = base06;
-      };
-    };
-  };
-
   xdg.configFile = {
     "swaylock/config" = with config.scheme; {
       text = ''

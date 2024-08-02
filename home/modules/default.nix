@@ -5,6 +5,7 @@
     ./helix
     ./shell
     ./stylix
+    ./wm
     ./wofi
     ./zathura
   ];
