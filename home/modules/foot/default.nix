@@ -7,7 +7,7 @@
   cfg = config.pbor.foot;
 in {
   options = {
-    pbor.foot.enable = (lib.mkEnableOption "Enable foot") // {default = isDesktop;};
+    pbor.foot.enable = (lib.mkEnableOption "Enable foot") // {default = config.pbor.enable && isDesktop;};
   };
 
   config = lib.mkIf cfg.enable {

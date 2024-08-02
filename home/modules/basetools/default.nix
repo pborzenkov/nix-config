@@ -19,7 +19,7 @@ in {
   ];
 
   options = {
-    pbor.basetools.enable = (lib.mkEnableOption "Enable basetools") // {default = true;};
+    pbor.basetools.enable = (lib.mkEnableOption "Enable basetools") // {default = config.pbor.enable;};
   };
 
   config = lib.mkIf cfg.enable {

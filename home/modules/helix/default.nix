@@ -6,7 +6,7 @@
   cfg = config.pbor.helix;
 in {
   options = {
-    pbor.helix.enable = (lib.mkEnableOption "Enable helix") // {default = true;};
+    pbor.helix.enable = (lib.mkEnableOption "Enable helix") // {default = config.pbor.enable;};
   };
 
   config = lib.mkIf cfg.enable {

@@ -7,7 +7,7 @@
   cfg = config.pbor.zathura;
 in {
   options = {
-    pbor.zathura.enable = (lib.mkEnableOption "Enable zathura") // {default = isDesktop;};
+    pbor.zathura.enable = (lib.mkEnableOption "Enable zathura") // {default = config.pbor.enable && isDesktop;};
   };
 
   config = lib.mkIf cfg.enable {

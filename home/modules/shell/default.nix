@@ -6,7 +6,7 @@
   cfg = config.pbor.shell;
 in {
   options = {
-    pbor.shell.enable = (lib.mkEnableOption "Enable shell") // {default = true;};
+    pbor.shell.enable = (lib.mkEnableOption "Enable shell") // {default = config.pbor.enable;};
   };
 
   config = lib.mkIf cfg.enable {

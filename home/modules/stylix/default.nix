@@ -8,7 +8,7 @@
   cfg = config.pbor.stylix;
 in {
   options = {
-    pbor.stylix.enable = (lib.mkEnableOption "Enable stylix") // {default = true;};
+    pbor.stylix.enable = (lib.mkEnableOption "Enable stylix") // {default = config.pbor.enable;};
   };
 
   config = lib.mkIf cfg.enable {
