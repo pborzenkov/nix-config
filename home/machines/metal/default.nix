@@ -16,13 +16,22 @@
     ../../sway.nix
     ../../taskwarrior.nix
     ../../termshark.nix
-    ../../wofi.nix
 
     ./mpd.nix
     ./orpheus.nix
     ./photos.nix
     ./sway.nix
   ];
+
+  pbor = {
+    wofi.menu = {
+      windows = {
+        title = "Reboot to Windows";
+        cmd = "sudo systemctl reboot --boot-loader-entry auto-windows";
+        icon = "";
+      };
+    };
+  };
 
   home.packages = [
     pkgs.anki

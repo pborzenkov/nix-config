@@ -130,22 +130,6 @@
         "type": "github"
       }
     },
-    "base16-wofi": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1595844295,
-        "narHash": "sha256-Dqmwlk3yJbHeYVbz2Eq/bG/kyLf96fZ/hernAx9N9kM=",
-        "owner": "~knezi",
-        "repo": "base16-wofi",
-        "rev": "2182a5ad36d372e625b3d8e1a20ba7447e77ed22",
-        "type": "sourcehut"
-      },
-      "original": {
-        "owner": "~knezi",
-        "repo": "base16-wofi",
-        "type": "sourcehut"
-      }
-    },
     "base16_2": {
       "inputs": {
         "fromYaml": "fromYaml_2"
@@ -374,7 +358,6 @@
       "inputs": {
         "base16": "base16",
         "base16-tridactyl": "base16-tridactyl",
-        "base16-wofi": "base16-wofi",
         "deploy-rs": "deploy-rs",
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
@@ -451,16 +434,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1718122552,
-        "narHash": "sha256-A+dBkSwp8ssHKV/WyXb9uqIYrHBqHvtSedU24Lq9lqw=",
-        "owner": "danth",
+        "lastModified": 1722598051,
+        "narHash": "sha256-uKRkG1fLgL9RGJBcMXkkyycj+Ns80ulbnXN1ckg4STk=",
+        "owner": "pborzenkov",
         "repo": "stylix",
-        "rev": "e59d2c1725b237c362e4a62f5722f5b268d566c7",
+        "rev": "215999cbc38560765b89425023f256757adc1dda",
         "type": "github"
       },
       "original": {
-        "owner": "danth",
-        "ref": "release-24.05",
+        "owner": "pborzenkov",
+        "ref": "missing-modules",
         "repo": "stylix",
         "type": "github"
       }

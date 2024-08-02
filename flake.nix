@@ -30,7 +30,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     stylix = {
-      url = "github:danth/stylix/release-24.05";
+      url = "github:pborzenkov/stylix/missing-modules";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         home-manager.follows = "home-manager";
@@ -49,10 +49,6 @@
     };
 
     # Base16 templates
-    base16-wofi = {
-      url = "sourcehut:~knezi/base16-wofi";
-      flake = false;
-    };
     base16-tridactyl = {
       url = "github:tridactyl/base16-tridactyl";
       flake = false;

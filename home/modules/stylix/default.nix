@@ -43,6 +43,7 @@ in {
 
         sizes = {
           applications = 10;
+          popups = 12;
           terminal = 10;
         };
       };
