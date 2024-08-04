@@ -9,7 +9,6 @@
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    flake-utils.url = "github:numtide/flake-utils";
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs = {
@@ -22,7 +21,6 @@
       url = "github:serokell/deploy-rs";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        utils.follows = "flake-utils";
       };
     };
     valheim-server = {
@@ -103,101 +101,104 @@
       };
 
     lib = import ./lib {inherit inputs;};
-  in
-    {
-      nixosConfigurations = {
-        metal = makeNixOS {hostname = "metal";};
-        rock =
-          makeNixOS
-          {
-            hostname = "rock";
-            disabledModules = ["services/networking/openvpn.nix"];
-            customModules = [
-              inputs.valheim-server.nixosModules.default
-            ];
-          };
-        gw =
-          makeNixOS
-          {hostname = "gw";};
 
-        # nix build .#nixosConfigurations.yubikey.config.system.build.isoImage
-        yubikey =
-          inputs.nixpkgs.lib.nixosSystem
-          {
-            system = "x86_64-linux";
-            modules = [
-              ./images/yubikey
-            ];
-          };
-      };
-
-      homeConfigurations = {
-        metal = lib.makeHome {
-          hostname = "metal";
-          stateVersion = "21.05";
-        };
-        rock = lib.makeHome {
+    forAllSystems = inputs.nixpkgs.lib.genAttrs ["x86_64-linux" "aarch64-linux"];
+  in {
+    nixosConfigurations = {
+      metal = makeNixOS {hostname = "metal";};
+      rock =
+        makeNixOS
+        {
           hostname = "rock";
-          isDesktop = false;
-          stateVersion = "21.05";
+          disabledModules = ["services/networking/openvpn.nix"];
+          customModules = [
+            inputs.valheim-server.nixosModules.default
+          ];
         };
-        trance = lib.makeHome {
-          hostname = "trance";
-          stateVersion = "24.05";
+      gw =
+        makeNixOS
+        {hostname = "gw";};
+
+      # nix build .#nixosConfigurations.yubikey.config.system.build.isoImage
+      yubikey =
+        inputs.nixpkgs.lib.nixosSystem
+        {
+          system = "x86_64-linux";
+          modules = [
+            ./images/yubikey
+          ];
         };
+    };
+
+    homeConfigurations = {
+      metal = lib.makeHome {
+        hostname = "metal";
+        stateVersion = "21.05";
       };
+      rock = lib.makeHome {
+        hostname = "rock";
+        isDesktop = false;
+        stateVersion = "21.05";
+      };
+      trance = lib.makeHome {
+        hostname = "trance";
+        stateVersion = "24.05";
+      };
+    };
 
-      deploy = {
-        sshUser = "pbor";
+    deploy = {
+      sshUser = "pbor";
 
-        nodes = {
-          metal = {
-            hostname = "metal.lab.borzenkov.net";
-            profiles = {
-              system = {
-                user = "root";
-                path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.metal;
-              };
-              home = {
-                user = "pbor";
-                path = inputs.deploy-rs.lib.x86_64-linux.activate.home-manager self.homeConfigurations.metal;
-              };
-            };
-          };
-
-          rock = {
-            hostname = "rock.lab.borzenkov.net";
-            profiles = {
-              system = {
-                user = "root";
-                path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.rock;
-              };
-              home = {
-                user = "pbor";
-                path = inputs.deploy-rs.lib.x86_64-linux.activate.home-manager self.homeConfigurations.rock;
-              };
-            };
-          };
-
-          gw = {
-            hostname = "gw.lab.borzenkov.net";
-            profiles.system = {
+      nodes = {
+        metal = {
+          hostname = "metal.lab.borzenkov.net";
+          profiles = {
+            system = {
               user = "root";
-              path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.gw;
+              path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.metal;
+            };
+            home = {
+              user = "pbor";
+              path = inputs.deploy-rs.lib.x86_64-linux.activate.home-manager self.homeConfigurations.metal;
             };
           };
         };
+
+        rock = {
+          hostname = "rock.lab.borzenkov.net";
+          profiles = {
+            system = {
+              user = "root";
+              path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.rock;
+            };
+            home = {
+              user = "pbor";
+              path = inputs.deploy-rs.lib.x86_64-linux.activate.home-manager self.homeConfigurations.rock;
+            };
+          };
+        };
+
+        gw = {
+          hostname = "gw.lab.borzenkov.net";
+          profiles.system = {
+            user = "root";
+            path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.gw;
+          };
+        };
       };
-    }
-    // inputs.flake-utils.lib.eachDefaultSystem
-    (system: let
-      pkgs = import inputs.nixpkgs {inherit system;};
-    in {
-      devShell = pkgs.mkShell {
-        nativeBuildInputs = [
-          inputs.deploy-rs.packages.${system}.deploy-rs
-          pkgs.sops
-        ];
-      };
-    });
+    };
+
+    devShells = forAllSystems (
+      system: let
+        pkgs = import inputs.nixpkgs {inherit system;};
+      in {
+        default = pkgs.mkShell {
+          nativeBuildInputs = [
+            inputs.deploy-rs.packages.${system}.deploy-rs
+            pkgs.sops
+          ];
+        };
+      }
+    );
+  };
 }
