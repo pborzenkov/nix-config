@@ -29,5 +29,10 @@ in {
       ".local/share/zathura/history".source = mkSymlink "${synced-state}/history";
       ".local/share/zathura/input-history".source = mkSymlink "${synced-state}/input-history";
     };
+
+    xdg.mimeApps.defaultApplications = {
+      "application/pdf" = ["org.pwmt.zathura.desktop"];
+      "application/epub+zip" = ["org.pwmt.zathura.desktop"];
+    };
   };
 }

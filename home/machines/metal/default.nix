@@ -1,13 +1,8 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ../../devtools.nix
     ../../filebot.nix
     ../../firefox.nix
-    ../../gpg.nix
     ../../git.nix
     ../../media.nix
     ../../ncmpcpp.nix
@@ -58,15 +53,6 @@
     pkgs.hunspellDicts.ru_RU
   ];
 
-  services = {
-    gpg-agent = {
-      enable = true;
-      enableSshSupport = true;
-      enableExtraSocket = true;
-      pinentryPackage = pkgs.pinentry-gnome3;
-    };
-  };
-
   home = {
     sessionVariables = {
       VIRSH_DEFAULT_CONNECT_URI = "qemu+ssh://rock.lab.borzenkov.net/system";
@@ -78,13 +64,9 @@
 
   xdg = {
     mimeApps = {
-      enable = true;
       defaultApplications = {
         "x-scheme-handler/tg" = ["org.telegram.desktop.desktop"];
-        "application/pdf" = ["org.pwmt.zathura.desktop"];
-        "application/epub+zip" = ["org.pwmt.zathura.desktop"];
       };
     };
-    userDirs.download = "${config.home.homeDirectory}/down";
   };
 }
