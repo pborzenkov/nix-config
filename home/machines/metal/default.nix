@@ -1,14 +1,12 @@
 {pkgs, ...}: {
   imports = [
     ../../filebot.nix
-    ../../firefox.nix
     ../../media.nix
     ../../ncmpcpp.nix
     ../../pim.nix
     ../../ssh.nix
     ../../sway.nix
     ../../taskwarrior.nix
-    ../../termshark.nix
 
     ./mpd.nix
     ./orpheus.nix

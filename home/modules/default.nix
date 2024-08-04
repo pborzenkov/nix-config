@@ -9,6 +9,7 @@ in {
   imports = [
     ./basetools
     ./devtools
+    ./firefox
     ./foot
     ./gpg
     ./helix

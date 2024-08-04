@@ -19,6 +19,7 @@ in {
       trippy
       curl
       q
+      tcpdump
     ];
   };
 }
