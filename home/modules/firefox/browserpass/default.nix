@@ -21,7 +21,7 @@ in {
       };
     };
 
-    home.file.browserpass = lib.mkIf config.pbor.basetools.pass.enable {
+    home.file.".browserpass.json" = lib.mkIf config.pbor.basetools.pass.enable {
       text = builtins.toJSON {
         enableOTP = true;
       };

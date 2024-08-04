@@ -55,28 +55,26 @@ in {
       pkgs.nur.repos.pborzenkov.wofi-power-menu
     ];
 
-    xdg.configFile."wofi-power-menu.toml" = {
-      source = (pkgs.formats.toml {}).generate "wofi-power-menu.toml" {
-        wofi = {
-          extra_args = "--width 20% --allow-markup --columns=1 --hide-scroll";
-        };
-        menu =
-          {
-            logout = {
-              cmd = "loginctl terminate-session self";
-              requires_confirmation = "true";
-            };
-            suspend.requires_confirmation = "false";
-            hibernate.enabled = "false";
-          }
-          // (builtins.mapAttrs (_: entry: {
-              title = entry.title;
-              cmd = entry.cmd;
-              icon = entry.icon;
-              requires_confirmation = lib.boolToString entry.confirmation;
-            })
-            cfg.menu);
+    xdg.configFile."wofi-power-menu.toml".source = (pkgs.formats.toml {}).generate "wofi-power-menu.toml" {
+      wofi = {
+        extra_args = "--width 20% --allow-markup --columns=1 --hide-scroll";
       };
+      menu =
+        {
+          logout = {
+            cmd = "loginctl terminate-session self";
+            requires_confirmation = "true";
+          };
+          suspend.requires_confirmation = "false";
+          hibernate.enabled = "false";
+        }
+        // (builtins.mapAttrs (_: entry: {
+            title = entry.title;
+            cmd = entry.cmd;
+            icon = entry.icon;
+            requires_confirmation = lib.boolToString entry.confirmation;
+          })
+          cfg.menu);
     };
   };
 }

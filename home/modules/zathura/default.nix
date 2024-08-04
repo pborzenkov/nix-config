@@ -17,17 +17,18 @@ in {
         continuous-hist-save = true;
         selection-clipboard = "clipboard";
         guioptions = "";
+        database = "sqlite";
       };
     };
     stylix.targets.zathura.enable = true;
 
     home.file = let
-      mkSymlink = config.lib.file.mkOutOfStoreSymlink;
-      synced-state = "${config.home.homeDirectory}/.local/share/synced-state/zathura";
+      mkSymlink = f: (
+        config.lib.file.mkOutOfStoreSymlink
+        "${config.xdg.dataHome}/synced-state/zathura/${f}"
+      );
     in {
-      ".local/share/zathura/bookmarks".source = mkSymlink "${synced-state}/bookmarks";
-      ".local/share/zathura/history".source = mkSymlink "${synced-state}/history";
-      ".local/share/zathura/input-history".source = mkSymlink "${synced-state}/input-history";
+      ".local/share/zathura/bookmarks.sqlite".source = mkSymlink "bookmarks.sqlite";
     };
 
     xdg.mimeApps.defaultApplications = {

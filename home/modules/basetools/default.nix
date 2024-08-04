@@ -36,6 +36,7 @@ in {
       sd
       unstable.md-tui
       iproute2
+      sqlite
     ];
   };
 
