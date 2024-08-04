@@ -8,6 +8,7 @@
 in {
   imports = [
     ./basetools
+    ./devtools
     ./foot
     ./gpg
     ./helix

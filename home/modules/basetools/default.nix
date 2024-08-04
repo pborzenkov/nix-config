@@ -35,10 +35,6 @@ in {
       pciutils
       sd
       unstable.md-tui
-      xh
-      gron
-      q
-      trippy
       iproute2
     ];
   };

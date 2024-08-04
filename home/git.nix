@@ -6,6 +6,7 @@
 }: {
   home.packages = [
     pkgs.gitui
+    pkgs.prr
   ];
 
   programs = {

@@ -1,6 +1,5 @@
 {pkgs, ...}: {
   imports = [
-    ../../devtools.nix
     ../../filebot.nix
     ../../firefox.nix
     ../../git.nix
@@ -26,6 +25,10 @@
         icon = "";
       };
     };
+
+    devtools = {
+      lang.c.enable = true;
+    };
   };
 
   home.packages = [
@@ -39,7 +42,6 @@
     pkgs.shntool
     pkgs.flac
     pkgs.cuetools
-    pkgs.zeal
     pkgs.zoom-us
 
     pkgs.nixos-container
