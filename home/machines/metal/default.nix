@@ -2,7 +2,6 @@
   imports = [
     ../../filebot.nix
     ../../firefox.nix
-    ../../git.nix
     ../../media.nix
     ../../ncmpcpp.nix
     ../../pim.nix

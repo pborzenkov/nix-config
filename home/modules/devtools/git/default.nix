@@ -1,16 +1,21 @@
 {
   config,
   lib,
-  pkgs,
   ...
-}: {
-  home.packages = [
-    pkgs.gitui
-    pkgs.prr
+}: let
+  cfg = config.pbor.devtools.git;
+in {
+  imports = [
+    ./gh
+    ./gitu
   ];
 
-  programs = {
-    git = {
+  options = {
+    pbor.devtools.git.enable = (lib.mkEnableOption "Enable git") // {default = config.pbor.devtools.enable;};
+  };
+
+  config = lib.mkIf cfg.enable {
+    programs.git = {
       enable = true;
 
       extraConfig = {
@@ -19,7 +24,7 @@
         };
 
         core = {
-          editor = "${pkgs.helix}/bin/hx";
+          editor = "hx";
         };
 
         pull = {
@@ -27,13 +32,9 @@
         };
 
         pager = lib.genAttrs ["diff" "log" "show"] (
-          name: "${pkgs.delta}/bin/delta --navigate"
+          name: "delta --navigate"
         );
       };
-
-      ignores = [
-        ".*.swp" # vim swap file
-      ];
 
       userEmail = "pavel@borzenkov.net";
       userName = "Pavel Borzenkov";
@@ -66,14 +67,6 @@
 
           whitespace-error-style = "reverse red";
         };
-      };
-    };
-
-    gh = {
-      enable = true;
-      settings = {
-        editor = "${pkgs.helix}/bin/hx";
-        git_protocol = "ssh";
       };
     };
   };

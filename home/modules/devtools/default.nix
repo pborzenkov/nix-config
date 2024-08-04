@@ -9,6 +9,7 @@
 in {
   imports = [
     ./direnv
+    ./git
     ./lang
     ./networking
     ./reversing
