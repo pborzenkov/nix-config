@@ -33,5 +33,8 @@ in {
       mimeApps.enable = isDesktop;
       userDirs.download = "${config.home.homeDirectory}/down";
     };
+
+    lib.pbor.syncStateFor = program: file:
+      config.lib.file.mkOutOfStoreSymlink "${config.xdg.dataHome}/synced-state/${program}/${file}";
   };
 }

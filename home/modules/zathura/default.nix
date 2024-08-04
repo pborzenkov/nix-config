@@ -22,14 +22,8 @@ in {
     };
     stylix.targets.zathura.enable = true;
 
-    home.file = let
-      mkSymlink = f: (
-        config.lib.file.mkOutOfStoreSymlink
-        "${config.xdg.dataHome}/synced-state/zathura/${f}"
-      );
-    in {
-      ".local/share/zathura/bookmarks.sqlite".source = mkSymlink "bookmarks.sqlite";
-    };
+    home.file.".local/share/zathura/bookmarks.sqlite".source =
+      config.lib.pbor.syncStateFor "zathura" "bookmarks.sqlite";
 
     xdg.mimeApps.defaultApplications = {
       "application/pdf" = ["org.pwmt.zathura.desktop"];
