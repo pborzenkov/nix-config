@@ -154,7 +154,7 @@ in {
       };
       "/transmission/rpc" = {
         custom = {
-          proxyPass = "http://unix:/run/transmission/rpc.sock";
+          proxyPass = "http://unix:/run/transmission/rpc.sock:/transmission/rpc";
         };
       };
     };

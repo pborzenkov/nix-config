@@ -32,7 +32,7 @@
     pkgs.anki
     pkgs.tdesktop
     pkgs.calibre
-    pkgs.tremc
+    pkgs.unstable.stig
     pkgs.virt-manager
     pkgs.libreoffice
     pkgs.picard
@@ -40,6 +40,8 @@
     pkgs.flac
     pkgs.cuetools
     pkgs.zoom-us
+    pkgs.handbrake
+    pkgs.mkvtoolnix
 
     pkgs.nixos-container
     pkgs.libvirt
