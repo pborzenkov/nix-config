@@ -1,17 +1,4 @@
-{
-  pkgs,
-  lib,
-  ...
-}: {
-  home.packages = [
-    pkgs.swaylock
-  ];
-
-  systemd.user.services.swayidle.Service = {
-    Environment = lib.mkForce ["PATH=${dirOf pkgs.stdenv.shell}:${pkgs.swaylock}/bin:/usr/bin"];
-    ExecStart = lib.mkForce "${pkgs.swayidle}/bin/swayidle -w";
-  };
-
+{pkgs, ...}: {
   wayland.windowManager.sway = {
     config = {
       output = {

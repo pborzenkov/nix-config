@@ -8,13 +8,16 @@
 in {
   imports = [
     ./dunst
+    ./sway
   ];
 
   options = {
     pbor.wm.enable = (lib.mkEnableOption "Enable WM related things") // {default = config.pbor.enable && isDesktop;};
   };
 
-  config =
-    lib.mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
+    home.sessionVariables = {
+      GRIM_DEFAULT_DIR = "${config.home.homeDirectory}/down";
     };
+  };
 }

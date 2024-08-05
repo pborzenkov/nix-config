@@ -236,76 +236,6 @@ in {
     '';
   };
 
-  systemd.user.services.swayidle = {
-    Unit = {
-      Description = "Idle manager for Wayland";
-      PartOf = ["sway-session.target"];
-      After = ["sway-session.target"];
-    };
-
-    Service = {
-      Type = "simple";
-      Restart = "on-failure";
-      RestartSec = "1sec";
-      Environment = ["PATH=${dirOf pkgs.stdenv.shell}:/usr/bin"];
-      ExecStart = "swayidle -w";
-    };
-    Install.WantedBy = ["sway-session.target"];
-  };
-
-  xdg.configFile = {
-    "swaylock/config" = with config.scheme; {
-      text = ''
-        font=MesloLGS Nerd Font Mono
-
-        color=${base00}
-
-        key-hl-color=${base0B}
-
-        separator-color=00000000
-
-        inside-color=${base00}
-        inside-clear-color=${base00}
-        inside-ver-color=${base0D}
-        inside-wrong-color=${base08}
-
-        ring-color=${base01}
-        ring-clear-color=${base01}
-        ring-ver-color=${base0D}
-        ring-wrong-color=${base08}
-
-        line-color=00000000
-        line-clear-color=00000000
-        line-ver-color=00000000
-        line-wrong-color=00000000
-
-        text-clear-color=${base09}
-        text-caps-lock-color=${base09}
-        text-ver-color=${base00}
-        text-wrong-color=${base00}
-
-        bs-hl-color=${base08}
-
-        ignore-empty-password
-
-        indicator-idle-visible
-        indicator-radius=130
-        indicator-thickness=15
-      '';
-      target = "swaylock/config";
-    };
-    "swayidle/config" = {
-      text = ''
-        timeout 300 'swaylock -f'
-        timeout 600 '${pkgs.sway}/bin/swaymsg "output * dpms off"' resume '${pkgs.sway}/bin/swaymsg "output * dpms on"'
-        timeout 900 '${pkgs.systemd}/bin/systemctl suspend' resume '${pkgs.sway}/bin/swaymsg "output * dpms on"'
-        before-sleep 'swaylock -f'
-        lock 'swaylock -f'
-      '';
-      target = "swayidle/config";
-    };
-  };
-
   programs.i3status-rust = {
     enable = true;
     bars.default = {
@@ -329,11 +259,6 @@ in {
           };
         };
       };
-    };
-  };
-  home = {
-    sessionVariables = {
-      GRIM_DEFAULT_DIR = "${config.home.homeDirectory}/down";
     };
   };
 }
