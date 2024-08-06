@@ -1,6 +1,5 @@
 {pkgs, ...}: {
   imports = [
-    ../../filebot.nix
     ../../media.nix
     ../../ncmpcpp.nix
     ../../pim.nix

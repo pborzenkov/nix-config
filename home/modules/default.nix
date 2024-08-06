@@ -9,6 +9,7 @@ in {
   imports = [
     ./basetools
     ./devtools
+    ./filebot
     ./firefox
     ./foot
     ./gpg
