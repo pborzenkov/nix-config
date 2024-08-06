@@ -235,30 +235,4 @@ in {
       hide_edge_borders --i3 none
     '';
   };
-
-  programs.i3status-rust = {
-    enable = true;
-    bars.default = {
-      settings = {
-        icons = lib.mkForce {
-          icons = "awesome6";
-        };
-        theme = {
-          theme = "native"; # fully overwritten
-          overrides = with config.scheme.withHashtag; {
-            idle_bg = base00;
-            idle_fg = base05;
-            info_bg = base0C;
-            info_fg = base00;
-            good_bg = base0B;
-            good_fg = base00;
-            warning_bg = base0A;
-            warning_fg = base00;
-            critical_bg = base08;
-            critical_fg = base00;
-          };
-        };
-      };
-    };
-  };
 }

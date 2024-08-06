@@ -8,6 +8,7 @@
 in {
   imports = [
     ./dunst
+    ./i3status
     ./sway
   ];
 
