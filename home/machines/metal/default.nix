@@ -8,7 +8,6 @@
     ../../taskwarrior.nix
 
     ./mpd.nix
-    ./orpheus.nix
     ./photos.nix
     ./sway.nix
   ];
