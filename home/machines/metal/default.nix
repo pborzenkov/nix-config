@@ -1,12 +1,10 @@
 {pkgs, ...}: {
   imports = [
-    ../../media.nix
     ../../pim.nix
     ../../ssh.nix
     ../../sway.nix
     ../../taskwarrior.nix
 
-    ./photos.nix
     ./sway.nix
   ];
 
