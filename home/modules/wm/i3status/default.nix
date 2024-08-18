@@ -30,7 +30,7 @@ in {
             click = [
               {
                 button = "left";
-                cmd = "${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
+                cmd = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
               }
             ];
           }
@@ -60,7 +60,7 @@ in {
           theme = {
             theme = "native"; # fully overwritten
             overrides = with config.lib.stylix.colors.withHashtag; {
-              idle_bg = base00;
+              idle_bg = base01;
               idle_fg = base05;
               info_bg = base0C;
               info_fg = base00;

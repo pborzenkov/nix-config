@@ -18,6 +18,7 @@ in {
     ./media
     ./pim
     ./shell
+    ./ssh
     ./stylix
     ./taskwarrior
     ./torrents
@@ -40,6 +41,7 @@ in {
       lib.mkIf isDesktop [
         anki
         bashmount
+        brightnessctl
         calibre
         libreoffice
         tdesktop
