@@ -3,7 +3,6 @@
     ../../pim.nix
     ../../ssh.nix
     ../../sway.nix
-    ../../taskwarrior.nix
 
     ./sway.nix
   ];

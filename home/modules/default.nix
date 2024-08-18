@@ -17,6 +17,7 @@ in {
     ./media
     ./shell
     ./stylix
+    ./taskwarrior
     ./wm
     ./wofi
     ./zathura
