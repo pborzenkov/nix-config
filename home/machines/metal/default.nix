@@ -43,8 +43,6 @@
     pkgs.flac
     pkgs.cuetools
     pkgs.zoom-us
-    pkgs.handbrake
-    pkgs.mkvtoolnix
 
     pkgs.nixos-container
     pkgs.libvirt
@@ -52,9 +50,6 @@
     pkgs.pulseaudio
     pkgs.ncpamixer
     pkgs.bashmount
-
-    pkgs.hunspellDicts.en_GB-large
-    pkgs.hunspellDicts.ru_RU
   ];
 
   home = {

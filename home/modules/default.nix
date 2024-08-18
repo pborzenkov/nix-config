@@ -14,6 +14,7 @@ in {
     ./foot
     ./gpg
     ./helix
+    ./media
     ./shell
     ./stylix
     ./wm
