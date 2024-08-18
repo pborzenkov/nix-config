@@ -15,6 +15,7 @@ in {
     ./gpg
     ./helix
     ./media
+    ./pim
     ./shell
     ./stylix
     ./taskwarrior

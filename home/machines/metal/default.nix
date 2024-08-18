@@ -1,6 +1,5 @@
 {pkgs, ...}: {
   imports = [
-    ../../pim.nix
     ../../ssh.nix
     ../../sway.nix
 
