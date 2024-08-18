@@ -1,13 +1,11 @@
 {pkgs, ...}: {
   imports = [
     ../../media.nix
-    ../../ncmpcpp.nix
     ../../pim.nix
     ../../ssh.nix
     ../../sway.nix
     ../../taskwarrior.nix
 
-    ./mpd.nix
     ./photos.nix
     ./sway.nix
   ];
@@ -38,26 +36,17 @@
     pkgs.unstable.stig
     pkgs.virt-manager
     pkgs.libreoffice
-    pkgs.picard
-    pkgs.shntool
-    pkgs.flac
-    pkgs.cuetools
     pkgs.zoom-us
 
     pkgs.nixos-container
     pkgs.libvirt
 
-    pkgs.pulseaudio
-    pkgs.ncpamixer
     pkgs.bashmount
   ];
 
   home = {
     sessionVariables = {
       VIRSH_DEFAULT_CONNECT_URI = "qemu+ssh://rock.lab.borzenkov.net/system";
-    };
-    shellAliases = {
-      unflac = ''${pkgs.unflac}/bin/unflac -n "{{.Input.Artist | Elem}} - {{with .Input.Title}}{{. | Elem}}{{else}}Unknown Album{{end}} ({{- with .Input.Date}}{{.}}{{end}})/ {{- printf .Input.TrackNumberFmt .Track.Number}} - {{.Track.Title | Elem}}"'';
     };
   };
 

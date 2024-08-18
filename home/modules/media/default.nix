@@ -7,6 +7,7 @@
   cfg = config.pbor.media;
 in {
   imports = [
+    ./audio
     ./video
   ];
 
