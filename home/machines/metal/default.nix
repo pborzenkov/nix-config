@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{...}: {
   imports = [
     ../../ssh.nix
     ../../sway.nix
@@ -22,35 +22,6 @@
 
     devtools = {
       lang.c.enable = true;
-    };
-  };
-
-  home.packages = [
-    pkgs.anki
-    pkgs.tdesktop
-    pkgs.calibre
-    pkgs.unstable.stig
-    pkgs.virt-manager
-    pkgs.libreoffice
-    pkgs.zoom-us
-
-    pkgs.nixos-container
-    pkgs.libvirt
-
-    pkgs.bashmount
-  ];
-
-  home = {
-    sessionVariables = {
-      VIRSH_DEFAULT_CONNECT_URI = "qemu+ssh://rock.lab.borzenkov.net/system";
-    };
-  };
-
-  xdg = {
-    mimeApps = {
-      defaultApplications = {
-        "x-scheme-handler/tg" = ["org.telegram.desktop.desktop"];
-      };
     };
   };
 }

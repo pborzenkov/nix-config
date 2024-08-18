@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   isDesktop,
   ...
 }: let
@@ -19,6 +20,8 @@ in {
     ./shell
     ./stylix
     ./taskwarrior
+    ./torrents
+    ./virt
     ./wm
     ./wofi
     ./zathura
@@ -33,8 +36,23 @@ in {
       PATH = "\${HOME}/bin/:\${PATH}";
     };
 
+    home.packages = with pkgs;
+      lib.mkIf isDesktop [
+        anki
+        bashmount
+        calibre
+        libreoffice
+        tdesktop
+        zoom-us
+      ];
+
     xdg = {
-      mimeApps.enable = isDesktop;
+      mimeApps = {
+        enable = isDesktop;
+        defaultApplications = lib.mkIf isDesktop {
+          "x-scheme-handler/tg" = ["org.telegram.desktop.desktop"];
+        };
+      };
       userDirs.download = "${config.home.homeDirectory}/down";
     };
 
