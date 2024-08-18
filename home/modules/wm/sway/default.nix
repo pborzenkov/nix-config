@@ -49,7 +49,7 @@ in {
             "${cfg.modifier}+Return" = "exec foot";
             "${cfg.modifier}+Shift+Return" = "exec ${scratch-term}/bin/scratch-term toggle";
 
-            "${cfg.modifier}+d" = "wofi -S run";
+            "${cfg.modifier}+d" = "exec wofi -S run";
             "${cfg.modifier}+Shift+s" = "exec wofi-power-menu";
 
             "${cfg.modifier}+q" = "kill";

@@ -17,7 +17,7 @@ in {
         dbFile = null;
         extraConfig = ''
           database {
-            plugin = "proxy"
+            plugin "proxy"
             host "rock.lab.borzenkov.net"
           }
 

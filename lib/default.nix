@@ -12,9 +12,12 @@
         config = {
           allowUnfree = true;
         };
-        overlays = [
-          inputs.nur.overlay
-          (import ../overlay.nix)
+        overlays =
+          [
+            inputs.nur.overlay
+            (import ../overlay.nix)
+          ]
+          ++ inputs.nixpkgs.lib.optional (inputs ? "nixpkgs-unstable")
           (final: _prev: {
             unstable = import inputs.nixpkgs-unstable {
               system = final.system;
@@ -22,20 +25,13 @@
                 allowUnfree = true;
               };
             };
-          })
-        ];
+          });
       };
       extraSpecialArgs = {
         inherit inputs platform username hostname stateVersion isDesktop;
       };
 
       modules = [
-        # TODO: remove after stylix
-        inputs.base16.homeManagerModule
-        {
-          scheme = "${inputs.tt-schemes}/base16/onedark.yaml";
-        }
-
         ../home
       ];
     };

@@ -34,23 +34,6 @@
         home-manager.follows = "home-manager";
       };
     };
-
-    # Base16 generator
-    base16 = {
-      url = "github:SenchoPens/base16.nix";
-    };
-
-    # Base16 themes
-    tt-schemes = {
-      url = "github:tinted-theming/schemes";
-      flake = false;
-    };
-
-    # Base16 templates
-    base16-tridactyl = {
-      url = "github:tridactyl/base16-tridactyl";
-      flake = false;
-    };
   };
 
   outputs = {self, ...} @ inputs: let

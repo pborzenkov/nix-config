@@ -5,7 +5,7 @@
   isDesktop,
   ...
 }: let
-  cfg = config.pbor.virt;
+  cfg = config.pbor.torrents;
 in {
   options = {
     pbor.torrents.enable = (lib.mkEnableOption "Enable torrents") // {default = config.pbor.enable && isDesktop;};

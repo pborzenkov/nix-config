@@ -23,5 +23,8 @@
     devtools = {
       lang.c.enable = true;
     };
+
+    # TODO:
+    torrents.enable = false;
   };
 }
