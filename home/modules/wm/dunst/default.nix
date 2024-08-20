@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   cfg = config.pbor.dunst;
@@ -14,5 +15,9 @@ in {
       enable = true;
     };
     stylix.targets.dunst.enable = true;
+
+    home.packages = with pkgs; [
+      libnotify
+    ];
   };
 }

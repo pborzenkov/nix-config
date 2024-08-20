@@ -9,7 +9,7 @@
   cfg = config.pbor.stylix;
 in {
   options = {
-    pbor.stylix.enable = (lib.mkEnableOption "Enable stylix") // {default = config.pbor.enable;};
+    pbor.stylix.enable = (lib.mkEnableOption "Enable stylix") // {default = config.pbor.enable && isDesktop;};
   };
 
   config = lib.mkIf cfg.enable {
@@ -53,22 +53,15 @@ in {
       image = "${inputs.self}/assets/wallpaper.jpg";
       imageScalingMode = "fill";
 
-      targets.gtk.enable = isDesktop;
+      targets.gtk.enable = true;
     };
 
-    home = {
-      pointerCursor = {
-        x11.enable = lib.mkForce isDesktop;
-        gtk.enable = lib.mkForce isDesktop;
-      };
-      packages = with pkgs;
-        lib.mkIf isDesktop [
-          font-awesome_6
-        ];
-    };
+    home.packages = with pkgs; [
+      font-awesome_6
+    ];
 
     gtk = {
-      enable = isDesktop;
+      enable = true;
       theme = {
         name = lib.mkForce "vimix-dark-doder";
         package = lib.mkForce pkgs.vimix-gtk-themes;

@@ -38,8 +38,20 @@ in {
     lib.mkIf cfg.enable {
       wayland.windowManager.sway = {
         enable = true;
-        package = null;
-        wrapperFeatures.gtk = true;
+        systemd.enable = true;
+        extraSessionCommands = ''
+          export MOZ_ENABLE_WAYLAND=1
+          export QT_QPA_PLATFORM=wayland
+          export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+          export SDL_VIDEODRIVER=wayland
+          export ANKI_WAYLAND=1
+          export GRIM_DEFAULT_DIR="${config.home.homeDirectory}/down"
+        '';
+        wrapperFeatures = {
+          base = true;
+          gtk = true;
+        };
+
         config = {
           modifier = "Mod4";
           bindkeysToCode = true;
@@ -173,14 +185,15 @@ in {
           ];
         };
 
-        systemd = {
-          enable = true;
-        };
-
         extraConfig = ''
           hide_edge_borders --i3 none
         '';
       };
       stylix.targets.sway.enable = true;
+
+      xdg.portal.extraPortals = with pkgs; [
+        xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
+      ];
     };
 }

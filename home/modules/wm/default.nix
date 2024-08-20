@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   isDesktop,
   ...
 }: let
@@ -17,8 +18,14 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home.sessionVariables = {
-      GRIM_DEFAULT_DIR = "${config.home.homeDirectory}/down";
+    home.packages = with pkgs; [
+      wl-clipboard
+      xdg-utils
+    ];
+
+    xdg.portal = {
+      enable = true;
+      config.common.default = "*";
     };
   };
 }

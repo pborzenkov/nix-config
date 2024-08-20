@@ -164,8 +164,6 @@
     udisks2.enable = true;
   };
 
-  xdg.portal.enable = true;
-
   time.timeZone = "Europe/Amsterdam";
 
   system.stateVersion = "23.05";
