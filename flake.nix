@@ -37,97 +37,26 @@
   };
 
   outputs = {self, ...} @ inputs: let
-    commonNixpkgsConfig = {
-      nixpkgs = {
-        config.allowUnfree = true;
-        overlays = [
-          inputs.nur.overlay
-          (import ./overlay.nix)
-        ];
-      };
-    };
-    commonNixOSModules = [
-      ./nixos/nix.nix
-      ./nixos/users.nix
-      ./nixos/sudo.nix
-      ({
-          nix.registry.nixpkgs.flake = inputs.nixpkgs;
-        }
-        // commonNixpkgsConfig)
-    ];
-
-    makeNixOS = {
-      hostname,
-      arch ? "x86_64-linux",
-      disabledModules ? [],
-      customModules ? [],
-    }:
-      inputs.nixpkgs.lib.nixosSystem {
-        system = arch;
-        modules =
-          [
-            (./nixos/machines + "/${hostname}")
-            {
-              disabledModules = disabledModules;
-            }
-          ]
-          ++ commonNixOSModules
-          ++ customModules;
-        specialArgs = {
-          inherit inputs;
-
-          nur = import inputs.nur {
-            nurpkgs = import inputs.nixpkgs {system = arch;};
-          };
-          # pkgs-unstable = import inputs.nixpkgs-unstable {system = arch;};
-        };
-      };
-
     lib = import ./lib {inherit inputs;};
 
-    forAllSystems = inputs.nixpkgs.lib.genAttrs ["x86_64-linux" "aarch64-linux"];
-  in {
-    nixosConfigurations = {
-      metal = makeNixOS {hostname = "metal";};
-      rock =
-        makeNixOS
-        {
-          hostname = "rock";
-          disabledModules = ["services/networking/openvpn.nix"];
-          customModules = [
-            inputs.valheim-server.nixosModules.default
-          ];
-        };
-      gw =
-        makeNixOS
-        {hostname = "gw";};
-
-      # nix build .#nixosConfigurations.yubikey.config.system.build.isoImage
-      yubikey =
-        inputs.nixpkgs.lib.nixosSystem
-        {
-          system = "x86_64-linux";
-          modules = [
-            ./images/yubikey
-          ];
-        };
-    };
-
-    homeConfigurations = {
-      metal = lib.makeHome {
-        hostname = "metal";
-        stateVersion = "21.05";
+    systems = {
+      metal = {
+        nixosStateVersion = "23.05";
+        homeStateVersion = "21.05";
       };
-      rock = lib.makeHome {
-        hostname = "rock";
+      rock = {
+        nixosStateVersion = "23.05";
+        homeStateVersion = "21.05";
         isDesktop = false;
-        stateVersion = "21.05";
       };
-      trance = lib.makeHome {
-        hostname = "trance";
-        stateVersion = "24.05";
+      gw = {
+        nixosStateVersion = "23.05";
+        isDesktop = false;
       };
     };
+  in {
+    nixosConfigurations = lib.makeNixOSConfigurations systems;
+    homeConfigurations = lib.makeHomeConfigurations systems;
 
     deploy = {
       sshUser = "pbor";
@@ -171,7 +100,7 @@
       };
     };
 
-    devShells = forAllSystems (
+    devShells = lib.forAllSystems (
       system: let
         pkgs = import inputs.nixpkgs {inherit system;};
       in {

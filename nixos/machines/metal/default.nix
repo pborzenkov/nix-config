@@ -10,10 +10,6 @@
     inputs.nixos-hardware.nixosModules.common-cpu-amd
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
-    inputs.sops-nix.nixosModules.sops
-
-    ../../podman.nix
-
     ./login.nix
     ./nix.nix
     ./sound.nix
@@ -165,6 +161,4 @@
   };
 
   time.timeZone = "Europe/Amsterdam";
-
-  system.stateVersion = "23.05";
 }
