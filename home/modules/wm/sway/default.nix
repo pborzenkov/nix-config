@@ -39,14 +39,18 @@ in {
       wayland.windowManager.sway = {
         enable = true;
         systemd.enable = true;
-        extraSessionCommands = ''
-          export MOZ_ENABLE_WAYLAND=1
-          export QT_QPA_PLATFORM=wayland
-          export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
-          export SDL_VIDEODRIVER=wayland
-          export ANKI_WAYLAND=1
-          export GRIM_DEFAULT_DIR="${config.home.homeDirectory}/down"
-        '';
+        extraSessionCommands =
+          ''
+            export MOZ_ENABLE_WAYLAND=1
+            export QT_QPA_PLATFORM=wayland
+            export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+            export SDL_VIDEODRIVER=wayland
+            export ANKI_WAYLAND=1
+            export GRIM_DEFAULT_DIR="${config.home.homeDirectory}/down"
+          ''
+          + lib.optionalString config.pbor.basetools.pass.enable ''
+            export PASSWORD_STORE_DIR="${config.programs.password-store.settings.PASSWORD_STORE_DIR}"
+          '';
         wrapperFeatures = {
           base = true;
           gtk = true;
@@ -191,9 +195,17 @@ in {
       };
       stylix.targets.sway.enable = true;
 
-      xdg.portal.extraPortals = with pkgs; [
-        xdg-desktop-portal-wlr
-        xdg-desktop-portal-gtk
-      ];
+      xdg.portal = {
+        config.sway = {
+          default = "gtk";
+          "org.freedesktop.impl.portal.Screenshot" = "wlr";
+          "org.freedesktop.impl.portal.ScreenCast" = "wlr";
+          "org.freedesktop.impl.portal.Inhibit" = "none";
+        };
+        extraPortals = with pkgs; [
+          xdg-desktop-portal-wlr
+          xdg-desktop-portal-gtk
+        ];
+      };
     };
 }
