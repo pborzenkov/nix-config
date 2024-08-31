@@ -415,11 +415,11 @@
         "steam-fetcher": "steam-fetcher"
       },
       "locked": {
-        "lastModified": 1722314839,
-        "narHash": "sha256-1MXH5i7VRkeknzmkSjsPiCZnUGqMuoVKFgCiy5xkGjQ=",
+        "lastModified": 1724824251,
+        "narHash": "sha256-T7z3L+bvCkYZ080oNi013wwhv+NVsy66dPRyAAZ4kcY=",
         "owner": "aidalgol",
         "repo": "valheim-server-flake",
-        "rev": "f73a87e197b1ba8eb8b79c67cd48146b3ef44290",
+        "rev": "d19d11d72c075e972b357dfe80347bbad36a76c1",
         "type": "github"
       },
       "original": {
