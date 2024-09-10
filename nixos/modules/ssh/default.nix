@@ -4,10 +4,10 @@
   isDesktop,
   ...
 }: let
-  cfg = config.pbor.openssh;
+  cfg = config.pbor.ssh;
 in {
   options = {
-    pbor.openssh.enable = (lib.mkEnableOption "Enable openssh") // {default = config.pbor.enable && !isDesktop;};
+    pbor.ssh.enable = (lib.mkEnableOption "Enable ssh") // {default = config.pbor.enable && !isDesktop;};
   };
 
   config = lib.mkIf cfg.enable {

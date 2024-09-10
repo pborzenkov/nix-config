@@ -41,6 +41,14 @@
             "dynamic"
           ];
         };
+
+        # Pixel 9 Pro
+        pixel9 = {
+          id = "SIAH2E7-VLKE3L7-KGZRZVN-GY2TFI7-3ZOVMPN-Y6UKUGR-F34LKHS-KKT3YAX";
+          addresses = [
+            "dynamic"
+          ];
+        };
       };
 
       folders = {
@@ -56,7 +64,7 @@
 
         "/home/pbor/.local/share/password-store" = {
           id = "password-store";
-          devices = ["jazz" "metal" "phone" "trance"];
+          devices = ["jazz" "metal" "phone" "trance" "pixel9"];
         };
 
         "/home/pbor/.local/share/photos-for-review" = {

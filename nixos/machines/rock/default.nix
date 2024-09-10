@@ -12,10 +12,6 @@
     inputs.nixos-hardware.nixosModules.common-cpu-amd
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
-    inputs.sops-nix.nixosModules.sops
-
-    ../../openssh.nix
-
     ./anki.nix
     ./arr.nix
     ./backup.nix

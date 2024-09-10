@@ -7,7 +7,7 @@
 in {
   imports = [
     ./nix
-    ./openssh
+    ./ssh
     ./sudo
     ./users
     ./virt

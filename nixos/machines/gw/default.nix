@@ -14,10 +14,6 @@
     (modulesPath + "/profiles/headless.nix")
 
     inputs.nixos-hardware.nixosModules.common-pc-ssd
-
-    inputs.sops-nix.nixosModules.sops
-
-    ../../openssh.nix
   ];
 
   boot = {
