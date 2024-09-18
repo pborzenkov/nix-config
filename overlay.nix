@@ -1,6 +1,4 @@
 final: prev: {
-  mpdsonic = final.callPackage ./packages/mpdsonic {};
-
   mujmap = prev.mujmap.overrideAttrs (old: rec {
     name = "mujmap-696cc8673f2f6a80e3bdf878cb2a8efc44d455c8";
     version = "696cc8673f2f6a80e3bdf878cb2a8efc44d455c8";
