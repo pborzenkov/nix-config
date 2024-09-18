@@ -1,15 +1,9 @@
 {
   config,
   pkgs,
-  inputs,
   ...
 }: {
   imports = [
-    ./hardware-configuration.nix
-
-    inputs.nixos-hardware.nixosModules.common-cpu-amd
-    inputs.nixos-hardware.nixosModules.common-pc-ssd
-
     ./login.nix
     ./nix.nix
     ./sound.nix
@@ -55,10 +49,6 @@
   fileSystems."/storage" = {
     device = "helios64.lab.borzenkov.net:/storage";
     fsType = "nfs";
-  };
-
-  hardware = {
-    enableRedistributableFirmware = true;
   };
 
   fonts = {

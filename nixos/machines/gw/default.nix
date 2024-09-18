@@ -4,18 +4,8 @@
 {
   config,
   pkgs,
-  modulesPath,
-  inputs,
   ...
 }: {
-  imports = [
-    ./hardware-configuration.nix
-
-    (modulesPath + "/profiles/headless.nix")
-
-    inputs.nixos-hardware.nixosModules.common-pc-ssd
-  ];
-
   boot = {
     loader.grub = {
       enable = true;
@@ -114,6 +104,4 @@
   sops.defaultSopsFile = ./secrets/secrets.yaml;
 
   time.timeZone = "Europe/Amsterdam";
-
-  system.stateVersion = "23.05";
 }

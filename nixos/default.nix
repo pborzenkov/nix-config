@@ -6,6 +6,7 @@
   ...
 }: let
   machineConfig = ./machines + "/${hostname}";
+  hardwareConfig = machineConfig + "/hardware-configuration.nix";
   machineModules = machineConfig + "/modules";
 in {
   imports =
@@ -14,7 +15,7 @@ in {
       inputs.valheim-server.nixosModules.default
       ./modules
     ]
-    ++ lib.optional (builtins.pathExists machineConfig) machineConfig
+    ++ lib.optionals (builtins.pathExists machineConfig) [machineConfig hardwareConfig]
     ++ lib.optional (builtins.pathExists machineModules) machineModules;
 
   system = {
