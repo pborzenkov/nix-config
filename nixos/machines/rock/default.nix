@@ -18,6 +18,7 @@
     ./books.nix
     ./dashboard.nix
     ./grafana.nix
+    ./invidious.nix
     ./jellyfin.nix
     ./koreader.nix
     ./libvirt.nix
