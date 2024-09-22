@@ -6,3 +6,4 @@ if [ $# -ne 1 ]; then
 fi
 
 nix build .#nixosConfigurations."$@".config.system.build.isoImage
+echo "ISO: $(realpath result/iso/yubikey-YubiKey-x86_64-linux.iso)"

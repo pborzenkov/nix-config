@@ -53,6 +53,10 @@
         nixosStateVersion = "23.05";
         isDesktop = false;
       };
+      yubikey = {
+        nixosStateVersion = "24.05";
+        isDesktop = false;
+      };
     };
   in {
     nixosConfigurations = lib.makeNixOSConfigurations systems;
