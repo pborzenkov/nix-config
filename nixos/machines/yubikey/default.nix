@@ -59,6 +59,7 @@ in {
     systemPackages = with pkgs; [
       yubikey-personalization
       yubikey-manager
+      global-platform-pro
       cryptsetup
       pwgen
       paperkey

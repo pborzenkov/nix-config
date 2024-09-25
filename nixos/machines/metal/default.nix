@@ -148,6 +148,7 @@
       ACTION=="add", ATTRS{idVendor}=="17ef", ATTRS{idProduct}=="60e6", ATTR{power/wakeup}="disabled"
     '';
     udisks2.enable = true;
+    pcscd.enable = true;
   };
 
   time.timeZone = "Europe/Amsterdam";

@@ -20,6 +20,9 @@ in {
 
         no-autostart = !isDesktop;
       };
+      scdaemonSettings = {
+        disable-ccid = true;
+      };
     };
 
     services.gpg-agent = lib.mkIf isDesktop {

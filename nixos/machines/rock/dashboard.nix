@@ -56,6 +56,12 @@
               url = "http://attic.mk.lab.borzenkov.net";
               target = "_blank";
             }
+            {
+              name = "Garage";
+              icon = "fas fa-wifi";
+              url = "http://garage.mk.lab.borzenkov.net";
+              target = "_blank";
+            }
           ];
         }
       ];
