@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   cfg = config.pbor.wm.i3status;
@@ -59,18 +58,11 @@ in {
           };
           theme = {
             theme = "native"; # fully overwritten
-            overrides = with config.lib.stylix.colors.withHashtag; {
-              idle_bg = base01;
-              idle_fg = base05;
-              info_bg = base0C;
-              info_fg = base00;
-              good_bg = base0B;
-              good_fg = base00;
-              warning_bg = base0A;
-              warning_fg = base00;
-              critical_bg = base08;
-              critical_fg = base00;
-            };
+            overrides =
+              config.lib.stylix.i3status-rust.bar
+              // {
+                idle_bg = config.lib.stylix.colors.withHashtag.base01;
+              };
           };
         };
       };

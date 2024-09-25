@@ -360,11 +360,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1722598051,
-        "narHash": "sha256-uKRkG1fLgL9RGJBcMXkkyycj+Ns80ulbnXN1ckg4STk=",
+        "lastModified": 1727251015,
+        "narHash": "sha256-YEtkpNMaFBa51JPDUGS5wYQ7Q2lCneNIoMlWun620bk=",
         "owner": "pborzenkov",
         "repo": "stylix",
-        "rev": "215999cbc38560765b89425023f256757adc1dda",
+        "rev": "07a3c794248c98f9842219b33cc9c483fe3aae6c",
         "type": "github"
       },
       "original": {
