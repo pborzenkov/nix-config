@@ -28,6 +28,8 @@ in rec {
         stateVersion = config.nixosStateVersion;
         platform = config.platform or "x86_64-linux";
         isDesktop = config.isDesktop or true;
+        disabledModules = config.disabledModules or [];
+        extraModules = config.extraModules or [];
       })
     (lib.filterAttrs (_: config: config ? nixosStateVersion)
       systems);
@@ -37,6 +39,8 @@ in rec {
     stateVersion,
     platform,
     isDesktop,
+    disabledModules,
+    extraModules,
   }:
     lib.nixosSystem {
       system = platform;
@@ -48,15 +52,18 @@ in rec {
         };
       };
 
-      modules = [
-        ../nixos
-        {
-          nixpkgs = {
-            config = nixpkgsConfig;
-            overlays = overlays;
-          };
-        }
-      ];
+      modules =
+        [
+          ../nixos
+          {
+            nixpkgs = {
+              config = nixpkgsConfig;
+              overlays = overlays;
+            };
+            disabledModules = disabledModules;
+          }
+        ]
+        ++ extraModules;
     };
 
   makeHomeConfigurations = systems:

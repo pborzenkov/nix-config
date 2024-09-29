@@ -12,7 +12,6 @@ in {
   imports =
     [
       inputs.sops-nix.nixosModules.sops
-      inputs.valheim-server.nixosModules.default
       ./modules
     ]
     ++ lib.optionals (builtins.pathExists machineConfig) [machineConfig hardwareConfig]

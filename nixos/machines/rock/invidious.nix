@@ -1,4 +1,8 @@
-{config, ...}: let
+{
+  config,
+  pkgs,
+  ...
+}: let
   port = 3001;
 in {
   webapps.apps.invidious = {
@@ -25,6 +29,10 @@ in {
     port = 3001;
     domain = "invidious.lab.borzenkov.net";
     http3-ytproxy.enable = true;
+    sig-helper = {
+      enable = true;
+      package = pkgs.unstable.inv-sig-helper;
+    };
     database.createLocally = true;
     settings = {
       db = {

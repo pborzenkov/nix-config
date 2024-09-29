@@ -48,6 +48,11 @@
         nixosStateVersion = "23.05";
         homeStateVersion = "21.05";
         isDesktop = false;
+        disabledModules = ["services/web-apps/invidious.nix"];
+        extraModules = [
+          inputs.valheim-server.nixosModules.default
+          "${inputs.nixpkgs-unstable}/nixos/modules/services/web-apps/invidious.nix"
+        ];
       };
       gw = {
         nixosStateVersion = "23.05";
