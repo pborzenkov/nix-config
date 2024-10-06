@@ -1,42 +1,57 @@
-{inputs}: let
+{
+  inputs,
+  self,
+}: let
   lib = inputs.nixpkgs.lib;
-
-  nixpkgsConfig = {
-    allowUnfree = true;
-  };
-  overlays =
-    [
-      inputs.nur.overlay
-      (import ../overlay.nix)
-    ]
-    ++ lib.optional (inputs ? "nixpkgs-unstable")
-    (final: _prev: {
-      unstable = import inputs.nixpkgs-unstable {
-        system = final.system;
-        config = {
-          allowUnfree = true;
-        };
-      };
-    });
 in rec {
   forAllSystems = lib.genAttrs ["x86_64-linux" "aarch64-linux"];
 
-  makeNixOSConfigurations = systems:
-    lib.mapAttrs (host: config:
-      makeNixOS {
-        hostname = host;
-        stateVersion = config.nixosStateVersion;
-        platform = config.platform or "x86_64-linux";
-        isDesktop = config.isDesktop or true;
-        disabledModules = config.disabledModules or [];
-        extraModules = config.extraModules or [];
-      })
-    (lib.filterAttrs (_: config: config ? nixosStateVersion)
-      systems);
+  allNixFiles = dir:
+    builtins.map
+    (
+      n: "${dir}/${n}"
+    )
+    (
+      builtins.attrNames
+      (
+        lib.filterAttrs
+        (n: v: (lib.hasSuffix ".nix" n) && (v == "regular"))
+        (builtins.readDir dir)
+      )
+    );
+
+  allDirs = dir:
+    builtins.map
+    (
+      n: "${dir}/${n}"
+    )
+    (
+      builtins.attrNames
+      (
+        lib.filterAttrs
+        (n: v: (v == "directory") && (builtins.pathExists "${dir}/${n}/default.nix"))
+        (builtins.readDir dir)
+      )
+    );
+
+  makeNixOSConfigurations = systems: (lib.mapAttrs (host: config:
+    makeNixOS {
+      hostname = host;
+      username = config.username or "pbor";
+      nixosStateVersion = config.nixosStateVersion;
+      homeStateVersion = config.homeStateVersion or null;
+      platform = config.platform or "x86_64-linux";
+      isDesktop = config.isDesktop or true;
+      disabledModules = config.disabledModules or [];
+      extraModules = config.extraModules or [];
+    })
+  systems);
 
   makeNixOS = {
     hostname,
-    stateVersion,
+    username,
+    nixosStateVersion,
+    homeStateVersion,
     platform,
     isDesktop,
     disabledModules,
@@ -45,58 +60,92 @@ in rec {
     lib.nixosSystem {
       system = platform;
       specialArgs = {
-        inherit inputs platform hostname stateVersion isDesktop;
+        inherit inputs platform hostname username isDesktop;
 
         nur = import inputs.nur {
           nurpkgs = import inputs.nixpkgs {system = platform;};
         };
+
+        pborlib = {
+          inherit allNixFiles allDirs;
+        };
+
+        sharedSops = ../secrets/shared/secrets.yaml;
       };
 
-      modules =
+      modules = let
+        machineDir = ../machines + "/${hostname}";
+        machineHardwareConfig = machineDir + "/hardware-configuration.nix";
+        machineCustomConfig = machineDir + "/configs";
+      in
         [
-          ../nixos
-          {
+          inputs.sops-nix.nixosModules.sops
+          inputs.home-manager.nixosModules.home-manager
+          inputs.stylix.nixosModules.stylix
+
+          ({pkgs, ...}: {
             nixpkgs = {
-              config = nixpkgsConfig;
-              overlays = overlays;
+              config = {
+                allowUnfree = true;
+              };
+              overlays =
+                [
+                  inputs.nur.overlay
+                  (import ../overlay.nix)
+                ]
+                ++ lib.optional (inputs ? "nixpkgs-unstable")
+                (final: _prev: {
+                  unstable = import inputs.nixpkgs-unstable {
+                    system = final.system;
+                    config = {
+                      allowUnfree = true;
+                    };
+                  };
+                });
             };
             disabledModules = disabledModules;
-          }
+
+            sops = {
+              defaultSopsFile = ../secrets/machines + "/${hostname}/secrets.yaml";
+              gnupg.sshKeyPaths = ["/etc/ssh/ssh_host_rsa_key"];
+            };
+            stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/onedark.yaml";
+
+            system.stateVersion = nixosStateVersion;
+          })
+
+          ../modules
+
+          machineDir
+          machineHardwareConfig
         ]
-        ++ extraModules;
+        ++ lib.optionals (builtins.pathExists machineCustomConfig) (allNixFiles machineCustomConfig)
+        ++ extraModules
+        ++ lib.optionals (homeStateVersion != null) [
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users."${username}" = {
+                home = {
+                  inherit username;
+
+                  homeDirectory = "/home/${username}";
+                  stateVersion = homeStateVersion;
+                };
+              };
+            };
+          }
+        ];
     };
 
-  makeHomeConfigurations = systems:
-    lib.mapAttrs (host: config:
-      makeHome {
-        hostname = host;
-        stateVersion = config.homeStateVersion;
-        platform = config.platform or "x86_64-linux";
-        username = config.username or "pbor";
-        isDesktop = config.isDesktop or true;
-      })
-    (lib.filterAttrs (_: config: config ? homeStateVersion)
-      systems);
-
-  makeHome = {
-    hostname,
-    username,
-    stateVersion,
-    platform,
-    isDesktop,
-  }:
-    inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = import inputs.nixpkgs {
-        system = platform;
-        config = nixpkgsConfig;
-        overlays = overlays;
-      };
-      extraSpecialArgs = {
-        inherit inputs platform username hostname stateVersion isDesktop;
-      };
-
-      modules = [
-        ../home
-      ];
-    };
+  makeDeployNodes = systems: (
+    lib.mapAttrs (host: config: {
+      hostname = config.fqdn or "${host}.lab.borzenkov.net";
+      profiles.system.path = inputs.deploy-rs.lib."${config.platform or "x86_64-linux"}".activate.nixos self.nixosConfigurations."${host}";
+    })
+    (
+      lib.filterAttrs (_: config: config.deploy) systems
+    )
+  );
 }

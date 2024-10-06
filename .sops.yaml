@@ -6,7 +6,14 @@ keys:
   - &gw E85FA73EC96464C9B5F8F45303F39D775A273F6C
 
 creation_rules:
-  - path_regex: nixos/machines/metal/secrets/[^/]+.yaml$
+  - path_regex: secrets/shared/[^/]+.yaml$
+    key_groups:
+      - pgp:
+        - *pbor
+        - *metal
+        - *rock
+
+  - path_regex: secrets/machines/metal/[^/]+.yaml$
     key_groups:
       - pgp:
         - *pbor

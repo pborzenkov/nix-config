@@ -37,12 +37,13 @@
   };
 
   outputs = {self, ...} @ inputs: let
-    lib = import ./lib {inherit inputs;};
+    lib = import ./lib {inherit inputs self;};
 
     systems = {
       metal = {
         nixosStateVersion = "23.05";
         homeStateVersion = "21.05";
+        deploy = false;
       };
       rock = {
         nixosStateVersion = "23.05";
@@ -61,52 +62,15 @@
       yubikey = {
         nixosStateVersion = "24.05";
         isDesktop = false;
+        deploy = false;
       };
     };
   in {
     nixosConfigurations = lib.makeNixOSConfigurations systems;
-    homeConfigurations = lib.makeHomeConfigurations systems;
-
     deploy = {
       sshUser = "pbor";
-
-      nodes = {
-        metal = {
-          hostname = "metal.lab.borzenkov.net";
-          profiles = {
-            system = {
-              user = "root";
-              path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.metal;
-            };
-            home = {
-              user = "pbor";
-              path = inputs.deploy-rs.lib.x86_64-linux.activate.home-manager self.homeConfigurations.metal;
-            };
-          };
-        };
-
-        rock = {
-          hostname = "rock.lab.borzenkov.net";
-          profiles = {
-            system = {
-              user = "root";
-              path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.rock;
-            };
-            home = {
-              user = "pbor";
-              path = inputs.deploy-rs.lib.x86_64-linux.activate.home-manager self.homeConfigurations.rock;
-            };
-          };
-        };
-
-        gw = {
-          hostname = "gw.lab.borzenkov.net";
-          profiles.system = {
-            user = "root";
-            path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.gw;
-          };
-        };
-      };
+      user = "root";
+      nodes = lib.makeDeployNodes systems;
     };
 
     devShells = lib.forAllSystems (
