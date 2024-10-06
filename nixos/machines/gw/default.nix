@@ -6,6 +6,10 @@
   pkgs,
   ...
 }: {
+  pbor = {
+    syncthing.enabled = false;
+  };
+
   boot = {
     loader.grub = {
       enable = true;
@@ -91,7 +95,6 @@
 
   services = {
     resolved.enable = true;
-    openssh.openFirewall = true;
     tinyproxy = {
       enable = true;
       settings = {

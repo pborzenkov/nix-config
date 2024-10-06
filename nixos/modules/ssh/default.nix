@@ -13,6 +13,7 @@ in {
   config = lib.mkIf cfg.enable {
     services.openssh = {
       enable = true;
+      openFirewall = true;
       settings = {
         LogLevel = "INFO";
         PasswordAuthentication = false;

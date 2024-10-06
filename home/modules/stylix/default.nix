@@ -57,6 +57,8 @@ in {
     };
 
     home.packages = with pkgs; [
+      corefonts
+      font-awesome_5
       font-awesome_6
     ];
 

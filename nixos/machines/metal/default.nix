@@ -3,11 +3,26 @@
   pkgs,
   ...
 }: {
-  imports = [
-    ./nix.nix
-    ./sound.nix
-    ./syncthing.nix
-  ];
+  pbor = {
+    syncthing.folders = {
+      "/home/pbor/docs" = {
+        id = "docs";
+        devices = ["rock"];
+      };
+      "/home/pbor/books" = {
+        id = "books";
+        devices = ["rock"];
+      };
+      "/home/pbor/.local/share/password-store" = {
+        id = "password-store";
+        devices = ["rock"];
+      };
+      "/home/pbor/.local/share/synced-state" = {
+        id = "synced-state";
+        devices = ["rock"];
+      };
+    };
+  };
 
   boot = {
     loader = {
@@ -43,55 +58,6 @@
     config.boot.kernelPackages.perf
     pkgs.wineWowPackages.waylandFull
   ];
-
-  fonts = {
-    enableDefaultPackages = true;
-    fontDir.enable = true;
-    packages = [
-      pkgs.corefonts
-      pkgs.nerdfonts
-      pkgs.font-awesome_5
-    ];
-    fontconfig = {
-      enable = true;
-    };
-  };
-
-  networking = {
-    hostName = "metal";
-    firewall = {
-      enable = true;
-      allowedTCPPorts = [
-        9090 # Calibre sync server
-        3000
-      ];
-      allowedUDPPorts = [
-        5678 # Mikrotik NDP
-        37008 # traffic sniffer on Mikrotik
-      ];
-      extraCommands = ''
-        # Mikrotik MAC Telnet
-        iptables -A INPUT -p udp --sport 20561 -j ACCEPT
-      '';
-    };
-    useDHCP = false;
-    dhcpcd.enable = false;
-    useNetworkd = true;
-  };
-
-  systemd.network = {
-    enable = true;
-    networks."40-wired" = {
-      name = "enp8s0";
-      DHCP = "ipv4";
-      networkConfig = {
-        LinkLocalAddressing = "no";
-      };
-      dhcpV4Config = {
-        UseDomains = true;
-      };
-    };
-  };
 
   programs = {
     adb.enable = true;
@@ -130,7 +96,6 @@
   };
 
   services = {
-    resolved.enable = true;
     journald.extraConfig = ''
       SystemMaxUse=100M
     '';

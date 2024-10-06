@@ -7,8 +7,10 @@
 in {
   imports = [
     ./nix
+    ./sound
     ./ssh
     ./sudo
+    ./syncthing
     ./users
     ./virt
     ./wm
