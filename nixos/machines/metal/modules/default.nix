@@ -1,5 +1,7 @@
 {...}: {
   imports = [
+    ./devtools
     ./networking
+    ./wine
   ];
 }

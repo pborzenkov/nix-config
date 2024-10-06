@@ -44,29 +44,9 @@
       "rd.systemd.show_status=false"
     ];
     supportedFilesystems = ["ntfs"];
-
-    binfmt.registrations = {
-      DOSWin = {
-        interpreter = "${pkgs.wineWowPackages.waylandFull}/bin/wine64";
-        magicOrExtension = "MZ";
-        recognitionType = "magic";
-      };
-    };
   };
 
-  environment.systemPackages = [
-    config.boot.kernelPackages.perf
-    pkgs.wineWowPackages.waylandFull
-  ];
-
-  programs = {
-    adb.enable = true;
-    wireshark = {
-      enable = true;
-      package = pkgs.wireshark;
-    };
-  };
-  users.users.pbor.extraGroups = ["adbusers" "kvm" "wireshark"];
+  users.users.pbor.extraGroups = ["kvm"];
 
   powerManagement = {
     enable = true;
