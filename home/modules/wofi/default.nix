@@ -8,7 +8,7 @@
   cfg = config.pbor.wofi;
 in {
   options = {
-    pbor.wofi.enable = (lib.mkEnableOption "Enable zathura") // {default = config.pbor.enable && isDesktop;};
+    pbor.wofi.enable = (lib.mkEnableOption "Enable wofi") // {default = config.pbor.enable && isDesktop;};
     pbor.wofi.menu = lib.mkOption {
       type = lib.types.nullOr (lib.types.attrsOf (lib.types.submodule {
         options = {
@@ -31,6 +31,7 @@ in {
           };
         };
       }));
+      default = {};
     };
   };
 

@@ -19,6 +19,16 @@
     fsType = "vfat";
   };
 
+  fileSystems."/mnt/dump" = {
+    device = "/dev/disk/by-uuid/0a8ceb2c-4561-40db-9f09-0fd4c3e15f32";
+    fsType = "ext4";
+  };
+
+  fileSystems."/storage" = {
+    device = "helios64.lab.borzenkov.net:/storage";
+    fsType = "nfs";
+  };
+
   swapDevices = [{device = "/dev/disk/by-uuid/f052d296-83e6-46be-a878-5a0ec5b83873";}];
 
   hardware.enableRedistributableFirmware = true;

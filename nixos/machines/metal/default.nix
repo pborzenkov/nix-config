@@ -4,7 +4,6 @@
   ...
 }: {
   imports = [
-    ./login.nix
     ./nix.nix
     ./sound.nix
     ./syncthing.nix
@@ -28,7 +27,6 @@
     kernelParams = [
       "quiet"
       "rd.systemd.show_status=false"
-      "memmap=0x8000$0x5044C0000,0x8000$0x5064C0000,0x1000$0x5AF794000,0x5000$0xA5D890,0x8000$0xA5F890000,0x1000$0xD2E85F000" # disable bad RAM
     ];
     supportedFilesystems = ["ntfs"];
 
@@ -45,11 +43,6 @@
     config.boot.kernelPackages.perf
     pkgs.wineWowPackages.waylandFull
   ];
-
-  fileSystems."/storage" = {
-    device = "helios64.lab.borzenkov.net:/storage";
-    fsType = "nfs";
-  };
 
   fonts = {
     enableDefaultPackages = true;
@@ -106,7 +99,6 @@
       enable = true;
       package = pkgs.wireshark;
     };
-    steam.enable = true;
   };
   users.users.pbor.extraGroups = ["adbusers" "kvm" "wireshark"];
 
@@ -148,7 +140,7 @@
       ACTION=="add", ATTRS{idVendor}=="17ef", ATTRS{idProduct}=="60e6", ATTR{power/wakeup}="disabled"
     '';
     udisks2.enable = true;
-    pcscd.enable = true;
+    flatpak.enable = true;
   };
 
   time.timeZone = "Europe/Amsterdam";

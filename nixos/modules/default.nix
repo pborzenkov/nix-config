@@ -11,6 +11,7 @@ in {
     ./sudo
     ./users
     ./virt
+    ./wm
   ];
 
   options = {

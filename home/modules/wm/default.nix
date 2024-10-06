@@ -22,9 +22,5 @@ in {
       wl-clipboard
       xdg-utils
     ];
-
-    xdg.portal = {
-      enable = true;
-    };
   };
 }

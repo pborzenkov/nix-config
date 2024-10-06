@@ -1,12 +1,5 @@
 {...}: {
   pbor = {
-    wofi.menu = {
-      windows = {
-        title = "Reboot to Windows";
-        cmd = "sudo systemctl reboot --boot-loader-entry auto-windows";
-        icon = "";
-      };
-    };
     wm = {
       sway.output = {
         "DP-2" = {
