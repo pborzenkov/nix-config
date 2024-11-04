@@ -57,6 +57,7 @@
       };
       gw = {
         nixosStateVersion = "23.05";
+        homeStateVersion = "24.05";
         isDesktop = false;
       };
       yubikey = {

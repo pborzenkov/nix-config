@@ -1,30 +1,22 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
-  pbor = {
-    syncthing.enabled = false;
-  };
-
-  boot = {
-    loader.grub = {
-      enable = true;
-      devices = ["/dev/vda"];
-    };
-
-    kernelPackages = pkgs.linuxPackages_latest;
-  };
-
+{config, ...}: {
   networking = {
     hostName = "gw";
+    domain = "lab.borzenkov.net";
+
     useDHCP = false;
-    dhcpcd.enable = false;
     useNetworkd = true;
+
+    nftables.enable = true;
 
     firewall = {
       enable = true;
       trustedInterfaces = ["wg0"];
+    };
+
+    interfaces = {
+      "enp1s0" = {
+        useDHCP = true;
+      };
     };
   };
 
@@ -54,13 +46,6 @@
       };
     };
     networks = {
-      "40-wired" = {
-        name = "enp1s0";
-        DHCP = "yes";
-        networkConfig = {
-          LinkLocalAddressing = "no";
-        };
-      };
       "50-wg" = {
         name = "wg0";
         DHCP = "no";
@@ -84,24 +69,12 @@
       };
     };
   };
+
+  services.resolved.enable = true;
+
   sops.secrets.wireguard-private-key = {
     mode = "0640";
     owner = "root";
     group = "systemd-network";
   };
-
-  services = {
-    resolved.enable = true;
-    tinyproxy = {
-      enable = true;
-      settings = {
-        Listen = "192.168.111.2";
-        Port = 8888;
-      };
-    };
-  };
-
-  sops.defaultSopsFile = ./secrets/secrets.yaml;
-
-  time.timeZone = "Europe/Amsterdam";
 }

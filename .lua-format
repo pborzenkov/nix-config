@@ -1,6 +1,0 @@
-column_limit: 120
-indent_width: 4
-use_tab: false
-continuation_indent_width: 4
-keep_simple_control_block_one_line: false
-keep_simple_function_one_line: false

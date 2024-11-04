@@ -9,6 +9,7 @@
 in {
   options = {
     pbor.basetools.ripgrep.enable = (lib.mkEnableOption "Enable ripgrep") // {default = config.pbor.basetools.enable;};
+    pbor.basetools.ripgrep.all.enable = (lib.mkEnableOption "Enable ripgrep-all") // {default = cfg.enable;};
   };
 
   config = lib.mkIf cfg.enable {
@@ -20,9 +21,9 @@ in {
         ];
       };
 
-      home.packages = [
-        pkgs.ripgrep-all
-      ];
+      home.packages =
+        []
+        ++ lib.optional cfg.all.enable pkgs.ripgrep-all;
     };
   };
 }

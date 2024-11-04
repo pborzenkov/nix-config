@@ -145,7 +145,7 @@ in rec {
       profiles.system.path = inputs.deploy-rs.lib."${config.platform or "x86_64-linux"}".activate.nixos self.nixosConfigurations."${host}";
     })
     (
-      lib.filterAttrs (_: config: config.deploy) systems
+      lib.filterAttrs (_: config: config.deploy or true) systems
     )
   );
 }

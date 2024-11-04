@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   pbor = {
     syncthing.folders = {
       "/home/pbor/docs" = {
