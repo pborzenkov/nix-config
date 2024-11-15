@@ -33,7 +33,7 @@ in {
         export QT_QPA_PLATFORM=wayland
         export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
         export SDL_VIDEODRIVER=wayland
-        source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+        source ${config.home-manager.users.${username}.home.profileDirectory}/etc/profile.d/hm-session-vars.sh
       '';
     };
 
