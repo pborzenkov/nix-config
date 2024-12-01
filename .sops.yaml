@@ -18,7 +18,7 @@ creation_rules:
       - pgp:
         - *pbor
         - *metal
-  - path_regex: nixos/machines/rock/secrets/[^/]+.yaml$
+  - path_regex: secrets/machines/rock/[^/]+.yaml$
     key_groups:
       - pgp:
         - *pbor
