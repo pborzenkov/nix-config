@@ -1,5 +1,6 @@
 {config, ...}: {
   pbor.backup = {
+    enable = true;
     host = "zh1012.rsync.net";
     user = "zh1012";
     sshKeyFile = "/etc/ssh/ssh_host_ed25519_key";

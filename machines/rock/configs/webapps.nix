@@ -6,6 +6,7 @@
   ssoPort = 8082;
 in {
   pbor.webapps = {
+    enable = true;
     domain = "lab.borzenkov.net";
     userIDHeader = "X-User";
 

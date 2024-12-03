@@ -51,32 +51,33 @@ in {
 
   config = let
     exporter = pkgs.writeShellScriptBin "restic-exporter" (builtins.readFile ./restic-exporter.sh);
-  in {
-    services.restic.backups =
-      lib.mapAttrs'
-      (
-        name: backup:
-          lib.nameValuePair "fs-${name}" {
-            repository = config.lib.pbor.backup.repository;
-            passwordFile = cfg.passwordFile;
-            extraOptions = config.lib.pbor.backup.extraOptions;
-            extraBackupArgs = ["--exclude-caches"];
-            paths = backup.paths;
-            exclude = backup.excludes;
-            timerConfig = config.lib.pbor.backup.timerConfig;
-          }
-      )
-      cfg.fsBackups;
+  in
+    lib.mkIf cfg.enable {
+      services.restic.backups =
+        lib.mapAttrs'
+        (
+          name: backup:
+            lib.nameValuePair "fs-${name}" {
+              repository = config.lib.pbor.backup.repository;
+              passwordFile = cfg.passwordFile;
+              extraOptions = config.lib.pbor.backup.extraOptions;
+              extraBackupArgs = ["--exclude-caches"];
+              paths = backup.paths;
+              exclude = backup.excludes;
+              timerConfig = config.lib.pbor.backup.timerConfig;
+            }
+        )
+        cfg.fsBackups;
 
-    systemd.services =
-      lib.mapAttrs'
-      (
-        name: backup:
-          lib.nameValuePair "restic-backups-fs-${name}" {
-            path = [pkgs.gawk pkgs.gnugrep];
-            serviceConfig.ExecStartPost = "${exporter}/bin/restic-exporter %n";
-          }
-      )
-      cfg.fsBackups;
-  };
+      systemd.services =
+        lib.mapAttrs'
+        (
+          name: backup:
+            lib.nameValuePair "restic-backups-fs-${name}" {
+              path = [pkgs.gawk pkgs.gnugrep];
+              serviceConfig.ExecStartPost = "${exporter}/bin/restic-exporter %n";
+            }
+        )
+        cfg.fsBackups;
+    };
 }

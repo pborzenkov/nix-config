@@ -31,6 +31,7 @@ in {
   ];
 
   options.pbor.backup = {
+    enable = lib.mkEnableOption "Enable backup";
     host = lib.mkOption {
       type = lib.types.str;
       description = ''
@@ -115,46 +116,47 @@ in {
     '';
 
     pruneName = "restic-backups-prune";
-  in {
-    lib.pbor.backup.repository = "sftp::${cfg.repository}";
-    lib.pbor.backup.extraOptions = [
-      "sftp.command='${sftpCommand}'"
-    ];
-    lib.pbor.backup.timerConfig =
-      {
-        OnCalendar = cfg.timerConfig.OnCalendar;
-      }
-      // lib.optionalAttrs (cfg.timerConfig.RandomizedDelaySec != null) {
-        RandomizedDelaySec = cfg.timerConfig.RandomizedDelaySec;
-      };
+  in
+    lib.mkIf cfg.enable {
+      lib.pbor.backup.repository = "sftp::${cfg.repository}";
+      lib.pbor.backup.extraOptions = [
+        "sftp.command='${sftpCommand}'"
+      ];
+      lib.pbor.backup.timerConfig =
+        {
+          OnCalendar = cfg.timerConfig.OnCalendar;
+        }
+        // lib.optionalAttrs (cfg.timerConfig.RandomizedDelaySec != null) {
+          RandomizedDelaySec = cfg.timerConfig.RandomizedDelaySec;
+        };
 
-    systemd.services."${pruneName}" = let
-      extraOptions = lib.concatMapStrings (arg: " -o ${arg}") config.lib.pbor.backup.extraOptions;
-      resticCmd = "${pkgs.restic}/bin/restic${extraOptions}";
-    in
-      lib.mkIf (builtins.length cfg.prune.options > 0) {
-        environment = {
-          RESTIC_PASSWORD_FILE = cfg.passwordFile;
-          RESTIC_REPOSITORY = config.lib.pbor.backup.repository;
+      systemd.services."${pruneName}" = let
+        extraOptions = lib.concatMapStrings (arg: " -o ${arg}") config.lib.pbor.backup.extraOptions;
+        resticCmd = "${pkgs.restic}/bin/restic${extraOptions}";
+      in
+        lib.mkIf (builtins.length cfg.prune.options > 0) {
+          environment = {
+            RESTIC_PASSWORD_FILE = cfg.passwordFile;
+            RESTIC_REPOSITORY = config.lib.pbor.backup.repository;
+          };
+          path = [pkgs.openssh];
+          restartIfChanged = false;
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = [
+              (resticCmd + " forget --prune " + (lib.concatStringsSep " " cfg.prune.options))
+              (resticCmd + " check")
+            ];
+            ExecStartPost = "${checkRepoSpace}/bin/check-repo-space";
+            User = "root";
+            RuntimeDirectory = pruneName;
+            CacheDirectory = pruneName;
+            CacheDirectoryMode = "0700";
+          };
         };
-        path = [pkgs.openssh];
-        restartIfChanged = false;
-        serviceConfig = {
-          Type = "oneshot";
-          ExecStart = [
-            (resticCmd + " forget --prune " + (lib.concatStringsSep " " cfg.prune.options))
-            (resticCmd + " check")
-          ];
-          ExecStartPost = "${checkRepoSpace}/bin/check-repo-space";
-          User = "root";
-          RuntimeDirectory = pruneName;
-          CacheDirectory = pruneName;
-          CacheDirectoryMode = "0700";
-        };
+      systemd.timers."${pruneName}" = lib.mkIf (builtins.length cfg.prune.options > 0) {
+        wantedBy = ["timers.target"];
+        timerConfig = cfg.prune.timerConfig;
       };
-    systemd.timers."${pruneName}" = lib.mkIf (builtins.length cfg.prune.options > 0) {
-      wantedBy = ["timers.target"];
-      timerConfig = cfg.prune.timerConfig;
     };
-  };
 }

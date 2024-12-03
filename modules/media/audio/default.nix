@@ -19,6 +19,7 @@ in {
       home = {
         packages = with pkgs; [
           playerctl
+          pulseaudio
           ncpamixer
           picard
           shntool

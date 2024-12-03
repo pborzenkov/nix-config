@@ -6,6 +6,7 @@
   cfg = config.pbor.webapps;
 in {
   options.pbor.webapps = {
+    enable = lib.mkEnableOption "Enable webapps";
     domain = lib.mkOption {
       type = lib.types.str;
       description = ''
@@ -179,7 +180,7 @@ in {
     };
   };
 
-  config = {
+  config = lib.mkIf cfg.enable {
     security.acme = {
       acceptTerms = true;
       defaults.email = "pavel@borzenkov.net";

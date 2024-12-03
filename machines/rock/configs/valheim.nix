@@ -1,6 +1,6 @@
 {config, ...}: {
   services.valheim = {
-    enable = false;
+    enable = true;
     serverName = "Geest";
     worldName = "Geest";
     openFirewall = true;
