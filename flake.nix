@@ -2,21 +2,25 @@
   description = "pborzenkov's nix config";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable-small";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable-small";
     nixos-hardware.url = "github:nixos/nixos-hardware";
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        nixpkgs-stable.follows = "nixpkgs";
       };
     };
-    nur.url = "github:nix-community/NUR";
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
     deploy-rs = {
       url = "github:serokell/deploy-rs";
       inputs = {
@@ -28,7 +32,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     stylix = {
-      url = "github:pborzenkov/stylix/missing-modules";
+      url = "github:danth/stylix/release-24.11";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         home-manager.follows = "home-manager";
@@ -49,10 +53,8 @@
         nixosStateVersion = "23.05";
         homeStateVersion = "21.05";
         isDesktop = false;
-        disabledModules = ["services/web-apps/invidious.nix"];
         extraModules = [
           inputs.valheim-server.nixosModules.default
-          "${inputs.nixpkgs-unstable}/nixos/modules/services/web-apps/invidious.nix"
         ];
       };
       gw = {

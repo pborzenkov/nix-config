@@ -14,7 +14,7 @@ rustPlatform.buildRustPackage rec {
     sha256 = "sha256-D8jaQvgCcEhy81Zl4BNh401/sQuG6/Z7E73fXZxbrhU=";
   };
 
-  cargoSha256 = "sha256-p++EIbosvAPqZ4ASW7smsyhJTQFCniJH3LrDmWcnsoA=";
+  cargoHash = "sha256-p++EIbosvAPqZ4ASW7smsyhJTQFCniJH3LrDmWcnsoA=";
 
   meta = with lib; {
     description = "Prometheus exporter for DSMR reader with serial over TCP";

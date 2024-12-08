@@ -17,5 +17,16 @@ final: prev: {
 
   p1-exporter = final.callPackage ./packages/p1-exporter {};
 
+  transmission = prev.transmission.overrideAttrs (old: rec {
+    version = "4.0.5";
+    src = final.fetchFromGitHub {
+      owner = "transmission";
+      repo = "transmission";
+      rev = version;
+      hash = "sha256-gd1LGAhMuSyC/19wxkoE2mqVozjGPfupIPGojKY0Hn4=";
+      fetchSubmodules = true;
+    };
+  });
+
   transmission-protonvpn-nat-pmp = final.callPackage ./packages/transmission-protonvpn-nat-pmp {};
 }

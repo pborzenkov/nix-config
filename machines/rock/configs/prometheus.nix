@@ -99,7 +99,7 @@
     victoriametrics = {
       enable = true;
       listenAddress = "127.0.0.1:8428";
-      retentionPeriod = 600;
+      retentionPeriod = "50y";
     };
   };
 

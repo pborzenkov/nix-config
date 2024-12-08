@@ -31,7 +31,7 @@ in {
     http3-ytproxy.enable = true;
     sig-helper = {
       enable = true;
-      package = pkgs.unstable.inv-sig-helper;
+      package = pkgs.inv-sig-helper;
     };
     database.createLocally = true;
     settings = {

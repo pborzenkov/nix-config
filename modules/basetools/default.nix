@@ -27,7 +27,7 @@ in {
         usbutils
         pciutils
         sd
-        unstable.md-tui
+        md-tui
         iproute2
         sqlite
       ];

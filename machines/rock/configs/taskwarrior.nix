@@ -1,21 +1,7 @@
-{pkgs, ...}: {
-  systemd.services.taskchampion-sync-server = {
-    description = "Sync server for Taskwarrior 3";
-    after = ["network.target"];
-    wantedBy = ["multi-user.target"];
-
-    serviceConfig = {
-      Type = "simple";
-      DynamicUser = true;
-      StateDirectory = "taskchampion-sync-server";
-      ExecStart = ''
-        ${pkgs.taskchampion-sync-server}/bin/taskchampion-sync-server \
-          -p 8998 \
-          -d /var/lib/taskchampion-sync-server
-      '';
-      Restart = "always";
-      RestartSec = 5;
-    };
+{...}: {
+  services.taskchampion-sync-server = {
+    enable = true;
+    port = 8998;
   };
 
   pbor.webapps.apps.taskwarrior = {

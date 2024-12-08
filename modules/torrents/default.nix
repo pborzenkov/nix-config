@@ -16,15 +16,17 @@ in {
     home-manager.users."${username}" = {
       home = {
         packages = with pkgs; [
-          unstable.stig
+          rustmission
         ];
       };
 
-      xdg.configFile."stig/rc".text = ''
-        set connect.host torrents.lab.borzenkov.net
-        set connect.port 443
-        set connect.tls on
-      '';
+      xdg.configFile."rustmission/config.toml" = {
+        source = (pkgs.formats.toml {}).generate "wofi-power-menu.toml" {
+          connection = {
+            url = "https://torrents.lab.borzenkov.net/transmission/rpc";
+          };
+        };
+      };
     };
   };
 }

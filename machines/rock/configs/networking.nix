@@ -32,7 +32,7 @@
         name = "mv-host";
         DHCP = "ipv4";
         networkConfig = {
-          IPForward = "yes";
+          IPv4Forwarding = "yes";
           LinkLocalAddressing = "no";
         };
       };

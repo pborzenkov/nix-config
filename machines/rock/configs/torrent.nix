@@ -6,39 +6,61 @@
 }: let
   cfg = config.services.transmission;
 in {
-  services.transmission = {
-    enable = true;
-    package = pkgs.transmission_4;
-    performanceNetParameters = true;
-    settings = {
-      download-dir = "/storage/torrents";
-      incomplete-dir = "${cfg.home}/incomplete";
-      incomlete-dir-enabled = true;
+  services = {
+    transmission = {
+      enable = true;
+      package = pkgs.transmission_4;
+      performanceNetParameters = true;
+      settings = {
+        download-dir = "/storage/torrents";
+        incomplete-dir = "${cfg.home}/incomplete";
+        incomlete-dir-enabled = true;
 
-      rpc-bind-address = "unix:///run/transmission/rpc.sock";
-      rpc-socket-mode = "0666";
-      rpc-whitelist-enabled = false;
+        rpc-bind-address = "unix:///run/transmission/rpc.sock";
+        rpc-socket-mode = "0666";
+        rpc-whitelist-enabled = false;
 
-      speed-limit-down = 30720;
-      speed-limit-down-enabled = true;
-      speed-limit-up = 30720;
-      speed-limit-up-enabled = true;
+        speed-limit-down = 30720;
+        speed-limit-down-enabled = true;
+        speed-limit-up = 30720;
+        speed-limit-up-enabled = true;
 
-      ratio-limit = 5;
-      # ratio-limit-enabled = true;
+        ratio-limit = 5;
+        # ratio-limit-enabled = true;
 
-      peer-limit-global = 1024;
-      peer-limit-per-torrent = 128;
-      upload-slots-per-torrent = 128;
+        peer-limit-global = 1024;
+        peer-limit-per-torrent = 128;
+        upload-slots-per-torrent = 128;
 
-      cache-size-mb = 32;
-      prefetch-enabled = true;
+        cache-size-mb = 32;
+        prefetch-enabled = true;
 
-      utp-enabled = true;
-      dht-enabled = true;
-      pex-enabled = true;
-      encryption = 1;
-      port-forwarding-enabled = false;
+        utp-enabled = true;
+        dht-enabled = true;
+        pex-enabled = true;
+        encryption = 1;
+        port-forwarding-enabled = false;
+      };
+    };
+
+    flood = {
+      enable = true;
+      host = "127.0.0.1";
+      port = 29200;
+      extraArgs = [
+        "--auth"
+        "none"
+        "--trurl"
+        "https://torrents.lab.borzenkov.net/transmission/rpc"
+        "--truser"
+        ""
+        "--trpass"
+        ""
+        "--allowedpath"
+        "${cfg.settings.download-dir}"
+        "--allowedpath"
+        "/storage/torrents"
+      ];
     };
   };
 
@@ -60,34 +82,6 @@ in {
             "transmission/.config/transmission-daemon"
             "transmission/incomplete"
           ];
-        };
-      };
-
-      flood = {
-        wantedBy = ["multi-user.target"];
-        after = ["network.target"];
-        description = "flood system service";
-        path = [pkgs.mediainfo];
-        unitConfig = {
-          RequiresMountsFor = ["/storage"];
-        };
-        serviceConfig = {
-          DynamicUser = true;
-          ReadWritePaths = "/storage/torrents";
-          Type = "simple";
-          Restart = "on-failure";
-          StateDirectory = "flood";
-          ExecStart = ''
-            ${pkgs.flood}/bin/flood \
-              --auth none \
-              --rundir /var/lib/flood \
-              --host 127.0.0.1 \
-              --port 29200 \
-              --trurl https://torrents.lab.borzenkov.net/transmission/rpc \
-              --truser "" \
-              --trpass "" \
-              --allowedpath ${cfg.settings.download-dir} --allowedpath /storage/torrents
-          '';
         };
       };
 

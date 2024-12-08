@@ -90,7 +90,7 @@ in rec {
               };
               overlays =
                 [
-                  inputs.nur.overlay
+                  inputs.nur.overlays.default
                   (import ../overlay.nix)
                 ]
                 ++ lib.optional (inputs ? "nixpkgs-unstable")
