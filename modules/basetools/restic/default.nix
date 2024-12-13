@@ -19,7 +19,7 @@ in {
 
       home.sessionVariables = {
         RESTIC_REPOSITORY = "sftp:zh1012@zh1012.rsync.net:restic";
-        RESTIC_PASSWORD_COMMAND = "pass misc/restic@resync.net";
+        RESTIC_PASSWORD_COMMAND = "rbw get rsync.net/restic";
       };
     };
   };

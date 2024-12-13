@@ -20,11 +20,12 @@
       SIGNUPS_ALLOWED = false;
     };
     dbBackend = "sqlite";
+    backupDir = "/var/backup/vaultwarden";
   };
 
   pbor.backup.fsBackups.bitwarden = {
     paths = [
-      "/var/lib/bitwarden_rs"
+      "/var/backup/vaultwarden"
     ];
   };
 }

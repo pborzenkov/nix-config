@@ -139,7 +139,7 @@ in {
 
   pbor.backup.fsBackups.lldap = {
     paths = [
-      "/var/lib/lldap"
+      "/var/lib/private/lldap"
     ];
   };
 }

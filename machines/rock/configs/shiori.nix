@@ -28,7 +28,7 @@
 
   pbor.backup.fsBackups.shiori = {
     paths = [
-      "/var/lib/shiori"
+      "/var/lib/private/shiori"
     ];
   };
 }
