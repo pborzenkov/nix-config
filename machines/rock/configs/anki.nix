@@ -20,7 +20,7 @@
 
   pbor.backup.fsBackups.anki = {
     paths = [
-      "/var/lib/anki-sync-server"
+      "/var/lib/private/anki-sync-server"
     ];
   };
 }
