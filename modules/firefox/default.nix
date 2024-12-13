@@ -46,8 +46,9 @@ in {
             rycee = pkgs.nur.repos.rycee.firefox-addons;
             pborzenkov = pkgs.nur.repos.pborzenkov.firefox-addons;
           in [
-            rycee.ublock-origin
+            rycee.bitwarden
             rycee.istilldontcareaboutcookies
+            rycee.ublock-origin
 
             pborzenkov.shiori_ext
           ];
