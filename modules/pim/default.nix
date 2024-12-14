@@ -30,7 +30,7 @@ in {
               settings = {
                 auto_create_new_mailboxes = true;
                 lowercase = true;
-                password_command = ["pass" "show" "misc/fastmail_jmap"];
+                password_command = ["rbw" "get" "fastmail.com/jmap"];
               };
             };
 
@@ -53,7 +53,7 @@ in {
               type = "caldav";
               url = "https://caldav.fastmail.com/dav/calendars/user/pavel@borzenkov.net/67fd863c-ebc6-4c6a-afcd-0e72126e5116";
               userName = "pavel@borzenkov.net";
-              passwordCommand = ["pass" "show" "misc/fastmail"];
+              passwordCommand = ["rbw" "get" "fastmail.com/desktop"];
             };
 
             khal = {
@@ -78,7 +78,7 @@ in {
               type = "carddav";
               url = "https://carddav.fastmail.com/dav/addressbooks/user/pavel@borzenkov.net/Default";
               userName = "pavel@borzenkov.net";
-              passwordCommand = ["pass" "show" "misc/fastmail"];
+              passwordCommand = ["rbw" "get" "fastmail.com/desktop"];
             };
 
             khal = {
