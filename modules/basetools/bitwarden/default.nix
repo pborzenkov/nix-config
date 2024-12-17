@@ -3,12 +3,13 @@
   lib,
   pkgs,
   username,
+  isDesktop,
   ...
 }: let
   cfg = config.pbor.basetools.bitwarden;
 in {
   options = {
-    pbor.basetools.bitwarden.enable = (lib.mkEnableOption "Enable bitwarden") // {default = config.pbor.basetools.enable;};
+    pbor.basetools.bitwarden.enable = (lib.mkEnableOption "Enable bitwarden") // {default = config.pbor.basetools.enable && isDesktop;};
   };
 
   config = lib.mkIf cfg.enable {
