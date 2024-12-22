@@ -35,12 +35,10 @@
         };
         wireguardPeers = [
           {
-            wireguardPeerConfig = {
-              PublicKey = "/qcJiPDpknM7hvAwfrxUS5D8IGJ3RAiTVYlfdg8eZzk=";
-              AllowedIPs = ["192.168.88.0/24" "192.168.111.0/24"];
-              Endpoint = "vpn.borzenkov.net:13231";
-              PersistentKeepalive = 15;
-            };
+            PublicKey = "/qcJiPDpknM7hvAwfrxUS5D8IGJ3RAiTVYlfdg8eZzk=";
+            AllowedIPs = ["192.168.88.0/24" "192.168.111.0/24"];
+            Endpoint = "vpn.borzenkov.net:13231";
+            PersistentKeepalive = 15;
           }
         ];
       };
@@ -51,17 +49,13 @@
         DHCP = "no";
         addresses = [
           {
-            addressConfig = {
-              Address = "192.168.111.2/24";
-            };
+            Address = "192.168.111.2/24";
           }
         ];
         routes = [
           {
-            routeConfig = {
-              Destination = "192.168.88.0/24";
-              Scope = "link";
-            };
+            Destination = "192.168.88.0/24";
+            Scope = "link";
           }
         ];
         dns = ["192.168.111.1"];
