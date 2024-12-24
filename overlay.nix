@@ -26,6 +26,14 @@ final: prev: {
       hash = "sha256-gd1LGAhMuSyC/19wxkoE2mqVozjGPfupIPGojKY0Hn4=";
       fetchSubmodules = true;
     };
+    patches =
+      old.patches
+      ++ [
+        (prev.fetchpatch {
+          url = "https://patch-diff.githubusercontent.com/raw/transmission/transmission/pull/7089.diff";
+          sha256 = "sha256-8CF9qvfiuutTpg5402APzbXf+9rLTFc9TlRJS9paLhc=";
+        })
+      ];
   });
 
   transmission-protonvpn-nat-pmp = final.callPackage ./packages/transmission-protonvpn-nat-pmp {};
