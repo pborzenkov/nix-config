@@ -58,7 +58,7 @@
     supportedFilesystems = ["ntfs"];
   };
 
-  users.users.pbor.extraGroups = ["kvm" "dialout"];
+  users.users.pbor.extraGroups = ["dialout"];
 
   powerManagement = {
     enable = true;
