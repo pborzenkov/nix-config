@@ -25,8 +25,8 @@
         };
       };
       i3status.sound_mappings = {
-        "alsa_output.usb-Razer_Razer_USB_Sound_Card_00000000-00.analog-stereo" = "";
-        "alsa_output.pci-0000_12_00.4.analog-stereo" = "";
+        "alsa_output.usb-HP__Inc_HyperX_Cloud_Alpha_Wireless_00000001-00.analog-stereo" = "";
+        "alsa_output.usb-EDIFIER_EDIFIER_G2000_EDI00000X07-01.analog-stereo" = "";
         "alsa_output.pci-0000_10_00.1.hdmi-stereo-extra4" = "";
       };
     };
