@@ -47,7 +47,8 @@ in {
 
       "auth.proxy" = {
         enabled = true;
-        header_name = config.pbor.webapps.userIDHeader;
+        header_name = "Remote-User";
+        headers = "Name:Remote-Name Email:Remote-Email Groups:Remote-Groups";
         auto_sign_up = true;
       };
 
@@ -59,7 +60,7 @@ in {
       };
 
       security = {
-        admin_user = "pavel@borzenkov.net";
+        admin_user = "pavel";
         admin_password__file = config.sops.secrets.grafana-admin-password.path;
         disable_gravatar = true;
       };

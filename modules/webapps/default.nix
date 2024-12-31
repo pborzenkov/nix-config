@@ -23,14 +23,6 @@ in {
       default = [];
     };
 
-    userIDHeader = lib.mkOption {
-      type = lib.types.str;
-      description = ''
-        HTTP header with the name of the authenticated user.
-      '';
-      example = "X-User";
-    };
-
     ssoSubDomain = lib.mkOption {
       type = lib.types.str;
       description = ''
@@ -230,33 +222,46 @@ in {
                             then "${vhostConfig.proxyTo}$request_uri"
                             else null;
                           extraConfig = lib.optionalString locConfig.auth ''
-                            auth_request /auth;
-                            error_page 401 = @error401;
+                            auth_request /internal/authelia/auth;
 
-                            auth_request_set $cookie $upstream_http_set_cookie;
-                            add_header Set-Cookie $cookie;
-                            auth_request_set $username $upstream_http_x_username;
-                            proxy_set_header ${cfg.userIDHeader} $username;
+                            auth_request_set $user $upstream_http_remote_user;
+                            auth_request_set $groups $upstream_http_remote_groups;
+                            auth_request_set $name $upstream_http_remote_name;
+                            auth_request_set $email $upstream_http_remote_email;
+
+                            proxy_set_header Remote-User $user;
+                            proxy_set_header Remote-Groups $groups;
+                            proxy_set_header Remote-Email $email;
+                            proxy_set_header Remote-Name $name;
+
+                            auth_request_set $redirection_url $upstream_http_location;
+
+                            error_page 401 =302 $redirection_url;
                           '';
                         }
                         // lib.optionalAttrs (locConfig.custom != null) locConfig.custom))
                       vhostConfig.locations)
                     // lib.optionalAttrs needAuth {
-                      "/auth" = {
-                        proxyPass = "${cfg.ssoInternalAddress}/auth";
+                      "/internal/authelia/auth" = {
+                        proxyPass = "${cfg.ssoInternalAddress}/api/authz/auth-request";
                         extraConfig = ''
                           internal;
 
-                          proxy_pass_request_body off;
+                          proxy_set_header X-Original-Method $request_method;
+                          proxy_set_header X-Original-URL $scheme://$http_host$request_uri;
+                          proxy_set_header X-Forwarded-For $remote_addr;
                           proxy_set_header Content-Length "";
+                          proxy_set_header Connection "";
 
-                          proxy_set_header X-Host $http_host;
-                          proxy_set_header X-Origin-URI $request_uri;
+                          proxy_pass_request_body off;
+                          proxy_next_upstream error timeout invalid_header http_500 http_502 http_503;
+                          proxy_redirect http:// $scheme://;
+                          proxy_http_version 1.1;
+                          proxy_cache_bypass $cookie_session;
+                          proxy_no_cache $cookie_session;
+                          proxy_buffers 4 32k;
+                          client_body_buffer_size 128k;
                         '';
-                      };
-
-                      "@error401" = lib.optionalAttrs needAuth {
-                        return = "302 https://${cfg.ssoSubDomain}.${cfg.domain}/login?go=$scheme://$http_host$request_uri";
                       };
                     };
                 }

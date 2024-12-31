@@ -19,7 +19,7 @@ in {
       LISTEN_ADDR = "0.0.0.0:${port}";
       BASE_URL = "https://${config.pbor.webapps.apps.miniflux.subDomain}.${config.pbor.webapps.domain}";
 
-      AUTH_PROXY_HEADER = "${config.pbor.webapps.userIDHeader}";
+      AUTH_PROXY_HEADER = "Remote-User";
       AUTH_PROXY_USER_CREATION = "true";
     };
     adminCredentialsFile = config.sops.secrets.miniflux-admin-credentials.path;

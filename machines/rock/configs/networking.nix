@@ -1,7 +1,7 @@
 {...}: {
   networking = {
     hostName = "rock";
-    domain = "gw.lab.borzenkov.net";
+    domain = "lab.borzenkov.net";
 
     useDHCP = false;
     useNetworkd = true;
