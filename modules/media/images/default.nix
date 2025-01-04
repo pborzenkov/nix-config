@@ -1,7 +1,9 @@
 {
   config,
   lib,
+  pkgs,
   pborlib,
+  username,
   ...
 }: let
   cfg = config.pbor.media.images;
@@ -12,7 +14,15 @@ in {
     pbor.media.images.enable = (lib.mkEnableOption "Enable images") // {default = config.pbor.media.enable;};
   };
 
-  config =
-    lib.mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
+    home-manager.users."${username}" = {config, ...}: {
+      home.packages = [
+        pkgs.immich-cli
+      ];
+
+      home.sessionVariables = {
+        "IMMICH_CONFIG_DIR" = "${config.xdg.configHome}/immich";
+      };
     };
+  };
 }

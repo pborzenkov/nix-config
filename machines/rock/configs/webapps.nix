@@ -60,7 +60,10 @@
 
     authelia.instances.lab = {
       enable = true;
-      secrets.manual = true;
+      secrets = {
+        manual = true;
+        oidcIssuerPrivateKeyFile = config.sops.secrets.authelia-jwks-key.path;
+      };
       settings = {
         theme = "auto";
         server = {
@@ -143,6 +146,19 @@
             tls.skip_verify = false;
           };
         };
+        identity_providers = {
+          oidc = {
+            clients = lib.mapAttrsToList (id: a:
+              {
+                client_id = id;
+                client_name = id;
+                authorization_policy = "one_factor";
+                public = false;
+              }
+              // a.auth.oidc)
+            (lib.filterAttrs (_: a: a.auth != null && a.auth.oidc != null) config.pbor.webapps.apps);
+          };
+        };
       };
     };
   };
@@ -156,6 +172,9 @@
     lldap-environment = {};
     namecheap-environment = {};
     authelia-environment = {};
+    authelia-jwks-key = {
+      owner = "authelia-lab";
+    };
   };
 
   pbor.backup.fsBackups.lldap = {

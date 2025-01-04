@@ -108,6 +108,13 @@ in {
                   example = ["groups:rss"];
                   default = null;
                 };
+                oidc = lib.mkOption {
+                  type = lib.types.nullOr lib.types.attrs;
+                  description = ''
+                    OIDC configuration
+                  '';
+                  default = null;
+                };
               };
             });
             default = null;
@@ -191,6 +198,17 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
+    assertions = lib.flatten (lib.mapAttrsToList (_: a: [
+      {
+        assertion = a.auth.rbac != null || a.auth.oidc != null;
+        message = "Either 'rbac' or 'oidc' must be configured";
+      }
+      {
+        assertion = a.auth.rbac == null || a.auth.oidc == null;
+        message = "'rbac' and 'oidc' can't be both configured";
+      }
+    ]) (lib.filterAttrs (_: a: a.auth != null) cfg.apps));
+
     security.acme = {
       acceptTerms = true;
       defaults.email = "pavel@borzenkov.net";
