@@ -103,7 +103,7 @@
           };
         };
         access_control = {
-          default_policy = "one_factor";
+          default_policy = "deny";
           networks = [
             {
               name = "internal";
@@ -114,6 +114,11 @@
               networks = ["192.168.111.0/24"];
             }
           ];
+          rules = lib.mapAttrsToList (_: a: {
+            domain = "${a.subDomain}.${config.pbor.webapps.domain}";
+            policy = "one_factor";
+            subject = a.auth.rbac;
+          }) (lib.filterAttrs (_: a: a.auth != null && a.auth.rbac != null) config.pbor.webapps.apps);
         };
         session = {
           cookies = [

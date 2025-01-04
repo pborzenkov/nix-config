@@ -7,6 +7,7 @@
 in {
   options.pbor.webapps = {
     enable = lib.mkEnableOption "Enable webapps";
+
     domain = lib.mkOption {
       type = lib.types.str;
       description = ''
@@ -45,7 +46,6 @@ in {
       '';
       example = "namecheap";
     };
-
     acmeCredentialsFile = lib.mkOption {
       type = lib.types.path;
       description = ''
@@ -86,85 +86,103 @@ in {
     };
 
     apps = lib.mkOption {
-      type =
-        lib.types.attrsOf
-        (lib.types.submodule {
-          options = {
-            subDomain = lib.mkOption {
-              type = lib.types.str;
-              description = ''
-                'Subdomain of the web application.
-              '';
-              example = "grafana";
-            };
-            proxyTo = lib.mkOption {
-              type = lib.types.nullOr lib.types.str;
-              description = ''
-                Proxy requests to this backend.
-              '';
-              example = "192.168.1.10:1234";
-              default = null;
-            };
-            locations = lib.mkOption {
-              type = lib.types.attrsOf (lib.types.submodule {
-                options = {
-                  auth = lib.mkOption {
-                    type = lib.types.bool;
-                    description = ''
-                      Enabled authentication for the location.
-                    '';
-                    default = false;
-                    example = true;
-                  };
-                  custom = lib.mkOption {
-                    type = lib.types.nullOr lib.types.attrs;
-                    description = ''
-                      Custom config merged into the location config.
-                    '';
-                    default = null;
-                    example = {
-                      proxyWebsockets = true;
-                    };
+      type = lib.types.attrsOf (lib.types.submodule {
+        options = {
+          subDomain = lib.mkOption {
+            type = lib.types.str;
+            description = ''
+              'Subdomain of the web application.
+            '';
+            example = "grafana";
+          };
+          auth = lib.mkOption {
+            type = lib.types.nullOr (lib.types.submodule {
+              options = {
+                rbac = lib.mkOption {
+                  type = lib.types.nullOr (
+                    lib.types.listOf (lib.types.either lib.types.str (lib.types.listOf lib.types.str))
+                  );
+                  description = ''
+                    List of users/groups for proxy based auth
+                  '';
+                  example = ["groups:rss"];
+                  default = null;
+                };
+              };
+            });
+            default = null;
+          };
+          proxyTo = lib.mkOption {
+            type = lib.types.nullOr lib.types.str;
+            description = ''
+              Proxy requests to this backend.
+            '';
+            example = "192.168.1.10:1234";
+            default = null;
+          };
+          locations = lib.mkOption {
+            type = lib.types.attrsOf (lib.types.submodule {
+              options = {
+                skip_auth = lib.mkOption {
+                  type = lib.types.bool;
+                  description = ''
+                    Skip auth for this location.
+                  '';
+                  default = false;
+                };
+                custom = lib.mkOption {
+                  type = lib.types.nullOr lib.types.attrs;
+                  description = ''
+                    Custom config merged into the location config.
+                  '';
+                  default = null;
+                  example = {
+                    proxyWebsockets = true;
                   };
                 };
-              });
-            };
-            custom = lib.mkOption {
-              type = lib.types.nullOr lib.types.attrs;
-              description = ''
-                Custom config merged into the virtual host config.
-              '';
-              default = null;
-              example = {
-                root = "/var/root";
               };
-            };
-            dashboard.name = lib.mkOption {
-              type = lib.types.nullOr lib.types.str;
-              description = ''
-                Application name.
-              '';
-              example = "App";
-              default = null;
-            };
-            dashboard.category = lib.mkOption {
-              type = lib.types.nullOr lib.types.str;
-              description = ''
-                App category tag.
-              '';
-              example = "app";
-              default = null;
-            };
-            dashboard.icon = lib.mkOption {
-              type = lib.types.nullOr lib.types.str;
-              description = ''
-                Font Awesome application icon.
-              '';
-              example = "rss";
-              default = null;
+            });
+          };
+          custom = lib.mkOption {
+            type = lib.types.nullOr lib.types.attrs;
+            description = ''
+              Custom config merged into the virtual host config.
+            '';
+            default = null;
+            example = {
+              root = "/var/root";
             };
           };
-        });
+          dashboard = lib.mkOption {
+            type = lib.types.nullOr (lib.types.submodule {
+              options = {
+                name = lib.mkOption {
+                  type = lib.types.str;
+                  description = ''
+                    Application name.
+                  '';
+                  example = "App";
+                };
+                category = lib.mkOption {
+                  type = lib.types.str;
+                  description = ''
+                    App category tag.
+                  '';
+                  example = "app";
+                };
+                icon = lib.mkOption {
+                  type = lib.types.str;
+                  description = ''
+                    Font Awesome application icon.
+                  '';
+                  example = "rss";
+                };
+              };
+            });
+            default = null;
+          };
+        };
+      });
       description = ''
         Defines a web application.
       '';
@@ -209,7 +227,13 @@ in {
           vhostName: vhostConfig:
             lib.nameValuePair "${vhostConfig.subDomain}.${cfg.domain}" (
               let
-                needAuth = lib.any (x: x) (lib.mapAttrsToList (locName: locConfig: locConfig.auth) vhostConfig.locations);
+                needsAuth =
+                  vhostConfig.auth
+                  != null
+                  && vhostConfig.auth.rbac != null
+                  && (lib.any (x: !x) (
+                    lib.mapAttrsToList (_: locConfig: locConfig.skip_auth) vhostConfig.locations
+                  ));
               in
                 {
                   forceSSL = true;
@@ -221,7 +245,7 @@ in {
                             if vhostConfig.proxyTo != null
                             then "${vhostConfig.proxyTo}$request_uri"
                             else null;
-                          extraConfig = lib.optionalString locConfig.auth ''
+                          extraConfig = lib.optionalString (needsAuth && !locConfig.skip_auth) ''
                             auth_request /internal/authelia/auth;
 
                             auth_request_set $user $upstream_http_remote_user;
@@ -241,7 +265,7 @@ in {
                         }
                         // lib.optionalAttrs (locConfig.custom != null) locConfig.custom))
                       vhostConfig.locations)
-                    // lib.optionalAttrs needAuth {
+                    // lib.optionalAttrs needsAuth {
                       "/internal/authelia/auth" = {
                         proxyPass = "${cfg.ssoInternalAddress}/api/authz/auth-request";
                         extraConfig = ''
@@ -272,24 +296,20 @@ in {
     };
 
     lib.pbor.webapps.homerServices = let
-      apps = builtins.filter (a: a.dashboard.name != null) (lib.attrValues cfg.apps);
+      apps = builtins.filter (a: a.dashboard != null) (lib.attrValues cfg.apps);
     in
       lib.forEach cfg.dashboardCategories (
         cat: let
           catApps = lib.sort (a: b: a.dashboard.name < b.dashboard.name) (
             builtins.filter
-            (a:
-              a.dashboard.category
-              != null
-              && a.dashboard.category == cat.tag
-              || a.dashboard.category == null && cat.tag == "misc")
+            (a: a.dashboard.category == cat.tag)
             apps
           );
         in {
           name = cat.name;
           items = lib.forEach catApps (a: {
             name = a.dashboard.name;
-            icon = lib.optionalString (a.dashboard.icon != null) "fas fa-${a.dashboard.icon}";
+            icon = "fas fa-${a.dashboard.icon}";
             url = "${
               if lib.attrByPath ["custom" "forceSSL"] true a
               then "https"

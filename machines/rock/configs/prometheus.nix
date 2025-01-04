@@ -6,8 +6,9 @@
   pbor.webapps.apps = {
     prometheus = {
       subDomain = "prometheus";
+      auth.rbac = ["group:monitoring"];
       proxyTo = "http://127.0.0.1:${toString config.services.prometheus.port}";
-      locations."/" = {auth = true;};
+      locations."/" = {};
       dashboard = {
         name = "Prometheus";
         category = "infra";
@@ -16,8 +17,9 @@
     };
     victoriametrics = {
       subDomain = "vicky";
+      auth.rbac = ["group:monitoring"];
       proxyTo = "http://127.0.0.1:8428";
-      locations."/" = {auth = true;};
+      locations."/" = {};
       dashboard = {
         name = "Victoria Metrics";
         category = "infra";

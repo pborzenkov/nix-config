@@ -3,9 +3,9 @@
 in {
   pbor.webapps.apps.miniflux = {
     subDomain = "rss";
+    auth.rbac = ["group:rss"];
     proxyTo = "http://127.0.0.1:${port}";
-    locations."/" = {auth = true;};
-    locations."/fever/" = {};
+    locations."/" = {};
     dashboard = {
       name = "Miniflux";
       category = "app";

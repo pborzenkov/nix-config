@@ -3,8 +3,9 @@
 in {
   pbor.webapps.apps.grafana = {
     subDomain = "grafana";
+    auth.rbac = ["group:monitoring"];
     proxyTo = "http://127.0.0.1:${toString config.services.grafana.settings.server.http_port}";
-    locations."/" = {auth = true;};
+    locations."/" = {};
     dashboard = {
       name = "Grafana";
       category = "infra";
