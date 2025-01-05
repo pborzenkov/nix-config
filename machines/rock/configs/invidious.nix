@@ -42,8 +42,19 @@ in {
       external_port = 443;
       https_only = true;
       captcha_enabled = false;
-      admins = ["pavel@borzenkov.net"];
+      admins = ["pavel"];
+      default_user_preferences = {
+        quality = "dash";
+        quality_dash = "auto";
+        default_home = "Subscriptions";
+      };
     };
+    extraSettingsFile = "/run/credentials/invidious.service/extra-settings";
   };
-  systemd.services.http3-ytproxy.serviceConfig.User = config.services.nginx.user;
+  systemd.services = {
+    invidious.serviceConfig.LoadCredential = "extra-settings:${config.sops.secrets.invidious.path}";
+    http3-ytproxy.serviceConfig.User = config.services.nginx.user;
+  };
+
+  sops.secrets.invidious = {};
 }
