@@ -109,10 +109,24 @@ in {
                   default = null;
                 };
                 oidc = lib.mkOption {
-                  type = lib.types.nullOr lib.types.attrs;
-                  description = ''
-                    OIDC configuration
-                  '';
+                  type = lib.types.nullOr (lib.types.submodule {
+                    options = {
+                      rbac = lib.mkOption {
+                        type = lib.types.listOf (lib.types.either lib.types.str (lib.types.listOf lib.types.str));
+                        description = ''
+                          List of users/groups for OIDC based auth
+                        '';
+                        example = ["groups:rss"];
+                        default = null;
+                      };
+                      settings = lib.mkOption {
+                        type = lib.types.attrs;
+                        description = ''
+                          OIDC configuration
+                        '';
+                      };
+                    };
+                  });
                   default = null;
                 };
               };

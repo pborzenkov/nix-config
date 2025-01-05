@@ -146,18 +146,28 @@
             tls.skip_verify = false;
           };
         };
-        identity_providers = {
-          oidc = {
-            clients = lib.mapAttrsToList (id: a:
-              {
-                client_id = id;
-                client_name = id;
-                authorization_policy = "one_factor";
-                public = false;
-              }
-              // a.auth.oidc)
+        identity_providers.oidc = {
+          authorization_policies =
+            lib.mapAttrs (id: a: {
+              default_policy = "deny";
+              rules = [
+                {
+                  policy = "one_factor";
+                  subject = a.auth.oidc.rbac;
+                }
+              ];
+            })
             (lib.filterAttrs (_: a: a.auth != null && a.auth.oidc != null) config.pbor.webapps.apps);
-          };
+
+          clients = lib.mapAttrsToList (id: a:
+            {
+              client_id = id;
+              client_name = id;
+              authorization_policy = id;
+              public = false;
+            }
+            // a.auth.oidc.settings)
+          (lib.filterAttrs (_: a: a.auth != null && a.auth.oidc != null) config.pbor.webapps.apps);
         };
       };
     };
