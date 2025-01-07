@@ -3,11 +3,11 @@
   lib,
   ...
 }: let
-  cfg = config.pbor.wm.i3status;
+  cfg = config.pbor.wm.sway.i3status;
 in {
   options = {
-    pbor.wm.i3status.enable = (lib.mkEnableOption "Enable i3status-rust") // {default = config.pbor.wm.enable;};
-    pbor.wm.i3status.sound_mappings = lib.mkOption {
+    pbor.wm.sway.i3status.enable = (lib.mkEnableOption "Enable i3status-rust") // {default = config.pbor.wm.sway.enable;};
+    pbor.wm.sway.i3status.sound_mappings = lib.mkOption {
       type = lib.types.nullOr (lib.types.attrsOf lib.types.str);
       default = null;
       description = ''Sound device mappings.'';

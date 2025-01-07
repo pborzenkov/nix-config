@@ -19,15 +19,17 @@
       };
     };
     wm = {
-      sway.output = {
-        "DP-2" = {
-          scale = "2";
+      sway = {
+        output = {
+          "DP-2" = {
+            scale = "2";
+          };
         };
-      };
-      i3status.sound_mappings = {
-        "alsa_output.usb-HP__Inc_HyperX_Cloud_Alpha_Wireless_00000001-00.analog-stereo" = "";
-        "alsa_output.usb-EDIFIER_EDIFIER_G2000_EDI00000X07-01.analog-stereo" = "";
-        "alsa_output.pci-0000_10_00.1.hdmi-stereo-extra4" = "";
+        i3status.sound_mappings = {
+          "alsa_output.usb-HP__Inc_HyperX_Cloud_Alpha_Wireless_00000001-00.analog-stereo" = "";
+          "alsa_output.usb-EDIFIER_EDIFIER_G2000_EDI00000X07-01.analog-stereo" = "";
+          "alsa_output.pci-0000_10_00.1.hdmi-stereo-extra4" = "";
+        };
       };
     };
 
