@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  username,
   ...
 }: let
   cfg = config.pbor.wm.i3status;
@@ -16,7 +15,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {config, ...}: {
+    hm = {config, ...}: {
       programs.i3status-rust = {
         enable = true;
         bars.default = {

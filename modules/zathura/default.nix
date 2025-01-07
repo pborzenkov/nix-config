@@ -2,7 +2,6 @@
   config,
   lib,
   isDesktop,
-  username,
   ...
 }: let
   cfg = config.pbor.zathura;
@@ -12,7 +11,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {config, ...}: {
+    hm = {config, ...}: {
       programs.zathura = {
         enable = true;
         options = {

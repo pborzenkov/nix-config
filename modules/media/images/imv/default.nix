@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  username,
   ...
 }: let
   cfg = config.pbor.media.images.imv;
@@ -11,14 +10,12 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {
-      programs.imv = {
-        enable = true;
-        settings = {
-          binds = {
-            "<Shift+greater>" = "next 1";
-            "<Shift+less>" = "prev 1";
-          };
+    hm.programs.imv = {
+      enable = true;
+      settings = {
+        binds = {
+          "<Shift+greater>" = "next 1";
+          "<Shift+less>" = "prev 1";
         };
       };
     };

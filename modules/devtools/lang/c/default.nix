@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  username,
   ...
 }: let
   cfg = config.pbor.devtools.lang.c;
@@ -12,16 +11,14 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {
-      home.packages = with pkgs; [
-        (lib.hiPrio gcc)
-        clang
-        gdb
-        lldb
-        clang-analyzer
-        clang-tools
-        clang-manpages
-      ];
-    };
+    hm.home.packages = with pkgs; [
+      (lib.hiPrio gcc)
+      clang
+      gdb
+      lldb
+      clang-analyzer
+      clang-tools
+      clang-manpages
+    ];
   };
 }

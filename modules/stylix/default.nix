@@ -4,7 +4,6 @@
   pkgs,
   inputs,
   isDesktop,
-  username,
   ...
 }: let
   cfg = config.pbor.stylix;
@@ -62,7 +61,7 @@ in {
       targets.gtk.enable = true;
     };
 
-    home-manager.users."${username}".gtk = {
+    hm.gtk = {
       enable = true;
       theme = {
         name = lib.mkForce "vimix-dark-doder";

@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  username,
   ...
 }: let
   cfg = config.pbor.firefox.browserpass;
@@ -12,7 +11,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {
+    hm = {
       osConfig,
       config,
       ...

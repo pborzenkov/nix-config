@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  username,
   ...
 }: let
   cfg = config.pbor.firefox.tridactyl;
@@ -12,7 +11,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {config, ...}: {
+    hm = {config, ...}: {
       programs.firefox.profiles.default.extensions = with pkgs.nur.repos.rycee.firefox-addons; [
         tridactyl
       ];

@@ -3,7 +3,6 @@
   lib,
   pborlib,
   pkgs,
-  username,
   ...
 }: let
   cfg = config.pbor.media.video;
@@ -15,11 +14,9 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {
-      home.packages = with pkgs; [
-        handbrake
-        mkvtoolnix
-      ];
-    };
+    hm.home.packages = with pkgs; [
+      handbrake
+      mkvtoolnix
+    ];
   };
 }

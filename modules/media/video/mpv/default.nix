@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  username,
   ...
 }: let
   cfg = config.pbor.media.video.mpv;
@@ -11,18 +10,16 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {
-      programs.mpv = {
-        enable = true;
-        config = {
-          alang = "eng,en,English";
-          slang = "eng,en,English";
-          vo = "dmabuf-wayland";
-          gpu-api = "vulkan";
-          hwdec = "auto";
-          gpu-context = "waylandvk";
-          hdr-compute-peak = "no";
-        };
+    hm.programs.mpv = {
+      enable = true;
+      config = {
+        alang = "eng,en,English";
+        slang = "eng,en,English";
+        vo = "dmabuf-wayland";
+        gpu-api = "vulkan";
+        hwdec = "auto";
+        gpu-context = "waylandvk";
+        hdr-compute-peak = "no";
       };
     };
   };

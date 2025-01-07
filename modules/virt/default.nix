@@ -3,7 +3,6 @@
   lib,
   pkgs,
   isDesktop,
-  username,
   ...
 }: let
   cfg = config.pbor.virt;
@@ -24,7 +23,7 @@ in {
     };
     users.users.pbor.extraGroups = ["kvm" "podman"];
 
-    home-manager.users."${username}" = {config, ...}: {
+    hm = {config, ...}: {
       home = {
         packages = with pkgs; [
           libvirt

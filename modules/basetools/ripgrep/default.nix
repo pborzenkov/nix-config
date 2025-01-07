@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  username,
   ...
 }: let
   cfg = config.pbor.basetools.ripgrep;
@@ -13,7 +12,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {
+    hm = {
       programs.ripgrep = {
         enable = true;
         arguments = [

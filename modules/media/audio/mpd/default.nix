@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  username,
   sharedSops,
   ...
 }: let
@@ -19,7 +18,7 @@ in {
       group = config.users.users.pbor.group;
     };
 
-    home-manager.users."${username}" = {
+    hm = {
       osConfig,
       config,
       ...

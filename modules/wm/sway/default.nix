@@ -3,7 +3,6 @@
   lib,
   pborlib,
   pkgs,
-  username,
   ...
 }: let
   cfg = config.pbor.wm.sway;
@@ -33,7 +32,7 @@ in {
         export QT_QPA_PLATFORM=wayland
         export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
         export SDL_VIDEODRIVER=wayland
-        source ${config.home-manager.users.${username}.home.profileDirectory}/etc/profile.d/hm-session-vars.sh
+        source ${config.hm.home.profileDirectory}/etc/profile.d/hm-session-vars.sh
       '';
     };
 
@@ -46,7 +45,7 @@ in {
       };
     };
 
-    home-manager.users."${username}" = {config, ...}: let
+    hm = {config, ...}: let
       scratch-term = pkgs.writeShellApplication {
         name = "scratch-term";
         text = builtins.readFile ./scripts/scratch-term.sh;
@@ -151,7 +150,7 @@ in {
           input = {
             "*" = {
               xkb_layout = "us,ru";
-              xkb_options = "grp:win_space_toggle,caps:escape";
+              xkb_options = "grp:win_space_toggle,caps:escape,compose:paus";
             };
           };
 

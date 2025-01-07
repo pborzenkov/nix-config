@@ -3,7 +3,6 @@
   lib,
   pkgs,
   pborlib,
-  username,
   ...
 }: let
   cfg = config.pbor.media.images;
@@ -15,7 +14,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {config, ...}: {
+    hm = {config, ...}: {
       home.packages = [
         pkgs.immich-cli
       ];

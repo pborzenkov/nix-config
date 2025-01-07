@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  username,
   ...
 }: let
   cfg = config.pbor.basetools.pass;
@@ -12,7 +11,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {config, ...}: {
+    hm = {config, ...}: {
       programs.password-store = {
         enable = true;
         package = pkgs.pass.withExtensions (ext: [ext.pass-otp]);

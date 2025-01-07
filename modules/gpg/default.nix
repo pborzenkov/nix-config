@@ -3,7 +3,6 @@
   lib,
   pkgs,
   isDesktop,
-  username,
   ...
 }: let
   cfg = config.pbor.gpg;
@@ -15,7 +14,7 @@ in {
   config = lib.mkIf cfg.enable {
     services.dbus.packages = lib.mkIf isDesktop [pkgs.gcr];
 
-    home-manager.users."${username}" = {
+    hm = {
       programs.gpg = {
         enable = true;
 

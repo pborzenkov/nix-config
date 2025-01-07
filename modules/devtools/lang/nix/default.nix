@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  username,
   ...
 }: let
   cfg = config.pbor.devtools.lang.nix;
@@ -12,15 +11,13 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {
-      home.packages = with pkgs; [
-        nil
-        alejandra
-        nixpkgs-review
-        nix-update
-        nix-prefetch-github
-        nix-prefetch-git
-      ];
-    };
+    hm.home.packages = with pkgs; [
+      nil
+      alejandra
+      nixpkgs-review
+      nix-update
+      nix-prefetch-github
+      nix-prefetch-git
+    ];
   };
 }

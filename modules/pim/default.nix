@@ -3,7 +3,6 @@
   lib,
   pkgs,
   isDesktop,
-  username,
   ...
 }: let
   cfg = config.pbor.pim;
@@ -13,7 +12,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {config, ...}: {
+    hm = {config, ...}: {
       accounts = {
         email = {
           maildirBasePath = ".local/share/mail";

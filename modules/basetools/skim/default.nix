@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  username,
   ...
 }: let
   cfg = config.pbor.basetools.skim;
@@ -11,14 +10,12 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {
-      programs.skim = {
-        enable = true;
-        enableFishIntegration = true;
+    hm.programs.skim = {
+      enable = true;
+      enableFishIntegration = true;
 
-        defaultCommand = lib.optionalString config.pbor.basetools.fd.enable "fd --type f";
-        fileWidgetCommand = lib.optionalString config.pbor.basetools.fd.enable "fd --type f";
-      };
+      defaultCommand = lib.optionalString config.pbor.basetools.fd.enable "fd --type f";
+      fileWidgetCommand = lib.optionalString config.pbor.basetools.fd.enable "fd --type f";
     };
   };
 }

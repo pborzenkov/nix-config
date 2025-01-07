@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  username,
   ...
 }: let
   cfg = config.pbor.devtools.lang.rust;
@@ -12,14 +11,12 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {
-      home.packages = with pkgs; [
-        cargo
-        rustc
-        rust-analyzer
-        cargo-nextest
-        lldb
-      ];
-    };
+    hm.home.packages = with pkgs; [
+      cargo
+      rustc
+      rust-analyzer
+      cargo-nextest
+      lldb
+    ];
   };
 }

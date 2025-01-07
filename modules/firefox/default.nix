@@ -4,7 +4,6 @@
   pborlib,
   pkgs,
   isDesktop,
-  username,
   ...
 }: let
   cfg = config.pbor.firefox;
@@ -21,7 +20,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {config, ...}: {
+    hm = {config, ...}: {
       programs.firefox = {
         enable = true;
         profiles.default = {

@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  username,
   ...
 }: let
   cfg = config.pbor.basetools.zoxide;
@@ -11,11 +10,9 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {
-      programs.zoxide = {
-        enable = true;
-        enableFishIntegration = true;
-      };
+    hm.programs.zoxide = {
+      enable = true;
+      enableFishIntegration = true;
     };
   };
 }

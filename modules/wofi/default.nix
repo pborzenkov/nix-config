@@ -37,7 +37,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {
+    hm = {
       programs.wofi = {
         enable = true;
         settings = {

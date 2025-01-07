@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  username,
   ...
 }: let
   cfg = config.pbor.devtools.lang.erlan;
@@ -12,12 +11,10 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {
-      home.packages = with pkgs; [
-        erlang
-        erlang-ls
-        rebar3
-      ];
-    };
+    hm.home.packages = with pkgs; [
+      erlang
+      erlang-ls
+      rebar3
+    ];
   };
 }

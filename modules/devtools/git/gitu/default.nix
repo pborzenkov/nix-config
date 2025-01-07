@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  username,
   ...
 }: let
   cfg = config.pbor.devtools.git.gitu;
@@ -12,11 +11,9 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {
-      home.packages = with pkgs; [
-        gitu
-      ];
-    };
+    hm.home.packages = with pkgs; [
+      gitu
+    ];
   };
 
   # TODO: theme

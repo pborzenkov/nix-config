@@ -3,7 +3,6 @@
   lib,
   pkgs,
   isDesktop,
-  username,
   sharedSops,
   ...
 }: let
@@ -21,7 +20,7 @@ in {
       group = config.users.users.pbor.group;
     };
 
-    home-manager.users."${username}" = {
+    hm = {
       osConfig,
       config,
       ...

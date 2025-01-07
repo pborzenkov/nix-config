@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  username,
   ...
 }: let
   cfg = config.pbor.shell;
@@ -15,7 +14,7 @@ in {
     programs.fish.enable = true;
     users.users.pbor.shell = pkgs.fish;
 
-    home-manager.users."${username}" = {
+    hm = {
       programs = {
         fish = {
           enable = true;

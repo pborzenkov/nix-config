@@ -9,7 +9,11 @@
 }: let
   cfg = config.pbor;
 in {
-  imports = pborlib.allDirs ./.;
+  imports =
+    [
+      (lib.mkAliasOptionModule ["hm"] ["home-manager" "users" username])
+    ]
+    ++ pborlib.allDirs ./.;
 
   options = {
     pbor.enable = (lib.mkEnableOption "Enable custom modules") // {default = true;};
@@ -20,7 +24,7 @@ in {
       9090 # Calibre sync server
     ];
 
-    home-manager.users."${username}" = {config, ...}: {
+    hm = {config, ...}: {
       home.sessionVariables = {
         PATH = "\${HOME}/bin/:\${PATH}";
       };

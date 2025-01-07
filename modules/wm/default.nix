@@ -4,7 +4,6 @@
   pborlib,
   pkgs,
   isDesktop,
-  username,
   ...
 }: let
   cfg = config.pbor.wm;
@@ -25,11 +24,9 @@ in {
       };
     };
 
-    home-manager.users."${username}" = {
-      home.packages = with pkgs; [
-        wl-clipboard
-        xdg-utils
-      ];
-    };
+    hm.home.packages = with pkgs; [
+      wl-clipboard
+      xdg-utils
+    ];
   };
 }

@@ -4,7 +4,6 @@
   pborlib,
   pkgs,
   isDesktop,
-  username,
   ...
 }: let
   cfg = config.pbor.devtools;
@@ -23,15 +22,13 @@ in {
     programs.adb.enable = true;
     users.users.pbor.extraGroups = ["adbusers"];
 
-    home-manager.users."${username}" = {
-      home.packages = with pkgs; [
-        zeal
-        man-pages
-        man-pages-posix
-        gnumake
-        just
-        prox
-      ];
-    };
+    hm.home.packages = with pkgs; [
+      zeal
+      man-pages
+      man-pages-posix
+      gnumake
+      just
+      prox
+    ];
   };
 }

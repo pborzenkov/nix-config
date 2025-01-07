@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  username,
   ...
 }: let
   cfg = config.pbor.devtools.lang.elixir;
@@ -12,11 +11,9 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {
-      home.packages = with pkgs; [
-        elixir
-        elixir-ls
-      ];
-    };
+    hm.home.packages = with pkgs; [
+      elixir
+      elixir-ls
+    ];
   };
 }

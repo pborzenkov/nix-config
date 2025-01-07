@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  username,
   ...
 }: let
   cfg = config.pbor.basetools.fd;
@@ -11,10 +10,8 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {
-      programs.fd = {
-        enable = true;
-      };
+    hm.programs.fd = {
+      enable = true;
     };
   };
 }

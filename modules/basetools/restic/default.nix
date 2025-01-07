@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  username,
   ...
 }: let
   cfg = config.pbor.basetools.restic;
@@ -12,12 +11,12 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {
-      home.packages = [
+    hm.home = {
+      packages = [
         pkgs.restic
       ];
 
-      home.sessionVariables = {
+      sessionVariables = {
         RESTIC_REPOSITORY = "sftp:zh1012@zh1012.rsync.net:restic";
         RESTIC_PASSWORD_COMMAND = "rbw get rsync.net/restic";
       };

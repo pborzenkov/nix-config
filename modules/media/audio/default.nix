@@ -3,7 +3,6 @@
   lib,
   pborlib,
   pkgs,
-  username,
   ...
 }: let
   cfg = config.pbor.media.audio;
@@ -15,7 +14,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {
+    hm = {
       home = {
         packages = with pkgs; [
           playerctl

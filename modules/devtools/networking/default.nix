@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  username,
   ...
 }: let
   cfg = config.pbor.devtools.networking;
@@ -18,17 +17,15 @@ in {
     };
     users.users.pbor.extraGroups = ["wireshark"];
 
-    home-manager.users."${username}" = {
-      home.packages = with pkgs; [
-        hurl
-        oha
-        xh
-        gron
-        trippy
-        curl
-        q
-        tcpdump
-      ];
-    };
+    hm.home.packages = with pkgs; [
+      hurl
+      oha
+      xh
+      gron
+      trippy
+      curl
+      q
+      tcpdump
+    ];
   };
 }

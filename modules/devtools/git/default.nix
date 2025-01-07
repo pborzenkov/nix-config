@@ -2,7 +2,6 @@
   config,
   lib,
   pborlib,
-  username,
   ...
 }: let
   cfg = config.pbor.devtools.git;
@@ -14,59 +13,57 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users."${username}" = {
-      programs.git = {
-        enable = true;
+    hm.programs.git = {
+      enable = true;
 
-        extraConfig = {
-          color = {
-            ui = "auto";
-          };
-
-          core = {
-            editor = "hx";
-          };
-
-          pull = {
-            rebase = true;
-          };
-
-          pager = lib.genAttrs ["diff" "log" "show"] (
-            name: "delta --navigate"
-          );
+      extraConfig = {
+        color = {
+          ui = "auto";
         };
 
-        userEmail = "pavel@borzenkov.net";
-        userName = "Pavel Borzenkov";
+        core = {
+          editor = "hx";
+        };
 
-        delta = {
-          enable = true;
-          options = {
-            syntax-theme = "base16";
-            line-numbers = true;
+        pull = {
+          rebase = true;
+        };
 
-            width = 1;
-            navigate = false;
+        pager = lib.genAttrs ["diff" "log" "show"] (
+          name: "delta --navigate"
+        );
+      };
 
-            hunk-header-style = "file line-number syntax";
-            hunk-header-decoration-style = "bold black";
+      userEmail = "pavel@borzenkov.net";
+      userName = "Pavel Borzenkov";
 
-            file-modified-label = "modified:";
+      delta = {
+        enable = true;
+        options = {
+          syntax-theme = "base16";
+          line-numbers = true;
 
-            zero-style = "dim";
+          width = 1;
+          navigate = false;
 
-            minus-style = "bold red";
-            minus-non-emph-style = "dim red";
-            minus-emph-style = "bold red";
-            minus-empty-line-marker-style = "normal normal";
+          hunk-header-style = "file line-number syntax";
+          hunk-header-decoration-style = "bold black";
 
-            plus-style = "green normal bold";
-            plus-non-emph-style = "dim green";
-            plus-emph-style = "bold green";
-            plus-empty-line-marker-style = "normal normal";
+          file-modified-label = "modified:";
 
-            whitespace-error-style = "reverse red";
-          };
+          zero-style = "dim";
+
+          minus-style = "bold red";
+          minus-non-emph-style = "dim red";
+          minus-emph-style = "bold red";
+          minus-empty-line-marker-style = "normal normal";
+
+          plus-style = "green normal bold";
+          plus-non-emph-style = "dim green";
+          plus-emph-style = "bold green";
+          plus-empty-line-marker-style = "normal normal";
+
+          whitespace-error-style = "reverse red";
         };
       };
     };
