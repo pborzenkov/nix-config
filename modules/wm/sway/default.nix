@@ -128,6 +128,8 @@ in {
             "XF86AudioRaiseVolume" = "exec pactl set-sink-volume @DEFAULT_SINK@ +5%";
             "XF86AudioLowerVolume" = "exec pactl set-sink-volume @DEFAULT_SINK@ -5%";
             "XF86AudioMute" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle";
+            "${cfg.modifier}+less" = "exec wofi-sound-menu input";
+            "${cfg.modifier}+greater" = "exec wofi-sound-menu output";
 
             "XF86AudioPrev" = "exec playerctl -p mpd previous";
             "XF86AudioNext" = "exec playerctl -p mpd next";

@@ -37,4 +37,6 @@ final: prev: {
   });
 
   transmission-protonvpn-nat-pmp = final.callPackage ./packages/transmission-protonvpn-nat-pmp {};
+
+  wofi-sound-menu = final.callPackage ./packages/wofi-sound-menu {};
 }
