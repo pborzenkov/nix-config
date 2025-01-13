@@ -21,7 +21,7 @@
     wm = {
       sway = {
         output = {
-          "DP-2" = {
+          "HDMI-A-1" = {
             scale = "2";
           };
         };

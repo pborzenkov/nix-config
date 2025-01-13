@@ -64,6 +64,7 @@ in {
         enable = true;
         package = null;
         systemd.enable = true;
+        xwayland = false;
 
         config = {
           modifier = "Mod4";
@@ -191,12 +192,12 @@ in {
               };
               command = "move scratchpad";
             }
-            {
-              criteria = {
-                class = "steam";
-              };
-              command = "floating enable, move to workspace 9";
-            }
+            # {
+            #   criteria = {
+            #     class = "steam";
+            #   };
+            #   command = "floating enable, move to workspace 9";
+            # }
           ];
         };
 
