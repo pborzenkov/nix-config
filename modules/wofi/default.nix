@@ -66,7 +66,7 @@ in {
         menu =
           {
             logout = {
-              cmd = "loginctl terminate-session self";
+              cmd = "loginctl terminate-session auto";
               requires_confirmation = "true";
             };
             suspend.requires_confirmation = "false";

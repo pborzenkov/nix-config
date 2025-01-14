@@ -31,6 +31,11 @@
           "alsa_output.pci-0000_10_00.1.hdmi-stereo-extra4" = "";
         };
       };
+      hyprland = {
+        monitors = [
+          "DP-2, 3840x2160, 0x0, 2"
+        ];
+      };
     };
 
     devtools = {
