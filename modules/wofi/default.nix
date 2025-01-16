@@ -3,7 +3,6 @@
   lib,
   pkgs,
   isDesktop,
-  username,
   ...
 }: let
   cfg = config.pbor.wofi;
@@ -55,7 +54,7 @@ in {
       stylix.targets.wofi.enable = true;
 
       home.packages = [
-        pkgs.nur.repos.pborzenkov.wofi-power-menu
+        pkgs.unstable.wofi-power-menu
         pkgs.wofi-sound-menu
       ];
 

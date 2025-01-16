@@ -300,6 +300,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-unstable": {
+      "locked": {
+        "lastModified": 1737007772,
+        "narHash": "sha256-YmN6LpUQwOaY7gYdcXtX5CtpT4W37taAjbAF6WOmY4Y=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "62e9d4ae7c343fdae23f7cf347d98204488c1401",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable-small",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nur": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -328,6 +344,7 @@
         "home-manager": "home-manager",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-unstable": "nixpkgs-unstable",
         "nur": "nur",
         "sops-nix": "sops-nix",
         "stylix": "stylix",
