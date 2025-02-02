@@ -34,6 +34,7 @@ in {
         export MOZ_ENABLE_WAYLAND=1
         export QT_QPA_PLATFORM=wayland
         export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+        export NIXOS_OZONE_WL=1
         export SDL_VIDEODRIVER=wayland
       '';
     };
