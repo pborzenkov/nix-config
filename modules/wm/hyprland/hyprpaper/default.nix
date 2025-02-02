@@ -30,6 +30,7 @@ in {
 
         Install.WantedBy = ["graphical-session.target"];
       };
+      stylix.targets.hyprpaper.enable = true;
     };
   };
 }
