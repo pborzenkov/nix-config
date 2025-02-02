@@ -24,9 +24,18 @@ in {
       };
     };
 
-    hm.home.packages = with pkgs; [
-      wl-clipboard
-      xdg-utils
-    ];
+    hm = {
+      home.packages = with pkgs; [
+        wl-clipboard
+        xdg-utils
+      ];
+
+      xdg.configFile."uwsm/env".text = ''
+        export MOZ_ENABLE_WAYLAND=1
+        export QT_QPA_PLATFORM=wayland
+        export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+        export SDL_VIDEODRIVER=wayland
+      '';
+    };
   };
 }

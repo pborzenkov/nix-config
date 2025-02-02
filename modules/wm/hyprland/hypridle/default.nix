@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   cfg = config.pbor.wm.hyprland.hypridle;
@@ -10,7 +11,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    hm = {
+    hm = {config, ...}: {
       services.hypridle = {
         enable = true;
         settings = {
@@ -37,7 +38,21 @@ in {
           ];
         };
       };
-      systemd.user.services.hypridle.Install.WantedBy = lib.mkForce ["wayland-session@Hyprland.target"];
+      systemd.user.services.hypridle = lib.mkForce {
+        Unit = {
+          After = ["graphical-session.target"];
+        };
+
+        Service = {
+          Type = "exec";
+          ExecCondition = ''${pkgs.systemd}/lib/systemd/systemd-xdg-autostart-condition "Hyprland" ""'';
+          ExecStart = "${lib.getExe config.services.hypridle.package}";
+          Restart = "on-failure";
+          Slice = "background-graphical.slice";
+        };
+
+        Install.WantedBy = ["graphical-session.target"];
+      };
     };
   };
 }

@@ -33,8 +33,13 @@
       };
       hyprland = {
         monitors = [
-          "DP-2, 3840x2160, 0x0, 2"
+          "desc:Dell Inc. DELL U3219Q 692P413, 3840x2160, 0x0, 2"
         ];
+        waybar.pulseaudio-icons = {
+          "alsa_output.usb-HP__Inc_HyperX_Cloud_Alpha_Wireless_00000001-00.analog-stereo" = "";
+          "alsa_output.usb-EDIFIER_EDIFIER_G2000_EDI00000X07-01.analog-stereo" = "";
+          "alsa_output.pci-0000_10_00.1.hdmi-stereo-extra4" = "";
+        };
       };
     };
 
