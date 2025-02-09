@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   pbor = {
     syncthing.folders = {
       "/home/pbor/docs" = {
@@ -35,6 +39,9 @@
         monitors = [
           "desc:Dell Inc. DELL U3219Q 692P413, 3840x2160, 0x0, 2"
         ];
+        workspace-rules = [
+          "name:sunshine, monitor:desc:LG Electronics LG TV 0x01010101, persistent:true, default:true"
+        ];
         waybar.pulseaudio-icons = {
           "alsa_output.usb-HP__Inc_HyperX_Cloud_Alpha_Wireless_00000001-00.analog-stereo" = "";
           "alsa_output.usb-EDIFIER_EDIFIER_G2000_EDI00000X07-01.analog-stereo" = "";
@@ -69,6 +76,18 @@
       "usbcore.autosuspend=-1"
     ];
     supportedFilesystems = ["ntfs"];
+  };
+  hardware.display = {
+    edid.packages = [
+      (pkgs.runCommandLocal "lg-tv-edid" {} ''
+        mkdir -p "$out/lib/firmware/edid"
+        cp ${inputs.self}/assets/lg-tv.edid "$out/lib/firmware/edid/lg-tv.bin"
+      '')
+    ];
+    outputs."HDMI-A-1" = {
+      edid = "lg-tv.bin";
+      mode = "e";
+    };
   };
 
   users.users.pbor.extraGroups = ["dialout"];

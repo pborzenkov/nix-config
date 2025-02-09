@@ -29,6 +29,13 @@ in {
         An array that configures monitors.
       '';
     };
+    pbor.wm.hyprland.workspace-rules = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      description = ''
+        An array of workspace rules.
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -161,6 +168,7 @@ in {
           ];
 
           monitor = cfg.monitors;
+          workspace = cfg.workspace-rules;
         };
 
         extraConfig = ''

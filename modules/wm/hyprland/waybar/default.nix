@@ -33,7 +33,19 @@ in {
 
             modules-left = ["hyprland/workspaces" "hyprland/submap"];
             modules-center = ["hyprland/window"];
-            modules-right = ["idle_inhibitor" "pulseaudio" "hyprland/language" "clock" "custom/notifications" "tray"];
+            modules-right = [
+              "idle_inhibitor"
+              "custom/separator"
+              "pulseaudio"
+              "custom/separator"
+              "hyprland/language"
+              "custom/separator"
+              "clock"
+              "custom/separator"
+              "custom/notifications"
+              "custom/separator"
+              "tray"
+            ];
 
             "hyprland/submap" = {
               format = "[{}]";
@@ -58,10 +70,20 @@ in {
               format-ru = "RU";
             };
 
+            clock = {
+              format = "{:%Y-%m-%d %H:%M}";
+            };
+
             "custom/notifications" = {
               exec = "${notifications}/bin/notifications";
               on-click = "dunstctl set-paused toggle";
               restart-interval = 1;
+            };
+
+            "custom/separator" = {
+              "format" = "|";
+              "interval" = "once";
+              "tooltip" = false;
             };
           };
         };
@@ -76,8 +98,9 @@ in {
             color: @base05;
           }
 
-          #workspaces {
-            padding: 0 5px;
+          #workspaces, #submap, #idle_inhibitor, #pulseaudio, #language, #clock, #custom-notifications, #tray {
+            padding-left: 3px;
+            padding-right: 3px;
           }
 
           #workspaces button {
@@ -91,32 +114,8 @@ in {
             background: @base0D;
           }
 
-          #submap {
-            padding: 0 5px;
-          }
-
-          #idle_inhibitor {
-            padding: 0 5px;
-          }
-
-          #pulseaudio {
-            padding: 0 5px;
-          }
-
-          #language {
-            padding: 0 5px;
-          }
-
-          #clock {
-            padding: 0 5px;
-          }
-
-          #custom-notifications {
-            padding: 0 5px;
-          }
-
-          #tray {
-            padding: 0 5px;
+          .modules-right > widget:last-child > #custom-separator {
+            color: transparent;
           }
         '';
       };
