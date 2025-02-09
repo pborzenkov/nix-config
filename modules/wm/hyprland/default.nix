@@ -160,11 +160,18 @@ in {
             "Ctrl+Shift, Print, exec, uwsm app -- ${screenshot}/bin/screenshot fullscreen-file"
           ];
 
+          bindm = [
+            "$mod, mouse:272, movewindow"
+            "$mod, mouse:273, resizewindow"
+          ];
+
           windowrulev2 = [
             "float, class:scratch-term"
             "size 75% 75%, class:scratch-term"
 
             "bordercolor rgb(${config.lib.stylix.colors.base08}), fullscreen:1"
+
+            "float, class:steam"
           ];
 
           monitor = cfg.monitors;
