@@ -24,8 +24,9 @@ in {
       };
     };
 
-    hm = {
+    hm = {config, ...}: {
       home.packages = with pkgs; [
+        wev
         wl-clipboard
         xdg-utils
       ];
@@ -36,6 +37,7 @@ in {
         export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
         export NIXOS_OZONE_WL=1
         export SDL_VIDEODRIVER=wayland
+        export GRIM_DEFAULT_DIR="${config.home.homeDirectory}/down"
       '';
     };
   };

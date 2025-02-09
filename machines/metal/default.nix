@@ -66,6 +66,7 @@
     kernelParams = [
       "quiet"
       "rd.systemd.show_status=false"
+      "usbcore.autosuspend=-1"
     ];
     supportedFilesystems = ["ntfs"];
   };

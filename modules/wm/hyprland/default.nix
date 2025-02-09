@@ -6,6 +6,17 @@
   ...
 }: let
   cfg = config.pbor.wm.hyprland;
+
+  screenshot = pkgs.writeShellApplication {
+    name = "screenshot";
+    text = builtins.readFile ./scripts/screenshot.sh;
+    runtimeInputs = [pkgs.hyprland pkgs.jq pkgs.grim pkgs.slurp pkgs.wl-clipboard];
+  };
+  scratch-term = pkgs.writeShellApplication {
+    name = "scratch-term";
+    text = builtins.readFile ./scripts/scratch-term.sh;
+    runtimeInputs = [pkgs.hyprland pkgs.jq];
+  };
 in {
   imports = pborlib.allDirs ./.;
 
@@ -40,24 +51,69 @@ in {
 
           general = {
             layout = "hy3";
+            gaps_in = 0;
+            gaps_out = 0;
+          };
+
+          input = {
+            kb_layout = "us,ru";
+            kb_options = "caps:escape,compose:paus";
+          };
+
+          decoration = {
+            blur.enabled = false;
+            shadow.enabled = false;
+          };
+          animations.enabled = false;
+
+          plugin.hy3 = {
+            tabs = {
+              text_font = config.stylix.fonts.monospace.name;
+              padding = 0;
+              blur = false;
+            };
           };
 
           bind = [
+            "$mod, space, exec, uwsm app -- hyprctl switchxkblayout main next"
             "$mod, Return, exec, uwsm app -- foot"
+            "$mod+Shift, Return, exec, uwsm app -- ${scratch-term}/bin/scratch-term"
             "$mod, d, exec, uwsm app -- wofi -S run"
             "$mod+Shift, s, exec, uwsm app -- wofi-power-menu"
             "$mod+Shift, comma, exec, uwsm app -- wofi-sound-menu input"
             "$mod+Shift, period, exec, uwsm app -- wofi-sound-menu output"
 
-            "$mod, h, hy3:movefocus, l"
-            "$mod, j, hy3:movefocus, d"
-            "$mod, k, hy3:movefocus, u"
-            "$mod, l, hy3:movefocus, r"
+            "$mod, q, hy3:killactive"
+            "$mod+Shift, q, exec, uwsm app -- hyprctl kill"
+            "$mod, bracketleft, hy3:changefocus, raise"
+            "$mod, bracketright, hy3:changefocus, lower"
+            "$mod, grave, hy3:togglefocuslayer"
+
+            "$mod, h, hy3:movefocus, l, visible"
+            "$mod, j, hy3:movefocus, d, visible"
+            "$mod, k, hy3:movefocus, u, visible"
+            "$mod, l, hy3:movefocus, r, visible"
 
             "$mod+Shift, h, hy3:movewindow, l, once"
             "$mod+Shift, j, hy3:movewindow, d, once"
             "$mod+Shift, k, hy3:movewindow, u, once"
             "$mod+Shift, l, hy3:movewindow, r, once"
+
+            "$mod, t, hy3:makegroup, tab, ephemeral"
+            "$mod+Shift, t, hy3:changegroup, toggletab"
+            "$mod, a, hy3:makegroup, v, ephemeral"
+            "$mod+Shift, a, hy3:changegroup, opposite"
+
+            "alt, 1, hy3:focustab, index, 01"
+            "alt, 2, hy3:focustab, index, 02"
+            "alt, 3, hy3:focustab, index, 03"
+            "alt, 4, hy3:focustab, index, 04"
+            "alt, 5, hy3:focustab, index, 05"
+            "alt, 6, hy3:focustab, index, 06"
+            "alt, 7, hy3:focustab, index, 07"
+            "alt, 8, hy3:focustab, index, 08"
+            "alt, 9, hy3:focustab, index, 09"
+            "alt, 0, hy3:focustab, index, 10"
 
             "$mod, 1, workspace, 01"
             "$mod, 2, workspace, 02"
@@ -80,10 +136,41 @@ in {
             "$mod+Shift, 8, hy3:movetoworkspace, 08"
             "$mod+Shift, 9, hy3:movetoworkspace, 09"
             "$mod+Shift, 0, hy3:movetoworkspace, 10"
+
+            ", XF86AudioRaiseVolume, exec, uwsm app -- pactl set-sink-volume @DEFAULT_SINK@ +5%"
+            ", XF86AudioLowerVolume, exec, uwsm app -- pactl set-sink-volume @DEFAULT_SINK@ -5%"
+            ", XF86AudioMute, exec, uwsm app -- pactl set-sink-mute @DEFAULT_SINK@ toggle"
+            ", XF86AudioPrev, exec, uwsm app -- playerctl -p mpd previous"
+            ", XF86AudioNext, exec, uwsm app -- playerctl -p mpd next"
+            ", XF86AudioPlay, exec, uwsm app -- playerctl -p mpd play-pause"
+            "$mod+Shift, n, exec, uwsm app -- dunstctl set-paused toggle"
+
+            ", Print, exec, uwsm app -- ${screenshot}/bin/screenshot select-copy"
+            "Shift, Print, exec, uwsm app -- ${screenshot}/bin/screenshot select-file"
+            "Ctrl, Print, exec, uwsm app -- ${screenshot}/bin/screenshot fullscreen-copy"
+            "Ctrl+Shift, Print, exec, uwsm app -- ${screenshot}/bin/screenshot fullscreen-file"
+          ];
+
+          windowrulev2 = [
+            "float, class:scratch-term"
+            "size 75% 75%, class:scratch-term"
           ];
 
           monitor = cfg.monitors;
         };
+
+        extraConfig = ''
+          bind = $mod, r, submap, resize
+
+          submap = resize
+          binde = , l, resizeactive, 10 0
+          binde = , h, resizeactive, -10 0
+          binde = , j, resizeactive, 0 10
+          binde = , k, resizeactive, 0 -10
+          bind = $mod, r, submap, reset
+          bind = , escape, submap, reset
+          submap = reset
+        '';
       };
       stylix.targets.hyprland.enable = true;
     };

@@ -24,6 +24,7 @@ in {
       unrar
       usbutils
       pciutils
+      dmidecode
       sd
       md-tui
       iproute2

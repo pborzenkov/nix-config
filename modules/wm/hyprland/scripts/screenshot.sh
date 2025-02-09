@@ -15,10 +15,10 @@ case "$1" in
     grim -g "$(slurp -d)"
     ;;
   "fullscreen-copy")
-    grim -o "$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')" - | wl-copy
+    grim -o "$(hyprctl activeworkspace -j | jq -r .monitor)" - | wl-copy
     ;;
   "fullscreen-file")
-    grim -o "$(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')"
+    grim -o "$(hyprctl activeworkspace -j | jq -r .monitor)"
     ;;
   *)
     usage
