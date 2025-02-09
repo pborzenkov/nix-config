@@ -23,6 +23,9 @@ in {
     networking.firewall.allowedTCPPorts = lib.mkIf isDesktop [
       9090 # Calibre sync server
     ];
+    i18n.extraLocaleSettings = {
+      LC_TIME = "en_GB.UTF-8";
+    };
 
     hm = {config, ...}: {
       home.sessionVariables = {

@@ -72,6 +72,15 @@ in {
 
             clock = {
               format = "{:%Y-%m-%d %H:%M}";
+              tooltip-format = "<tt><small>{calendar}</small></tt>";
+              calendar = {
+                mode = "year";
+                mode-mon-col = 3;
+                format = {
+                  weeks = "{:%W}";
+                  today = "<span color='#${config.lib.stylix.colors.base08}'><b><u>{}</u></b></span>";
+                };
+              };
             };
 
             "custom/notifications" = {
