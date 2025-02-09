@@ -23,6 +23,11 @@ in {
           cursor = with config.lib.stylix.colors; {
             color = "${base00} ${base05}";
           };
+
+          key-bindings = {
+            clipboard-copy = "Mod4+c";
+            clipboard-paste = "Mod4+v";
+          };
         };
       };
       stylix.targets.foot.enable = true;

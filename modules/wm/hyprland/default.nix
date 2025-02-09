@@ -85,9 +85,11 @@ in {
 
             "$mod, q, hy3:killactive"
             "$mod+Shift, q, exec, uwsm app -- hyprctl kill"
+            "$mod+Shift, c, exec, uwsm app -- hyprpicker -a -n"
             "$mod, bracketleft, hy3:changefocus, raise"
             "$mod, bracketright, hy3:changefocus, lower"
             "$mod, grave, hy3:togglefocuslayer"
+            "$mod, f, fullscreen, 1"
 
             "$mod, h, hy3:movefocus, l, visible"
             "$mod, j, hy3:movefocus, d, visible"
@@ -154,6 +156,8 @@ in {
           windowrulev2 = [
             "float, class:scratch-term"
             "size 75% 75%, class:scratch-term"
+
+            "bordercolor rgb(${config.lib.stylix.colors.base08}), fullscreen:1"
           ];
 
           monitor = cfg.monitors;
@@ -173,6 +177,10 @@ in {
         '';
       };
       stylix.targets.hyprland.enable = true;
+
+      home.packages = with pkgs; [
+        hyprpicker
+      ];
     };
   };
 }
