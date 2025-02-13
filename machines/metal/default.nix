@@ -53,6 +53,8 @@
     devtools = {
       lang.c.enable = true;
     };
+
+    ssh.server.enable = true;
   };
 
   boot = {
@@ -110,7 +112,6 @@
       ACTION=="add", ATTRS{idVendor}=="17ef", ATTRS{idProduct}=="60e6", ATTR{power/wakeup}="disabled"
     '';
     udisks2.enable = true;
-    flatpak.enable = true;
   };
 
   time.timeZone = "Europe/Amsterdam";

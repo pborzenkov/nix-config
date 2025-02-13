@@ -2,7 +2,6 @@
   config,
   lib,
   isDesktop,
-  username,
   ...
 }: let
   cfg = config.pbor.ssh;

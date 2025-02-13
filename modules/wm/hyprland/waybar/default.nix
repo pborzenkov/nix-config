@@ -89,6 +89,10 @@ in {
               restart-interval = 1;
             };
 
+            tray = {
+              spacing = 4;
+            };
+
             "custom/separator" = {
               "format" = "|";
               "interval" = "once";
