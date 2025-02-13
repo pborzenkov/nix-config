@@ -108,6 +108,9 @@ in {
             "$mod+Shift, k, hy3:movewindow, u, once"
             "$mod+Shift, l, hy3:movewindow, r, once"
 
+            "$mod+Ctrl, h, movecurrentworkspacetomonitor, l"
+            "$mod+Ctrl, l, movecurrentworkspacetomonitor, r"
+
             "$mod, t, hy3:makegroup, tab, ephemeral"
             "$mod+Shift, t, hy3:changegroup, toggletab"
             "$mod, a, hy3:makegroup, v, ephemeral"
