@@ -85,7 +85,7 @@ in {
         {
           name = "Steam";
           output = "/tmp/sunshine-steam.txt";
-          cmd = "in-gamescope -e -- steam -tenfoot";
+          cmd = "in-gamescope -e -- capsh --noamb -+ steam -tenfoot";
           prep-cmd = [
             {
               do = "hyprctl keyword windowrulev2 workspace name:sunshine, class:gamescope";

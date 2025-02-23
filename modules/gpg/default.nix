@@ -27,7 +27,7 @@ in {
 
       services.gpg-agent = lib.mkIf isDesktop {
         enable = true;
-        enableSshSupport = true;
+        # enableSshSupport = true;
         enableExtraSocket = true;
         pinentryPackage = pkgs.pinentry-gnome3;
       };

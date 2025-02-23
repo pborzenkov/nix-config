@@ -12,6 +12,8 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
+    services.dbus.packages = [pkgs.gcr];
+
     hm.programs.rbw = {
       enable = true;
       settings = {

@@ -10,7 +10,7 @@ in {
   imports = pborlib.allDirs ./.;
 
   options = {
-    pbor.wm.sway.enable = (lib.mkEnableOption "Enable Sway") // {default = config.pbor.wm.enable;};
+    pbor.wm.sway.enable = (lib.mkEnableOption "Enable Sway") // {default = false;};
     pbor.wm.sway.output = lib.mkOption {
       type = lib.types.attrsOf (lib.types.attrsOf lib.types.str);
       default = {};
