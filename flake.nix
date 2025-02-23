@@ -16,12 +16,6 @@
         home-manager.follows = "home-manager";
       };
     };
-    sops-nix = {
-      url = "github:Mic92/sops-nix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
     nur = {
       url = "github:nix-community/NUR";
       inputs = {
@@ -91,7 +85,7 @@
           nativeBuildInputs = [
             (inputs.agenix.packages.${system}.default.override {ageBin = "${pkgs.rage}/bin/rage";})
             inputs.deploy-rs.packages.${system}.deploy-rs
-            pkgs.sops
+            pkgs.rbw
           ];
         };
       }

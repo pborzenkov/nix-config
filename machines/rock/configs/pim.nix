@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  machineSecrets,
   ...
 }: {
   services.vdirsyncer = {
@@ -34,7 +35,7 @@
               type = "carddav";
               url = "https://carddav.fastmail.com/";
               username = "pavel@borzenkov.net";
-              "password.fetch" = ["command" "${pkgs.coreutils}/bin/cat" "${config.sops.secrets.fastmail.path}"];
+              "password.fetch" = ["command" "${pkgs.coreutils}/bin/cat" "${config.age.secrets.fastmail.path}"];
               read_only = true;
             };
 
@@ -47,7 +48,7 @@
               type = "caldav";
               url = "https://caldav.fastmail.com/";
               username = "pavel@borzenkov.net";
-              "password.fetch" = ["command" "${pkgs.coreutils}/bin/cat" "${config.sops.secrets.fastmail.path}"];
+              "password.fetch" = ["command" "${pkgs.coreutils}/bin/cat" "${config.age.secrets.fastmail.path}"];
               read_only = true;
             };
           };
@@ -63,7 +64,8 @@
     ];
   };
 
-  sops.secrets.fastmail = {
+  age.secrets.fastmail = {
+    file = machineSecrets + "/fastmail-password.age";
     mode = "0440";
     group = config.users.groups.keys.name;
   };

@@ -1,4 +1,8 @@
-{config, ...}: {
+{
+  config,
+  machineSecrets,
+  ...
+}: {
   services.valheim = {
     enable = true;
     serverName = "Geest";
@@ -7,9 +11,9 @@
     password = "\${SERVER_PASS}";
   };
 
-  systemd.services.valheim.serviceConfig.EnvironmentFile = config.sops.secrets.valheim-environment.path;
+  systemd.services.valheim.serviceConfig.EnvironmentFile = config.age.secrets.valheim-environment.path;
 
-  sops.secrets.valheim-environment = {};
+  age.secrets.valheim-environment.file = machineSecrets + "/valheim-environment.age";
 
   pbor.backup.fsBackups = {
     valheim = {

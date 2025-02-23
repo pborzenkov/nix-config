@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  machineSecrets,
   ...
 }: {
   systemd.services."netns@" = {
@@ -33,7 +34,7 @@
     interfaces = {
       amsterdam = {
         interfaceNamespace = "amsterdam";
-        privateKeyFile = config.sops.secrets.protonvpn-amsterdam.path;
+        privateKeyFile = config.age.secrets.protonvpn-amsterdam-key.path;
         ips = ["10.2.0.2/32"];
         peers = [
           {
@@ -50,7 +51,5 @@
     serviceConfig.StateDirectory = "wireguard-amsterdam";
   };
 
-  sops.secrets = {
-    protonvpn-amsterdam = {};
-  };
+  age.secrets.protonvpn-amsterdam-key.file = machineSecrets + "/protonvpn-amsterdam-key.age";
 }

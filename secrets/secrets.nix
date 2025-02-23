@@ -9,4 +9,27 @@ let
 in {
   # gw secrets
   "machines/gw/wireguard-key.age".publicKeys = users ++ [gw];
+
+  # rock secrets
+  "machines/rock/authelia-environment.age".publicKeys = users ++ [rock];
+  "machines/rock/authelia-jwks-key.age".publicKeys = users ++ [rock];
+  "machines/rock/namecheap-environment.age".publicKeys = users ++ [rock];
+  "machines/rock/lldap-environment.age".publicKeys = users ++ [rock];
+  "machines/rock/gw-proxy-environment.age".publicKeys = users ++ [rock];
+  "machines/rock/grafana-admin-password.age".publicKeys = users ++ [rock];
+  "machines/rock/tg-bot-alerting-environment.age".publicKeys = users ++ [rock];
+  "machines/rock/restic-repo-password.age".publicKeys = users ++ [rock];
+  "machines/rock/miniflux-environment.age".publicKeys = users ++ [rock];
+  "machines/rock/valheim-environment.age".publicKeys = users ++ [rock];
+  "machines/rock/invidious-credentials.age".publicKeys = users ++ [rock];
+  "machines/rock/anki-sync-server-pavel-password.age".publicKeys = users ++ [rock];
+  "machines/rock/protonvpn-amsterdam-key.age".publicKeys = users ++ [rock];
+  "machines/rock/skyeng-push-notificator-environment.age".publicKeys = users ++ [rock];
+  "machines/rock/fastmail-password.age".publicKeys = users ++ [rock];
+  "machines/rock/terraform-pg-environment.age".publicKeys = users ++ [rock];
+  "machines/rock/shiori-environment.age".publicKeys = users ++ [rock];
+
+  # shared secrets
+  "shared/listenbrainz-token.age".publicKeys = users ++ [rock metal];
+  "shared/taskwarrior-sync-secret.age".publicKeys = users ++ [rock metal];
 }

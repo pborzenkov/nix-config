@@ -1,4 +1,8 @@
-{config, ...}: let
+{
+  config,
+  machineSecrets,
+  ...
+}: let
   dashboardDomain = "${config.pbor.webapps.apps.grafana.subDomain}.${config.pbor.webapps.domain}";
 in {
   pbor.webapps.apps.grafana = {
@@ -62,7 +66,7 @@ in {
 
       security = {
         admin_user = "pavel";
-        admin_password__file = config.sops.secrets.grafana-admin-password.path;
+        admin_password__file = config.age.secrets.grafana-admin-password.path;
         disable_gravatar = true;
       };
 
@@ -122,14 +126,17 @@ in {
     serviceConfig = {
       SupplementaryGroups = [config.users.groups.keys.name];
       EnvironmentFile = [
-        config.sops.secrets.tg-bot-alerting-environment.path
+        config.age.secrets.tg-bot-alerting-environment.path
       ];
     };
   };
 
-  sops.secrets = {
-    grafana-admin-password.owner = config.users.users.grafana.name;
-    tg-bot-alerting-environment = {};
+  age.secrets = {
+    grafana-admin-password = {
+      file = machineSecrets + "/grafana-admin-password.age";
+      owner = config.users.users.grafana.name;
+    };
+    tg-bot-alerting-environment.file = machineSecrets + "/tg-bot-alerting-environment.age";
   };
 
   pbor.backup.dbBackups.grafana = {

@@ -1,4 +1,8 @@
-{config, ...}: {
+{
+  config,
+  machineSecrets,
+  ...
+}: {
   pbor.webapps.apps = {
     shiori = {
       subDomain = "shiori";
@@ -19,12 +23,10 @@
   };
 
   systemd.services.shiori.serviceConfig.EnvironmentFile = [
-    config.sops.secrets.shiori-environment.path
+    config.age.secrets.shiori-environment.path
   ];
 
-  sops.secrets = {
-    shiori-environment = {};
-  };
+  age.secrets.shiori-environment.file = machineSecrets + "/shiori-environment.age";
 
   pbor.backup.fsBackups.shiori = {
     paths = [

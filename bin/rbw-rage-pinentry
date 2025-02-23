@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+# Send initial OK to indicate the connection is opened
+echo "OK"
+
+while read LINE; do
+  # Split request by whitespaces
+  REQUEST=($LINE)
+
+  # Handle command
+  case ${REQUEST[0]} in
+    OPTION | SETDESC | SETPROMPT | SETTIMEOUT | BYE)
+      echo "OK"
+      ;;
+
+    GETPIN)
+      PASS=$(
+        for fd in /proc/"$$"/fd/*; do
+          fd="${fd##*/}"
+          [ "$fd" -gt 2 ] && exec {fd}<&-
+        done
+
+        rbw get --folder SSH ssh-key-"$(hostname)"
+        exit $?
+      )
+      RBW_EXIT_CODE=$?
+
+      if [ $RBW_EXIT_CODE -ne 0 ]; then
+        echo "ERR 1 rbw returned non-zero exit code"
+        exit 1
+      fi
+
+      echo "D ${PASS}"
+      echo "OK"
+      ;;
+  esac
+done
+exit 0

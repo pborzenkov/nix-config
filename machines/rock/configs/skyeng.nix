@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  machineSecrets,
   ...
 }: {
   systemd.services.tg-bot-skyeng = let
@@ -29,7 +30,7 @@
         ${pkgs.nur.repos.pborzenkov.tg-bot-skyeng}/bin/cmd --config ${cfg}
       '';
       EnvironmentFile = [
-        config.sops.secrets.skyeng-push-notificator.path
+        config.age.secrets.skyeng-push-notificator.path
       ];
       StateDirectory = "skyeng-push-notificator";
       Restart = "always";
@@ -37,5 +38,5 @@
     };
   };
 
-  sops.secrets.skyeng-push-notificator = {};
+  age.secrets.skyeng-push-notificator.file = machineSecrets + "/skyeng-push-notificator-environment.age";
 }

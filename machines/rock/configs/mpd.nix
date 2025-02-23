@@ -1,7 +1,7 @@
 {
   config,
   pkgs,
-  sharedSops,
+  sharedSecrets,
   ...
 }: {
   services.mpd = {
@@ -37,7 +37,7 @@
       serviceConfig = {
         Type = "simple";
         DynamicUser = true;
-        LoadCredential = "token:${config.sops.secrets.listenbrainz-mpd-token.path}";
+        LoadCredential = "token:${config.age.secrets.listenbrainz-token.path}";
         ExecStart = "${pkgs.listenbrainz-mpd}/bin/listenbrainz-mpd -c ${cfg}";
         Restart = "always";
       };
@@ -46,9 +46,7 @@
 
   users.users.mpd.extraGroups = ["pipewire"];
 
-  sops.secrets.listenbrainz-mpd-token = {
-    sopsFile = sharedSops;
-  };
+  age.secrets.listenbrainz-token.file = sharedSecrets + "/listenbrainz-token.age";
 
   pbor.backup.fsBackups = {
     music = {

@@ -21,5 +21,4 @@ if [ $RBW_EXIT_CODE -ne 0 ]; then
 fi
 
 echo -n "${PASS}"
-
 exit 0

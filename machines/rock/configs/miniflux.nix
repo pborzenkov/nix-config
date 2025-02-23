@@ -1,4 +1,8 @@
-{config, ...}: let
+{
+  config,
+  machineSecrets,
+  ...
+}: let
   port = "8083";
 in {
   pbor.webapps.apps.miniflux = {
@@ -22,12 +26,12 @@ in {
       AUTH_PROXY_HEADER = "Remote-User";
       AUTH_PROXY_USER_CREATION = "true";
     };
-    adminCredentialsFile = config.sops.secrets.miniflux-admin-credentials.path;
+    adminCredentialsFile = config.age.secrets.miniflux-environment.path;
   };
 
   pbor.backup.dbBackups.miniflux = {
     database = "miniflux";
   };
 
-  sops.secrets.miniflux-admin-credentials = {};
+  age.secrets.miniflux-environment.file = machineSecrets + "/miniflux-environment.age";
 }

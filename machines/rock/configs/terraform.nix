@@ -1,4 +1,8 @@
-{config, ...}: {
+{
+  config,
+  machineSecrets,
+  ...
+}: {
   services.postgresql = {
     enable = true;
     enableTCPIP = true;
@@ -16,7 +20,7 @@
       $PSQL -tAc 'GRANT ALL PRIVILEGES ON DATABASE tf_infra TO "terraform"'
     '';
     serviceConfig.EnvironmentFile = [
-      config.sops.secrets.terraform-pg.path
+      config.age.secrets.terraform-pg.path
     ];
   };
 
@@ -24,7 +28,7 @@
     database = "tf_infra";
   };
 
-  sops.secrets.terraform-pg = {};
+  age.secrets.terraform-pg.file = machineSecrets + "/terraform-pg-environment.age";
 
   networking.firewall.allowedTCPPorts = [5432];
 }

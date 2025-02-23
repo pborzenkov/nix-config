@@ -3,7 +3,7 @@
   lib,
   pkgs,
   isDesktop,
-  sharedSops,
+  sharedSecrets,
   ...
 }: let
   cfg = config.pbor.taskwarrior;
@@ -13,8 +13,8 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    sops.secrets.taskwarrior-sync = {
-      sopsFile = sharedSops;
+    age.secrets.taskwarrior-sync = {
+      file = sharedSecrets + "/taskwarrior-sync-secret.age";
       mode = "0400";
       owner = config.users.users.pbor.name;
       group = config.users.users.pbor.group;
@@ -39,7 +39,7 @@ in {
           };
         };
         extraConfig = ''
-          include ${osConfig.sops.secrets.taskwarrior-sync.path}
+          include ${osConfig.age.secrets.taskwarrior-sync.path}
         '';
       };
 

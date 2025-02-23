@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  machineSecrets,
   ...
 }: {
   pbor.webapps = {
@@ -11,7 +12,7 @@
     ssoInternalAddress = "http://127.0.0.1:9091";
 
     acmeDNSProvider = "namecheap";
-    acmeCredentialsFile = config.sops.secrets.namecheap-environment.path;
+    acmeCredentialsFile = config.age.secrets.namecheap-environment.path;
 
     apps = {
       sso = {
@@ -41,13 +42,13 @@
 
   systemd.services."acme-${config.pbor.webapps.domain}".serviceConfig.EnvironmentFile = lib.mkForce [
     config.pbor.webapps.acmeCredentialsFile
-    config.sops.secrets.gw-proxy-environment.path
+    config.age.secrets.gw-proxy-environment.path
   ];
 
   services = {
     lldap = {
       enable = true;
-      environmentFile = config.sops.secrets.lldap-environment.path;
+      environmentFile = config.age.secrets.lldap-environment.path;
       settings = {
         http_host = "127.0.0.1";
         http_url = "https://ldap.lab.borzenkov.net";
@@ -62,7 +63,7 @@
       enable = true;
       secrets = {
         manual = true;
-        oidcIssuerPrivateKeyFile = config.sops.secrets.authelia-jwks-key.path;
+        oidcIssuerPrivateKeyFile = config.age.secrets.authelia-jwks-key.path;
       };
       settings = {
         theme = "auto";
@@ -174,17 +175,18 @@
   };
 
   systemd.services.authelia-lab.serviceConfig.EnvironmentFile = [
-    config.sops.secrets.authelia-environment.path
+    config.age.secrets.authelia-environment.path
   ];
 
-  sops.secrets = {
-    gw-proxy-environment = {};
-    lldap-environment = {};
-    namecheap-environment = {};
-    authelia-environment = {};
+  age.secrets = {
+    authelia-environment.file = machineSecrets + "/authelia-environment.age";
     authelia-jwks-key = {
+      file = machineSecrets + "/authelia-jwks-key.age";
       owner = "authelia-lab";
     };
+    namecheap-environment.file = machineSecrets + "/namecheap-environment.age";
+    lldap-environment.file = machineSecrets + "/lldap-environment.age";
+    gw-proxy-environment.file = machineSecrets + "/gw-proxy-environment.age";
   };
 
   pbor.backup.fsBackups.lldap = {

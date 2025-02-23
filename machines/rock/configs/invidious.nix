@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  machineSecrets,
   ...
 }: let
   port = 3001;
@@ -52,9 +53,9 @@ in {
     extraSettingsFile = "/run/credentials/invidious.service/extra-settings";
   };
   systemd.services = {
-    invidious.serviceConfig.LoadCredential = "extra-settings:${config.sops.secrets.invidious.path}";
+    invidious.serviceConfig.LoadCredential = "extra-settings:${config.age.secrets.invidious-credentials.path}";
     http3-ytproxy.serviceConfig.User = config.services.nginx.user;
   };
 
-  sops.secrets.invidious = {};
+  age.secrets.invidious-credentials.file = machineSecrets + "/invidious-credentials.age";
 }

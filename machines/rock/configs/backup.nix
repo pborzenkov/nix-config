@@ -1,11 +1,15 @@
-{config, ...}: {
+{
+  config,
+  machineSecrets,
+  ...
+}: {
   pbor.backup = {
     enable = true;
     host = "zh1012.rsync.net";
     user = "zh1012";
     sshKeyFile = "/etc/ssh/ssh_host_ed25519_key";
     repository = "restic";
-    passwordFile = config.sops.secrets.restic-repo-password.path;
+    passwordFile = config.age.secrets.restic-repo-password.path;
     timerConfig = {
       OnCalendar = "02:00";
       RandomizedDelaySec = "1h";
@@ -25,7 +29,7 @@
     };
   };
 
-  sops.secrets.restic-repo-password = {};
+  age.secrets.restic-repo-password.file = machineSecrets + "/restic-repo-password.age";
 
   programs.ssh.knownHosts."zh1012.rsync.net" = {
     hostNames = ["zh1012.rsync.net"];

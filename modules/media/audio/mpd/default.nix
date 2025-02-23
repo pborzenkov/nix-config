@@ -1,7 +1,7 @@
 {
   config,
   lib,
-  sharedSops,
+  sharedSecrets,
   ...
 }: let
   cfg = config.pbor.media.audio.mpd;
@@ -11,8 +11,8 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    sops.secrets.listenbrainz-mpd-token = {
-      sopsFile = sharedSops;
+    age.secrets.listenbrainz-token = {
+      file = sharedSecrets + "/listenbrainz-token.age";
       mode = "0400";
       owner = config.users.users.pbor.name;
       group = config.users.users.pbor.group;
@@ -47,7 +47,7 @@ in {
           enable = true;
           settings = {
             submission = {
-              token_file = osConfig.sops.secrets.listenbrainz-mpd-token.path;
+              token_file = osConfig.age.secrets.listenbrainz-token.path;
               enable_cache = true;
             };
 

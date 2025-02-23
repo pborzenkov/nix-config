@@ -8,7 +8,7 @@
   cfg = config.pbor.gpg;
 in {
   options = {
-    pbor.gpg.enable = (lib.mkEnableOption "Enable gpg") // {default = config.pbor.enable;};
+    pbor.gpg.enable = (lib.mkEnableOption "Enable gpg") // {default = false;};
   };
 
   config = lib.mkIf cfg.enable {
@@ -27,7 +27,7 @@ in {
 
       services.gpg-agent = lib.mkIf isDesktop {
         enable = true;
-        # enableSshSupport = true;
+        enableSshSupport = true;
         enableExtraSocket = true;
         pinentryPackage = pkgs.pinentry-gnome3;
       };
