@@ -1,4 +1,8 @@
-{config, ...}: {
+{
+  config,
+  machineSecrets,
+  ...
+}: {
   networking = {
     hostName = "gw";
     domain = "lab.borzenkov.net";
@@ -31,7 +35,7 @@
         };
         wireguardConfig = {
           ListenPort = 13231;
-          PrivateKeyFile = config.sops.secrets.wireguard-private-key.path;
+          PrivateKeyFile = config.age.secrets.wireguard-key.path;
         };
         wireguardPeers = [
           {
@@ -66,7 +70,8 @@
 
   services.resolved.enable = true;
 
-  sops.secrets.wireguard-private-key = {
+  age.secrets.wireguard-key = {
+    file = machineSecrets + "/wireguard-key.age";
     mode = "0640";
     owner = "root";
     group = "systemd-network";

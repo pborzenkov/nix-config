@@ -9,6 +9,13 @@
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs = {
@@ -82,6 +89,7 @@
       in {
         default = pkgs.mkShell {
           nativeBuildInputs = [
+            (inputs.agenix.packages.${system}.default.override {ageBin = "${pkgs.rage}/bin/rage";})
             inputs.deploy-rs.packages.${system}.deploy-rs
             pkgs.sops
           ];

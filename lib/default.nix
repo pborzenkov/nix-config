@@ -71,6 +71,9 @@ in rec {
         };
 
         sharedSops = ../secrets/shared/secrets.yaml;
+
+        machineSecrets = ../secrets/machines + "/${hostname}";
+        sharedSecrets = ../secrets/shared;
       };
 
       modules = let
@@ -80,6 +83,7 @@ in rec {
       in
         [
           inputs.sops-nix.nixosModules.sops
+          inputs.agenix.nixosModules.default
           inputs.home-manager.nixosModules.home-manager
           inputs.stylix.nixosModules.stylix
 
@@ -105,6 +109,10 @@ in rec {
             };
             disabledModules = disabledModules;
 
+            age = {
+              ageBin = "${pkgs.rage}/bin/rage";
+              identityPaths = ["/etc/ssh/ssh_host_ed25519_key"];
+            };
             sops = {
               defaultSopsFile = ../secrets/machines + "/${hostname}/secrets.yaml";
               gnupg.sshKeyPaths = ["/etc/ssh/ssh_host_rsa_key"];
