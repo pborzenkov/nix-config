@@ -10,7 +10,7 @@
   rbw-ssh-askpass = pkgs.writeShellApplication {
     name = "rbw-ssh-askpass";
     text = builtins.readFile ./scripts/rbw-ssh-askpass.sh;
-    runtimeInputs = [pkgs.nettools pkgs.rbw pkgs.zenity];
+    runtimeInputs = [pkgs.nettools pkgs.rbw pkgs.wofi];
   };
 in {
   options = {
