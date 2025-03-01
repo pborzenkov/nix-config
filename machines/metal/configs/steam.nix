@@ -86,9 +86,18 @@ in {
           name = "Steam";
           output = "/tmp/sunshine-steam.txt";
           cmd = "in-gamescope -e -- capsh --noamb -+ steam -tenfoot";
-          prep-cmd = [
+          prep-cmd = let
+            prepare-sunshine-monitor = pkgs.writeShellApplication {
+              name = "prepare-sunshine-monitor";
+              text = ''
+                hyprctl keyword monitor desc:LG Electronics LG TV 0x01010101, 3840x2160, 1920x0, 2
+                hyprctl keyword windowrulev2 workspace name:sunshine, class:gamescope
+              '';
+              runtimeInputs = [pkgs.hyprland];
+            };
+          in [
             {
-              do = "hyprctl keyword windowrulev2 workspace name:sunshine, class:gamescope";
+              do = "${prepare-sunshine-monitor}/bin/prepare-sunshine-monitor";
               undo = "hyprctl reload";
             }
           ];

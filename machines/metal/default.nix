@@ -26,10 +26,10 @@
       hyprland = {
         monitors = [
           "desc:Dell Inc. DELL U3219Q 692P413, 3840x2160, 0x0, 2"
-          "desc:LG Electronics LG TV 0x01010101, 3840x2160, 1920x0, 2"
+          "desc:LG Electronics LG TV 0x01010101,disable"
         ];
         workspace-rules = [
-          "name:sunshine, monitor:desc:LG Electronics LG TV 0x01010101, persistent:true, default:true"
+          "name:sunshine, monitor:desc:LG Electronics LG TV 0x01010101, default:true"
         ];
         waybar.pulseaudio-icons = {
           "alsa_output.usb-HP__Inc_HyperX_Cloud_Alpha_Wireless_00000001-00.analog-stereo" = "";
