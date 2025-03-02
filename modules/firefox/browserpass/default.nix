@@ -7,7 +7,7 @@
   cfg = config.pbor.firefox.browserpass;
 in {
   options = {
-    pbor.firefox.browserpass.enable = (lib.mkEnableOption "Enable browserpass") // {default = config.pbor.firefox.enable;};
+    pbor.firefox.browserpass.enable = (lib.mkEnableOption "Enable browserpass") // {default = false;};
   };
 
   config = lib.mkIf cfg.enable {

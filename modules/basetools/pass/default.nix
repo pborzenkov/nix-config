@@ -7,7 +7,7 @@
   cfg = config.pbor.basetools.pass;
 in {
   options = {
-    pbor.basetools.pass.enable = (lib.mkEnableOption "Enable pass") // {default = config.pbor.basetools.enable;};
+    pbor.basetools.pass.enable = (lib.mkEnableOption "Enable pass") // {default = false;};
   };
 
   config = lib.mkIf cfg.enable {

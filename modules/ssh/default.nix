@@ -93,6 +93,10 @@ in {
           "gw gw.lab.borzenkov.net" = {
             user = "pbor";
           };
+
+          "*.mk.lab.borzenkov.net" = {
+            user = "admin";
+          };
         };
 
         includes = ["config.local"];
