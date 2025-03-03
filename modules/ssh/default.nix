@@ -7,10 +7,20 @@
 }: let
   cfg = config.pbor.ssh;
 
-  rbw-ssh-askpass = pkgs.writeShellApplication {
-    name = "rbw-ssh-askpass";
-    text = builtins.readFile ./scripts/rbw-ssh-askpass.sh;
-    runtimeInputs = [pkgs.nettools pkgs.rbw pkgs.wofi];
+  ssh-confirm = pkgs.writeShellApplication {
+    name = "ssh-confirm";
+    text = builtins.readFile ./scripts/ssh-confirm.sh;
+    runtimeInputs = [pkgs.wofi];
+  };
+  ssh-rbw-askpass = pkgs.writeShellApplication {
+    name = "ssh-rbw-askpass";
+    text = builtins.readFile ./scripts/ssh-rbw-askpass.sh;
+    runtimeInputs = [pkgs.nettools pkgs.rbw];
+  };
+  ssh-add-key = pkgs.writeShellApplication {
+    name = "ssh-add-key";
+    text = builtins.readFile ./scripts/ssh-add-key.sh;
+    runtimeInputs = [pkgs.openssh ssh-rbw-askpass];
   };
 in {
   options = {
@@ -36,7 +46,6 @@ in {
     hm = {
       programs.ssh = {
         enable = true;
-        addKeysToAgent = "confirm";
 
         matchBlocks = {
           "*" = {
@@ -101,10 +110,11 @@ in {
 
         includes = ["config.local"];
       };
-      home.sessionVariables = lib.mkIf isDesktop {
-        SSH_ASKPASS_REQUIRE = "prefer";
-        SSH_ASKPASS = "${rbw-ssh-askpass}/bin/rbw-ssh-askpass";
-        SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/ssh-agent";
+      home = {
+        packages = [ssh-add-key];
+        sessionVariables = lib.mkIf isDesktop {
+          SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/ssh-agent";
+        };
       };
 
       systemd.user.services.ssh-agent = lib.mkIf isDesktop {
@@ -115,7 +125,7 @@ in {
         Service = {
           Type = "exec";
           ExecStart = "${pkgs.openssh}/bin/ssh-agent -D -a %t/ssh-agent";
-          Environment = "SSH_ASKPASS=${rbw-ssh-askpass}/bin/rbw-ssh-askpass";
+          Environment = "SSH_ASKPASS=${ssh-confirm}/bin/ssh-confirm";
           Restart = "on-failure";
           Slice = "background-graphical.slice";
         };
