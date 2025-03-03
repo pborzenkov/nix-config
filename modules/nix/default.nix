@@ -44,7 +44,7 @@ in {
         trusted-substituters = subs;
         trusted-public-keys = [
           "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-          "pborzenkov.cachix.org-1:ffVB/S9v4T+PecDRk83gPmbWnVQpjRc76k6bGtnk6YM="
+          "pborzenkov.cachix.org-1:LJO9qkWok2rWI7WHctjdnRYuuAYwzc6pHXKTi6WHR2E="
         ];
       };
 
