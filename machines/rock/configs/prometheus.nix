@@ -102,6 +102,9 @@
       enable = true;
       listenAddress = "127.0.0.1:8428";
       retentionPeriod = "50y";
+      extraOptions = [
+        "-search.maxPointsSubqueryPerTimeseries=1000000"
+      ];
     };
   };
 
