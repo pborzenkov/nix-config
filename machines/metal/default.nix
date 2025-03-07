@@ -13,8 +13,8 @@
         id = "books";
         devices = ["rock"];
       };
-      "/home/pbor/.local/share/password-store" = {
-        id = "password-store";
+      "/home/pbor/notes" = {
+        id = "notes";
         devices = ["rock"];
       };
       "/home/pbor/.local/share/synced-state" = {

@@ -5,17 +5,14 @@
         id = "docs";
         devices = ["metal" "trance"];
       };
-
       "/storage/books" = {
         id = "books";
         devices = ["metal" "trance"];
       };
-
-      "/home/pbor/.local/share/password-store" = {
-        id = "password-store";
-        devices = ["metal" "trance" "pixel9"];
+      "/home/pbor/notes" = {
+        id = "notes";
+        devices = ["metal" "pixel9"];
       };
-
       "/home/pbor/.local/share/synced-state" = {
         id = "synced-state";
         devices = ["metal" "trance"];

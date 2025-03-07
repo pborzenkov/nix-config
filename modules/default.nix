@@ -41,6 +41,7 @@ in {
           libreoffice
           tdesktop
           zoom-us
+          obsidian
         ];
 
       xdg = {
