@@ -40,6 +40,7 @@
     };
 
     devtools = {
+      android.enable = true;
       lang.c.enable = true;
     };
 

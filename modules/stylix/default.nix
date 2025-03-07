@@ -61,16 +61,20 @@ in {
       targets.gtk.enable = true;
     };
 
-    hm.gtk = {
-      enable = true;
-      theme = {
-        name = lib.mkForce "vimix-dark-doder";
-        package = lib.mkForce pkgs.vimix-gtk-themes;
+    hm = {config, ...}: {
+      gtk = {
+        enable = true;
+        gtk2.configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";
+        theme = {
+          name = lib.mkForce "vimix-dark-doder";
+          package = lib.mkForce pkgs.vimix-gtk-themes;
+        };
+        iconTheme = {
+          name = "Vimix-Doder-dark";
+          package = pkgs.vimix-icon-theme;
+        };
       };
-      iconTheme = {
-        name = "Vimix-Doder-dark";
-        package = pkgs.vimix-icon-theme;
-      };
+      xresources.path = "${config.xdg.configHome}/X11/xresources";
     };
   };
 }

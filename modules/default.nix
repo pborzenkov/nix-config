@@ -44,6 +44,7 @@ in {
         ];
 
       xdg = {
+        enable = true;
         mimeApps = {
           enable = isDesktop;
           defaultApplications = lib.mkIf isDesktop {

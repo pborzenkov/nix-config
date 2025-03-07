@@ -14,9 +14,10 @@ in {
   config = lib.mkIf cfg.enable {
     services.dbus.packages = lib.mkIf isDesktop [pkgs.gcr];
 
-    hm = {
+    hm = {config, ...}: {
       programs.gpg = {
         enable = true;
+        homedir = "${config.xdg.dataHome}/gnupg";
 
         settings = {
           default-key = "0xB1392A8089E0A994";

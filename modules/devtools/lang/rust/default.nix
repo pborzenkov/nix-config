@@ -11,12 +11,19 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    hm.home.packages = with pkgs; [
-      cargo
-      rustc
-      rust-analyzer
-      cargo-nextest
-      lldb
-    ];
+    hm = {config, ...}: {
+      home = {
+        packages = with pkgs; [
+          cargo
+          rustc
+          rust-analyzer
+          cargo-nextest
+          lldb
+        ];
+        sessionVariables = {
+          CARGO_HOME = "${config.xdg.dataHome}/cargo";
+        };
+      };
+    };
   };
 }

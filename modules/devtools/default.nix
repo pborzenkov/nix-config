@@ -19,9 +19,6 @@ in {
       config.boot.kernelPackages.perf
     ];
 
-    programs.adb.enable = true;
-    users.users.pbor.extraGroups = ["adbusers"];
-
     hm.home.packages = with pkgs; [
       zeal
       man-pages
