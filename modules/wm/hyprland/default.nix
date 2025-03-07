@@ -12,9 +12,9 @@
     text = builtins.readFile ./scripts/screenshot.sh;
     runtimeInputs = [pkgs.hyprland pkgs.jq pkgs.grim pkgs.slurp pkgs.wl-clipboard];
   };
-  scratch-term = pkgs.writeShellApplication {
-    name = "scratch-term";
-    text = builtins.readFile ./scripts/scratch-term.sh;
+  scratch-app = pkgs.writeShellApplication {
+    name = "scratch-app";
+    text = builtins.readFile ./scripts/scratch-app.sh;
     runtimeInputs = [pkgs.hyprland pkgs.jq];
   };
 in {
@@ -84,11 +84,10 @@ in {
           bind = [
             "$mod, space, exec, uwsm app -- hyprctl switchxkblayout main next"
             "$mod, Return, exec, uwsm app -- foot"
-            "$mod+Shift, Return, exec, uwsm app -- ${scratch-term}/bin/scratch-term"
+            "$mod+Shift, Return, exec, uwsm app -- ${scratch-app}/bin/scratch-app -c term"
             "$mod, d, exec, uwsm app -- wofi -S run"
             "$mod+Shift, s, exec, uwsm app -- wofi-power-menu"
-            "$mod+Shift, comma, exec, uwsm app -- wofi-sound-menu input"
-            "$mod+Shift, period, exec, uwsm app -- wofi-sound-menu output"
+            "$mod+Shift, period, exec, uwsm app -- ${scratch-app}/bin/scratch-app -c mixer -- ncpamixer -t o"
 
             "$mod, q, hy3:killactive"
             "$mod+Shift, q, exec, uwsm app -- hyprctl kill"
@@ -171,6 +170,8 @@ in {
           windowrulev2 = [
             "float, class:scratch-term"
             "size 75% 75%, class:scratch-term"
+            "float, class:scratch-mixer"
+            "size 60% 60%, class:scratch-mixer"
 
             "bordercolor rgb(${config.lib.stylix.colors.base08}), fullscreen:1"
 
