@@ -88,6 +88,7 @@ in {
             "$mod, d, exec, uwsm app -- wofi -S run"
             "$mod+Shift, s, exec, uwsm app -- wofi-power-menu"
             "$mod+Shift, period, exec, uwsm app -- ${scratch-app}/bin/scratch-app -c mixer -- ncpamixer -t o"
+            "$mod+Shift, m, exec, uwsm app -- ${scratch-app}/bin/scratch-app -c mail -- aerc"
 
             "$mod, q, hy3:killactive"
             "$mod+Shift, q, exec, uwsm app -- hyprctl kill"
@@ -172,6 +173,8 @@ in {
             "size 75% 75%, class:scratch-term"
             "float, class:scratch-mixer"
             "size 60% 60%, class:scratch-mixer"
+            "float, class:scratch-mail"
+            "size 75% 90%, class:scratch-mail"
 
             "bordercolor rgb(${config.lib.stylix.colors.base08}), fullscreen:1"
 

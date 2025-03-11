@@ -2,6 +2,7 @@
   config,
   lib,
   pborlib,
+  pkgs,
   ...
 }: let
   cfg = config.pbor.devtools.git;
@@ -15,6 +16,7 @@ in {
   config = lib.mkIf cfg.enable {
     hm.programs.git = {
       enable = true;
+      package = pkgs.gitFull;
 
       extraConfig = {
         color = {
@@ -32,6 +34,17 @@ in {
         pager = lib.genAttrs ["diff" "log" "show"] (
           name: "delta --navigate"
         );
+
+        sendemail = {
+          smtpserver = "smtp.fastmail.com";
+          smtpuser = "pavel@borzenkov.net";
+          smtpencryption = "ssl";
+          smtpserverport = 465;
+        };
+
+        "credential \"smtp://pavel%40borzenkov.net@smtp.fastmail.com%3a465\"" = {
+          helper = ''!f() { test "$1" = get && echo "password=$(rbw get fastmail.com/git)"; }; f'';
+        };
       };
 
       userEmail = "pavel@borzenkov.net";
