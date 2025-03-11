@@ -107,7 +107,7 @@ in {
               "C" = ":compose<Enter>";
               "d" = ":delete<Enter>";
               "a" = ":archive flat<Enter>";
-              "m" = ":move<space>";
+              "m" = ":move<Space>";
               "A" = ":unmark -a<Enter>:mark -T<Enter>:archive flat<Enter>";
               "b" = ":bounce<Enter>";
               "rr" = ":reply -a<Enter>";
@@ -138,11 +138,11 @@ in {
               "q" = ":close<Enter>";
               "o" = ":open<Enter>";
               "s" = ":save<space>";
-              "|" = ":pipe<space>";
-              "d" = ":delete<enter>";
-              "a" = ":archive flat<enter>";
+              "|" = ":pipe<Space>";
+              "d" = ":delete<Enter>:close<Enter>";
+              "a" = ":archive flat<Enter>:close<Enter>";
 
-              "<C-o>" = ":open-link <space>";
+              "<C-o>" = ":open-link <Space>";
 
               "f" = ":forward<Enter>";
               "rr" = ":reply -a<Enter>";
