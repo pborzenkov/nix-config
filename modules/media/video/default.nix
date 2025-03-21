@@ -17,6 +17,8 @@ in {
     hm.home.packages = with pkgs; [
       handbrake
       mkvtoolnix
+      unstable.makemkv
+      unstable.pgsrip
     ];
   };
 }

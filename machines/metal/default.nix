@@ -44,6 +44,8 @@
       lang.c.enable = true;
     };
 
+    media.audio.whisper.rocm = true;
+
     ssh.server.enable = true;
   };
 
