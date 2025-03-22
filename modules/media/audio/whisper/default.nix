@@ -17,7 +17,7 @@
   };
 in {
   options = {
-    pbor.media.audio.whisper.enable = (lib.mkEnableOption "Enable Whisper") // {default = config.pbor.media.audio.enable;};
+    pbor.media.audio.whisper.enable = (lib.mkEnableOption "Enable Whisper") // {default = false;};
     pbor.media.audio.whisper.rocm = lib.mkOption {
       type = lib.types.bool;
       default = false;

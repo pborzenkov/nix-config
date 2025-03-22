@@ -65,8 +65,16 @@ in {
           };
           extraBinds = {
             global = {
-              "<C-l>" = ":next-tab<Enter>";
-              "<C-h>" = ":prev-tab<Enter>";
+              "<A-1>" = ":change-tab 0<Enter>";
+              "<A-2>" = ":change-tab 1<Enter>";
+              "<A-3>" = ":change-tab 2<Enter>";
+              "<A-4>" = ":change-tab 3<Enter>";
+              "<A-5>" = ":change-tab 4<Enter>";
+              "<A-6>" = ":change-tab 5<Enter>";
+              "<A-7>" = ":change-tab 6<Enter>";
+              "<A-8>" = ":change-tab 7<Enter>";
+              "<A-9>" = ":change-tab 8<Enter>";
+              "<A-0>" = ":change-tab 9<Enter>";
               "<C-t>" = ":term<Enter>";
               "?" = ":help keys<Enter>";
             };
@@ -203,8 +211,16 @@ in {
               "$noinherit" = true;
               "$ex" = "<C-x>";
 
-              "<C-l>" = ":next-tab<Enter>";
-              "<C-h>" = ":prev-tab<Enter>";
+              "<A-1>" = ":change-tab 0<Enter>";
+              "<A-2>" = ":change-tab 1<Enter>";
+              "<A-3>" = ":change-tab 2<Enter>";
+              "<A-4>" = ":change-tab 3<Enter>";
+              "<A-5>" = ":change-tab 4<Enter>";
+              "<A-6>" = ":change-tab 5<Enter>";
+              "<A-7>" = ":change-tab 6<Enter>";
+              "<A-8>" = ":change-tab 7<Enter>";
+              "<A-9>" = ":change-tab 8<Enter>";
+              "<A-0>" = ":change-tab 9<Enter>";
             };
           };
         };

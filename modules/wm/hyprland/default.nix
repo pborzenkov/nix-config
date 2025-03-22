@@ -17,6 +17,11 @@
     text = builtins.readFile ./scripts/scratch-app.sh;
     runtimeInputs = [pkgs.hyprland pkgs.jq];
   };
+  per-app-remapper = pkgs.writeShellApplication {
+    name = "per-app-remapper";
+    text = builtins.readFile ./scripts/per-app-remapper.sh;
+    runtimeInputs = [pkgs.hyprland pkgs.socat];
+  };
 in {
   imports = pborlib.allDirs ./.;
 
@@ -203,6 +208,22 @@ in {
       home.packages = with pkgs; [
         hyprpicker
       ];
+
+      systemd.user.services.per-app-remapper = lib.mkForce {
+        Unit = {
+          After = ["graphical-session.target"];
+        };
+
+        Service = {
+          Type = "exec";
+          ExecCondition = ''${pkgs.systemd}/lib/systemd/systemd-xdg-autostart-condition "Hyprland" ""'';
+          ExecStart = "${per-app-remapper}/bin/per-app-remapper";
+          Restart = "on-failure";
+          Slice = "background-graphical.slice";
+        };
+
+        Install.WantedBy = ["graphical-session.target"];
+      };
     };
   };
 }
