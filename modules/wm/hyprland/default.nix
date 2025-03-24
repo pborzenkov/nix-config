@@ -12,6 +12,11 @@
     text = builtins.readFile ./scripts/screenshot.sh;
     runtimeInputs = [pkgs.hyprland pkgs.jq pkgs.grim pkgs.slurp pkgs.wl-clipboard];
   };
+  settings = pkgs.writeShellApplication {
+    name = "settings";
+    text = builtins.readFile ./scripts/settings.sh;
+    runtimeInputs = [pkgs.wofi pkgs.foot];
+  };
   scratch-app = pkgs.writeShellApplication {
     name = "scratch-app";
     text = builtins.readFile ./scripts/scratch-app.sh;
@@ -39,6 +44,13 @@ in {
       default = [];
       description = ''
         An array of workspace rules.
+      '';
+    };
+    pbor.wm.hyprland.setting-providers = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      description = ''
+        An array of setting providers to enable.
       '';
     };
   };
@@ -86,13 +98,15 @@ in {
             };
           };
 
-          bind = [
+          bind = let
+            setting-providers = lib.concatMapStrings (p: "-p ${p} ") cfg.setting-providers;
+          in [
             "$mod, space, exec, uwsm app -- hyprctl switchxkblayout main next"
             "$mod, Return, exec, uwsm app -- foot"
             "$mod+Shift, Return, exec, uwsm app -- ${scratch-app}/bin/scratch-app -c term"
             "$mod, d, exec, uwsm app -- wofi -S run"
             "$mod+Shift, s, exec, uwsm app -- wofi-power-menu"
-            "$mod+Shift, period, exec, uwsm app -- ${scratch-app}/bin/scratch-app -c mixer -- ncpamixer -t o"
+            "$mod+Shift, period, exec, uwsm app -- ${settings}/bin/settings ${setting-providers}"
             "$mod+Shift, m, exec, uwsm app -- ${scratch-app}/bin/scratch-app -c mail -- aerc"
 
             "$mod, q, hy3:killactive"
@@ -176,8 +190,8 @@ in {
           windowrulev2 = [
             "float, class:scratch-term"
             "size 75% 75%, class:scratch-term"
-            "float, class:scratch-mixer"
-            "size 60% 60%, class:scratch-mixer"
+            "float, class:settings"
+            "size 60% 60%, class:settings"
             "float, class:scratch-mail"
             "size 75% 90%, class:scratch-mail"
 
