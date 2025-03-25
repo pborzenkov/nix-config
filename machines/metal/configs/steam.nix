@@ -61,6 +61,7 @@ in {
     };
   };
   environment.systemPackages = [in-gamescope];
+  users.users.pbor.extraGroups = ["gamemode"];
 
   boot.kernelModules = ["uhid"];
   services = {
