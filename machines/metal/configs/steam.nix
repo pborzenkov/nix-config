@@ -1,4 +1,8 @@
-{pkgs, ...}: let
+{
+  pkgs,
+  inputs,
+  ...
+}: let
   in-gamescope = pkgs.writeShellApplication {
     name = "in-gamescope";
     text = ''
@@ -88,18 +92,33 @@ in {
           output = "/tmp/sunshine-steam.txt";
           cmd = "in-gamescope -e -- capsh --noamb -+ steam -tenfoot";
           prep-cmd = let
-            prepare-sunshine-monitor = pkgs.writeShellApplication {
-              name = "prepare-sunshine-monitor";
+            output-name = "HDMI-A-1";
+            do-sunshine-monitor = pkgs.writeShellApplication {
+              name = "do-sunshine-monitor";
               text = ''
-                hyprctl keyword monitor desc:LG Electronics LG TV 0x01010101, 3840x2160, 1920x0, 2
+                hyprctl keyword workspace name:sunshine, monitor:${output-name}
+                hyprctl keyword monitor ${output-name}, 3840x2160, 1920x0, 2
                 hyprctl keyword windowrulev2 workspace name:sunshine, class:gamescope
+                sudo dd of=/sys/kernel/debug/dri/1/${output-name}/edid_override if=${inputs.self}/assets/lg-tv.edid
+                echo on | sudo dd of=/sys/kernel/debug/dri/1/${output-name}/force
+                echo 1 | sudo dd of=/sys/kernel/debug/dri/1/${output-name}/trigger_hotplug
+              '';
+              runtimeInputs = [pkgs.hyprland];
+            };
+            undo-sunshine-monitor = pkgs.writeShellApplication {
+              name = "undo-sunshine-monitor";
+              text = ''
+                hyprctl keyword monitor ${output-name},disable
+                echo off | sudo dd of=/sys/kernel/debug/dri/1/${output-name}/force
+                echo 1 | sudo dd of=/sys/kernel/debug/dri/1/${output-name}/trigger_hotplug
+                hyprctl reload
               '';
               runtimeInputs = [pkgs.hyprland];
             };
           in [
             {
-              do = "${prepare-sunshine-monitor}/bin/prepare-sunshine-monitor";
-              undo = "hyprctl reload";
+              do = "${do-sunshine-monitor}/bin/do-sunshine-monitor";
+              undo = "${undo-sunshine-monitor}/bin/undo-sunshine-monitor";
             }
           ];
           image-path = "steam.png";
