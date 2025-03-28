@@ -102,7 +102,7 @@ in {
             setting-providers = lib.concatMapStrings (p: "-p ${p} ") cfg.setting-providers;
           in [
             "$mod, space, exec, uwsm app -- hyprctl switchxkblayout main next"
-            "$mod, Return, exec, uwsm app -- foot"
+            "$mod, Return, exec, uwsm app -- footclient"
             "$mod+Shift, Return, exec, uwsm app -- ${scratch-app}/bin/scratch-app -c term"
             "$mod, d, exec, uwsm app -- wofi -S run"
             "$mod+Shift, s, exec, uwsm app -- wofi-power-menu"

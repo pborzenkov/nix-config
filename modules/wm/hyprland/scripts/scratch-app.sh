@@ -27,7 +27,7 @@ CLASS="scratch-${CLASS}"
 current_workspace=$(hyprctl activeworkspace -j | jq -r '.id')
 node=$(hyprctl clients -j | jq --arg class "${CLASS}" -r '.[] | try select(.class == $class)')
 if [ -z "${node}" ]; then
-  exec foot -a "${CLASS}" "$@"
+  exec footclient -a "${CLASS}" "$@"
 fi
 
 node_workspace=$(echo "${node}" | jq -r '.workspace.id')

@@ -42,7 +42,7 @@ in {
         settings = {
           mode = "run";
           location = "center";
-          term = "foot";
+          term = "footclient";
 
           matching = "fuzzy";
           insensitive = "true";

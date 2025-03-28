@@ -25,7 +25,7 @@ get_icon() {
 
 run_provider() {
   mapfile -t COMMANDS < <(echo "${PROVIDERS}" | jq --arg provider "$1" -r -c '.[$provider].command[]')
-  exec foot -a settings "${COMMANDS[@]}"
+  exec footclient -a settings "${COMMANDS[@]}"
 }
 
 usage() {
