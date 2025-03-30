@@ -27,6 +27,62 @@
     text = builtins.readFile ./scripts/per-app-remapper.sh;
     runtimeInputs = [pkgs.hyprland pkgs.socat];
   };
+
+  scratch-term-zellij = let
+    config = pkgs.writeTextFile {
+      name = "scratch-term-zellij-config";
+      text = ''
+        on_force_close "detach"
+        simplified_ui true
+        pane_frames false
+        default_shell "fish"
+        theme "default"
+        default_mode "locked"
+        mouse_mode false
+        copy_command "wl-copy"
+        scrollback_editor "hx"
+        session_serialization false
+        show_startup_tips false
+        show_release_notes false
+
+        keybinds clear-defaults=true {
+          locked {
+            bind "Super Enter" { "NewTab"; }
+
+            bind "Alt 1" { GoToTab 1; }
+            bind "Alt 2" { GoToTab 2; }
+            bind "Alt 3" { GoToTab 3; }
+            bind "Alt 4" { GoToTab 4; }
+            bind "Alt 5" { GoToTab 5; }
+            bind "Alt 6" { GoToTab 6; }
+            bind "Alt 7" { GoToTab 7; }
+            bind "Alt 8" { GoToTab 8; }
+            bind "Alt 9" { GoToTab 9; }
+            bind "Alt 0" { GoToTab 10; }
+
+            bind "Ctrl Shift f" { PageScrollDown; }
+            bind "Ctrl Shift d" { HalfPageScrollDown; }
+            bind "Ctrl Shift j" { ScrollDown; }
+            bind "Ctrl Shift e" { ScrollToBottom; }
+            bind "Ctrl Shift b" { PageScrollUp; }
+            bind "Ctrl Shift u" { HalfPageScrollUp; }
+            bind "Ctrl Shift k" { ScrollUp; }
+          }
+        }
+      '';
+    };
+    layout = pkgs.writeTextFile {
+      name = "scratch-term-zellij-layout";
+      text = ''
+        layout {
+          pane size=1 borderless=true {
+            plugin location="tab-bar"
+          }
+          pane
+        }
+      '';
+    };
+  in "zellij --config ${config} --layout ${layout} attach --create scratch-term";
 in {
   imports = pborlib.allDirs ./.;
 
@@ -103,7 +159,7 @@ in {
           in [
             "$mod, space, exec, uwsm app -- hyprctl switchxkblayout main next"
             "$mod, Return, exec, uwsm app -- footclient"
-            "$mod+Shift, Return, exec, uwsm app -- ${scratch-app}/bin/scratch-app -c term"
+            "$mod+Shift, Return, exec, uwsm app -- ${scratch-app}/bin/scratch-app -c term -- ${scratch-term-zellij}"
             "$mod, d, exec, uwsm app -- wofi -S run"
             "$mod+Shift, s, exec, uwsm app -- wofi-power-menu"
             "$mod+Shift, period, exec, uwsm app -- ${settings}/bin/settings ${setting-providers}"
@@ -205,7 +261,7 @@ in {
         };
 
         extraConfig = ''
-          bind = $mod, r, submap, resize
+          bind = $mod+Shift, r, submap, resize
 
           submap = resize
           binde = , l, resizeactive, 10 0
@@ -218,6 +274,9 @@ in {
         '';
       };
       stylix.targets.hyprland.enable = true;
+
+      programs.zellij.enable = true;
+      stylix.targets.zellij.enable = true;
 
       home.packages = with pkgs; [
         hyprpicker

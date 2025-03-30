@@ -32,20 +32,57 @@ function map-tab-keys {
   "
 }
 
+function unmap-new-term-key {
+  echo "Unmapping Super+Enter key..."
+  hyprctl -q --batch "
+    keyword unbind super,Return
+  "
+}
+
+function map-new-term-key {
+  echo "Mapping Super+Enter key..."
+  hyprctl -q --batch "
+    keyword bind super,Return,exec,uwsm app -- footclient
+  "
+}
+
+# Scratch term
+function activate-scratch-term {
+  unmap-tab-keys
+  unmap-new-term-key
+}
+
+function deactivate-scratch-term {
+  map-new-term-key
+  map-tab-keys
+}
+
+# Scratch mail
+function activate-mail {
+  unmap-tab-keys
+}
+
+function activate-scratch-mail {
+  map-tab-keys
+}
+
 function handle_line {
   mapfile -d '>' -t CMD_AND_ARGS <<< "${1//>>/>}"
 
   case ${CMD_AND_ARGS[0]} in
     activewindow)
       mapfile -d ',' -t ARGS <<< "${CMD_AND_ARGS[1]}"
-      case "${ARGS[0]}" in
-        scratch-mail)
-          [ "${LAST_ACTIVE_WINDOW}" != "scratch-mail" ] && unmap-tab-keys
-          ;;
-        *)
-          [ "${LAST_ACTIVE_WINDOW}" == "scratch-mail" ] && map-tab-keys
-          ;;
-      esac
+      local to_deactivate="deactivate-${LAST_ACTIVE_WINDOW}"
+      local to_activate="activate-${ARGS[0]}"
+
+      if [[ "${LAST_ACTIVE_WINDOW}" != "${ARGS[0]}" ]]; then
+        if [[ $(type -t "${to_deactivate}") == "function" ]]; then
+          "${to_deactivate}"
+        fi
+        if [[ $(type -t "${to_activate}") == "function" ]]; then
+          "${to_activate}"
+        fi
+      fi
       LAST_ACTIVE_WINDOW="${ARGS[0]}"
       ;;
     *)

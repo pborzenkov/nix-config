@@ -26,8 +26,23 @@ in {
           };
 
           key-bindings = {
-            clipboard-copy = "Mod4+c";
-            clipboard-paste = "Mod4+v";
+            scrollback-down-page = "Control+Shift+f";
+            scrollback-down-half-page = "Control+Shift+d";
+            scrollback-down-line = "Control+Shift+j";
+            scrollback-end = "Control+Shift+e";
+            scrollback-up-page = "Control+Shift+b";
+            scrollback-up-half-page = "Control+Shift+u";
+            scrollback-up-line = "Control+Shift+k";
+
+            clipboard-copy = "Control+Shift+c";
+            clipboard-paste = "Control+Shift+v";
+
+            search-start = "Control+Shift+r";
+            show-urls-launch = "Control+Shift+o";
+            unicode-input = "Control+Shift+i";
+
+            prompt-prev = "Control+Shift+z";
+            prompt-next = "Control+Shift+x";
           };
         };
       };
