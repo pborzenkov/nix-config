@@ -58,11 +58,11 @@ function deactivate-scratch-term {
 }
 
 # Scratch mail
-function activate-mail {
+function activate-scratch-mail {
   unmap-tab-keys
 }
 
-function activate-scratch-mail {
+function deactivate-scratch-mail {
   map-tab-keys
 }
 
