@@ -24,20 +24,25 @@
     };
     wm = {
       hyprland = {
-        monitors = [
-          "desc:Dell Inc. DELL U3219Q 692P413, 3840x2160, -1920x0, 2, transform, 3" # DP-2
-          "desc:Samsung Electric Company Odyssey G80SD H1AK500000, 3840x2160, 0x0, 2" # HDMI-A-1
-          "desc:LG Electronics LG TV 0x01010101,3840x2160, 1920x0, 2" # DP-1
-        ];
-        workspace-rules =
-          [
-            "name:sunshine, monitor:desc:LG Electronics LG TV 0x01010101, persistent:true, default:true"
-          ]
-          ++ (
-            lib.lists.forEach (lib.lists.range 1 9) (idx: "${toString idx}, monitor:desc:Samsung Electric Company Odyssey G80SD H1AK500000, default:true")
-          );
         extra-settings = {
+          monitor = [
+            "desc:Dell Inc. DELL U3219Q 692P413, 3840x2160, -1920x0, 2, transform, 3" # DP-2
+            "desc:Samsung Electric Company Odyssey G80SD H1AK500000, 3840x2160, 0x0, 2" # HDMI-A-1
+            "desc:LG Electronics LG TV 0x01010101,3840x2160, 1920x0, 2" # DP-1
+          ];
+          workspace =
+            [
+              "name:sunshine, monitor:desc:LG Electronics LG TV 0x01010101, persistent:true, default:true"
+            ]
+            ++ (
+              lib.lists.forEach (lib.lists.range 1 9) (idx: "${toString idx}, monitor:desc:Samsung Electric Company Odyssey G80SD H1AK500000, default:true")
+            );
           cursor.default_monitor = "HDMI-A-1";
+          bind = [
+            "$mod+Shift, bracketleft, movecurrentworkspacetomonitor, desc:Dell Inc. DELL U3219Q 692P413"
+            "$mod+Shift, bracketright, movecurrentworkspacetomonitor, desc:Samsung Electric Company Odyssey G80SD H1AK500000"
+            "$mod+Shift, backslash, movecurrentworkspacetomonitor, desc:LG Electronics LG TV 0x01010101"
+          ];
         };
         waybar.pulseaudio-icons = {
           "alsa_output.usb-HP__Inc_HyperX_Cloud_Alpha_Wireless_00000001-00.analog-stereo" = "";
