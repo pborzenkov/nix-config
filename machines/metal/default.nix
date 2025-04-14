@@ -42,6 +42,10 @@
             "$mod+Shift, bracketleft, movecurrentworkspacetomonitor, desc:Dell Inc. DELL U3219Q 692P413"
             "$mod+Shift, bracketright, movecurrentworkspacetomonitor, desc:Samsung Electric Company Odyssey G80SD H1AK500000"
             "$mod+Shift, backslash, movecurrentworkspacetomonitor, desc:LG Electronics LG TV 0x01010101"
+
+            "$mod+Ctrl, bracketleft, exec, hyprctl dispatch dpms toggle DP-2"
+            "$mod+Ctrl, bracketright, exec, hyprctl dispatch dpms toggle HDMI-A-1"
+            "$mod+Ctrl, backslash, exec, hyprctl dispatch dpms toggle DP-1"
           ];
         };
         waybar.pulseaudio-icons = {
