@@ -60,7 +60,7 @@ in {
       ];
     };
   };
-  environment.systemPackages = [in-gamescope];
+  environment.systemPackages = [in-gamescope pkgs.lutris];
   users.users.pbor.extraGroups = ["gamemode"];
 
   boot.kernelModules = ["uhid"];
