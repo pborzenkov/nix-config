@@ -55,7 +55,7 @@
         };
         setting-providers = ["sound"];
       };
-      dunst.monitor = 1;
+      dunst.monitor = 0;
     };
 
     devtools = {
