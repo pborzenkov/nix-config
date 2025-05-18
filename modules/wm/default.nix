@@ -38,6 +38,7 @@ in {
         export NIXOS_OZONE_WL=1
         export SDL_VIDEODRIVER=wayland,x11
         export GRIM_DEFAULT_DIR="${config.home.homeDirectory}/down"
+        export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent";
       '';
     };
   };

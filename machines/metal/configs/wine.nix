@@ -8,5 +8,6 @@
   };
   environment.systemPackages = [
     pkgs.wineWowPackages.waylandFull
+    pkgs.winetricks
   ];
 }
