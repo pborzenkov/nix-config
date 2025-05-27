@@ -12,7 +12,7 @@ in {
 
   config = lib.mkIf cfg.enable {
     hm = {config, ...}: {
-      programs.firefox.profiles.default.extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+      programs.firefox.profiles.default.extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
         tridactyl
       ];
       home.file.".mozilla/native-messaging-hosts/tridactyl.json" = {
@@ -30,11 +30,8 @@ in {
           bind K tabprev
         '';
         "tridactyl/themes/base16.css".source = with config.lib.stylix.colors; (
-          pkgs.substituteAll (
-            {
-              src = ./base16.css;
-            }
-            // lib.genAttrs (builtins.genList (c: "base0${lib.toHexString c}") 16) (c: "${withHashtag.${c}}")
+          pkgs.replaceVars ./base16.css (
+            lib.genAttrs (builtins.genList (c: "base0${lib.toHexString c}") 16) (c: "${withHashtag.${c}}")
           )
         );
       };

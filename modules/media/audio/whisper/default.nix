@@ -6,7 +6,7 @@
 }: let
   cfg = config.pbor.media.audio.whisper;
 
-  whisper = pkgs.unstable.whisper-cpp.override {
+  whisper = pkgs.whisper-cpp.override {
     rocmSupport = cfg.rocm;
   };
 

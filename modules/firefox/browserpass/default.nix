@@ -17,7 +17,7 @@ in {
       ...
     }: {
       programs = {
-        firefox.profiles.default.extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+        firefox.profiles.default.extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
           browserpass
         ];
         browserpass = {

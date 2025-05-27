@@ -112,7 +112,10 @@ in rec {
             };
             stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/onedark.yaml";
 
-            system.stateVersion = nixosStateVersion;
+            system = {
+              stateVersion = nixosStateVersion;
+              rebuild.enableNg = true;
+            };
           })
 
           ../modules

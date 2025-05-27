@@ -29,7 +29,7 @@ in {
           name = "default";
           search = {
             force = true;
-            default = "DuckDuckGo";
+            default = "ddg";
           };
 
           settings = {
@@ -41,7 +41,7 @@ in {
             "signon.rememberSignons" = false;
           };
 
-          extensions = let
+          extensions.packages = let
             rycee = pkgs.nur.repos.rycee.firefox-addons;
             pborzenkov = pkgs.nur.repos.pborzenkov.firefox-addons;
           in [

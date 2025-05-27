@@ -1,25 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: let
-  homer = pkgs.stdenv.mkDerivation rec {
-    pname = "homer";
-    version = "21.09.2";
-
-    src = pkgs.fetchurl {
-      urls = [
-        "https://github.com/bastienwirtz/${pname}/releases/download/v${version}/${pname}.zip"
-      ];
-      sha256 = "sha256-NHvH3IW05O1YvPp0KOUU0ajZsuh7BMgqUTJvMwbc+qY=";
-    };
-    nativeBuildInputs = [pkgs.unzip];
-
-    dontInstall = true;
-    sourceRoot = ".";
-    unpackCmd = "${pkgs.unzip}/bin/unzip -d $out $curSrc";
-  };
-
+{config, ...}: let
   homeConfig = {
     title = "Dashboard";
     header = false;
@@ -85,19 +64,16 @@ in {
     apps = {
       dashboard = {
         subDomain = "dashboard";
-        locations = {
-          "/" = {
-            custom = {
-              root = homer;
-            };
-          };
-          "=/assets/config.yml" = {
-            custom = {
-              alias = pkgs.writeText "homerConfig.yml" (builtins.toJSON homeConfig);
-            };
-          };
-        };
       };
     };
+  };
+
+  services.homer = {
+    enable = true;
+    virtualHost = {
+      nginx.enable = true;
+      domain = "dashboard.${config.pbor.webapps.domain}";
+    };
+    settings = homeConfig;
   };
 }

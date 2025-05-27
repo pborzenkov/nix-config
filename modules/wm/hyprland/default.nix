@@ -145,6 +145,12 @@ in {
               };
               animations.enabled = false;
 
+              render = {
+                cm_fs_passthrough = 1;
+              };
+              # TODO:
+              debug.full_cm_proto = 1;
+
               plugin.hy3 = {
                 tabs = {
                   text_font = config.stylix.fonts.monospace.name;

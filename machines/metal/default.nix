@@ -27,7 +27,7 @@
         extra-settings = {
           monitor = [
             "desc:Dell Inc. DELL U3219Q 692P413, 3840x2160, -1920x0, 2, transform, 3" # DP-2
-            "desc:Samsung Electric Company Odyssey G80SD H1AK500000, 3840x2160, 0x0, 2" # HDMI-A-1
+            "desc:Samsung Electric Company Odyssey G80SD H1AK500000, 3840x2160, 0x0, 2, bitdepth, 10" # HDMI-A-1
             "desc:LG Electronics LG TV 0x01010101,3840x2160, 1920x0, 2" # DP-1
           ];
           workspace =

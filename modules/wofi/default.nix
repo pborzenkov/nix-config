@@ -54,7 +54,7 @@ in {
       stylix.targets.wofi.enable = true;
 
       home.packages = [
-        pkgs.unstable.wofi-power-menu
+        pkgs.wofi-power-menu
       ];
 
       xdg.configFile."wofi-power-menu.toml".source = (pkgs.formats.toml {}).generate "wofi-power-menu.toml" {

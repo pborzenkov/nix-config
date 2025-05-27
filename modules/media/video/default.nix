@@ -18,7 +18,7 @@ in {
       handbrake
       mkvtoolnix
       unstable.makemkv
-      unstable.pgsrip
+      pgsrip
     ];
   };
 }

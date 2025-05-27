@@ -22,6 +22,10 @@ in {
     stylix = {
       enable = true;
       autoEnable = false;
+      homeManagerIntegration = {
+        autoImport = true;
+        followSystem = true;
+      };
 
       cursor = {
         package = pkgs.vimix-cursors;
@@ -36,7 +40,7 @@ in {
         };
         monospace = {
           name = "MesloLGS Nerd Font Mono";
-          package = pkgs.nerdfonts;
+          package = pkgs.nerd-fonts.meslo-lg;
         };
         sansSerif = {
           name = "DejaVu Sans";

@@ -4,4 +4,4 @@ action=${1:-boot}
 target=${2:-$(hostname -s)}
 dtach=""
 [ -n "$SSH_CLIENT" ] && dtach="dtach -A /tmp/n-switch-${target}"
-${dtach} nixos-rebuild --use-remote-sudo ${action} --flake ".#${target}"
+${dtach} nixos-rebuild --sudo ${action} --flake ".#${target}"

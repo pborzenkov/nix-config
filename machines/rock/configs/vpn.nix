@@ -31,6 +31,8 @@
 
   networking.wireguard = {
     enable = true;
+    # TODO: doesn't support interfaceNamespace
+    useNetworkd = false;
     interfaces = {
       amsterdam = {
         interfaceNamespace = "amsterdam";

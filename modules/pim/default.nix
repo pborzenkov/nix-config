@@ -45,6 +45,7 @@ in {
               auto-mark-read = true;
               completion-min-chars = "manual";
               styleset-name = "base16";
+              sort = "date";
             };
             viewer = {
               pager = "less -Rc";
@@ -83,6 +84,7 @@ in {
               "O" = ":check-mail<Enter>";
               "q" = ":quit<Enter>";
 
+              "<Tab>" = ":search -u<Enter>";
               "j" = ":next<Enter>";
               "<C-d>" = ":next 50%<Enter>";
               "<C-f>" = ":next 100%<Enter>";
@@ -111,7 +113,8 @@ in {
               "zb" = ":align bottom<Enter>";
 
               "<Enter>" = ":view<Enter>";
-              "u" = ":read -t<Enter>";
+              "u" = ":read -t<Enter>:next<Enter>";
+              "U" = ":read -t<Enter>";
               "C" = ":compose<Enter>";
               "d" = ":delete<Enter>";
               "a" = ":archive flat<Enter>";
