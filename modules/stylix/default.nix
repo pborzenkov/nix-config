@@ -62,7 +62,11 @@ in {
       image = "${inputs.self}/assets/wallpaper.jpg";
       imageScalingMode = "fill";
 
-      targets.gtk.enable = true;
+      targets = {
+        gtk.enable = true;
+        fontconfig.enable = true;
+        font-packages.enable = true;
+      };
     };
 
     hm = {config, ...}: {
