@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   pbor = {
     basetools = {
       jq.enable = false;
@@ -13,7 +14,7 @@
     loader.grub = {
       enable = true;
       configurationLimit = 3;
-      devices = ["/dev/vda"];
+      devices = [ "/dev/vda" ];
     };
 
     kernelPackages = pkgs.linuxPackages_latest;

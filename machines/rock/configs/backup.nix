@@ -2,7 +2,8 @@
   config,
   machineSecrets,
   ...
-}: {
+}:
+{
   pbor.backup = {
     enable = true;
     host = "zh1012.rsync.net";
@@ -32,7 +33,7 @@
   age.secrets.restic-repo-password.file = machineSecrets + "/restic-repo-password.age";
 
   programs.ssh.knownHosts."zh1012.rsync.net" = {
-    hostNames = ["zh1012.rsync.net"];
+    hostNames = [ "zh1012.rsync.net" ];
     publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJtclizeBy1Uo3D86HpgD3LONGVH0CJ0NT+YfZlldAJd";
   };
 

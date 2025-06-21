@@ -3,11 +3,15 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.pbor.devtools.networking;
-in {
+in
+{
   options = {
-    pbor.devtools.networking.enable = (lib.mkEnableOption "Enable networking tools") // {default = config.pbor.devtools.enable;};
+    pbor.devtools.networking.enable = (lib.mkEnableOption "Enable networking tools") // {
+      default = config.pbor.devtools.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -15,7 +19,7 @@ in {
       enable = true;
       package = pkgs.wireshark;
     };
-    users.users.pbor.extraGroups = ["wireshark"];
+    users.users.pbor.extraGroups = [ "wireshark" ];
 
     hm.home.packages = with pkgs; [
       hurl

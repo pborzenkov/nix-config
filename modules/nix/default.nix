@@ -4,13 +4,17 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.pbor.nix;
 
   nixpkgsPath = "/etc/nixpkgs/channels/nixpkgs";
-in {
+in
+{
   options = {
-    pbor.nix.enable = (lib.mkEnableOption "Enable nix") // {default = config.pbor.enable;};
+    pbor.nix.enable = (lib.mkEnableOption "Enable nix") // {
+      default = config.pbor.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -27,26 +31,28 @@ in {
         options = "--delete-older-than 14d";
       };
 
-      settings = let
-        subs = [
-          "https://nix-community.cachix.org"
-          "https://pborzenkov.cachix.org"
-        ];
-      in {
-        trusted-users = [
-          "root"
-          "@wheel"
-        ];
+      settings =
+        let
+          subs = [
+            "https://nix-community.cachix.org"
+            "https://pborzenkov.cachix.org"
+          ];
+        in
+        {
+          trusted-users = [
+            "root"
+            "@wheel"
+          ];
 
-        auto-optimise-store = true;
+          auto-optimise-store = true;
 
-        substituters = subs;
-        trusted-substituters = subs;
-        trusted-public-keys = [
-          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-          "pborzenkov.cachix.org-1:LJO9qkWok2rWI7WHctjdnRYuuAYwzc6pHXKTi6WHR2E="
-        ];
-      };
+          substituters = subs;
+          trusted-substituters = subs;
+          trusted-public-keys = [
+            "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+            "pborzenkov.cachix.org-1:LJO9qkWok2rWI7WHctjdnRYuuAYwzc6pHXKTi6WHR2E="
+          ];
+        };
 
       registry = {
         nixpkgs.flake = inputs.nixpkgs;

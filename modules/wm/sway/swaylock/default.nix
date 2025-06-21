@@ -2,11 +2,15 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.pbor.wm.sway.swaylock;
-in {
+in
+{
   options = {
-    pbor.wm.sway.swaylock.enable = (lib.mkEnableOption "Enable swaylock") // {default = config.pbor.wm.sway.enable;};
+    pbor.wm.sway.swaylock.enable = (lib.mkEnableOption "Enable swaylock") // {
+      default = config.pbor.wm.sway.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {

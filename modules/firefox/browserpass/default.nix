@@ -3,35 +3,41 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.pbor.firefox.browserpass;
-in {
+in
+{
   options = {
-    pbor.firefox.browserpass.enable = (lib.mkEnableOption "Enable browserpass") // {default = false;};
+    pbor.firefox.browserpass.enable = (lib.mkEnableOption "Enable browserpass") // {
+      default = false;
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    hm = {
-      osConfig,
-      config,
-      ...
-    }: {
-      programs = {
-        firefox.profiles.default.extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
-          browserpass
-        ];
-        browserpass = {
-          enable = true;
-          browsers = ["firefox"];
+    hm =
+      {
+        osConfig,
+        config,
+        ...
+      }:
+      {
+        programs = {
+          firefox.profiles.default.extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
+            browserpass
+          ];
+          browserpass = {
+            enable = true;
+            browsers = [ "firefox" ];
+          };
         };
-      };
 
-      home.file.".browserpass.json" = lib.mkIf osConfig.pbor.basetools.pass.enable {
-        text = builtins.toJSON {
-          enableOTP = true;
+        home.file.".browserpass.json" = lib.mkIf osConfig.pbor.basetools.pass.enable {
+          text = builtins.toJSON {
+            enableOTP = true;
+          };
+          target = "${config.programs.password-store.settings.PASSWORD_STORE_DIR}/.browserpass.json";
         };
-        target = "${config.programs.password-store.settings.PASSWORD_STORE_DIR}/.browserpass.json";
       };
-    };
   };
 }

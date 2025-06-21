@@ -5,13 +5,17 @@
   pkgs,
   isDesktop,
   ...
-}: let
+}:
+let
   cfg = config.pbor.devtools;
-in {
+in
+{
   imports = pborlib.allDirs ./.;
 
   options = {
-    pbor.devtools.enable = (lib.mkEnableOption "Enable devtools") // {default = config.pbor.enable && isDesktop;};
+    pbor.devtools.enable = (lib.mkEnableOption "Enable devtools") // {
+      default = config.pbor.enable && isDesktop;
+    };
   };
 
   config = lib.mkIf cfg.enable {

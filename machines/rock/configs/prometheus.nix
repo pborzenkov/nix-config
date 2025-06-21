@@ -2,13 +2,14 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   pbor.webapps.apps = {
     prometheus = {
       subDomain = "prometheus";
-      auth.rbac = ["group:monitoring"];
+      auth.rbac = [ "group:monitoring" ];
       proxyTo = "http://127.0.0.1:${toString config.services.prometheus.port}";
-      locations."/" = {};
+      locations."/" = { };
       dashboard = {
         name = "Prometheus";
         category = "infra";
@@ -17,9 +18,9 @@
     };
     victoriametrics = {
       subDomain = "vicky";
-      auth.rbac = ["group:monitoring"];
+      auth.rbac = [ "group:monitoring" ];
       proxyTo = "http://127.0.0.1:8428";
-      locations."/" = {};
+      locations."/" = { };
       dashboard = {
         name = "Victoria Metrics";
         category = "infra";
@@ -89,7 +90,7 @@
           url = "http://127.0.0.1:8428/api/v1/write";
           write_relabel_configs = [
             {
-              source_labels = ["job"];
+              source_labels = [ "job" ];
               regex = "^p1$";
               action = "keep";
             }
@@ -112,8 +113,8 @@
     prometheus-node-exporter.serviceConfig.StateDirectory = "prometheus-node-exporter";
     p1-exporter = {
       description = "Prometheus exporter for DMSR meter";
-      after = ["network.target"];
-      wantedBy = ["multi-user.target"];
+      after = [ "network.target" ];
+      wantedBy = [ "multi-user.target" ];
       serviceConfig = {
         DynamicUser = true;
         ExecStart = ''

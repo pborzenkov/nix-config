@@ -4,24 +4,30 @@
   pkgs,
   pborlib,
   ...
-}: let
+}:
+let
   cfg = config.pbor.media.images;
-in {
+in
+{
   imports = pborlib.allDirs ./.;
 
   options = {
-    pbor.media.images.enable = (lib.mkEnableOption "Enable images") // {default = config.pbor.media.enable;};
+    pbor.media.images.enable = (lib.mkEnableOption "Enable images") // {
+      default = config.pbor.media.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    hm = {config, ...}: {
-      home.packages = [
-        pkgs.immich-cli
-      ];
+    hm =
+      { config, ... }:
+      {
+        home.packages = [
+          pkgs.immich-cli
+        ];
 
-      home.sessionVariables = {
-        "IMMICH_CONFIG_DIR" = "${config.xdg.configHome}/immich";
+        home.sessionVariables = {
+          "IMMICH_CONFIG_DIR" = "${config.xdg.configHome}/immich";
+        };
       };
-    };
   };
 }

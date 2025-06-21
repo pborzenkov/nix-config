@@ -2,15 +2,18 @@
   pkgs,
   config,
   ...
-}: {
+}:
+{
   wayland.windowManager.sway = {
     package = null;
     config = {
-      keybindings = let
-        modifier = config.wayland.windowManager.sway.config.modifier;
-      in {
-        "${modifier}+Shift+w" = ''exec networkmanager_dmenu'';
-      };
+      keybindings =
+        let
+          modifier = config.wayland.windowManager.sway.config.modifier;
+        in
+        {
+          "${modifier}+Shift+w" = ''exec networkmanager_dmenu'';
+        };
       input = {
         "2362:628:PIXA3854:00_093A:0274_Touchpad" = {
           click_method = "clickfinger";

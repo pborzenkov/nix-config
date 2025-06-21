@@ -21,7 +21,7 @@ buildGoModule rec {
   meta = with lib; {
     description = "A tool to request an external port from ProtonVPN and configure Transmission to use it";
     homepage = "https://github.com/pborzenkov/transmission-protonvpn-nat-pmp";
-    license = with licenses; [mit];
-    maintainers = with maintainers; [pborzenkov];
+    license = with licenses; [ mit ];
+    maintainers = with maintainers; [ pborzenkov ];
   };
 }

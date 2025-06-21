@@ -1,11 +1,12 @@
-{...}: {
+{ ... }:
+{
   services.jellyfin = {
     enable = true;
     openFirewall = true;
   };
 
   systemd.services.jellyfin = {
-    unitConfig.RequiresMountsFor = ["/storage"];
+    unitConfig.RequiresMountsFor = [ "/storage" ];
   };
 
   pbor.webapps.apps.jellyfin = {

@@ -3,10 +3,11 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   services.calibre-server = {
     enable = true;
-    libraries = ["/storage/books"];
+    libraries = [ "/storage/books" ];
   };
 
   systemd.services.calibre-server = {
@@ -15,13 +16,13 @@
       --port 9876 \
       ${lib.concatStringsSep " " config.services.calibre-server.libraries} \
     '';
-    unitConfig.RequiresMountsFor = ["/storage"];
+    unitConfig.RequiresMountsFor = [ "/storage" ];
   };
 
   pbor.webapps.apps.calibre = {
     subDomain = "calibre";
     proxyTo = "http://127.0.0.1:9876";
-    locations."/" = {};
+    locations."/" = { };
     custom = {
       forceSSL = false;
     };

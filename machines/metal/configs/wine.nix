@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   boot.binfmt.registrations = {
     DOSWin = {
       interpreter = "${pkgs.wineWowPackages.waylandFull}/bin/wine64";

@@ -2,14 +2,16 @@
   config,
   machineSecrets,
   ...
-}: let
+}:
+let
   dashboardDomain = "${config.pbor.webapps.apps.grafana.subDomain}.${config.pbor.webapps.domain}";
-in {
+in
+{
   pbor.webapps.apps.grafana = {
     subDomain = "grafana";
-    auth.rbac = ["group:monitoring"];
+    auth.rbac = [ "group:monitoring" ];
     proxyTo = "http://127.0.0.1:${toString config.services.grafana.settings.server.http_port}";
-    locations."/" = {};
+    locations."/" = { };
     dashboard = {
       name = "Grafana";
       category = "infra";
@@ -19,7 +21,7 @@ in {
 
   services.postgresql = {
     enable = true;
-    ensureDatabases = ["grafana"];
+    ensureDatabases = [ "grafana" ];
     ensureUsers = [
       {
         name = "grafana";
@@ -121,10 +123,10 @@ in {
   };
 
   systemd.services.grafana = {
-    after = ["postgresql.service"];
-    requires = ["postgresql.service"];
+    after = [ "postgresql.service" ];
+    requires = [ "postgresql.service" ];
     serviceConfig = {
-      SupplementaryGroups = [config.users.groups.keys.name];
+      SupplementaryGroups = [ config.users.groups.keys.name ];
       EnvironmentFile = [
         config.age.secrets.tg-bot-alerting-environment.path
       ];

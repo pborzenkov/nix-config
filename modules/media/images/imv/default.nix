@@ -2,11 +2,15 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.pbor.media.images.imv;
-in {
+in
+{
   options = {
-    pbor.media.images.imv.enable = (lib.mkEnableOption "Enable imv") // {default = config.pbor.media.images.enable;};
+    pbor.media.images.imv.enable = (lib.mkEnableOption "Enable imv") // {
+      default = config.pbor.media.images.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {

@@ -1,4 +1,5 @@
-{lib, ...}: {
+{ lib, ... }:
+{
   # # TODO:
   # nixpkgs.config.permittedInsecurePackages = [
   #   "aspnetcore-runtime-wrapped-6.0.36"
@@ -14,9 +15,9 @@
     sonarr.enable = true;
   };
 
-  systemd.services = lib.genAttrs ["bazarr" "radarr" "sonarr"] (name: {
+  systemd.services = lib.genAttrs [ "bazarr" "radarr" "sonarr" ] (name: {
     unitConfig = {
-      RequiresMountsFor = ["/storage"];
+      RequiresMountsFor = [ "/storage" ];
     };
   });
 
@@ -24,7 +25,7 @@
     bazarr = {
       subDomain = "bazarr";
       proxyTo = "http://127.0.0.1:6767";
-      locations."/" = {};
+      locations."/" = { };
       dashboard = {
         name = "Bazaar";
         category = "arr";
@@ -34,7 +35,7 @@
     prowlarr = {
       subDomain = "prowlarr";
       proxyTo = "http://127.0.0.1:9696";
-      locations."/" = {};
+      locations."/" = { };
       dashboard = {
         name = "Prowlarr";
         category = "arr";
@@ -44,7 +45,7 @@
     radarr = {
       subDomain = "radarr";
       proxyTo = "http://127.0.0.1:7878";
-      locations."/" = {};
+      locations."/" = { };
       dashboard = {
         name = "Radarr";
         category = "arr";
@@ -54,7 +55,7 @@
     sonarr = {
       subDomain = "sonarr";
       proxyTo = "http://127.0.0.1:8989";
-      locations."/" = {};
+      locations."/" = { };
       dashboard = {
         name = "Sonaar";
         category = "arr";

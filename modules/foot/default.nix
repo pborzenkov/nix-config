@@ -3,11 +3,15 @@
   lib,
   isDesktop,
   ...
-}: let
+}:
+let
   cfg = config.pbor.foot;
-in {
+in
+{
   options = {
-    pbor.foot.enable = (lib.mkEnableOption "Enable foot") // {default = config.pbor.enable && isDesktop;};
+    pbor.foot.enable = (lib.mkEnableOption "Enable foot") // {
+      default = config.pbor.enable && isDesktop;
+    };
   };
 
   config = lib.mkIf cfg.enable {

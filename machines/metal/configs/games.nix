@@ -1,4 +1,5 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   in-gamescope = pkgs.writeShellApplication {
     name = "in-gamescope";
     text = ''
@@ -21,7 +22,8 @@
       exec "$@"
     '';
   };
-in {
+in
+{
   programs = {
     gamescope = {
       enable = true;
@@ -56,14 +58,17 @@ in {
         pkgs.gamemode
       ];
       extraCompatPackages = [
-        pkgs.proton-ge-bin
+        pkgs.unstable.proton-ge-bin
       ];
     };
   };
-  environment.systemPackages = [in-gamescope pkgs.lutris];
-  users.users.pbor.extraGroups = ["gamemode"];
+  environment.systemPackages = [
+    in-gamescope
+    pkgs.lutris
+  ];
+  users.users.pbor.extraGroups = [ "gamemode" ];
 
-  boot.kernelModules = ["uhid"];
+  boot.kernelModules = [ "uhid" ];
   services = {
     ananicy = {
       enable = true;
@@ -87,27 +92,29 @@ in {
           name = "Steam";
           output = "/tmp/sunshine-steam.txt";
           cmd = "in-gamescope -e -- capsh --noamb -+ steam -tenfoot";
-          prep-cmd = let
-            do-sunshine-monitor = pkgs.writeShellApplication {
-              name = "do-sunshine-monitor";
-              text = ''
-                hyprctl keyword windowrulev2 workspace name:sunshine, class:gamescope
-              '';
-              runtimeInputs = [pkgs.hyprland];
-            };
-            undo-sunshine-monitor = pkgs.writeShellApplication {
-              name = "undo-sunshine-monitor";
-              text = ''
-                hyprctl reload
-              '';
-              runtimeInputs = [pkgs.hyprland];
-            };
-          in [
-            {
-              do = "${do-sunshine-monitor}/bin/do-sunshine-monitor";
-              undo = "${undo-sunshine-monitor}/bin/undo-sunshine-monitor";
-            }
-          ];
+          prep-cmd =
+            let
+              do-sunshine-monitor = pkgs.writeShellApplication {
+                name = "do-sunshine-monitor";
+                text = ''
+                  hyprctl keyword windowrulev2 workspace name:sunshine, class:gamescope
+                '';
+                runtimeInputs = [ pkgs.hyprland ];
+              };
+              undo-sunshine-monitor = pkgs.writeShellApplication {
+                name = "undo-sunshine-monitor";
+                text = ''
+                  hyprctl reload
+                '';
+                runtimeInputs = [ pkgs.hyprland ];
+              };
+            in
+            [
+              {
+                do = "${do-sunshine-monitor}/bin/do-sunshine-monitor";
+                undo = "${undo-sunshine-monitor}/bin/undo-sunshine-monitor";
+              }
+            ];
           image-path = "steam.png";
         }
       ];

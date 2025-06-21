@@ -2,24 +2,25 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   pbor = {
     syncthing.folders = {
       "/home/pbor/docs" = {
         id = "docs";
-        devices = ["rock"];
+        devices = [ "rock" ];
       };
       "/home/pbor/books" = {
         id = "books";
-        devices = ["rock"];
+        devices = [ "rock" ];
       };
       "/home/pbor/notes" = {
         id = "notes";
-        devices = ["rock"];
+        devices = [ "rock" ];
       };
       "/home/pbor/.local/share/synced-state" = {
         id = "synced-state";
-        devices = ["rock"];
+        devices = [ "rock" ];
       };
     };
     wm = {
@@ -34,9 +35,9 @@
             [
               "name:sunshine, monitor:desc:LG Electronics LG TV 0x01010101, persistent:true, default:true"
             ]
-            ++ (
-              lib.lists.forEach (lib.lists.range 1 9) (idx: "${toString idx}, monitor:desc:Samsung Electric Company Odyssey G80SD H1AK500000, default:true")
-            );
+            ++ (lib.lists.forEach (lib.lists.range 1 9) (
+              idx: "${toString idx}, monitor:desc:Samsung Electric Company Odyssey G80SD H1AK500000, default:true"
+            ));
           cursor.default_monitor = "HDMI-A-1";
           bind = [
             "$mod+Shift, bracketleft, movecurrentworkspacetomonitor, desc:Dell Inc. DELL U3219Q 692P413"
@@ -53,7 +54,7 @@
           "alsa_output.usb-EDIFIER_EDIFIER_G2000_EDI00000X07-01.analog-stereo" = "";
           "alsa_output.pci-0000_10_00.1.hdmi-stereo-extra4" = "";
         };
-        setting-providers = ["sound"];
+        setting-providers = [ "sound" ];
       };
       dunst.monitor = 0;
     };
@@ -88,28 +89,34 @@
       "rd.systemd.show_status=false"
       "usbcore.autosuspend=-1"
     ];
-    supportedFilesystems = ["ntfs"];
+    supportedFilesystems = [ "ntfs" ];
   };
-  hardware.display = {
-    edid.packages = [
-      (pkgs.runCommand "lg-tv-edid" {} ''
-        mkdir -p "$out/lib/firmware/edid"
-        base64 -d > "$out/lib/firmware/edid/lg-tv.bin" <<'EOF'
-        AP///////wAebaDAAQEBAQEdAQOAoFp4Cu6Ro1RMmSYPUFShCAAxQEVAYUBxQIGA0cABAQEBCOgA
-        MPJwWoCwWIoAQIRjAAAeZiFQsFEAGzBAcDYAQIRjAAAeAAAA/QAYeB7/dwAKICAgICAgAAAA/ABM
-        RyBUVgogICAgICAgAY4CA2rxXmFgdnVmZdvaEB8EEwUUAwISICEiFQFdXl9iY2Q/QDIPVwcVB1BX
-        BwFnBAM9HsBffgFuAwwAEAC4PCAAgAECAwRq2F3EAXiAYwIoeOIAz+MFwADjBg0B4g8z6wFG0AAq
-        GAMlfXasb8IAoKCgVVAwIDUAQIRjAAAeAAAACQ==
-        EOF
-      '')
-    ];
-    outputs."DP-1" = {
-      edid = "lg-tv.bin";
-      mode = "e";
+  hardware = {
+    display = {
+      edid.packages = [
+        (pkgs.runCommand "lg-tv-edid" { } ''
+          mkdir -p "$out/lib/firmware/edid"
+          base64 -d > "$out/lib/firmware/edid/lg-tv.bin" <<'EOF'
+          AP///////wAebaDAAQEBAQEdAQOAoFp4Cu6Ro1RMmSYPUFShCAAxQEVAYUBxQIGA0cABAQEBCOgA
+          MPJwWoCwWIoAQIRjAAAeZiFQsFEAGzBAcDYAQIRjAAAeAAAA/QAYeB7/dwAKICAgICAgAAAA/ABM
+          RyBUVgogICAgICAgAY4CA2rxXmFgdnVmZdvaEB8EEwUUAwISICEiFQFdXl9iY2Q/QDIPVwcVB1BX
+          BwFnBAM9HsBffgFuAwwAEAC4PCAAgAECAwRq2F3EAXiAYwIoeOIAz+MFwADjBg0B4g8z6wFG0AAq
+          GAMlfXasb8IAoKCgVVAwIDUAQIRjAAAeAAAACQ==
+          EOF
+        '')
+      ];
+      outputs."DP-1" = {
+        edid = "lg-tv.bin";
+        mode = "e";
+      };
+    };
+    graphics = {
+      package = pkgs.unstable.mesa;
+      package32 = pkgs.unstable.pkgsi686Linux.mesa;
     };
   };
 
-  users.users.pbor.extraGroups = ["dialout"];
+  users.users.pbor.extraGroups = [ "dialout" ];
 
   powerManagement = {
     enable = true;

@@ -2,11 +2,15 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.pbor.basetools.htop;
-in {
+in
+{
   options = {
-    pbor.basetools.htop.enable = (lib.mkEnableOption "Enable htop") // {default = config.pbor.basetools.enable;};
+    pbor.basetools.htop.enable = (lib.mkEnableOption "Enable htop") // {
+      default = config.pbor.basetools.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {

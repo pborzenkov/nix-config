@@ -3,11 +3,15 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.pbor.devtools.lang.c;
-in {
+in
+{
   options = {
-    pbor.devtools.lang.c.enable = (lib.mkEnableOption "Enable C/C++") // {default = false;};
+    pbor.devtools.lang.c.enable = (lib.mkEnableOption "Enable C/C++") // {
+      default = false;
+    };
   };
 
   config = lib.mkIf cfg.enable {

@@ -2,11 +2,15 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.pbor.basetools.skim;
-in {
+in
+{
   options = {
-    pbor.basetools.skim.enable = (lib.mkEnableOption "Enable skim") // {default = config.pbor.basetools.enable;};
+    pbor.basetools.skim.enable = (lib.mkEnableOption "Enable skim") // {
+      default = config.pbor.basetools.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {

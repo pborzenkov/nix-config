@@ -4,13 +4,17 @@
   pborlib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.pbor.media.audio;
-in {
+in
+{
   imports = pborlib.allDirs ./.;
 
   options = {
-    pbor.media.audio.enable = (lib.mkEnableOption "Enable audio") // {default = config.pbor.media.enable;};
+    pbor.media.audio.enable = (lib.mkEnableOption "Enable audio") // {
+      default = config.pbor.media.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {

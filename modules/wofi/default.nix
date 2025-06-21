@@ -4,34 +4,42 @@
   pkgs,
   isDesktop,
   ...
-}: let
+}:
+let
   cfg = config.pbor.wofi;
-in {
+in
+{
   options = {
-    pbor.wofi.enable = (lib.mkEnableOption "Enable wofi") // {default = config.pbor.enable && isDesktop;};
+    pbor.wofi.enable = (lib.mkEnableOption "Enable wofi") // {
+      default = config.pbor.enable && isDesktop;
+    };
     pbor.wofi.menu = lib.mkOption {
-      type = lib.types.nullOr (lib.types.attrsOf (lib.types.submodule {
-        options = {
-          title = lib.mkOption {
-            type = lib.types.str;
-            description = ''Entry title.'';
-          };
-          cmd = lib.mkOption {
-            type = lib.types.str;
-            description = ''Command to run.'';
-          };
-          icon = lib.mkOption {
-            type = lib.types.str;
-            description = ''Entry icon.'';
-          };
-          confirmation = lib.mkOption {
-            type = lib.types.bool;
-            default = true;
-            description = ''Whether the entry requires confirmation or not.'';
-          };
-        };
-      }));
-      default = {};
+      type = lib.types.nullOr (
+        lib.types.attrsOf (
+          lib.types.submodule {
+            options = {
+              title = lib.mkOption {
+                type = lib.types.str;
+                description = ''Entry title.'';
+              };
+              cmd = lib.mkOption {
+                type = lib.types.str;
+                description = ''Command to run.'';
+              };
+              icon = lib.mkOption {
+                type = lib.types.str;
+                description = ''Entry icon.'';
+              };
+              confirmation = lib.mkOption {
+                type = lib.types.bool;
+                default = true;
+                description = ''Whether the entry requires confirmation or not.'';
+              };
+            };
+          }
+        )
+      );
+      default = { };
     };
   };
 
@@ -57,27 +65,28 @@ in {
         pkgs.wofi-power-menu
       ];
 
-      xdg.configFile."wofi-power-menu.toml".source = (pkgs.formats.toml {}).generate "wofi-power-menu.toml" {
-        wofi = {
-          extra_args = "--width 20% --allow-markup --columns=1 --hide-scroll";
-        };
-        menu =
+      xdg.configFile."wofi-power-menu.toml".source =
+        (pkgs.formats.toml { }).generate "wofi-power-menu.toml"
           {
-            logout = {
-              cmd = "loginctl terminate-session auto";
-              requires_confirmation = "true";
+            wofi = {
+              extra_args = "--width 20% --allow-markup --columns=1 --hide-scroll";
             };
-            suspend.requires_confirmation = "false";
-            hibernate.enabled = "false";
-          }
-          // (builtins.mapAttrs (_: entry: {
-              title = entry.title;
-              cmd = entry.cmd;
-              icon = entry.icon;
-              requires_confirmation = lib.boolToString entry.confirmation;
-            })
-            cfg.menu);
-      };
+            menu =
+              {
+                logout = {
+                  cmd = "loginctl terminate-session auto";
+                  requires_confirmation = "true";
+                };
+                suspend.requires_confirmation = "false";
+                hibernate.enabled = "false";
+              }
+              // (builtins.mapAttrs (_: entry: {
+                title = entry.title;
+                cmd = entry.cmd;
+                icon = entry.icon;
+                requires_confirmation = lib.boolToString entry.confirmation;
+              }) cfg.menu);
+          };
     };
   };
 }

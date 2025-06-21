@@ -3,11 +3,15 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.pbor.wm.sway.swayidle;
-in {
+in
+{
   options = {
-    pbor.wm.sway.swayidle.enable = (lib.mkEnableOption "Enable swayidle") // {default = config.pbor.wm.sway.enable;};
+    pbor.wm.sway.swayidle.enable = (lib.mkEnableOption "Enable swayidle") // {
+      default = config.pbor.wm.sway.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {

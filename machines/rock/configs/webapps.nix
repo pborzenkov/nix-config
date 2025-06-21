@@ -3,7 +3,8 @@
   lib,
   machineSecrets,
   ...
-}: {
+}:
+{
   pbor.webapps = {
     enable = true;
     domain = "lab.borzenkov.net";
@@ -18,7 +19,7 @@
       sso = {
         subDomain = config.pbor.webapps.ssoSubDomain;
         proxyTo = config.pbor.webapps.ssoInternalAddress;
-        locations."/" = {};
+        locations."/" = { };
         dashboard = {
           name = "Auth";
           category = "infra";
@@ -28,7 +29,7 @@
       ldap = {
         subDomain = "ldap";
         proxyTo = "http://127.0.0.1:17170";
-        locations."/" = {};
+        locations."/" = { };
         dashboard = {
           name = "LLDAP";
           category = "infra";
@@ -38,7 +39,10 @@
     };
   };
 
-  networking.firewall.allowedTCPPorts = [80 443];
+  networking.firewall.allowedTCPPorts = [
+    80
+    443
+  ];
 
   systemd.services."acme-${config.pbor.webapps.domain}".serviceConfig.EnvironmentFile = lib.mkForce [
     config.pbor.webapps.acmeCredentialsFile
@@ -111,11 +115,11 @@
           networks = [
             {
               name = "internal";
-              networks = ["192.168.88.0/24"];
+              networks = [ "192.168.88.0/24" ];
             }
             {
               name = "vpn";
-              networks = ["192.168.111.0/24"];
+              networks = [ "192.168.111.0/24" ];
             }
           ];
           rules = lib.mapAttrsToList (_: a: {
@@ -148,27 +152,26 @@
           };
         };
         identity_providers.oidc = {
-          authorization_policies =
-            lib.mapAttrs (id: a: {
-              default_policy = "deny";
-              rules = [
-                {
-                  policy = "one_factor";
-                  subject = a.auth.oidc.rbac;
-                }
-              ];
-            })
-            (lib.filterAttrs (_: a: a.auth != null && a.auth.oidc != null) config.pbor.webapps.apps);
+          authorization_policies = lib.mapAttrs (id: a: {
+            default_policy = "deny";
+            rules = [
+              {
+                policy = "one_factor";
+                subject = a.auth.oidc.rbac;
+              }
+            ];
+          }) (lib.filterAttrs (_: a: a.auth != null && a.auth.oidc != null) config.pbor.webapps.apps);
 
-          clients = lib.mapAttrsToList (id: a:
+          clients = lib.mapAttrsToList (
+            id: a:
             {
               client_id = id;
               client_name = id;
               authorization_policy = id;
               public = false;
             }
-            // a.auth.oidc.settings)
-          (lib.filterAttrs (_: a: a.auth != null && a.auth.oidc != null) config.pbor.webapps.apps);
+            // a.auth.oidc.settings
+          ) (lib.filterAttrs (_: a: a.auth != null && a.auth.oidc != null) config.pbor.webapps.apps);
         };
       };
     };

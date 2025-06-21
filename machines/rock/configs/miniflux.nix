@@ -2,14 +2,16 @@
   config,
   machineSecrets,
   ...
-}: let
+}:
+let
   port = "8083";
-in {
+in
+{
   pbor.webapps.apps.miniflux = {
     subDomain = "rss";
-    auth.rbac = ["group:rss"];
+    auth.rbac = [ "group:rss" ];
     proxyTo = "http://127.0.0.1:${port}";
-    locations."/" = {};
+    locations."/" = { };
     dashboard = {
       name = "Miniflux";
       category = "app";

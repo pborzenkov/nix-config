@@ -1,8 +1,9 @@
-{...}: {
+{ ... }:
+{
   pbor.webapps.apps.bitwarden = {
     subDomain = "bitwarden";
     proxyTo = "http://127.0.0.1:8222";
-    locations."/" = {};
+    locations."/" = { };
     dashboard = {
       name = "Bitwarden";
       category = "app";

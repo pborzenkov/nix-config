@@ -3,11 +3,15 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.pbor.devtools.git.gitu;
-in {
+in
+{
   options = {
-    pbor.devtools.git.gitu.enable = (lib.mkEnableOption "Enable gitu") // {default = config.pbor.devtools.git.enable;};
+    pbor.devtools.git.gitu.enable = (lib.mkEnableOption "Enable gitu") // {
+      default = config.pbor.devtools.git.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {

@@ -2,11 +2,12 @@
   config,
   machineSecrets,
   ...
-}: {
+}:
+{
   services.postgresql = {
     enable = true;
     enableTCPIP = true;
-    ensureDatabases = ["tf_infra"];
+    ensureDatabases = [ "tf_infra" ];
     authentication = ''
       host  all all 192.168.88.0/24 md5
     '';
@@ -30,5 +31,5 @@
 
   age.secrets.terraform-pg.file = machineSecrets + "/terraform-pg-environment.age";
 
-  networking.firewall.allowedTCPPorts = [5432];
+  networking.firewall.allowedTCPPorts = [ 5432 ];
 }

@@ -1,13 +1,16 @@
 {
   config,
   lib,
-  username,
   ...
-}: let
+}:
+let
   cfg = config.pbor.helix;
-in {
+in
+{
   options = {
-    pbor.helix.enable = (lib.mkEnableOption "Enable helix") // {default = config.pbor.enable;};
+    pbor.helix.enable = (lib.mkEnableOption "Enable helix") // {
+      default = config.pbor.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -29,12 +32,21 @@ in {
               display-inlay-hints = false;
             };
             mouse = false;
-            shell = ["fish" "-c"];
+            shell = [
+              "fish"
+              "-c"
+            ];
             soft-wrap = {
               enable = true;
             };
             statusline = {
-              right = ["version-control" "diagnostics" "selections" "position" "file-encoding"];
+              right = [
+                "version-control"
+                "diagnostics"
+                "selections"
+                "position"
+                "file-encoding"
+              ];
             };
           };
           keys.normal.space = {
@@ -55,8 +67,7 @@ in {
             {
               name = "nix";
               formatter = {
-                command = "alejandra";
-                args = ["-"];
+                command = "nixfmt";
               };
               auto-format = true;
             }

@@ -1,4 +1,5 @@
-{...}: {
+{ ... }:
+{
   networking = {
     hostName = "metal";
     domain = "lab.borzenkov.net";

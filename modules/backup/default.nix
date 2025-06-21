@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.pbor.backup;
 
   opTimeConfig = {
@@ -24,7 +25,8 @@
       example = "5h";
     };
   };
-in {
+in
+{
   imports = [
     ./fs.nix
     ./db.nix
@@ -76,7 +78,7 @@ in {
     prune = {
       options = lib.mkOption {
         type = with lib.types; listOf str;
-        default = [];
+        default = [ ];
         description = ''
           A list of options (--keep-* et al.) for 'restic forget
           --prune', to automatically prune old snapshots.
@@ -92,31 +94,32 @@ in {
     };
   };
 
-  config = let
-    hostKeyAlgos = "-o HostKeyAlgorithms=ssh-ed25519";
-    sshKeyFile = lib.optionalString (cfg.sshKeyFile != null) "-i ${cfg.sshKeyFile}";
-    sshCommand = "ssh ${cfg.user}@${cfg.host} ${sshKeyFile} ${hostKeyAlgos}";
-    sftpCommand = "${sshCommand} -s sftp";
+  config =
+    let
+      hostKeyAlgos = "-o HostKeyAlgorithms=ssh-ed25519";
+      sshKeyFile = lib.optionalString (cfg.sshKeyFile != null) "-i ${cfg.sshKeyFile}";
+      sshCommand = "ssh ${cfg.user}@${cfg.host} ${sshKeyFile} ${hostKeyAlgos}";
+      sftpCommand = "${sshCommand} -s sftp";
 
-    checkRepoSpace = pkgs.writeShellScriptBin "check-repo-space" ''
-      line=$(${sshCommand} quota | tail +3 | head -1)
-      total_space=$(echo $line | ${pkgs.gawk}/bin/awk '{print $3}')
-      total_space=$(echo "$total_space * 1024 * 1024 * 1024 / 1" | ${pkgs.bc}/bin/bc)
-      free_space=$(echo $line | ${pkgs.gawk}/bin/awk '{print $3-$2}')
-      free_space=$(echo "$free_space * 1024 * 1024 * 1024 / 1" | ${pkgs.bc}/bin/bc)
+      checkRepoSpace = pkgs.writeShellScriptBin "check-repo-space" ''
+        line=$(${sshCommand} quota | tail +3 | head -1)
+        total_space=$(echo $line | ${pkgs.gawk}/bin/awk '{print $3}')
+        total_space=$(echo "$total_space * 1024 * 1024 * 1024 / 1" | ${pkgs.bc}/bin/bc)
+        free_space=$(echo $line | ${pkgs.gawk}/bin/awk '{print $3-$2}')
+        free_space=$(echo "$free_space * 1024 * 1024 * 1024 / 1" | ${pkgs.bc}/bin/bc)
 
-      METRICS_FILE='/var/lib/prometheus-node-exporter/restic-repo.prom'
-      TMP_FILE="$(mktemp ''${METRICS_FILE}.XXXXXXX)"
+        METRICS_FILE='/var/lib/prometheus-node-exporter/restic-repo.prom'
+        TMP_FILE="$(mktemp ''${METRICS_FILE}.XXXXXXX)"
 
-      echo -e "restic_backup_repo_size_bytes{repo=\"${cfg.host}\"} $total_space" >> "$TMP_FILE"
-      echo -e "restic_backup_repo_free_bytes{repo=\"${cfg.host}\"} $free_space" >> "$TMP_FILE"
+        echo -e "restic_backup_repo_size_bytes{repo=\"${cfg.host}\"} $total_space" >> "$TMP_FILE"
+        echo -e "restic_backup_repo_free_bytes{repo=\"${cfg.host}\"} $free_space" >> "$TMP_FILE"
 
-      mv "$TMP_FILE" "$METRICS_FILE"
-      chmod a+r "$METRICS_FILE"
-    '';
+        mv "$TMP_FILE" "$METRICS_FILE"
+        chmod a+r "$METRICS_FILE"
+      '';
 
-    pruneName = "restic-backups-prune";
-  in
+      pruneName = "restic-backups-prune";
+    in
     lib.mkIf cfg.enable {
       lib.pbor.backup.repository = "sftp::${cfg.repository}";
       lib.pbor.backup.extraOptions = [
@@ -130,16 +133,17 @@ in {
           RandomizedDelaySec = cfg.timerConfig.RandomizedDelaySec;
         };
 
-      systemd.services."${pruneName}" = let
-        extraOptions = lib.concatMapStrings (arg: " -o ${arg}") config.lib.pbor.backup.extraOptions;
-        resticCmd = "${pkgs.restic}/bin/restic${extraOptions}";
-      in
+      systemd.services."${pruneName}" =
+        let
+          extraOptions = lib.concatMapStrings (arg: " -o ${arg}") config.lib.pbor.backup.extraOptions;
+          resticCmd = "${pkgs.restic}/bin/restic${extraOptions}";
+        in
         lib.mkIf (builtins.length cfg.prune.options > 0) {
           environment = {
             RESTIC_PASSWORD_FILE = cfg.passwordFile;
             RESTIC_REPOSITORY = config.lib.pbor.backup.repository;
           };
-          path = [pkgs.openssh];
+          path = [ pkgs.openssh ];
           restartIfChanged = false;
           serviceConfig = {
             Type = "oneshot";
@@ -155,7 +159,7 @@ in {
           };
         };
       systemd.timers."${pruneName}" = lib.mkIf (builtins.length cfg.prune.options > 0) {
-        wantedBy = ["timers.target"];
+        wantedBy = [ "timers.target" ];
         timerConfig = cfg.prune.timerConfig;
       };
     };

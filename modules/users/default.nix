@@ -2,11 +2,15 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.pbor.users;
-in {
+in
+{
   options = {
-    pbor.users.enable = (lib.mkEnableOption "Enable users") // {default = config.pbor.enable;};
+    pbor.users.enable = (lib.mkEnableOption "Enable users") // {
+      default = config.pbor.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {

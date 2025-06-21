@@ -3,11 +3,15 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.pbor.devtools.reversing;
-in {
+in
+{
   options = {
-    pbor.devtools.reversing.enable = (lib.mkEnableOption "Enable reversing tools") // {default = config.pbor.devtools.enable;};
+    pbor.devtools.reversing.enable = (lib.mkEnableOption "Enable reversing tools") // {
+      default = config.pbor.devtools.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {

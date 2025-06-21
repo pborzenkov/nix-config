@@ -4,28 +4,40 @@
   pkgs,
   isDesktop,
   ...
-}: let
+}:
+let
   cfg = config.pbor.ssh;
 
   ssh-confirm = pkgs.writeShellApplication {
     name = "ssh-confirm";
     text = builtins.readFile ./scripts/ssh-confirm.sh;
-    runtimeInputs = [pkgs.wofi];
+    runtimeInputs = [ pkgs.wofi ];
   };
   ssh-rbw-askpass = pkgs.writeShellApplication {
     name = "ssh-rbw-askpass";
     text = builtins.readFile ./scripts/ssh-rbw-askpass.sh;
-    runtimeInputs = [pkgs.nettools pkgs.rbw];
+    runtimeInputs = [
+      pkgs.nettools
+      pkgs.rbw
+    ];
   };
   ssh-add-key = pkgs.writeShellApplication {
     name = "ssh-add-key";
     text = builtins.readFile ./scripts/ssh-add-key.sh;
-    runtimeInputs = [pkgs.openssh ssh-rbw-askpass];
+    runtimeInputs = [
+      pkgs.openssh
+      ssh-rbw-askpass
+    ];
   };
-in {
+in
+{
   options = {
-    pbor.ssh.enable = (lib.mkEnableOption "Enable ssh") // {default = config.pbor.enable;};
-    pbor.ssh.server.enable = (lib.mkEnableOption "Enable ssh server") // {default = cfg.enable && !isDesktop;};
+    pbor.ssh.enable = (lib.mkEnableOption "Enable ssh") // {
+      default = config.pbor.enable;
+    };
+    pbor.ssh.server.enable = (lib.mkEnableOption "Enable ssh server") // {
+      default = cfg.enable && !isDesktop;
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -108,10 +120,10 @@ in {
           };
         };
 
-        includes = ["config.local"];
+        includes = [ "config.local" ];
       };
       home = {
-        packages = [ssh-add-key];
+        packages = [ ssh-add-key ];
         sessionVariables = lib.mkIf isDesktop {
           SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/ssh-agent";
         };
@@ -119,7 +131,7 @@ in {
 
       systemd.user.services.ssh-agent = lib.mkIf isDesktop {
         Unit = {
-          After = ["graphical-session.target"];
+          After = [ "graphical-session.target" ];
         };
 
         Service = {
@@ -130,7 +142,7 @@ in {
           Slice = "background-graphical.slice";
         };
 
-        Install.WantedBy = ["graphical-session.target"];
+        Install.WantedBy = [ "graphical-session.target" ];
       };
     };
   };

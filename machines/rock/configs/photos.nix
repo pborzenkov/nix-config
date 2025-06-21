@@ -1,8 +1,9 @@
-{config, ...}: {
+{ config, ... }:
+{
   pbor.webapps.apps.immich = {
     subDomain = "photos";
     auth.oidc = {
-      rbac = ["group:photos"];
+      rbac = [ "group:photos" ];
       settings = {
         client_secret = "$pbkdf2-sha512$310000$OKj15ajAukzG787LV5gqBw$p/eN.fDwH/XqCZ0I5/15oGKKOBXS8eAqQLwIfSXidkQgOHIJhhzN224YP7sQauU3MxZRco2gTPxx5N9zozvDbA";
         redirect_uris = [
@@ -10,7 +11,11 @@
           "https://photos.${config.pbor.webapps.domain}/user-settings"
           "app.immich:///oauth-callback"
         ];
-        scopes = ["openid" "profile" "email"];
+        scopes = [
+          "openid"
+          "profile"
+          "email"
+        ];
         userinfo_signed_response_alg = "none";
       };
     };
@@ -35,7 +40,7 @@
     mediaLocation = "/storage/photos";
   };
 
-  systemd.services.immich.unitConfig.RequiresMountsFor = ["/storage"];
+  systemd.services.immich.unitConfig.RequiresMountsFor = [ "/storage" ];
 
   pbor.backup = {
     dbBackups.photos = {

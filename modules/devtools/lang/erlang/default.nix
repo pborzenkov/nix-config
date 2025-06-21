@@ -3,11 +3,15 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.pbor.devtools.lang.erlan;
-in {
+in
+{
   options = {
-    pbor.devtools.lang.erlan.enable = (lib.mkEnableOption "Enable Erlang") // {default = false;};
+    pbor.devtools.lang.erlan.enable = (lib.mkEnableOption "Enable Erlang") // {
+      default = false;
+    };
   };
 
   config = lib.mkIf cfg.enable {

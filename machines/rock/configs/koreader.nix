@@ -1,14 +1,15 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   pbor.webapps.apps.koreader = {
     subDomain = "koreader";
     proxyTo = "http://127.0.0.1:3131";
-    locations."/" = {};
+    locations."/" = { };
   };
 
   systemd.services.koreader-syncd = {
     description = "KOReader progress sync server";
-    after = ["network.target"];
-    wantedBy = ["multi-user.target"];
+    after = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
 
     serviceConfig = {
       Type = "simple";

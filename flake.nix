@@ -41,55 +41,60 @@
     };
   };
 
-  outputs = {self, ...} @ inputs: let
-    lib = import ./lib {inherit inputs self;};
+  outputs =
+    { self, ... }@inputs:
+    let
+      lib = import ./lib { inherit inputs self; };
 
-    systems = {
-      metal = {
-        nixosStateVersion = "23.05";
-        homeStateVersion = "21.05";
-        deploy = false;
-      };
-      rock = {
-        nixosStateVersion = "23.05";
-        homeStateVersion = "21.05";
-        isDesktop = false;
-        extraModules = [
-          inputs.valheim-server.nixosModules.default
-        ];
-      };
-      gw = {
-        nixosStateVersion = "23.05";
-        homeStateVersion = "24.05";
-        isDesktop = false;
-      };
-      yubikey = {
-        nixosStateVersion = "24.05";
-        isDesktop = false;
-        deploy = false;
-      };
-    };
-  in {
-    nixosConfigurations = lib.makeNixOSConfigurations systems;
-    deploy = {
-      sshUser = "pbor";
-      user = "root";
-      nodes = lib.makeDeployNodes systems;
-    };
-
-    devShells = lib.forAllSystems (
-      system: let
-        pkgs = import inputs.nixpkgs {inherit system;};
-      in {
-        default = pkgs.mkShell {
-          nativeBuildInputs = [
-            (inputs.agenix.packages.${system}.default.override {ageBin = "${pkgs.rage}/bin/rage";})
-            inputs.deploy-rs.packages.${system}.deploy-rs
-            pkgs.rbw
-            pkgs.nix-tree
+      systems = {
+        metal = {
+          nixosStateVersion = "23.05";
+          homeStateVersion = "21.05";
+          deploy = false;
+        };
+        rock = {
+          nixosStateVersion = "23.05";
+          homeStateVersion = "21.05";
+          isDesktop = false;
+          extraModules = [
+            inputs.valheim-server.nixosModules.default
           ];
         };
-      }
-    );
-  };
+        gw = {
+          nixosStateVersion = "23.05";
+          homeStateVersion = "24.05";
+          isDesktop = false;
+        };
+        yubikey = {
+          nixosStateVersion = "24.05";
+          isDesktop = false;
+          deploy = false;
+        };
+      };
+    in
+    {
+      nixosConfigurations = lib.makeNixOSConfigurations systems;
+      deploy = {
+        sshUser = "pbor";
+        user = "root";
+        nodes = lib.makeDeployNodes systems;
+      };
+
+      devShells = lib.forAllSystems (
+        system:
+        let
+          pkgs = import inputs.nixpkgs { inherit system; };
+        in
+        {
+          default = pkgs.mkShell {
+            nativeBuildInputs = [
+              (inputs.agenix.packages.${system}.default.override { ageBin = "${pkgs.rage}/bin/rage"; })
+              inputs.deploy-rs.packages.${system}.deploy-rs
+              pkgs.rbw
+              pkgs.nix-tree
+            ];
+          };
+        }
+      );
+    };
 }

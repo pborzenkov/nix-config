@@ -3,11 +3,15 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.pbor.shell;
-in {
+in
+{
   options = {
-    pbor.shell.enable = (lib.mkEnableOption "Enable shell") // {default = config.pbor.enable;};
+    pbor.shell.enable = (lib.mkEnableOption "Enable shell") // {
+      default = config.pbor.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {

@@ -3,11 +3,15 @@
   lib,
   isDesktop,
   ...
-}: let
+}:
+let
   cfg = config.pbor.sound;
-in {
+in
+{
   options = {
-    pbor.sound.enable = (lib.mkEnableOption "Enable sound") // {default = config.pbor.enable && isDesktop;};
+    pbor.sound.enable = (lib.mkEnableOption "Enable sound") // {
+      default = config.pbor.enable && isDesktop;
+    };
   };
 
   config = lib.mkIf cfg.enable {

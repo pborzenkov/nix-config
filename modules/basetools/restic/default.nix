@@ -3,11 +3,15 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.pbor.basetools.restic;
-in {
+in
+{
   options = {
-    pbor.basetools.restic.enable = (lib.mkEnableOption "Enable restic") // {default = config.pbor.basetools.enable;};
+    pbor.basetools.restic.enable = (lib.mkEnableOption "Enable restic") // {
+      default = config.pbor.basetools.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {

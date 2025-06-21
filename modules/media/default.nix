@@ -4,16 +4,19 @@
   pborlib,
   isDesktop,
   ...
-}: let
+}:
+let
   cfg = config.pbor.media;
-in {
+in
+{
   imports = pborlib.allDirs ./.;
 
   options = {
-    pbor.media.enable = (lib.mkEnableOption "Enable media") // {default = config.pbor.enable && isDesktop;};
+    pbor.media.enable = (lib.mkEnableOption "Enable media") // {
+      default = config.pbor.enable && isDesktop;
+    };
   };
 
-  config =
-    lib.mkIf cfg.enable {
-    };
+  config = lib.mkIf cfg.enable {
+  };
 }

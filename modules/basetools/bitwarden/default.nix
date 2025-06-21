@@ -4,15 +4,19 @@
   pkgs,
   isDesktop,
   ...
-}: let
+}:
+let
   cfg = config.pbor.basetools.bitwarden;
-in {
+in
+{
   options = {
-    pbor.basetools.bitwarden.enable = (lib.mkEnableOption "Enable bitwarden") // {default = config.pbor.basetools.enable && isDesktop;};
+    pbor.basetools.bitwarden.enable = (lib.mkEnableOption "Enable bitwarden") // {
+      default = config.pbor.basetools.enable && isDesktop;
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    services.dbus.packages = [pkgs.gcr];
+    services.dbus.packages = [ pkgs.gcr ];
 
     hm.programs.rbw = {
       enable = true;

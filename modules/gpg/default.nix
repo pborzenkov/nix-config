@@ -4,48 +4,54 @@
   pkgs,
   isDesktop,
   ...
-}: let
+}:
+let
   cfg = config.pbor.gpg;
-in {
+in
+{
   options = {
-    pbor.gpg.enable = (lib.mkEnableOption "Enable gpg") // {default = false;};
+    pbor.gpg.enable = (lib.mkEnableOption "Enable gpg") // {
+      default = false;
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    services.dbus.packages = lib.mkIf isDesktop [pkgs.gcr];
+    services.dbus.packages = lib.mkIf isDesktop [ pkgs.gcr ];
 
-    hm = {config, ...}: {
-      programs.gpg = {
-        enable = true;
-        homedir = "${config.xdg.dataHome}/gnupg";
+    hm =
+      { config, ... }:
+      {
+        programs.gpg = {
+          enable = true;
+          homedir = "${config.xdg.dataHome}/gnupg";
 
-        settings = {
-          default-key = "0xB1392A8089E0A994";
+          settings = {
+            default-key = "0xB1392A8089E0A994";
 
-          no-autostart = !isDesktop;
+            no-autostart = !isDesktop;
+          };
+        };
+
+        services.gpg-agent = lib.mkIf isDesktop {
+          enable = true;
+          enableSshSupport = true;
+          enableExtraSocket = true;
+          pinentryPackage = pkgs.pinentry-gnome3;
+        };
+
+        systemd.user.services.gpgconf = lib.mkIf (!isDesktop) {
+          Unit = {
+            Description = "Create GnuPG socket directory";
+          };
+          Service = {
+            Type = "oneshot";
+            RemainAfterExit = "yes";
+            ExecStart = "${pkgs.gnupg}/bin/gpgconf --create-socketdir";
+          };
+          Install = {
+            WantedBy = [ "default.target" ];
+          };
         };
       };
-
-      services.gpg-agent = lib.mkIf isDesktop {
-        enable = true;
-        enableSshSupport = true;
-        enableExtraSocket = true;
-        pinentryPackage = pkgs.pinentry-gnome3;
-      };
-
-      systemd.user.services.gpgconf = lib.mkIf (!isDesktop) {
-        Unit = {
-          Description = "Create GnuPG socket directory";
-        };
-        Service = {
-          Type = "oneshot";
-          RemainAfterExit = "yes";
-          ExecStart = "${pkgs.gnupg}/bin/gpgconf --create-socketdir";
-        };
-        Install = {
-          WantedBy = ["default.target"];
-        };
-      };
-    };
   };
 }

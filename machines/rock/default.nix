@@ -1,21 +1,34 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   pbor = {
     syncthing.folders = {
       "/home/pbor/docs" = {
         id = "docs";
-        devices = ["metal" "trance"];
+        devices = [
+          "metal"
+          "trance"
+        ];
       };
       "/storage/books" = {
         id = "books";
-        devices = ["metal" "trance"];
+        devices = [
+          "metal"
+          "trance"
+        ];
       };
       "/home/pbor/notes" = {
         id = "notes";
-        devices = ["metal" "pixel9"];
+        devices = [
+          "metal"
+          "pixel9"
+        ];
       };
       "/home/pbor/.local/share/synced-state" = {
         id = "synced-state";
-        devices = ["metal" "trance"];
+        devices = [
+          "metal"
+          "trance"
+        ];
       };
     };
   };
@@ -38,7 +51,7 @@
     kernelModules = [
       "nct6775"
     ];
-    supportedFilesystems = ["ntfs"];
+    supportedFilesystems = [ "ntfs" ];
   };
 
   powerManagement = {

@@ -2,14 +2,16 @@
   config,
   machineSecrets,
   ...
-}: let
+}:
+let
   port = 3001;
-in {
+in
+{
   pbor.webapps.apps.invidious = {
     subDomain = "invidious";
     proxyTo = "http://127.0.0.1:${toString port}";
     locations = {
-      "/" = {};
+      "/" = { };
       "~ (^/videoplayback|^/vi/|^/ggpht/|^/sb/)" = {
         custom = {
           proxyPass = "http://unix:/run/http3-ytproxy/socket/http-proxy.sock";
@@ -41,7 +43,7 @@ in {
       external_port = 443;
       https_only = true;
       captcha_enabled = false;
-      admins = ["pavel"];
+      admins = [ "pavel" ];
       default_user_preferences = {
         quality = "dash";
         quality_dash = "auto";

@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   services.udev.packages = [
     (pkgs.writeTextFile {
       name = "keychron-k7";

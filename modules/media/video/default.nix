@@ -4,13 +4,17 @@
   pborlib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.pbor.media.video;
-in {
+in
+{
   imports = pborlib.allDirs ./.;
 
   options = {
-    pbor.media.video.enable = (lib.mkEnableOption "Enable video") // {default = config.pbor.media.enable;};
+    pbor.media.video.enable = (lib.mkEnableOption "Enable video") // {
+      default = config.pbor.media.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {

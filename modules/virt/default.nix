@@ -4,11 +4,15 @@
   pkgs,
   isDesktop,
   ...
-}: let
+}:
+let
   cfg = config.pbor.virt;
-in {
+in
+{
   options = {
-    pbor.virt.enable = (lib.mkEnableOption "Enable virt") // {default = config.pbor.enable && isDesktop;};
+    pbor.virt.enable = (lib.mkEnableOption "Enable virt") // {
+      default = config.pbor.enable && isDesktop;
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -26,22 +30,28 @@ in {
         enable = true;
         autoPrune = {
           enable = true;
-          flags = ["--all"];
+          flags = [ "--all" ];
         };
         dockerCompat = true;
         dockerSocket.enable = true;
       };
     };
-    users.users.pbor.extraGroups = ["kvm" "podman" "libvirtd"];
+    users.users.pbor.extraGroups = [
+      "kvm"
+      "podman"
+      "libvirtd"
+    ];
 
-    hm = {config, ...}: {
-      home = {
-        packages = with pkgs; [
-          libvirt
-          virt-manager
-          nixos-container
-        ];
+    hm =
+      { config, ... }:
+      {
+        home = {
+          packages = with pkgs; [
+            libvirt
+            virt-manager
+            nixos-container
+          ];
+        };
       };
-    };
   };
 }

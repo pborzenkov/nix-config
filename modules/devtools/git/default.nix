@@ -4,13 +4,17 @@
   pborlib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.pbor.devtools.git;
-in {
+in
+{
   imports = pborlib.allDirs ./.;
 
   options = {
-    pbor.devtools.git.enable = (lib.mkEnableOption "Enable git") // {default = config.pbor.devtools.enable;};
+    pbor.devtools.git.enable = (lib.mkEnableOption "Enable git") // {
+      default = config.pbor.devtools.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -31,9 +35,7 @@ in {
           rebase = true;
         };
 
-        pager = lib.genAttrs ["diff" "log" "show"] (
-          name: "delta --navigate"
-        );
+        pager = lib.genAttrs [ "diff" "log" "show" ] (name: "delta --navigate");
 
         sendemail = {
           smtpserver = "smtp.fastmail.com";

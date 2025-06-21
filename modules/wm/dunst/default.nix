@@ -3,11 +3,15 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.pbor.wm.dunst;
-in {
+in
+{
   options = {
-    pbor.wm.dunst.enable = (lib.mkEnableOption "Enable dunst") // {default = config.pbor.wm.enable;};
+    pbor.wm.dunst.enable = (lib.mkEnableOption "Enable dunst") // {
+      default = config.pbor.wm.enable;
+    };
     pbor.wm.dunst.monitor = lib.mkOption {
       type = lib.types.int;
       default = 0;

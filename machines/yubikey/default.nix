@@ -2,7 +2,8 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   guide = pkgs.stdenv.mkDerivation {
     name = "yubikey-guide-2024-08-18.html";
     src = pkgs.fetchFromGitHub {
@@ -11,7 +12,7 @@
       rev = "e218607c1f7c7573860f7e4d7bfd8ba1f8266736";
       sha256 = "sha256-f9jHcgMdoPF4Pu2IdxnUoSG62XJpqyRXf+gCIg4dYkk=";
     };
-    buildInputs = [pkgs.pandoc];
+    buildInputs = [ pkgs.pandoc ];
     installPhase = ''
       pandoc --highlight-style pygments -s --toc README.md | \
         sed -e 's/<keyid>/\&lt;keyid\&gt;/g' > $out
@@ -33,9 +34,10 @@
     ${pkgs.tmux}/bin/tmux select-pane -t 0
     ${pkgs.tmux}/bin/tmux attach-session -d
   '';
-in {
+in
+{
   boot = {
-    supportedFilesystems = lib.mkForce ["vfat"];
+    supportedFilesystems = lib.mkForce [ "vfat" ];
   };
   system.nixos.label = "YubiKey";
   isoImage = {
@@ -74,7 +76,7 @@ in {
   nix.enable = false;
 
   services = {
-    udev.packages = with pkgs; [yubikey-personalization];
+    udev.packages = with pkgs; [ yubikey-personalization ];
     pcscd.enable = true;
   };
 
@@ -86,7 +88,7 @@ in {
   security.sudo.wheelNeedsPassword = false;
   users.users.yubikey = {
     isNormalUser = true;
-    extraGroups = ["wheel"];
+    extraGroups = [ "wheel" ];
     shell = "/run/current-system/sw/bin/bash";
   };
   services.getty = {

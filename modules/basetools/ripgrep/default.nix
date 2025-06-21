@@ -3,12 +3,18 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.pbor.basetools.ripgrep;
-in {
+in
+{
   options = {
-    pbor.basetools.ripgrep.enable = (lib.mkEnableOption "Enable ripgrep") // {default = config.pbor.basetools.enable;};
-    pbor.basetools.ripgrep.all.enable = (lib.mkEnableOption "Enable ripgrep-all") // {default = cfg.enable;};
+    pbor.basetools.ripgrep.enable = (lib.mkEnableOption "Enable ripgrep") // {
+      default = config.pbor.basetools.enable;
+    };
+    pbor.basetools.ripgrep.all.enable = (lib.mkEnableOption "Enable ripgrep-all") // {
+      default = cfg.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -20,9 +26,7 @@ in {
         ];
       };
 
-      home.packages =
-        []
-        ++ lib.optional cfg.all.enable pkgs.ripgrep-all;
+      home.packages = [ ] ++ lib.optional cfg.all.enable pkgs.ripgrep-all;
     };
   };
 }

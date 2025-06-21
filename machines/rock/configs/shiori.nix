@@ -2,12 +2,13 @@
   config,
   machineSecrets,
   ...
-}: {
+}:
+{
   pbor.webapps.apps = {
     shiori = {
       subDomain = "shiori";
       proxyTo = "http://127.0.0.1:8085";
-      locations."/" = {};
+      locations."/" = { };
       dashboard = {
         name = "Shiori";
         category = "app";

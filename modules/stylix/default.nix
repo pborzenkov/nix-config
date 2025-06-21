@@ -5,11 +5,15 @@
   inputs,
   isDesktop,
   ...
-}: let
+}:
+let
   cfg = config.pbor.stylix;
-in {
+in
+{
   options = {
-    pbor.stylix.enable = (lib.mkEnableOption "Enable stylix") // {default = config.pbor.enable && isDesktop;};
+    pbor.stylix.enable = (lib.mkEnableOption "Enable stylix") // {
+      default = config.pbor.enable && isDesktop;
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -28,7 +32,7 @@ in {
       };
 
       cursor = {
-        package = pkgs.vimix-cursors;
+        package = pkgs.unstable.vimix-cursors;
         name = "Vimix-cursors";
         size = 24;
       };
@@ -69,20 +73,22 @@ in {
       };
     };
 
-    hm = {config, ...}: {
-      gtk = {
-        enable = true;
-        gtk2.configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";
-        theme = {
-          name = lib.mkForce "vimix-dark-doder";
-          package = lib.mkForce pkgs.vimix-gtk-themes;
+    hm =
+      { config, ... }:
+      {
+        gtk = {
+          enable = true;
+          gtk2.configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";
+          theme = {
+            name = lib.mkForce "vimix-dark-doder";
+            package = lib.mkForce pkgs.vimix-gtk-themes;
+          };
+          iconTheme = {
+            name = "Vimix-Doder-dark";
+            package = pkgs.vimix-icon-theme;
+          };
         };
-        iconTheme = {
-          name = "Vimix-Doder-dark";
-          package = pkgs.vimix-icon-theme;
-        };
+        xresources.path = "${config.xdg.configHome}/X11/xresources";
       };
-      xresources.path = "${config.xdg.configHome}/X11/xresources";
-    };
   };
 }

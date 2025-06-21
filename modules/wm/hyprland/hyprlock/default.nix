@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.pbor.wm.hyprland.hyprlock;
 
   unlock-hyprlock = pkgs.writeShellApplication {
@@ -11,16 +12,19 @@
     text = ''
       pkill -SIGUSR1 hyprlock
     '';
-    runtimeInputs = [pkgs.procps];
+    runtimeInputs = [ pkgs.procps ];
   };
-in {
+in
+{
   options = {
-    pbor.wm.hyprland.hyprlock.enable = (lib.mkEnableOption "Enable hyprlock") // {default = config.pbor.wm.hyprland.enable;};
+    pbor.wm.hyprland.hyprlock.enable = (lib.mkEnableOption "Enable hyprlock") // {
+      default = config.pbor.wm.hyprland.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    security.pam.services.hyprlock = {};
-    environment.systemPackages = [unlock-hyprlock];
+    security.pam.services.hyprlock = { };
+    environment.systemPackages = [ unlock-hyprlock ];
 
     hm = {
       programs.hyprlock = {

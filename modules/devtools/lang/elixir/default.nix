@@ -3,11 +3,15 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.pbor.devtools.lang.elixir;
-in {
+in
+{
   options = {
-    pbor.devtools.lang.elixir.enable = (lib.mkEnableOption "Enable Elixir") // {default = false;};
+    pbor.devtools.lang.elixir.enable = (lib.mkEnableOption "Enable Elixir") // {
+      default = false;
+    };
   };
 
   config = lib.mkIf cfg.enable {

@@ -20,6 +20,6 @@ rustPlatform.buildRustPackage rec {
     description = "Prometheus exporter for DSMR reader with serial over TCP";
     homepage = "https://github.com/pborzenkov/p1-exporter";
     license = licenses.mit;
-    maintainers = with maintainers; [pborzenkov];
+    maintainers = with maintainers; [ pborzenkov ];
   };
 }

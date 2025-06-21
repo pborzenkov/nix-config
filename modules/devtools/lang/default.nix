@@ -1,3 +1,4 @@
-{pborlib, ...}: {
+{ pborlib, ... }:
+{
   imports = pborlib.allDirs ./.;
 }

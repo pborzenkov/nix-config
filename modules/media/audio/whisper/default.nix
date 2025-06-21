@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.pbor.media.audio.whisper;
 
   whisper = pkgs.whisper-cpp.override {
@@ -13,11 +14,17 @@
   whisper-subtitles = pkgs.writeShellApplication {
     name = "whisper-subtitles";
     text = builtins.readFile ./scripts/whisper-subtitles.sh;
-    runtimeInputs = [pkgs.ffmpeg whisper];
+    runtimeInputs = [
+      pkgs.ffmpeg
+      whisper
+    ];
   };
-in {
+in
+{
   options = {
-    pbor.media.audio.whisper.enable = (lib.mkEnableOption "Enable Whisper") // {default = false;};
+    pbor.media.audio.whisper.enable = (lib.mkEnableOption "Enable Whisper") // {
+      default = false;
+    };
     pbor.media.audio.whisper.rocm = lib.mkOption {
       type = lib.types.bool;
       default = false;

@@ -2,11 +2,12 @@
   config,
   machineSecrets,
   ...
-}: {
+}:
+{
   pbor.webapps.apps.anki = {
     subDomain = "anki";
     proxyTo = "http://127.0.0.1:${toString config.services.anki-sync-server.port}";
-    locations."/" = {};
+    locations."/" = { };
   };
 
   services.anki-sync-server = {
@@ -20,7 +21,8 @@
     ];
   };
 
-  age.secrets.anki-sync-server-pavel-password.file = machineSecrets + "/anki-sync-server-pavel-password.age";
+  age.secrets.anki-sync-server-pavel-password.file =
+    machineSecrets + "/anki-sync-server-pavel-password.age";
 
   pbor.backup.fsBackups.anki = {
     paths = [

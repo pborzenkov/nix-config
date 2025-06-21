@@ -3,9 +3,11 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.services.transmission;
-in {
+in
+{
   services = {
     transmission = {
       enable = true;
@@ -67,15 +69,15 @@ in {
   systemd = {
     services = {
       transmission = {
-        after = ["wireguard-amsterdam.service"];
-        bindsTo = ["wireguard-amsterdam.service"];
+        after = [ "wireguard-amsterdam.service" ];
+        bindsTo = [ "wireguard-amsterdam.service" ];
         unitConfig = {
-          JoinsNamespaceOf = ["netns@amsterdam.service"];
-          RequiresMountsFor = ["/storage"];
+          JoinsNamespaceOf = [ "netns@amsterdam.service" ];
+          RequiresMountsFor = [ "/storage" ];
         };
         serviceConfig = {
           PrivateNetwork = true;
-          BindReadOnlyPaths = ["/etc/netns/amsterdam/resolv.conf:/etc/resolv.conf"];
+          BindReadOnlyPaths = [ "/etc/netns/amsterdam/resolv.conf:/etc/resolv.conf" ];
           LimitNOFILE = 10240;
           StateDirectory = lib.mkForce [
             "transmission"
@@ -87,8 +89,8 @@ in {
 
       transmission-exporter = {
         description = "Prometheus exporter for Transmission";
-        after = ["network.target"];
-        wantedBy = ["multi-user.target"];
+        after = [ "network.target" ];
+        wantedBy = [ "multi-user.target" ];
         serviceConfig = {
           DynamicUser = true;
           ExecStart = ''
@@ -100,11 +102,11 @@ in {
       };
 
       transmission-protonvpn-nat-pmp = {
-        after = ["wireguard-amsterdam.service"];
-        bindsTo = ["wireguard-amsterdam.service"];
-        wantedBy = ["multi-user.target"];
+        after = [ "wireguard-amsterdam.service" ];
+        bindsTo = [ "wireguard-amsterdam.service" ];
+        wantedBy = [ "multi-user.target" ];
         unitConfig = {
-          JoinsNamespaceOf = ["netns@amsterdam.service"];
+          JoinsNamespaceOf = [ "netns@amsterdam.service" ];
         };
         serviceConfig = {
           DynamicUser = true;

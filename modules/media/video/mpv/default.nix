@@ -2,11 +2,15 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.pbor.media.video.mpv;
-in {
+in
+{
   options = {
-    pbor.media.video.mpv.enable = (lib.mkEnableOption "Enable mpv") // {default = config.pbor.media.video.enable;};
+    pbor.media.video.mpv.enable = (lib.mkEnableOption "Enable mpv") // {
+      default = config.pbor.media.video.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {

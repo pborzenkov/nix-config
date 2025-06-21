@@ -2,11 +2,15 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.pbor.devtools.direnv;
-in {
+in
+{
   options = {
-    pbor.devtools.direnv.enable = (lib.mkEnableOption "Enable direnv") // {default = config.pbor.devtools.enable;};
+    pbor.devtools.direnv.enable = (lib.mkEnableOption "Enable direnv") // {
+      default = config.pbor.devtools.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {

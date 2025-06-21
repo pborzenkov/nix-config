@@ -2,9 +2,11 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.pbor.webapps;
-in {
+in
+{
   options.pbor.webapps = {
     enable = lib.mkEnableOption "Enable webapps";
 
@@ -21,7 +23,7 @@ in {
         Additional sub-domains for wildcard certificate.
       '';
       example = "lab.borzenkov.net";
-      default = [];
+      default = [ ];
     };
 
     ssoSubDomain = lib.mkOption {
@@ -55,24 +57,26 @@ in {
     };
 
     dashboardCategories = lib.mkOption {
-      type = lib.types.listOf (lib.types.submodule {
-        options = {
-          name = lib.mkOption {
-            type = lib.types.str;
-            description = ''
-              Category name.
-            '';
-            example = "Applications";
+      type = lib.types.listOf (
+        lib.types.submodule {
+          options = {
+            name = lib.mkOption {
+              type = lib.types.str;
+              description = ''
+                Category name.
+              '';
+              example = "Applications";
+            };
+            tag = lib.mkOption {
+              type = lib.types.str;
+              description = ''
+                Category tag.
+              '';
+              example = "app";
+            };
           };
-          tag = lib.mkOption {
-            type = lib.types.str;
-            description = ''
-              Category tag.
-            '';
-            example = "app";
-          };
-        };
-      });
+        }
+      );
       description = ''
         App categories to display on the dashboard.
       '';
@@ -82,153 +86,165 @@ in {
           tag = "app";
         }
       ];
-      default = [];
+      default = [ ];
     };
 
     apps = lib.mkOption {
-      type = lib.types.attrsOf (lib.types.submodule {
-        options = {
-          subDomain = lib.mkOption {
-            type = lib.types.str;
-            description = ''
-              'Subdomain of the web application.
-            '';
-            example = "grafana";
-          };
-          auth = lib.mkOption {
-            type = lib.types.nullOr (lib.types.submodule {
-              options = {
-                rbac = lib.mkOption {
-                  type = lib.types.nullOr (
-                    lib.types.listOf (lib.types.either lib.types.str (lib.types.listOf lib.types.str))
-                  );
-                  description = ''
-                    List of users/groups for proxy based auth
-                  '';
-                  example = ["groups:rss"];
-                  default = null;
-                };
-                oidc = lib.mkOption {
-                  type = lib.types.nullOr (lib.types.submodule {
-                    options = {
-                      rbac = lib.mkOption {
-                        type = lib.types.listOf (lib.types.either lib.types.str (lib.types.listOf lib.types.str));
-                        description = ''
-                          List of users/groups for OIDC based auth
-                        '';
-                        example = ["groups:rss"];
-                        default = null;
-                      };
-                      settings = lib.mkOption {
-                        type = lib.types.attrs;
-                        description = ''
-                          OIDC configuration
-                        '';
+      type = lib.types.attrsOf (
+        lib.types.submodule {
+          options = {
+            subDomain = lib.mkOption {
+              type = lib.types.str;
+              description = ''
+                'Subdomain of the web application.
+              '';
+              example = "grafana";
+            };
+            auth = lib.mkOption {
+              type = lib.types.nullOr (
+                lib.types.submodule {
+                  options = {
+                    rbac = lib.mkOption {
+                      type = lib.types.nullOr (
+                        lib.types.listOf (lib.types.either lib.types.str (lib.types.listOf lib.types.str))
+                      );
+                      description = ''
+                        List of users/groups for proxy based auth
+                      '';
+                      example = [ "groups:rss" ];
+                      default = null;
+                    };
+                    oidc = lib.mkOption {
+                      type = lib.types.nullOr (
+                        lib.types.submodule {
+                          options = {
+                            rbac = lib.mkOption {
+                              type = lib.types.listOf (lib.types.either lib.types.str (lib.types.listOf lib.types.str));
+                              description = ''
+                                List of users/groups for OIDC based auth
+                              '';
+                              example = [ "groups:rss" ];
+                              default = null;
+                            };
+                            settings = lib.mkOption {
+                              type = lib.types.attrs;
+                              description = ''
+                                OIDC configuration
+                              '';
+                            };
+                          };
+                        }
+                      );
+                      default = null;
+                    };
+                  };
+                }
+              );
+              default = null;
+            };
+            proxyTo = lib.mkOption {
+              type = lib.types.nullOr lib.types.str;
+              description = ''
+                Proxy requests to this backend.
+              '';
+              example = "192.168.1.10:1234";
+              default = null;
+            };
+            locations = lib.mkOption {
+              type = lib.types.attrsOf (
+                lib.types.submodule {
+                  options = {
+                    skip_auth = lib.mkOption {
+                      type = lib.types.bool;
+                      description = ''
+                        Skip auth for this location.
+                      '';
+                      default = false;
+                    };
+                    custom = lib.mkOption {
+                      type = lib.types.nullOr lib.types.attrs;
+                      description = ''
+                        Custom config merged into the location config.
+                      '';
+                      default = null;
+                      example = {
+                        proxyWebsockets = true;
                       };
                     };
-                  });
-                  default = null;
-                };
-              };
-            });
-            default = null;
-          };
-          proxyTo = lib.mkOption {
-            type = lib.types.nullOr lib.types.str;
-            description = ''
-              Proxy requests to this backend.
-            '';
-            example = "192.168.1.10:1234";
-            default = null;
-          };
-          locations = lib.mkOption {
-            type = lib.types.attrsOf (lib.types.submodule {
-              options = {
-                skip_auth = lib.mkOption {
-                  type = lib.types.bool;
-                  description = ''
-                    Skip auth for this location.
-                  '';
-                  default = false;
-                };
-                custom = lib.mkOption {
-                  type = lib.types.nullOr lib.types.attrs;
-                  description = ''
-                    Custom config merged into the location config.
-                  '';
-                  default = null;
-                  example = {
-                    proxyWebsockets = true;
                   };
-                };
+                }
+              );
+              default = { };
+            };
+            custom = lib.mkOption {
+              type = lib.types.nullOr lib.types.attrs;
+              description = ''
+                Custom config merged into the virtual host config.
+              '';
+              default = null;
+              example = {
+                root = "/var/root";
               };
-            });
-            default = {};
-          };
-          custom = lib.mkOption {
-            type = lib.types.nullOr lib.types.attrs;
-            description = ''
-              Custom config merged into the virtual host config.
-            '';
-            default = null;
-            example = {
-              root = "/var/root";
+            };
+            dashboard = lib.mkOption {
+              type = lib.types.nullOr (
+                lib.types.submodule {
+                  options = {
+                    name = lib.mkOption {
+                      type = lib.types.str;
+                      description = ''
+                        Application name.
+                      '';
+                      example = "App";
+                    };
+                    category = lib.mkOption {
+                      type = lib.types.str;
+                      description = ''
+                        App category tag.
+                      '';
+                      example = "app";
+                    };
+                    icon = lib.mkOption {
+                      type = lib.types.str;
+                      description = ''
+                        Font Awesome application icon.
+                      '';
+                      example = "rss";
+                    };
+                  };
+                }
+              );
+              default = null;
             };
           };
-          dashboard = lib.mkOption {
-            type = lib.types.nullOr (lib.types.submodule {
-              options = {
-                name = lib.mkOption {
-                  type = lib.types.str;
-                  description = ''
-                    Application name.
-                  '';
-                  example = "App";
-                };
-                category = lib.mkOption {
-                  type = lib.types.str;
-                  description = ''
-                    App category tag.
-                  '';
-                  example = "app";
-                };
-                icon = lib.mkOption {
-                  type = lib.types.str;
-                  description = ''
-                    Font Awesome application icon.
-                  '';
-                  example = "rss";
-                };
-              };
-            });
-            default = null;
-          };
-        };
-      });
+        }
+      );
       description = ''
         Defines a web application.
       '';
-      default = {};
+      default = { };
     };
   };
 
   config = lib.mkIf cfg.enable {
-    assertions = lib.flatten (lib.mapAttrsToList (_: a: [
-      {
-        assertion = a.auth.rbac != null || a.auth.oidc != null;
-        message = "Either 'rbac' or 'oidc' must be configured";
-      }
-      {
-        assertion = a.auth.rbac == null || a.auth.oidc == null;
-        message = "'rbac' and 'oidc' can't be both configured";
-      }
-    ]) (lib.filterAttrs (_: a: a.auth != null) cfg.apps));
+    assertions = lib.flatten (
+      lib.mapAttrsToList (_: a: [
+        {
+          assertion = a.auth.rbac != null || a.auth.oidc != null;
+          message = "Either 'rbac' or 'oidc' must be configured";
+        }
+        {
+          assertion = a.auth.rbac == null || a.auth.oidc == null;
+          message = "'rbac' and 'oidc' can't be both configured";
+        }
+      ]) (lib.filterAttrs (_: a: a.auth != null) cfg.apps)
+    );
 
     security.acme = {
       acceptTerms = true;
       defaults.email = "pavel@borzenkov.net";
       certs."${cfg.domain}" = {
-        extraDomainNames = ["*.${cfg.domain}"] ++ builtins.map (d: "*.${d}.${cfg.domain}") cfg.subDomains;
+        extraDomainNames = [ "*.${cfg.domain}" ] ++ builtins.map (d: "*.${d}.${cfg.domain}") cfg.subDomains;
         dnsProvider = cfg.acmeDNSProvider;
         dnsResolver = "1.1.1.1:53";
         credentialsFile = cfg.acmeCredentialsFile;
@@ -236,7 +252,7 @@ in {
         group = config.users.users.nginx.group;
       };
     };
-    systemd.services."acme-${cfg.domain}".after = ["network-online.target"];
+    systemd.services."acme-${cfg.domain}".after = [ "network-online.target" ];
 
     services.nginx = {
       enable = true;
@@ -255,98 +271,92 @@ in {
             useACMEHost = cfg.domain;
           };
         }
-        // lib.mapAttrs'
-        (
+        // lib.mapAttrs' (
           vhostName: vhostConfig:
-            lib.nameValuePair "${vhostConfig.subDomain}.${cfg.domain}" (
-              let
-                needsAuth =
-                  vhostConfig.auth
-                  != null
-                  && vhostConfig.auth.rbac != null
-                  && (lib.any (x: !x) (
-                    lib.mapAttrsToList (_: locConfig: locConfig.skip_auth) vhostConfig.locations
-                  ));
-              in
-                {
-                  forceSSL = true;
-                  useACMEHost = cfg.domain;
-                  locations =
-                    (lib.mapAttrs
-                      (locName: locConfig: ({
-                          proxyPass =
-                            if vhostConfig.proxyTo != null
-                            then "${vhostConfig.proxyTo}$request_uri"
-                            else null;
-                          extraConfig = lib.optionalString (needsAuth && !locConfig.skip_auth) ''
-                            auth_request /internal/authelia/auth;
+          lib.nameValuePair "${vhostConfig.subDomain}.${cfg.domain}" (
+            let
+              needsAuth =
+                vhostConfig.auth != null
+                && vhostConfig.auth.rbac != null
+                && (lib.any (x: !x) (lib.mapAttrsToList (_: locConfig: locConfig.skip_auth) vhostConfig.locations));
+            in
+            {
+              forceSSL = true;
+              useACMEHost = cfg.domain;
+              locations =
+                (lib.mapAttrs (
+                  locName: locConfig:
+                  (
+                    {
+                      proxyPass = if vhostConfig.proxyTo != null then "${vhostConfig.proxyTo}$request_uri" else null;
+                      extraConfig = lib.optionalString (needsAuth && !locConfig.skip_auth) ''
+                        auth_request /internal/authelia/auth;
 
-                            auth_request_set $user $upstream_http_remote_user;
-                            auth_request_set $groups $upstream_http_remote_groups;
-                            auth_request_set $name $upstream_http_remote_name;
-                            auth_request_set $email $upstream_http_remote_email;
+                        auth_request_set $user $upstream_http_remote_user;
+                        auth_request_set $groups $upstream_http_remote_groups;
+                        auth_request_set $name $upstream_http_remote_name;
+                        auth_request_set $email $upstream_http_remote_email;
 
-                            proxy_set_header Remote-User $user;
-                            proxy_set_header Remote-Groups $groups;
-                            proxy_set_header Remote-Email $email;
-                            proxy_set_header Remote-Name $name;
+                        proxy_set_header Remote-User $user;
+                        proxy_set_header Remote-Groups $groups;
+                        proxy_set_header Remote-Email $email;
+                        proxy_set_header Remote-Name $name;
 
-                            auth_request_set $redirection_url $upstream_http_location;
+                        auth_request_set $redirection_url $upstream_http_location;
 
-                            error_page 401 =302 $redirection_url;
-                          '';
-                        }
-                        // lib.optionalAttrs (locConfig.custom != null) locConfig.custom))
-                      vhostConfig.locations)
-                    // lib.optionalAttrs needsAuth {
-                      "/internal/authelia/auth" = {
-                        proxyPass = "${cfg.ssoInternalAddress}/api/authz/auth-request";
-                        extraConfig = ''
-                          internal;
+                        error_page 401 =302 $redirection_url;
+                      '';
+                    }
+                    // lib.optionalAttrs (locConfig.custom != null) locConfig.custom
+                  )
+                ) vhostConfig.locations)
+                // lib.optionalAttrs needsAuth {
+                  "/internal/authelia/auth" = {
+                    proxyPass = "${cfg.ssoInternalAddress}/api/authz/auth-request";
+                    extraConfig = ''
+                      internal;
 
-                          proxy_set_header X-Original-Method $request_method;
-                          proxy_set_header X-Original-URL $scheme://$http_host$request_uri;
-                          proxy_set_header X-Forwarded-For $remote_addr;
-                          proxy_set_header Content-Length "";
-                          proxy_set_header Connection "";
+                      proxy_set_header X-Original-Method $request_method;
+                      proxy_set_header X-Original-URL $scheme://$http_host$request_uri;
+                      proxy_set_header X-Forwarded-For $remote_addr;
+                      proxy_set_header Content-Length "";
+                      proxy_set_header Connection "";
 
-                          proxy_pass_request_body off;
-                          proxy_next_upstream error timeout invalid_header http_500 http_502 http_503;
-                          proxy_redirect http:// $scheme://;
-                          proxy_http_version 1.1;
-                          proxy_cache_bypass $cookie_session;
-                          proxy_no_cache $cookie_session;
-                          proxy_buffers 4 32k;
-                          client_body_buffer_size 128k;
-                        '';
-                      };
-                    };
-                }
-                // lib.optionalAttrs (vhostConfig.custom != null) vhostConfig.custom
-            )
-        )
-        cfg.apps;
+                      proxy_pass_request_body off;
+                      proxy_next_upstream error timeout invalid_header http_500 http_502 http_503;
+                      proxy_redirect http:// $scheme://;
+                      proxy_http_version 1.1;
+                      proxy_cache_bypass $cookie_session;
+                      proxy_no_cache $cookie_session;
+                      proxy_buffers 4 32k;
+                      client_body_buffer_size 128k;
+                    '';
+                  };
+                };
+            }
+            // lib.optionalAttrs (vhostConfig.custom != null) vhostConfig.custom
+          )
+        ) cfg.apps;
     };
 
-    lib.pbor.webapps.homerServices = let
-      apps = builtins.filter (a: a.dashboard != null) (lib.attrValues cfg.apps);
-    in
+    lib.pbor.webapps.homerServices =
+      let
+        apps = builtins.filter (a: a.dashboard != null) (lib.attrValues cfg.apps);
+      in
       lib.forEach cfg.dashboardCategories (
-        cat: let
+        cat:
+        let
           catApps = lib.sort (a: b: a.dashboard.name < b.dashboard.name) (
-            builtins.filter
-            (a: a.dashboard.category == cat.tag)
-            apps
+            builtins.filter (a: a.dashboard.category == cat.tag) apps
           );
-        in {
+        in
+        {
           name = cat.name;
           items = lib.forEach catApps (a: {
             name = a.dashboard.name;
             icon = "fas fa-${a.dashboard.icon}";
             url = "${
-              if lib.attrByPath ["custom" "forceSSL"] true a
-              then "https"
-              else "http"
+              if lib.attrByPath [ "custom" "forceSSL" ] true a then "https" else "http"
             }://${a.subDomain}.${cfg.domain}";
             target = "_blank";
           });

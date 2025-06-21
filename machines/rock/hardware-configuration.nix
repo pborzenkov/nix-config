@@ -5,7 +5,8 @@
   inputs,
   modulesPath,
   ...
-}: {
+}:
+{
   imports = [
     (modulesPath + "/profiles/headless.nix")
 
@@ -13,10 +14,17 @@
     inputs.nixos-hardware.nixosModules.common-pc-ssd
   ];
 
-  boot.initrd.availableKernelModules = ["nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod"];
-  boot.initrd.kernelModules = [];
-  boot.kernelModules = ["kvm-amd"];
-  boot.extraModulePackages = [];
+  boot.initrd.availableKernelModules = [
+    "nvme"
+    "xhci_pci"
+    "ahci"
+    "usb_storage"
+    "usbhid"
+    "sd_mod"
+  ];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-amd" ];
+  boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/909c762d-0ac8-4855-a306-eb395e515620";
@@ -28,7 +36,7 @@
     fsType = "vfat";
   };
 
-  swapDevices = [{device = "/dev/disk/by-uuid/c47c0995-31a1-4249-8c02-7678319fd1b0";}];
+  swapDevices = [ { device = "/dev/disk/by-uuid/c47c0995-31a1-4249-8c02-7678319fd1b0"; } ];
 
   hardware.enableRedistributableFirmware = true;
 }

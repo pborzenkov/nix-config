@@ -2,7 +2,8 @@
   config,
   machineSecrets,
   ...
-}: {
+}:
+{
   networking = {
     hostName = "gw";
     domain = "lab.borzenkov.net";
@@ -14,7 +15,7 @@
 
     firewall = {
       enable = true;
-      trustedInterfaces = ["wg0"];
+      trustedInterfaces = [ "wg0" ];
     };
 
     interfaces = {
@@ -40,7 +41,10 @@
         wireguardPeers = [
           {
             PublicKey = "/qcJiPDpknM7hvAwfrxUS5D8IGJ3RAiTVYlfdg8eZzk=";
-            AllowedIPs = ["192.168.88.0/24" "192.168.111.0/24"];
+            AllowedIPs = [
+              "192.168.88.0/24"
+              "192.168.111.0/24"
+            ];
             Endpoint = "vpn.borzenkov.net:13231";
             PersistentKeepalive = 15;
           }
@@ -62,8 +66,8 @@
             Scope = "link";
           }
         ];
-        dns = ["192.168.111.1"];
-        domains = ["lab.borzenkov.net"];
+        dns = [ "192.168.111.1" ];
+        domains = [ "lab.borzenkov.net" ];
       };
     };
   };

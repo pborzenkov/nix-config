@@ -4,11 +4,15 @@
   pkgs,
   isDesktop,
   ...
-}: let
+}:
+let
   cfg = config.pbor.torrents;
-in {
+in
+{
   options = {
-    pbor.torrents.enable = (lib.mkEnableOption "Enable torrents") // {default = config.pbor.enable && isDesktop;};
+    pbor.torrents.enable = (lib.mkEnableOption "Enable torrents") // {
+      default = config.pbor.enable && isDesktop;
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -18,7 +22,7 @@ in {
       ];
 
       xdg.configFile."rustmission/config.toml" = {
-        source = (pkgs.formats.toml {}).generate "rustmission.toml" {
+        source = (pkgs.formats.toml { }).generate "rustmission.toml" {
           connection = {
             url = "https://torrents.lab.borzenkov.net/transmission/rpc";
           };

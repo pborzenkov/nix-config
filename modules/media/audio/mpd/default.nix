@@ -3,11 +3,15 @@
   lib,
   sharedSecrets,
   ...
-}: let
+}:
+let
   cfg = config.pbor.media.audio.mpd;
-in {
+in
+{
   options = {
-    pbor.media.audio.mpd.enable = (lib.mkEnableOption "Enable mpd") // {default = config.pbor.media.audio.enable;};
+    pbor.media.audio.mpd.enable = (lib.mkEnableOption "Enable mpd") // {
+      default = config.pbor.media.audio.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -18,70 +22,72 @@ in {
       group = config.users.users.pbor.group;
     };
 
-    hm = {
-      osConfig,
-      config,
-      ...
-    }: {
-      services = {
-        mpd = {
-          enable = true;
-          musicDirectory = "https://storage.lab.borzenkov.net/music";
-          dbFile = null;
-          extraConfig = ''
-            database {
-              plugin "proxy"
-              host "rock.lab.borzenkov.net"
-            }
+    hm =
+      {
+        osConfig,
+        config,
+        ...
+      }:
+      {
+        services = {
+          mpd = {
+            enable = true;
+            musicDirectory = "https://storage.lab.borzenkov.net/music";
+            dbFile = null;
+            extraConfig = ''
+              database {
+                plugin "proxy"
+                host "rock.lab.borzenkov.net"
+              }
 
-            audio_output {
-              type "pipewire"
-              name "Default output"
-            }
-          '';
+              audio_output {
+                type "pipewire"
+                name "Default output"
+              }
+            '';
+          };
+
+          mpd-mpris.enable = true;
+
+          listenbrainz-mpd = {
+            enable = true;
+            settings = {
+              submission = {
+                token_file = osConfig.age.secrets.listenbrainz-token.path;
+                enable_cache = true;
+              };
+
+              mpd.address = with config.services.mpd.network; "${listenAddress}:${toString port}";
+            };
+          };
         };
 
-        mpd-mpris.enable = true;
-
-        listenbrainz-mpd = {
+        programs.ncmpcpp = {
           enable = true;
+          mpdMusicDir = null;
+          bindings = [
+            {
+              key = "j";
+              command = "scroll_down";
+            }
+            {
+              key = "k";
+              command = "scroll_up";
+            }
+            {
+              key = "l";
+              command = "next_column";
+            }
+            {
+              key = "h";
+              command = "previous_column";
+            }
+          ];
           settings = {
-            submission = {
-              token_file = osConfig.age.secrets.listenbrainz-token.path;
-              enable_cache = true;
-            };
-
-            mpd.address = with config.services.mpd.network; "${listenAddress}:${toString port}";
+            media_library_primary_tag = "album_artist";
+            media_library_hide_album_dates = true;
           };
         };
       };
-
-      programs.ncmpcpp = {
-        enable = true;
-        mpdMusicDir = null;
-        bindings = [
-          {
-            key = "j";
-            command = "scroll_down";
-          }
-          {
-            key = "k";
-            command = "scroll_up";
-          }
-          {
-            key = "l";
-            command = "next_column";
-          }
-          {
-            key = "h";
-            command = "previous_column";
-          }
-        ];
-        settings = {
-          media_library_primary_tag = "album_artist";
-          media_library_hide_album_dates = true;
-        };
-      };
-    };
   };
 }

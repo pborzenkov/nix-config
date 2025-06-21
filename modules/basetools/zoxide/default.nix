@@ -2,11 +2,15 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.pbor.basetools.zoxide;
-in {
+in
+{
   options = {
-    pbor.basetools.zoxide.enable = (lib.mkEnableOption "Enable zoxide") // {default = config.pbor.basetools.enable;};
+    pbor.basetools.zoxide.enable = (lib.mkEnableOption "Enable zoxide") // {
+      default = config.pbor.basetools.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {

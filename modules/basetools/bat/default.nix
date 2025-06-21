@@ -3,11 +3,15 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.pbor.basetools.bat;
-in {
+in
+{
   options = {
-    pbor.basetools.bat.enable = (lib.mkEnableOption "Enable bat") // {default = config.pbor.basetools.enable;};
+    pbor.basetools.bat.enable = (lib.mkEnableOption "Enable bat") // {
+      default = config.pbor.basetools.enable;
+    };
   };
 
   config = lib.mkIf cfg.enable {

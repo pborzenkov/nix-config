@@ -3,25 +3,26 @@
   pkgs,
   machineSecrets,
   ...
-}: {
+}:
+{
   services.vdirsyncer = {
     enable = true;
     jobs = {
       "borzenkov.net" = {
         enable = true;
-        additionalGroups = [config.users.groups.keys.name];
+        additionalGroups = [ config.users.groups.keys.name ];
         forceDiscover = true;
         config = {
           pairs = {
             borzenkov_net_contacts = {
               a = "borzenkov_net_contacts_local";
               b = "borzenkov_net_contacts_remote";
-              collections = ["from b"];
+              collections = [ "from b" ];
             };
             borzenkov_net_calendar = {
               a = "borzenkov_net_calendar_local";
               b = "borzenkov_net_calendar_remote";
-              collections = ["from b"];
+              collections = [ "from b" ];
             };
           };
 
@@ -35,7 +36,11 @@
               type = "carddav";
               url = "https://carddav.fastmail.com/";
               username = "pavel@borzenkov.net";
-              "password.fetch" = ["command" "${pkgs.coreutils}/bin/cat" "${config.age.secrets.fastmail.path}"];
+              "password.fetch" = [
+                "command"
+                "${pkgs.coreutils}/bin/cat"
+                "${config.age.secrets.fastmail.path}"
+              ];
               read_only = true;
             };
 
@@ -48,7 +53,11 @@
               type = "caldav";
               url = "https://caldav.fastmail.com/";
               username = "pavel@borzenkov.net";
-              "password.fetch" = ["command" "${pkgs.coreutils}/bin/cat" "${config.age.secrets.fastmail.path}"];
+              "password.fetch" = [
+                "command"
+                "${pkgs.coreutils}/bin/cat"
+                "${config.age.secrets.fastmail.path}"
+              ];
               read_only = true;
             };
           };

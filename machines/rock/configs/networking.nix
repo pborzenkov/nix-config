@@ -1,4 +1,5 @@
-{...}: {
+{ ... }:
+{
   networking = {
     hostName = "rock";
     domain = "lab.borzenkov.net";
@@ -39,7 +40,7 @@
       "40-enp2s0" = {
         enable = true;
         name = "enp2s0";
-        macvlan = ["mv-host"];
+        macvlan = [ "mv-host" ];
         networkConfig = {
           LinkLocalAddressing = "no";
         };

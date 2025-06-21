@@ -1,51 +1,51 @@
-{config, ...}: let
+{ config, ... }:
+let
   homeConfig = {
     title = "Dashboard";
     header = false;
     footer = false;
     connectivityCheck = false;
     colums = "auto";
-    services =
-      config.lib.pbor.webapps.homerServices
-      ++ [
-        {
-          name = "Network";
-          items = [
-            {
-              name = "Router";
-              icon = "fas fa-network-wired";
-              url = "http://router.mk.lab.borzenkov.net";
-              target = "_blank";
-            }
-            {
-              name = "Living Room";
-              icon = "fas fa-wifi";
-              url = "http://living-room.mk.lab.borzenkov.net";
-              target = "_blank";
-            }
-            {
-              name = "Bedroom";
-              icon = "fas fa-wifi";
-              url = "http://bedroom.mk.lab.borzenkov.net";
-              target = "_blank";
-            }
-            {
-              name = "Attic";
-              icon = "fas fa-wifi";
-              url = "http://attic.mk.lab.borzenkov.net";
-              target = "_blank";
-            }
-            {
-              name = "Garage";
-              icon = "fas fa-wifi";
-              url = "http://garage.mk.lab.borzenkov.net";
-              target = "_blank";
-            }
-          ];
-        }
-      ];
+    services = config.lib.pbor.webapps.homerServices ++ [
+      {
+        name = "Network";
+        items = [
+          {
+            name = "Router";
+            icon = "fas fa-network-wired";
+            url = "http://router.mk.lab.borzenkov.net";
+            target = "_blank";
+          }
+          {
+            name = "Living Room";
+            icon = "fas fa-wifi";
+            url = "http://living-room.mk.lab.borzenkov.net";
+            target = "_blank";
+          }
+          {
+            name = "Bedroom";
+            icon = "fas fa-wifi";
+            url = "http://bedroom.mk.lab.borzenkov.net";
+            target = "_blank";
+          }
+          {
+            name = "Attic";
+            icon = "fas fa-wifi";
+            url = "http://attic.mk.lab.borzenkov.net";
+            target = "_blank";
+          }
+          {
+            name = "Garage";
+            icon = "fas fa-wifi";
+            url = "http://garage.mk.lab.borzenkov.net";
+            target = "_blank";
+          }
+        ];
+      }
+    ];
   };
-in {
+in
+{
   pbor.webapps = {
     dashboardCategories = [
       {

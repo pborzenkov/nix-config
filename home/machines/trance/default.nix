@@ -4,7 +4,8 @@
   lib,
   inputs,
   ...
-}: {
+}:
+{
   imports = [
     ../../basetools.nix
     ../../devtools.nix
@@ -60,7 +61,7 @@
   };
 
   systemd.user.services.ssh-agent = {
-    Install.WantedBy = ["default.target"];
+    Install.WantedBy = [ "default.target" ];
 
     Unit = {
       Description = "SSH authentication agent";
@@ -98,7 +99,9 @@
 
   wayland.windowManager.sway.config.window.commands = [
     {
-      criteria = {app_id = "org.jellyfin.";};
+      criteria = {
+        app_id = "org.jellyfin.";
+      };
       command = "inhibit_idle visible";
     }
   ];
@@ -106,7 +109,7 @@
   xdg = {
     configFile = {
       "networkmanager-dmenu/config.ini" = {
-        text = (lib.generators.toINI {}) {
+        text = (lib.generators.toINI { }) {
           dmenu = {
             dmenu_command = "wofi -d";
             pinentry = "pinentry-gnome3";
@@ -116,7 +119,7 @@
         };
       };
       "wofi-power-menu.toml" = {
-        source = (pkgs.formats.toml {}).generate "wofi-power-menu.toml" {
+        source = (pkgs.formats.toml { }).generate "wofi-power-menu.toml" {
           wofi = {
             extra_args = "--width 20% --allow-markup --columns=1 --hide-scroll";
           };
@@ -127,14 +130,14 @@
     mimeApps = {
       enable = true;
       defaultApplications = {
-        "x-scheme-handler/tg" = ["org.telegram.desktop.desktop"];
-        "application/pdf" = ["org.pwmt.zathura.desktop"];
-        "application/epub+zip" = ["org.pwmt.zathura.desktop"];
-        "x-scheme-handler/http" = ["google-chrome.desktop"];
-        "x-scheme-handler/https" = ["google-chrome.desktop"];
+        "x-scheme-handler/tg" = [ "org.telegram.desktop.desktop" ];
+        "application/pdf" = [ "org.pwmt.zathura.desktop" ];
+        "application/epub+zip" = [ "org.pwmt.zathura.desktop" ];
+        "x-scheme-handler/http" = [ "google-chrome.desktop" ];
+        "x-scheme-handler/https" = [ "google-chrome.desktop" ];
       };
     };
     userDirs.download = "${config.home.homeDirectory}/down";
-    systemDirs.data = ["/home/pbor/.local/state/nix/profiles/profile/share"];
+    systemDirs.data = [ "/home/pbor/.local/state/nix/profiles/profile/share" ];
   };
 }
