@@ -50,6 +50,7 @@ in
       { config, ... }:
       {
         xdg.configFile."niri/config.kdl".text =
+          with config.lib.stylix.colors.withHashtag;
           ''
             prefer-no-csd
             input {
@@ -71,12 +72,18 @@ in
               border { off; }
               focus-ring {
                 width 2
+                active-color "${base0D}"
+                inactive-color "${base03}"
               }
               tab-indicator {
                 hide-when-single-tab
                 place-within-column
                 width 4
               }
+            }
+            cursor {
+              xcursor-size ${builtins.toString config.stylix.cursor.size}
+              xcursor-theme "${config.stylix.cursor.name}"
             }
             animations { off; }
             screenshot-path "~/down/screenshot-%Y-%m-%d %H-%M-%S.png"
@@ -148,6 +155,11 @@ in
             }
             hotkey-overlay {
               skip-at-startup
+            }
+            gestures {
+              hot-corners {
+                off
+              }
             }
           ''
           + cfg.extra-settings;
