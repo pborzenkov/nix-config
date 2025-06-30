@@ -58,8 +58,12 @@ in
                   layout "us,ru"
                   options "caps:escape,compose:paus"
                 }
+                track-layout "window"
               }
               mod-key "Super"
+              workspace-auto-back-and-forth
+              warp-mouse-to-focus mode="center-xy"
+              focus-follows-mouse max-scroll-amount="0%"
             }
             layout {
               gaps 2
@@ -87,6 +91,7 @@ in
               Mod+Shift+F { expand-column-to-available-width; }
               Mod+O { toggle-overview; }
               Mod+T { toggle-column-tabbed-display; }
+              Mod+C { center-column; }
               Mod+V { toggle-window-floating; }
               Mod+Grave { switch-focus-between-floating-and-tiling; }
 

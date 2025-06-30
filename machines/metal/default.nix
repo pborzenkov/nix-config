@@ -1,6 +1,7 @@
 {
   lib,
   pkgs,
+  inputs,
   ...
 }:
 {
@@ -73,6 +74,10 @@
           Mod+BracketRight { focus-monitor "Samsung Electric Company Odyssey G80SD H1AK500000"; };
           Mod+Shift+BracketRight { move-column-to-monitor "Samsung Electric Company Odyssey G80SD H1AK500000"; };
         '';
+        swaybg.args = [
+          "-o HDMI-A-1 -i ${inputs.self}/assets/wallpaper.jpg"
+          "-o DP-2 -i ${inputs.self}/assets/wallpaper_vertical.jpg"
+        ];
       };
       dunst.monitor = 0;
     };
