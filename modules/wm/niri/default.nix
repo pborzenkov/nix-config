@@ -7,6 +7,16 @@
 }:
 let
   cfg = config.pbor.wm.niri;
+
+  settings = pkgs.writeShellApplication {
+    name = "settings";
+    text = builtins.readFile ./scripts/settings.sh;
+    runtimeInputs = [
+      pkgs.wofi
+      pkgs.foot
+    ];
+  };
+  setting-providers = lib.concatMapStrings (p: ''"-p" "${p}" '') cfg.setting-providers;
 in
 {
   imports = pborlib.allDirs ./.;
@@ -27,6 +37,13 @@ in
       default = "";
       description = ''
         Extra Niri binds
+      '';
+    };
+    pbor.wm.niri.setting-providers = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+      description = ''
+        An array of setting providers to enable.
       '';
     };
   };
@@ -92,6 +109,8 @@ in
               Mod+Return { spawn "uwsm" "app" "--" "footclient"; }
               Mod+D { spawn "uwsm" "app" "--" "wofi" "-S" "run"; }
               Mod+Shift+S { spawn "uwsm" "app" "--" "wofi-power-menu"; }
+              Mod+Shift+M { spawn "uwsm" "app" "--" "footclient" "-a" "scratch-big" "aerc"; }
+              Mod+Shift+Period { spawn "uwsm" "app" "--" "${settings}/bin/settings" ${setting-providers}; }
 
               Mod+Q { close-window; }
               Mod+F { maximize-column; }
@@ -160,6 +179,18 @@ in
               hot-corners {
                 off
               }
+            }
+            window-rule {
+              match app-id="scratch-big"
+              open-floating true
+              default-column-width { proportion 0.75; }
+              default-window-height { proportion 0.90; }
+            }
+            window-rule {
+              match app-id="settings"
+              open-floating true
+              default-column-width { proportion 0.60; }
+              default-window-height { proportion 0.60; }
             }
           ''
           + cfg.extra-settings;
