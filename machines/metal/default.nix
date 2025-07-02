@@ -26,6 +26,7 @@
     };
     wm = {
       hyprland = {
+        enable = false;
         extra-settings = {
           monitor = [
             "desc:Dell Inc. DELL U3219Q 692P413, 3840x2160, -1920x0, 2, transform, 3" # DP-2
@@ -78,6 +79,11 @@
           "-o HDMI-A-1 -i ${inputs.self}/assets/wallpaper.jpg"
           "-o DP-2 -i ${inputs.self}/assets/wallpaper_vertical.jpg"
         ];
+        waybar.pulseaudio-icons = {
+          "alsa_output.usb-HP__Inc_HyperX_Cloud_Alpha_Wireless_00000001-00.analog-stereo" = "";
+          "alsa_output.usb-EDIFIER_EDIFIER_G2000_EDI00000X07-01.analog-stereo" = "";
+          "alsa_output.pci-0000_10_00.1.hdmi-stereo-extra4" = "";
+        };
       };
       dunst.monitor = 0;
     };
