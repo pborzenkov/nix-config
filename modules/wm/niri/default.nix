@@ -50,7 +50,10 @@ in
 
   config = lib.mkIf cfg.enable {
     programs = {
-      niri.enable = true;
+      niri = {
+        enable = true;
+        package = pkgs.niri-unstable;
+      };
       uwsm = {
         enable = true;
         waylandCompositors.niri = {
@@ -80,18 +83,17 @@ in
               }
               mod-key "Super"
               workspace-auto-back-and-forth
-              warp-mouse-to-focus mode="center-xy"
               focus-follows-mouse max-scroll-amount="0%"
             }
             layout {
-              gaps 2
+              gaps 1
               center-focused-column "never"
-              border { off; }
-              focus-ring {
+              border {
                 width 2
                 active-color "${base0D}"
                 inactive-color "${base03}"
               }
+              focus-ring { off; }
               tab-indicator {
                 hide-when-single-tab
                 place-within-column
@@ -107,9 +109,9 @@ in
             binds {
               Mod+Space { switch-layout "next"; }
               Mod+Return { spawn "uwsm" "app" "--" "footclient"; }
+              Mod+Shift+Return { spawn "uwsm" "app" "--" "footclient" "-a" "scratch-term" "scratch-term"; }
               Mod+D { spawn "uwsm" "app" "--" "wofi" "-S" "run"; }
               Mod+Shift+S { spawn "uwsm" "app" "--" "wofi-power-menu"; }
-              Mod+Shift+M { spawn "uwsm" "app" "--" "footclient" "-a" "scratch-big" "aerc"; }
               Mod+Shift+Period { spawn "uwsm" "app" "--" "${settings}/bin/settings" ${setting-providers}; }
 
               Mod+Q { close-window; }
@@ -170,6 +172,14 @@ in
               Mod+R { switch-preset-column-width; }
               Mod+Shift+R { reset-window-height; }
 
+              XF86AudioRaiseVolume { spawn "pactl" "set-sink-volume" "@DEFAULT_SINK@" "+5%"; }
+              XF86AudioLowerVolume { spawn "pactl" "set-sink-volume" "@DEFAULT_SINK@" "-5%"; }
+              XF86AudioMute { spawn "pactl" "set-sink-mute" "@DEFAULT_SINK@" "toggle"; }
+              XF86AudioPrev { spawn "playerctl" "-p" "mpd" "previous"; }
+              XF86AudioNext { spawn "playerctl" "-p" "mpd" "next"; }
+              XF86AudioPlay { spawn "playerctl" "-p" "mpd" "play-pause"; }
+              Mod+Shift+N { spawn "dunstctl" "set-paused" "toggle"; }
+
               ${cfg.extra-binds}
             }
             hotkey-overlay {
@@ -180,11 +190,14 @@ in
                 off
               }
             }
+            xwayland-satellite {
+              path "xwayland-satellite"
+            }
             window-rule {
-              match app-id="scratch-big"
+              match app-id="scratch-term"
               open-floating true
               default-column-width { proportion 0.75; }
-              default-window-height { proportion 0.90; }
+              default-window-height { proportion 0.85; }
             }
             window-rule {
               match app-id="settings"
@@ -192,8 +205,18 @@ in
               default-column-width { proportion 0.60; }
               default-window-height { proportion 0.60; }
             }
+            window-rule {
+              match app-id="steam"
+              open-floating true
+            }
+            window-rule {
+              match app-id="steam" title=r#"^notificationtoasts_\d+_desktop$"#
+              default-floating-position x=10 y=10 relative-to="bottom-right"
+            }
           ''
           + cfg.extra-settings;
+
+        home.packages = [ pkgs.xwayland-satellite-unstable ];
       };
   };
 }

@@ -100,6 +100,7 @@ rec {
                 overlays =
                   [
                     inputs.nur.overlays.default
+                    inputs.niri.overlays.niri
                     (import ../overlay.nix)
                   ]
                   ++ lib.optional (inputs ? "nixpkgs-unstable") (

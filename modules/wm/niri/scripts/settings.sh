@@ -3,6 +3,11 @@ PROVIDERS='{
     "text": "Sound",
     "command": ["ncpamixer", "-t", "o"],
     "icon": ""
+  },
+  "services": {
+    "text": "Services",
+    "command": ["systemctl-tui"],
+    "icon": ""
   }
 }'
 

@@ -39,6 +39,13 @@
         home-manager.follows = "home-manager";
       };
     };
+    niri = {
+      url = "github:sodiboo/niri-flake";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+        nixpkgs-stable.follows = "nixpkgs";
+      };
+    };
   };
 
   outputs =

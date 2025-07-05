@@ -37,6 +37,7 @@ in
             md-tui
             iproute2
             sqlite
+            systemctl-tui
           ];
           sessionVariables = {
             PARALLEL_HOME = "${config.xdg.configHome}/parallel";
