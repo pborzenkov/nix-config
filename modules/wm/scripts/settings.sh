@@ -34,28 +34,25 @@ run_provider() {
 }
 
 usage() {
-  echo >&2 "settings [-p|--provider PROVIDER]"
+  echo >&2 "CONFIGURED_PROVIDER='<comma-separated list of providers>' wofi-settings"
   echo >&2 "Available providers: $(list_providers)"
   exit 1
 }
 
+if [ -z "${CONFIGURED_PROVIDERS}" ]; then
+  usage
+fi
+
+mapfile -t CONFIGURED_PROVIDERS < <(echo -ne "${CONFIGURED_PROVIDERS//,/\\n}")
+
 ENABLED_PROVIDERS=()
-while [[ $# -gt 0 ]]; do
-  case $1 in
-    -p|--providers)
-      has_provider "$2" && ENABLED_PROVIDERS+=("$2")
-      shift
-      shift
-      ;;
-    *)
-      shift
-      usage
-      ;;
-    esac
+for p in "${CONFIGURED_PROVIDERS[@]}"; do
+  echo "${p}"
+  has_provider "$p" && ENABLED_PROVIDERS+=("$p")
 done
 
 if [ "${#ENABLED_PROVIDERS[@]}" == "0" ]; then
-  usage
+    usage
 elif [ "${#ENABLED_PROVIDERS[@]}" == "1" ]; then
   run_provider "${ENABLED_PROVIDERS[0]}"
 else

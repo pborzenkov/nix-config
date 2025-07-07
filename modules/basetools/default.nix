@@ -38,6 +38,7 @@ in
             iproute2
             sqlite
             systemctl-tui
+            dtach
           ];
           sessionVariables = {
             PARALLEL_HOME = "${config.xdg.configHome}/parallel";

@@ -7,16 +7,6 @@
 }:
 let
   cfg = config.pbor.wm.niri;
-
-  settings = pkgs.writeShellApplication {
-    name = "settings";
-    text = builtins.readFile ./scripts/settings.sh;
-    runtimeInputs = [
-      pkgs.wofi
-      pkgs.foot
-    ];
-  };
-  setting-providers = lib.concatMapStrings (p: ''"-p" "${p}" '') cfg.setting-providers;
 in
 {
   imports = pborlib.allDirs ./.;
@@ -37,13 +27,6 @@ in
       default = "";
       description = ''
         Extra Niri binds
-      '';
-    };
-    pbor.wm.niri.setting-providers = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [ ];
-      description = ''
-        An array of setting providers to enable.
       '';
     };
   };
@@ -109,10 +92,11 @@ in
             binds {
               Mod+Space { switch-layout "next"; }
               Mod+Return { spawn "uwsm" "app" "--" "footclient"; }
-              Mod+Shift+Return { spawn "uwsm" "app" "--" "footclient" "-a" "scratch-term" "scratch-term"; }
+              Mod+Shift+Return { spawn "uwsm" "app" "--" "scratch-term"; }
               Mod+D { spawn "uwsm" "app" "--" "wofi" "-S" "run"; }
               Mod+Shift+S { spawn "uwsm" "app" "--" "wofi-power-menu"; }
-              Mod+Shift+Period { spawn "uwsm" "app" "--" "${settings}/bin/settings" ${setting-providers}; }
+              Mod+Shift+Period { spawn "uwsm" "app" "--" "wofi-settings"; }
+              Mod+Shift+Comma { spawn "uwsm" "app" "--" "wofi-scratch-apps"; }
 
               Mod+Q { close-window; }
               Mod+F { maximize-column; }
@@ -194,7 +178,7 @@ in
               path "xwayland-satellite"
             }
             window-rule {
-              match app-id="scratch-term"
+              match app-id="scratch-app"
               open-floating true
               default-column-width { proportion 0.75; }
               default-window-height { proportion 0.85; }

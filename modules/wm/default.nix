@@ -9,74 +9,43 @@
 let
   cfg = config.pbor.wm;
 
-  scratch-term =
-    let
-      config = pkgs.writeTextFile {
-        name = "scratch-term-zellij-config";
-        text = ''
-          on_force_close "detach"
-          simplified_ui true
-          pane_frames false
-          default_shell "fish"
-          theme "default"
-          default_mode "locked"
-          mouse_mode false
-          copy_command "wl-copy"
-          scrollback_editor "hx"
-          session_serialization false
-          show_startup_tips false
-          show_release_notes false
-
-          keybinds clear-defaults=true {
-            locked {
-              bind "Ctrl t" { "NewTab"; }
-
-              bind "Alt 1" { GoToTab 1; }
-              bind "Alt 2" { GoToTab 2; }
-              bind "Alt 3" { GoToTab 3; }
-              bind "Alt 4" { GoToTab 4; }
-              bind "Alt 5" { GoToTab 5; }
-              bind "Alt 6" { GoToTab 6; }
-              bind "Alt 7" { GoToTab 7; }
-              bind "Alt 8" { GoToTab 8; }
-              bind "Alt 9" { GoToTab 9; }
-              bind "Alt 0" { GoToTab 10; }
-
-              bind "Ctrl Shift f" { PageScrollDown; }
-              bind "Ctrl Shift d" { HalfPageScrollDown; }
-              bind "Ctrl Shift j" { ScrollDown; }
-              bind "Ctrl Shift e" { ScrollToBottom; }
-              bind "Ctrl Shift b" { PageScrollUp; }
-              bind "Ctrl Shift u" { HalfPageScrollUp; }
-              bind "Ctrl Shift k" { ScrollUp; }
-
-              bind "Alt r" { SwitchToMode "renametab"; }
-            }
-            renametab {
-              bind "Enter" { SwitchToMode "locked"; }
-              bind "Esc" { UndoRenameTab; SwitchToMode "locked"; }
-            }
-          }
-        '';
-      };
-      layout = pkgs.writeTextFile {
-        name = "scratch-term-zellij-layout";
-        text = ''
-          layout {
-            pane size=1 borderless=true {
-              plugin location="tab-bar"
-            }
-            pane
-          }
-        '';
-      };
-    in
-    pkgs.writeShellApplication {
-      name = "scratch-term";
-      text = ''
-        zellij --config ${config} --layout ${layout} attach --create scratch-term
-      '';
+  wofi-settings = pkgs.writeShellApplication {
+    name = "wofi-settings";
+    text = builtins.readFile ./scripts/settings.sh;
+    runtimeInputs = [
+      pkgs.wofi
+      pkgs.foot
+    ];
+    runtimeEnv = {
+      CONFIGURED_PROVIDERS = ''${builtins.concatStringsSep "," cfg.settings-providers}'';
     };
+  };
+
+  wofi-scratch-apps = pkgs.writeShellApplication {
+    name = "wofi-scratch-apps";
+    text = builtins.readFile ./scripts/scratch-apps.sh;
+    runtimeInputs = [
+      pkgs.wofi
+      pkgs.foot
+      pkgs.dtach
+    ];
+    runtimeEnv = {
+      CONFIGURED_APPS = ''${builtins.concatStringsSep "," cfg.scratch-apps}'';
+    };
+  };
+
+  scratch-term = pkgs.writeShellApplication {
+    name = "scratch-term";
+    text = builtins.readFile ./scripts/scratch-apps.sh;
+    runtimeInputs = [
+      pkgs.wofi
+      pkgs.foot
+      pkgs.dtach
+    ];
+    runtimeEnv = {
+      CONFIGURED_APPS = "fish";
+    };
+  };
 in
 {
   imports = pborlib.allDirs ./.;
@@ -84,6 +53,20 @@ in
   options = {
     pbor.wm.enable = (lib.mkEnableOption "Enable WM") // {
       default = config.pbor.enable && isDesktop;
+    };
+    pbor.wm.settings-providers = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+      description = ''
+        An array of setting providers to enable.
+      '';
+    };
+    pbor.wm.scratch-apps = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+      description = ''
+        An array of scratch apps to enable.
+      '';
     };
   };
 
@@ -104,6 +87,8 @@ in
           wev
           wl-clipboard
           xdg-utils
+          wofi-settings
+          wofi-scratch-apps
           scratch-term
         ];
         programs.zellij.enable = true;
