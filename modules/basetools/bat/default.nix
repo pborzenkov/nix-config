@@ -15,18 +15,21 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    hm = {
-      programs.bat = {
-        enable = true;
-        extraPackages = with pkgs.bat-extras; [
-          batman
-        ];
-      };
-      stylix.targets.bat.enable = true;
+    hm =
+      {
+        programs.bat = {
+          enable = true;
+          extraPackages = with pkgs.bat-extras; [
+            batman
+          ];
+        };
 
-      home.shellAliases = {
-        man = "batman";
+        home.shellAliases = {
+          man = "batman";
+        };
+      }
+      // lib.optionalAttrs config.pbor.stylix.enable {
+        stylix.targets.bat.enable = true;
       };
-    };
   };
 }
