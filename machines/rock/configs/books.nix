@@ -1,30 +1,43 @@
 {
-  config,
-  lib,
   pkgs,
   ...
 }:
 {
-  services.calibre-server = {
+  services.calibre-web = {
     enable = true;
-    libraries = [ "/storage/books" ];
+    package = pkgs.calibre-web.overridePythonAttrs (old: {
+      dependencies = old.dependencies ++ old.optional-dependencies.kobo;
+    });
+    listen = {
+      ip = "127.0.0.1";
+      port = 8084;
+    };
+    options = {
+      enableBookConversion = true;
+      enableBookUploading = true;
+      enableKepubify = true;
+      calibreLibrary = "/storage/books";
+      reverseProxyAuth = {
+        enable = true;
+        header = "Remote-User";
+      };
+    };
   };
 
-  systemd.services.calibre-server = {
-    serviceConfig.ExecStart = lib.mkForce ''
-      ${pkgs.calibre}/bin/calibre-server \
-      --port 9876 \
-      ${lib.concatStringsSep " " config.services.calibre-server.libraries} \
-    '';
-    unitConfig.RequiresMountsFor = [ "/storage" ];
-  };
+  systemd.services.calibre-web.unitConfig.RequiresMountsFor = [ "/storage" ];
 
   pbor.webapps.apps.calibre = {
     subDomain = "calibre";
-    proxyTo = "http://127.0.0.1:9876";
+    auth.rbac = [ "group:books" ];
+    proxyTo = "http://127.0.0.1:8084";
     locations."/" = { };
-    custom = {
-      forceSSL = false;
+    locations."/opds" = {
+      skip_auth = true;
+    };
+    dashboard = {
+      name = "Calibre";
+      category = "app";
+      icon = "book";
     };
   };
 
