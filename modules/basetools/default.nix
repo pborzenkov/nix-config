@@ -30,6 +30,7 @@ in
             zip
             unzip
             unrar
+            ouch
             usbutils
             pciutils
             dmidecode
