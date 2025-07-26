@@ -6,7 +6,7 @@
   services.calibre-web = {
     enable = true;
     package = pkgs.calibre-web.overridePythonAttrs (old: {
-      dependencies = old.dependencies ++ old.optional-dependencies.kobo;
+      dependencies = old.dependencies ++ old.optional-dependencies.kobo ++ old.optional-dependencies.ldap;
     });
     listen = {
       ip = "127.0.0.1";
