@@ -50,14 +50,13 @@ in
             extensions.packages =
               let
                 rycee = pkgs.nur.repos.rycee.firefox-addons;
-                pborzenkov = pkgs.nur.repos.pborzenkov.firefox-addons;
               in
               [
                 rycee.bitwarden
                 rycee.istilldontcareaboutcookies
                 rycee.ublock-origin
-
-                pborzenkov.shiori_ext
+                rycee.linkding-extension
+                rycee.linkding-injector
               ];
           };
         };

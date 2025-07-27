@@ -35,7 +35,6 @@ in
   "secrets/machines/rock/skyeng-push-notificator-environment.age".publicKeys = rock_identities;
   "secrets/machines/rock/fastmail-password.age".publicKeys = rock_identities;
   "secrets/machines/rock/terraform-pg-environment.age".publicKeys = rock_identities;
-  "secrets/machines/rock/shiori-environment.age".publicKeys = rock_identities;
 
   # shared secrets
   "secrets/shared/listenbrainz-token.age".publicKeys = shared_identities;
