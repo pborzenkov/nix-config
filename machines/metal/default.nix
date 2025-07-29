@@ -1,5 +1,4 @@
 {
-  lib,
   pkgs,
   inputs,
   ...
@@ -69,7 +68,10 @@
 
     devtools = {
       android.enable = true;
-      lang.c.enable = true;
+      lang = {
+        c.enable = true;
+        octave.enable = true;
+      };
     };
 
     media.audio.whisper.rocm = true;
