@@ -22,7 +22,8 @@ let
             libshine3 libspeex1 libtheora0 libtwolame0 libvorbis0a libvorbisenc2
             libx265-199	 libxvidcore4 libva2 libgme0 libopenmpt0t64 libchromaprint1
             libbluray2 librabbitmq4 libssh-gcrypt-4 libva-drm2 libva-x11-2 libvdpau1
-            ocl-icd-libopencl1 libsoxr0 python3-zmq python3-cbor2
+            ocl-icd-libopencl1 libsoxr0 python3-zmq python3-cbor2 python3-numpy
+            python3-opencv
           "
       fi
       exec distrobox enter coppelia-sim --clean-path -- ${src}/coppeliaSim.sh
