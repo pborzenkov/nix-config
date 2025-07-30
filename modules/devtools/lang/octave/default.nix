@@ -28,7 +28,6 @@ in
           packages = with pkgs; [
             octaveFull
             octave-gui
-            pdflatex
           ];
         };
       };

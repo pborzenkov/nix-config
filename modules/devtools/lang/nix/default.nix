@@ -23,6 +23,7 @@ in
       nix-update
       nix-prefetch-github
       nix-prefetch-git
+      nix-index
     ];
   };
 }
