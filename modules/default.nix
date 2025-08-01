@@ -13,7 +13,8 @@ in
 {
   imports = [
     (lib.mkAliasOptionModule [ "hm" ] [ "home-manager" "users" username ])
-  ] ++ pborlib.allDirs ./.;
+  ]
+  ++ pborlib.allDirs ./.;
 
   options = {
     pbor.enable = (lib.mkEnableOption "Enable custom modules") // {
@@ -50,6 +51,7 @@ in
             bashmount
             brightnessctl
             calibre
+            cliflux
             libreoffice
             tdesktop
             zoom-us

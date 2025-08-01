@@ -63,6 +63,7 @@
       scratch-apps = [
         "aerc"
         "ncmpcpp"
+        "cliflux"
       ];
     };
 

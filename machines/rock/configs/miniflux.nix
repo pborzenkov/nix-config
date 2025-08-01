@@ -12,6 +12,9 @@ in
     auth.rbac = [ "group:rss" ];
     proxyTo = "http://127.0.0.1:${port}";
     locations."/" = { };
+    locations."/v1" = {
+      skip_auth = true;
+    };
     dashboard = {
       name = "Miniflux";
       category = "app";
