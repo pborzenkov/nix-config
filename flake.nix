@@ -71,6 +71,12 @@
           homeStateVersion = "24.05";
           isDesktop = false;
         };
+        techno = {
+          nixosStateVersion = "25.05";
+          homeStateVersion = "25.05";
+          platform = "aarch64-linux";
+          isDesktop = false;
+        };
         yubikey = {
           nixosStateVersion = "24.05";
           isDesktop = false;

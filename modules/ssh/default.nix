@@ -38,12 +38,19 @@ in
     pbor.ssh.server.enable = (lib.mkEnableOption "Enable ssh server") // {
       default = cfg.enable && !isDesktop;
     };
+    pbor.ssh.server.openFirewall = lib.mkOption {
+      type = lib.types.bool;
+      description = ''
+        Open firewall for OpenSSH
+      '';
+      default = true;
+    };
   };
 
   config = lib.mkIf cfg.enable {
     services.openssh = {
       enable = cfg.server.enable;
-      openFirewall = true;
+      openFirewall = cfg.server.openFirewall;
       settings = {
         LogLevel = "INFO";
         PasswordAuthentication = false;
