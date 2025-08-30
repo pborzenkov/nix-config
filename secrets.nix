@@ -4,10 +4,12 @@ let
   users = [ pbor_on_metal ];
   # hosts
   gw = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILFOcNYTmZILfBFXHR3buljmz4VTZefR5k8vsAPUCgqn";
+  techno = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAmEN1OAyV0u4fyqgWrD2TKs/ysAw1VvalWb+V3CdJCy";
   rock = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGmMM3PtfFWmzuei80Y/xNvu990xNVx9iDCPciwxjOo2";
   metal = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBdcfsIA5ODSt8JqyCZUTYFndbfu4LS2/WtK5uG7PRn1";
 
   gw_identities = users ++ [ gw ];
+  techno_identities = users ++ [ techno ];
   rock_identities = users ++ [ rock ];
   shared_identities = users ++ [
     rock
@@ -17,6 +19,9 @@ in
 {
   # gw secrets
   "secrets/machines/gw/wireguard-key.age".publicKeys = gw_identities;
+
+  # techno secrets
+  "secrets/machines/techno/wireguard-key.age".publicKeys = techno_identities;
 
   # rock secrets
   "secrets/machines/rock/authelia-environment.age".publicKeys = rock_identities;
