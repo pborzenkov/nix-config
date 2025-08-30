@@ -22,6 +22,7 @@ in
 
   # techno secrets
   "secrets/machines/techno/wireguard-key.age".publicKeys = techno_identities;
+  "secrets/machines/techno/v2ray-config.age".publicKeys = techno_identities;
 
   # rock secrets
   "secrets/machines/rock/authelia-environment.age".publicKeys = rock_identities;
