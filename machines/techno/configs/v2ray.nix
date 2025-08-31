@@ -6,12 +6,12 @@
   ...
 }:
 {
-  systemd.services.v2ray = {
+  systemd.services.xray = {
     restartTriggers = [ config.age.secrets.v2ray-config.path ];
 
     serviceConfig = {
       LoadCredential = "config.json:${config.age.secrets.v2ray-config.path}";
-      ExecStart = lib.mkForce "${lib.getExe pkgs.v2ray} run -config %d/config.json";
+      ExecStart = lib.mkForce "${lib.getExe pkgs.xray} run -config %d/config.json";
     };
 
     wantedBy = [ "multi-user.target" ];
