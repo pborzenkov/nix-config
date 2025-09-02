@@ -17,12 +17,6 @@
       enable = true;
       trustedInterfaces = [ "wg0" ];
     };
-
-    interfaces = {
-      "enp1s0" = {
-        useDHCP = true;
-      };
-    };
   };
 
   systemd.network = {
@@ -52,6 +46,14 @@
       };
     };
     networks = {
+      "40-enp1s0" = {
+        matchConfig.Name = "enp1s0";
+        networkConfig.DHCP = "ipv4";
+        address = [ "2a01:4f8:1c1c:53d2::" ];
+        routes = [
+          { Gateway = "fe80::1"; }
+        ];
+      };
       "50-wg" = {
         name = "wg0";
         DHCP = "no";
