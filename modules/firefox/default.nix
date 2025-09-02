@@ -62,18 +62,26 @@ in
               "signon.rememberSignons" = false;
             };
 
-            extensions.packages =
-              let
-                rycee = pkgs.nur.repos.rycee.firefox-addons;
-              in
-              [
-                rycee.bitwarden
-                rycee.istilldontcareaboutcookies
-                rycee.ublock-origin
-                rycee.linkding-extension
-                rycee.linkding-injector
-              ];
+            extensions = {
+              packages =
+                let
+                  rycee = pkgs.nur.repos.rycee.firefox-addons;
+                in
+                [
+                  rycee.bitwarden
+                  rycee.istilldontcareaboutcookies
+                  rycee.ublock-origin
+                  rycee.linkding-extension
+                  rycee.linkding-injector
+                ];
+              force = true;
+            };
           };
+        };
+        stylix.targets.firefox = {
+          enable = true;
+          profileNames = [ "default" ];
+          colorTheme.enable = true;
         };
 
         xdg.mimeApps.defaultApplications = lib.mkIf cfg.default {

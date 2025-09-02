@@ -101,12 +101,7 @@
       "usbcore.autosuspend=-1"
     ];
     supportedFilesystems = [ "ntfs" ];
-  };
-  hardware = {
-    graphics = {
-      package = pkgs.unstable.mesa;
-      package32 = pkgs.unstable.pkgsi686Linux.mesa;
-    };
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
   users.users.pbor.extraGroups = [ "dialout" ];
