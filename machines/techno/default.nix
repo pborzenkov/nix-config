@@ -21,5 +21,7 @@
     };
   };
 
+  documentation.man.generateCaches = false;
+
   time.timeZone = "Europe/Amsterdam";
 }

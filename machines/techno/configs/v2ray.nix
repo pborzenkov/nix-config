@@ -18,5 +18,12 @@
   };
   networking.firewall.allowedTCPPorts = [ 443 ];
 
+  services.prometheus.exporters = {
+    v2ray = {
+      enable = true;
+      listenAddress = "192.168.111.8";
+    };
+  };
+
   age.secrets.v2ray-config.file = machineSecrets + "/v2ray-config.age";
 }
