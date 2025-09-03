@@ -68,6 +68,7 @@
               targets = [
                 "helios64.lab.borzenkov.net:9100"
                 "rock.lab.borzenkov.net:9100"
+                "techno.lab.borzenkov.net:9100"
               ];
             }
           ];
@@ -78,6 +79,16 @@
             {
               targets = [
                 "rock.lab.borzenkov.net:4545"
+              ];
+            }
+          ];
+        }
+        {
+          job_name = "v2ray";
+          static_configs = [
+            {
+              targets = [
+                "techno.lab.borzenkov.net:9299"
               ];
             }
           ];
