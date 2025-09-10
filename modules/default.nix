@@ -48,6 +48,7 @@ in
           with pkgs;
           lib.mkIf isDesktop [
             anki
+            unstable.goldendict-ng
             bashmount
             brightnessctl
             calibre

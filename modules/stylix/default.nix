@@ -68,6 +68,7 @@ in
 
       targets = {
         gtk.enable = true;
+        qt.enable = true;
         fontconfig.enable = true;
         font-packages.enable = true;
       };
