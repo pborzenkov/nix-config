@@ -59,6 +59,19 @@ in
             obsidian
           ];
 
+        home.file.".local/share/dictionaries/hunspell".source =
+          let
+            dicts = pkgs.symlinkJoin {
+              name = "hunspell-dicts";
+              paths = with pkgs.hunspellDicts; [
+                en-us-large
+                en-gb-large
+                nl_nl
+              ];
+            };
+          in
+          "${dicts}/share/hunspell";
+
         xdg = {
           enable = true;
           mimeApps = {
