@@ -100,6 +100,7 @@
       "rd.systemd.show_status=false"
       "usbcore.autosuspend=-1"
     ];
+    kernelModules = [ "sg" ];
     supportedFilesystems = [ "ntfs" ];
     binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
