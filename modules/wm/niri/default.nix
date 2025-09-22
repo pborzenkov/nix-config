@@ -93,6 +93,7 @@ in
               Mod+Space { switch-layout "next"; }
               Mod+Return { spawn "uwsm" "app" "--" "footclient"; }
               Mod+Shift+Return { spawn "uwsm" "app" "--" "scratch-term"; }
+              Mod+Shift+Slash { spawn "uwsm" "app" "--" "scratch-yazi"; }
               Mod+D { spawn "uwsm" "app" "--" "wofi" "-S" "run"; }
               Mod+Shift+S { spawn "uwsm" "app" "--" "wofi-power-menu"; }
               Mod+Shift+Period { spawn "uwsm" "app" "--" "wofi-settings"; }

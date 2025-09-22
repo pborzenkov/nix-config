@@ -46,6 +46,19 @@ let
       CONFIGURED_APPS = "fish";
     };
   };
+
+  scratch-yazi = pkgs.writeShellApplication {
+    name = "scratch-yazi";
+    text = builtins.readFile ./scripts/scratch-apps.sh;
+    runtimeInputs = [
+      pkgs.wofi
+      pkgs.foot
+      pkgs.dtach
+    ];
+    runtimeEnv = {
+      CONFIGURED_APPS = "yazi";
+    };
+  };
 in
 {
   imports = pborlib.allDirs ./.;
@@ -90,6 +103,7 @@ in
           wofi-settings
           wofi-scratch-apps
           scratch-term
+          scratch-yazi
         ];
         programs.zellij.enable = true;
         stylix.targets.zellij.enable = true;
