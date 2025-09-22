@@ -97,22 +97,20 @@ rec {
                 config = {
                   allowUnfree = true;
                 };
-                overlays =
-                  [
-                    inputs.nur.overlays.default
-                    inputs.niri.overlays.niri
-                    (import ../overlay.nix)
-                  ]
-                  ++ lib.optional (inputs ? "nixpkgs-unstable") (
-                    final: _prev: {
-                      unstable = import inputs.nixpkgs-unstable {
-                        system = final.system;
-                        config = {
-                          allowUnfree = true;
-                        };
+                overlays = [
+                  inputs.nur.overlays.default
+                  (import ../overlay.nix)
+                ]
+                ++ lib.optional (inputs ? "nixpkgs-unstable") (
+                  final: _prev: {
+                    unstable = import inputs.nixpkgs-unstable {
+                      system = final.system;
+                      config = {
+                        allowUnfree = true;
                       };
-                    }
-                  );
+                    };
+                  }
+                );
               };
               disabledModules = disabledModules;
 

@@ -35,7 +35,6 @@ in
     programs = {
       niri = {
         enable = true;
-        package = pkgs.niri-stable;
       };
       uwsm = {
         enable = true;
@@ -201,7 +200,7 @@ in
           ''
           + cfg.extra-settings;
 
-        home.packages = [ pkgs.xwayland-satellite-stable ];
+        home.packages = [ pkgs.xwayland-satellite ];
       };
   };
 }
