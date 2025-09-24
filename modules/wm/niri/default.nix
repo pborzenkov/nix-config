@@ -121,6 +121,7 @@ in
               Mod+I { focus-workspace-up; }
               Mod+Shift+I { move-workspace-up; }
 
+              Mod+Tab { focus-workspace-previous; }
               Mod+1 { focus-workspace 1; }
               Mod+Shift+1 { move-column-to-workspace 1; }
               Mod+2 { focus-workspace 2; }
