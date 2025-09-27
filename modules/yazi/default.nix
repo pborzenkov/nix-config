@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  isDesktop,
   ...
 }:
 let
@@ -10,7 +11,7 @@ in
 {
   options = {
     pbor.yazi.enable = (lib.mkEnableOption "Enable yazi") // {
-      default = config.pbor.enable;
+      default = config.pbor.enable && isDesktop;
     };
   };
 
