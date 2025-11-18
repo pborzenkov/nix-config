@@ -19,32 +19,13 @@
     };
   };
 
-  systemd.network = {
+  pbor.vpn = {
     enable = true;
-    netdevs = {
-      "50-wg" = {
-        netdevConfig = {
-          Kind = "wireguard";
-          MTUBytes = "1420";
-          Name = "wg0";
-        };
-        wireguardConfig = {
-          ListenPort = 13231;
-          PrivateKeyFile = config.age.secrets.wireguard-key.path;
-        };
-        wireguardPeers = [
-          {
-            PublicKey = "/qcJiPDpknM7hvAwfrxUS5D8IGJ3RAiTVYlfdg8eZzk=";
-            AllowedIPs = [
-              "192.168.88.0/24"
-              "192.168.111.0/24"
-            ];
-            Endpoint = "vpn.borzenkov.net:13231";
-            PersistentKeepalive = 15;
-          }
-        ];
-      };
-    };
+    address = "192.168.111.8";
+    keyfile = config.age.secrets.wireguard-key.path;
+  };
+
+  systemd.network = {
     networks = {
       "40-enp1s0" = {
         matchConfig.Name = "enp1s0";
@@ -53,23 +34,6 @@
         routes = [
           { Gateway = "fe80::1"; }
         ];
-      };
-      "50-wg" = {
-        name = "wg0";
-        DHCP = "no";
-        addresses = [
-          {
-            Address = "192.168.111.8/24";
-          }
-        ];
-        routes = [
-          {
-            Destination = "192.168.88.0/24";
-            Scope = "link";
-          }
-        ];
-        dns = [ "192.168.111.1" ];
-        domains = [ "lab.borzenkov.net" ];
       };
     };
   };
