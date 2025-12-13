@@ -24,6 +24,10 @@
       };
     };
   };
+  systemd.network.wait-online = {
+    anyInterface = false;
+    ignoredInterfaces = [ "wg0" ];
+  };
 
   pbor.vpn = {
     enable = true;

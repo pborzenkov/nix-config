@@ -7,4 +7,8 @@
       Port = 8888;
     };
   };
+  systemd.services.tinyproxy = {
+    after = [ "systemd-networkd-wait-online@wg0.service" ];
+    requires = [ "systemd-networkd-wait-online@wg0.service" ];
+  };
 }

@@ -86,9 +86,10 @@ in
   config = lib.mkIf cfg.enable {
     services.greetd = {
       enable = true;
+      useTextGreeter = true;
       settings = {
         default_session = {
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --remember-user-session --sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions";
+          command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-user-session --sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions";
         };
       };
     };

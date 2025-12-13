@@ -48,13 +48,13 @@ in
           with pkgs;
           lib.mkIf isDesktop [
             anki
-            unstable.goldendict-ng
+            goldendict-ng
             bashmount
             brightnessctl
             calibre
             cliflux
             libreoffice
-            tdesktop
+            telegram-desktop
             zoom-us
             obsidian
           ];

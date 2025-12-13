@@ -63,7 +63,7 @@ in
         pkgs.gamemode
       ];
       extraCompatPackages = [
-        pkgs.unstable.proton-ge-bin
+        pkgs.proton-ge-bin
       ];
     };
   };

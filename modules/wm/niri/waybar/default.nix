@@ -121,6 +121,9 @@ in
             }
 
             #workspaces button {
+              color: @base05;
+              background: @base02;
+              
               padding: 0 2px;
               margin: 0 2px;
             }

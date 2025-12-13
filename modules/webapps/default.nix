@@ -252,7 +252,10 @@ in
         group = config.users.users.nginx.group;
       };
     };
-    systemd.services."acme-${cfg.domain}".after = [ "network-online.target" ];
+    systemd.services."acme-${cfg.domain}" = {
+      after = [ "network-online.target" ];
+      requires = [ "network-online.target" ];
+    };
 
     services.nginx = {
       enable = true;
@@ -262,81 +265,80 @@ in
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
 
-      virtualHosts =
-        {
-          "${cfg.domain}" = {
-            default = true;
-            locations."/".return = "404";
+      virtualHosts = {
+        "${cfg.domain}" = {
+          default = true;
+          locations."/".return = "404";
+          forceSSL = true;
+          useACMEHost = cfg.domain;
+        };
+      }
+      // lib.mapAttrs' (
+        vhostName: vhostConfig:
+        lib.nameValuePair "${vhostConfig.subDomain}.${cfg.domain}" (
+          let
+            needsAuth =
+              vhostConfig.auth != null
+              && vhostConfig.auth.rbac != null
+              && (lib.any (x: !x) (lib.mapAttrsToList (_: locConfig: locConfig.skip_auth) vhostConfig.locations));
+          in
+          {
             forceSSL = true;
             useACMEHost = cfg.domain;
-          };
-        }
-        // lib.mapAttrs' (
-          vhostName: vhostConfig:
-          lib.nameValuePair "${vhostConfig.subDomain}.${cfg.domain}" (
-            let
-              needsAuth =
-                vhostConfig.auth != null
-                && vhostConfig.auth.rbac != null
-                && (lib.any (x: !x) (lib.mapAttrsToList (_: locConfig: locConfig.skip_auth) vhostConfig.locations));
-            in
-            {
-              forceSSL = true;
-              useACMEHost = cfg.domain;
-              locations =
-                (lib.mapAttrs (
-                  locName: locConfig:
-                  (
-                    {
-                      proxyPass = if vhostConfig.proxyTo != null then "${vhostConfig.proxyTo}$request_uri" else null;
-                      extraConfig = lib.optionalString (needsAuth && !locConfig.skip_auth) ''
-                        auth_request /internal/authelia/auth;
+            locations =
+              (lib.mapAttrs (
+                locName: locConfig:
+                (
+                  {
+                    proxyPass = if vhostConfig.proxyTo != null then "${vhostConfig.proxyTo}$request_uri" else null;
+                    extraConfig = lib.optionalString (needsAuth && !locConfig.skip_auth) ''
+                      auth_request /internal/authelia/auth;
 
-                        auth_request_set $user $upstream_http_remote_user;
-                        auth_request_set $groups $upstream_http_remote_groups;
-                        auth_request_set $name $upstream_http_remote_name;
-                        auth_request_set $email $upstream_http_remote_email;
+                      auth_request_set $user $upstream_http_remote_user;
+                      auth_request_set $groups $upstream_http_remote_groups;
+                      auth_request_set $name $upstream_http_remote_name;
+                      auth_request_set $email $upstream_http_remote_email;
 
-                        proxy_set_header Remote-User $user;
-                        proxy_set_header Remote-Groups $groups;
-                        proxy_set_header Remote-Email $email;
-                        proxy_set_header Remote-Name $name;
+                      proxy_set_header Remote-User $user;
+                      proxy_set_header Remote-Groups $groups;
+                      proxy_set_header Remote-Email $email;
+                      proxy_set_header Remote-Name $name;
 
-                        auth_request_set $redirection_url $upstream_http_location;
+                      auth_request_set $redirection_url $upstream_http_location;
 
-                        error_page 401 =302 $redirection_url;
-                      '';
-                    }
-                    // lib.optionalAttrs (locConfig.custom != null) locConfig.custom
-                  )
-                ) vhostConfig.locations)
-                // lib.optionalAttrs needsAuth {
-                  "/internal/authelia/auth" = {
-                    proxyPass = "${cfg.ssoInternalAddress}/api/authz/auth-request";
-                    extraConfig = ''
-                      internal;
-
-                      proxy_set_header X-Original-Method $request_method;
-                      proxy_set_header X-Original-URL $scheme://$http_host$request_uri;
-                      proxy_set_header X-Forwarded-For $remote_addr;
-                      proxy_set_header Content-Length "";
-                      proxy_set_header Connection "";
-
-                      proxy_pass_request_body off;
-                      proxy_next_upstream error timeout invalid_header http_500 http_502 http_503;
-                      proxy_redirect http:// $scheme://;
-                      proxy_http_version 1.1;
-                      proxy_cache_bypass $cookie_session;
-                      proxy_no_cache $cookie_session;
-                      proxy_buffers 4 32k;
-                      client_body_buffer_size 128k;
+                      error_page 401 =302 $redirection_url;
                     '';
-                  };
+                  }
+                  // lib.optionalAttrs (locConfig.custom != null) locConfig.custom
+                )
+              ) vhostConfig.locations)
+              // lib.optionalAttrs needsAuth {
+                "/internal/authelia/auth" = {
+                  proxyPass = "${cfg.ssoInternalAddress}/api/authz/auth-request";
+                  extraConfig = ''
+                    internal;
+
+                    proxy_set_header X-Original-Method $request_method;
+                    proxy_set_header X-Original-URL $scheme://$http_host$request_uri;
+                    proxy_set_header X-Forwarded-For $remote_addr;
+                    proxy_set_header Content-Length "";
+                    proxy_set_header Connection "";
+
+                    proxy_pass_request_body off;
+                    proxy_next_upstream error timeout invalid_header http_500 http_502 http_503;
+                    proxy_redirect http:// $scheme://;
+                    proxy_http_version 1.1;
+                    proxy_cache_bypass $cookie_session;
+                    proxy_no_cache $cookie_session;
+                    proxy_buffers 4 32k;
+                    client_body_buffer_size 128k;
+                  '';
                 };
-            }
-            // lib.optionalAttrs (vhostConfig.custom != null) vhostConfig.custom
-          )
-        ) cfg.apps;
+              };
+          }
+          // lib.optionalAttrs (vhostConfig.custom != null) vhostConfig.custom
+        )
+      ) cfg.apps;
     };
 
     lib.pbor.webapps.homerServices =

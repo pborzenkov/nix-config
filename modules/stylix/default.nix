@@ -31,10 +31,16 @@ in
         followSystem = true;
       };
 
+      polarity = "dark";
       cursor = {
-        package = pkgs.unstable.vimix-cursors;
+        package = pkgs.vimix-cursors;
         name = "Vimix-cursors";
         size = 24;
+      };
+      icons = {
+        enable = true;
+        package = pkgs.vimix-icon-theme;
+        dark = "Vimix-Doder-dark";
       };
 
       fonts = {
@@ -68,7 +74,10 @@ in
 
       targets = {
         gtk.enable = true;
-        qt.enable = true;
+        qt = {
+          enable = true;
+          platform = lib.mkForce "gnome";
+        };
         fontconfig.enable = true;
         font-packages.enable = true;
       };
@@ -77,19 +86,10 @@ in
     hm =
       { config, ... }:
       {
-        gtk = {
-          enable = true;
-          gtk2.configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";
-          theme = {
-            name = lib.mkForce "vimix-dark-doder";
-            package = lib.mkForce pkgs.vimix-gtk-themes;
-          };
-          iconTheme = {
-            name = "Vimix-Doder-dark";
-            package = pkgs.vimix-icon-theme;
-          };
-        };
         xresources.path = "${config.xdg.configHome}/X11/xresources";
+        stylix.targets = {
+          gtk.enable = true;
+        };
       };
   };
 }

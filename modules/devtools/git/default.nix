@@ -18,42 +18,48 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    hm.programs.git = {
-      enable = true;
-      package = pkgs.gitFull;
+    hm.programs = {
+      git = {
+        enable = true;
+        package = pkgs.gitFull;
 
-      extraConfig = {
-        color = {
-          ui = "auto";
-        };
+        settings = {
+          user = {
+            name = "Pavel Borzenkov";
+            email = "pavel@borzenkov.net";
+          };
 
-        core = {
-          editor = "hx";
-        };
+          color = {
+            ui = "auto";
+          };
 
-        pull = {
-          rebase = true;
-        };
+          core = {
+            editor = "hx";
+          };
 
-        pager = lib.genAttrs [ "diff" "log" "show" ] (name: "delta --navigate");
+          pull = {
+            rebase = true;
+          };
 
-        sendemail = {
-          smtpserver = "smtp.fastmail.com";
-          smtpuser = "pavel@borzenkov.net";
-          smtpencryption = "ssl";
-          smtpserverport = 465;
-        };
+          pager = lib.genAttrs [ "diff" "log" "show" ] (name: "delta --navigate");
 
-        "credential \"smtp://pavel%40borzenkov.net@smtp.fastmail.com%3a465\"" = {
-          helper = ''!f() { test "$1" = get && echo "password=$(rbw get fastmail.com/git)"; }; f'';
+          sendemail = {
+            smtpserver = "smtp.fastmail.com";
+            smtpuser = "pavel@borzenkov.net";
+            smtpencryption = "ssl";
+            smtpserverport = 465;
+          };
+
+          "credential \"smtp://pavel%40borzenkov.net@smtp.fastmail.com%3a465\"" = {
+            helper = ''!f() { test "$1" = get && echo "password=$(rbw get fastmail.com/git)"; }; f'';
+          };
         };
       };
 
-      userEmail = "pavel@borzenkov.net";
-      userName = "Pavel Borzenkov";
-
       delta = {
         enable = true;
+        enableGitIntegration = true;
+
         options = {
           syntax-theme = "base16";
           line-numbers = true;

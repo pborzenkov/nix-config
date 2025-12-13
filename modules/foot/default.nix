@@ -25,10 +25,6 @@ in
             hide-when-typing = "yes";
           };
 
-          cursor = with config.lib.stylix.colors; {
-            color = "${base00} ${base05}";
-          };
-
           key-bindings = {
             scrollback-down-page = "Control+Shift+f";
             scrollback-down-half-page = "Control+Shift+d";
@@ -47,6 +43,10 @@ in
 
             prompt-prev = "Control+Shift+z";
             prompt-next = "Control+Shift+x";
+          };
+
+          colors = with config.lib.stylix.colors; {
+            cursor = "${base00} ${base05}";
           };
         };
       };

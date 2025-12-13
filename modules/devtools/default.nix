@@ -20,7 +20,7 @@ in
 
   config = lib.mkIf cfg.enable {
     environment.systemPackages = [
-      config.boot.kernelPackages.perf
+      pkgs.perf
     ];
 
     hm.home.packages = with pkgs; [

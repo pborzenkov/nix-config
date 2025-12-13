@@ -22,7 +22,7 @@ in
         programs = {
           aerc = {
             enable = true;
-            package = pkgs.unstable.aerc;
+            package = pkgs.aerc;
             extraAccounts."pavel@borzenkov.net" = {
               source = "jmap+oauthbearer://api.fastmail.com/jmap/session";
               source-cred-cmd = "rbw get fastmail.com/jmap";

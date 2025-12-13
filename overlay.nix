@@ -1,15 +1,6 @@
 final: prev: {
   p1-exporter = final.callPackage ./packages/p1-exporter { };
 
-  restic = prev.restic.overrideAttrs (old: {
-    patches = old.patches ++ [
-      (prev.fetchpatch {
-        url = "https://patch-diff.githubusercontent.com/raw/restic/restic/pull/5356.diff";
-        sha256 = "sha256-OGqGTDqfCvHUWWz/opzPqu4mMegJdBG9nVEXFP+mqpQ=";
-      })
-    ];
-  });
-
   transmission_4 = prev.transmission_4.overrideAttrs (old: rec {
     version = "4.0.5";
     src = final.fetchFromGitHub {
@@ -28,4 +19,6 @@ final: prev: {
   });
 
   transmission-protonvpn-nat-pmp = final.callPackage ./packages/transmission-protonvpn-nat-pmp { };
+
+  jellyfin-media-player = final.pkgs.qt6Packages.callPackage ./packages/jellyfin-media-player { };
 }

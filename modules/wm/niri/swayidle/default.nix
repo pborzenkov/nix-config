@@ -31,7 +31,7 @@ in
         };
         stylix.targets.swaylock = {
           enable = true;
-          useImage = false;
+          useWallpaper = false;
         };
 
         services.swayidle = {

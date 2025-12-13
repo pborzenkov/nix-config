@@ -86,7 +86,7 @@ rec {
           machineCustomConfig = machineDir + "/configs";
         in
         [
-          inputs.agenix.nixosModules.default
+          inputs.ragenix.nixosModules.default
           inputs.home-manager.nixosModules.home-manager
           inputs.stylix.nixosModules.stylix
 
@@ -120,10 +120,14 @@ rec {
               };
               stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/onedark.yaml";
 
+              boot.initrd.systemd.enable = true;
               system = {
                 stateVersion = nixosStateVersion;
+                etc.overlay.enable = true;
+                nixos-init.enable = true;
                 rebuild.enableNg = true;
               };
+              services.userborn.enable = true;
             }
           )
 

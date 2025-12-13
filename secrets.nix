@@ -3,10 +3,10 @@ let
   pbor_on_metal = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN4QUhUEx86Z3yZA5he14ESuJoruBQBSiPSlK4Jn437M";
   users = [ pbor_on_metal ];
   # hosts
-  gw = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILFOcNYTmZILfBFXHR3buljmz4VTZefR5k8vsAPUCgqn";
-  techno = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAmEN1OAyV0u4fyqgWrD2TKs/ysAw1VvalWb+V3CdJCy";
-  rock = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGmMM3PtfFWmzuei80Y/xNvu990xNVx9iDCPciwxjOo2";
-  metal = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBdcfsIA5ODSt8JqyCZUTYFndbfu4LS2/WtK5uG7PRn1";
+  gw = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGJvEISkJsxrOdvgnuzELZJ6GLJHRwB6sudOW6HmX/82";
+  techno = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINbsvI2HP0ViEswrgake0CPiak5QmbOAhPE2X2OsRrZW";
+  rock = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIJ7XLRSWqP5ZbcJImjhTWZEvjY2CQp7LK9LW0PhOX1Z";
+  metal = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA9zmEJu3BvZcF0fXPW8qnWU8YVAaIKpOx1YZepfogNz";
 
   gw_identities = users ++ [ gw ];
   techno_identities = users ++ [ techno ];

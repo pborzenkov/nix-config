@@ -53,6 +53,7 @@
     lldap = {
       enable = true;
       environmentFile = config.age.secrets.lldap-environment.path;
+      silenceForceUserPassResetWarning = true;
       settings = {
         http_host = "127.0.0.1";
         http_url = "https://ldap.lab.borzenkov.net";
@@ -60,6 +61,7 @@
         ldap_host = "::";
         ldap_user_dn = "admin";
         ldap_user_email = "admin@borzenkov.net";
+        ldap_user_pass_file = "/dev/null"; # set via env var
       };
     };
 

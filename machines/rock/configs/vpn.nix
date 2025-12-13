@@ -14,8 +14,8 @@
       PrivateNetwork = true;
       ExecStart = "${pkgs.writers.writeDash "netns-up" ''
         ${pkgs.iproute2}/bin/ip netns add $1
-        ${pkgs.utillinux}/bin/umount /var/run/netns/$1
-        ${pkgs.utillinux}/bin/mount --bind /proc/self/ns/net /var/run/netns/$1
+        ${pkgs.util-linux}/bin/umount /var/run/netns/$1
+        ${pkgs.util-linux}/bin/mount --bind /proc/self/ns/net /var/run/netns/$1
       ''} %I";
       ExecStop = "${pkgs.iproute2}/bin/ip netns del %I";
       PrivateMounts = false;

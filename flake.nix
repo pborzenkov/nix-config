@@ -2,18 +2,17 @@
   description = "pborzenkov's nix config";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable-small";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable-small";
     nixos-hardware.url = "github:nixos/nixos-hardware";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    agenix = {
-      url = "github:ryantm/agenix";
+    ragenix = {
+      url = "github:yaxitech/ragenix";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        home-manager.follows = "home-manager";
       };
     };
     nur = {
@@ -33,7 +32,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     stylix = {
-      url = "github:nix-community/stylix/release-25.05";
+      url = "github:nix-community/stylix/release-25.11";
       inputs = {
         nixpkgs.follows = "nixpkgs";
       };
@@ -93,7 +92,7 @@
         {
           default = pkgs.mkShell {
             nativeBuildInputs = [
-              (inputs.agenix.packages.${system}.default.override { ageBin = "${pkgs.rage}/bin/rage"; })
+              inputs.ragenix.packages.${system}.ragenix
               inputs.deploy-rs.packages.${system}.deploy-rs
               pkgs.rbw
               pkgs.nix-tree

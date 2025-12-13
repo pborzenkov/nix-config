@@ -22,7 +22,7 @@ in
       ffmpeg
       handbrake
       mkvtoolnix
-      unstable.makemkv
+      makemkv
       pgsrip
     ];
   };
