@@ -17,6 +17,7 @@
           "email"
         ];
         userinfo_signed_response_alg = "none";
+        token_endpoint_auth_method = "client_secret_post";
       };
     };
     proxyTo = "http://127.0.0.1:2283";
