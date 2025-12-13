@@ -36,6 +36,7 @@ in
   "secrets/machines/rock/miniflux-environment.age".publicKeys = rock_identities;
   "secrets/machines/rock/valheim-environment.age".publicKeys = rock_identities;
   "secrets/machines/rock/invidious-credentials.age".publicKeys = rock_identities;
+  "secrets/machines/rock/invidious-companion-environment.age".publicKeys = rock_identities;
   "secrets/machines/rock/anki-sync-server-pavel-password.age".publicKeys = rock_identities;
   "secrets/machines/rock/protonvpn-amsterdam-key.age".publicKeys = rock_identities;
   "secrets/machines/rock/skyeng-push-notificator-environment.age".publicKeys = rock_identities;
