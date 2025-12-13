@@ -49,10 +49,6 @@
           nixosStateVersion = "23.05";
           homeStateVersion = "21.05";
           deploy = false;
-          disabledModules = [ "services/misc/angrr.nix" ];
-          extraModules = [
-            "${inputs.nixpkgs-unstable}/nixos/modules/services/misc/angrr.nix"
-          ];
         };
         rock = {
           nixosStateVersion = "23.05";

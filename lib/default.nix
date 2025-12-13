@@ -112,7 +112,9 @@ rec {
                   }
                 );
               };
-              disabledModules = disabledModules;
+              disabledModules = disabledModules ++ [
+                "services/misc/angrr.nix"
+              ];
 
               age = {
                 ageBin = "${pkgs.rage}/bin/rage";
@@ -138,6 +140,9 @@ rec {
         ]
         ++ lib.optionals (builtins.pathExists machineCustomConfig) (allNixFiles machineCustomConfig)
         ++ extraModules
+        ++ [
+          "${inputs.nixpkgs-unstable}/nixos/modules/services/misc/angrr.nix"
+        ]
         ++ lib.optionals (homeStateVersion != null) [
           {
             home-manager = {
