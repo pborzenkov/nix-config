@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
-    # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable-small";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable-small";
     nixos-hardware.url = "github:nixos/nixos-hardware";
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
@@ -49,6 +49,10 @@
           nixosStateVersion = "23.05";
           homeStateVersion = "21.05";
           deploy = false;
+          disabledModules = [ "services/misc/angrr.nix" ];
+          extraModules = [
+            "${inputs.nixpkgs-unstable}/nixos/modules/services/misc/angrr.nix"
+          ];
         };
         rock = {
           nixosStateVersion = "23.05";
