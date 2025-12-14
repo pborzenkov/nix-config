@@ -60,6 +60,9 @@ in
               "browser.warnOnQuitShortcut" = false;
 
               "signon.rememberSignons" = false;
+
+              "font.size.monospace.x-western" = lib.mkForce 16;
+              "font.size.variable.x-western" = lib.mkForce 16;
             };
 
             extensions = {
