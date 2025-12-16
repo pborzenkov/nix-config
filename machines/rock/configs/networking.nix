@@ -37,11 +37,12 @@
           LinkLocalAddressing = "no";
         };
       };
-      "40-enp2s0" = {
+      "40-enp191s0" = {
         enable = true;
-        name = "enp2s0";
+        name = "enp191s0";
         macvlan = [ "mv-host" ];
         networkConfig = {
+          DHCP = "ipv4";
           LinkLocalAddressing = "no";
         };
       };
