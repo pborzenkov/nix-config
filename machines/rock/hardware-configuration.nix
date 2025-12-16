@@ -3,15 +3,11 @@
 # to /etc/nixos/configuration.nix instead.
 {
   inputs,
-  modulesPath,
   ...
 }:
 {
   imports = [
-    (modulesPath + "/profiles/headless.nix")
-
-    inputs.nixos-hardware.nixosModules.common-cpu-amd
-    inputs.nixos-hardware.nixosModules.common-pc-ssd
+    inputs.nixos-hardware.nixosModules.framework-desktop-amd-ai-max-300-series
   ];
 
   boot.initrd.availableKernelModules = [
