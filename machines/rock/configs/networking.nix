@@ -42,7 +42,6 @@
         name = "enp191s0";
         macvlan = [ "mv-host" ];
         networkConfig = {
-          DHCP = "ipv4";
           LinkLocalAddressing = "no";
         };
       };

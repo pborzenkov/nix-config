@@ -13,9 +13,9 @@
         cp ${inputs.self}/assets/lg-tv.edid "$out/lib/firmware/edid/lg-tv.bin"
       '')
     ];
-    outputs."HDMI-A-1" = {
+    outputs."DP-1" = {
       edid = "lg-tv.bin";
-      mode = "1920x1080@60";
+      mode = "e";
     };
   };
   users.users.steam = {
@@ -24,13 +24,20 @@
     isNormalUser = true;
     home = "/fast-storage/steam";
     createHome = true;
-    extraGroups = [ "gamemode" ];
+    extraGroups = [
+      "gamemode"
+      "video"
+    ];
   };
 
   programs = {
     gamemode = {
       enable = true;
       enableRenice = true;
+    };
+    gamescope = {
+      enable = true;
+      capSysNice = true;
     };
     steam = {
       enable = true;
@@ -48,6 +55,8 @@
           "60"
           "--rt"
           "--hdr-enabled"
+          "-O"
+          "DP-1"
         ];
       };
     };
@@ -61,6 +70,7 @@
         text = ''
           KERNEL=="uhid", TAG+="uaccess"
         '';
+        destination = "/etc/udev/rules.d/70-uhid.rules";
       })
     ];
     greetd =
@@ -70,10 +80,10 @@
           builtins.mapAttrs (n: v: "export ${n}=${v}") cfg.gamescopeSession.env
         );
         gamescopeSession = pkgs.writeShellScriptBin "steam-gamescope" ''
-          systemctl --user import-environment DISPLAY WAYLAND_DISPLAY
-          systemctl --user start steam-session.target{
+          export XDG_CURRENT_DESKTOP="gamescope"
+          systemctl --user start steam-session.target
           ${builtins.concatStringsSep "\n" exports}
-          gamescope --steam ${builtins.toString cfg.gamescopeSession.args} -- steam ${builtins.toString cfg.gamescopeSession.steamArgs} 
+          ${pkgs.dbus}/bin/dbus-run-session gamescope --steam ${builtins.toString cfg.gamescopeSession.args} -- steam ${builtins.toString cfg.gamescopeSession.steamArgs}
           systemctl --user stop steam-session.target
         '';
       in
