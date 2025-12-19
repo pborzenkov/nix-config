@@ -1,6 +1,8 @@
 { pkgs, ... }:
 {
   pbor = {
+    sound.enable = true;
+
     syncthing.folders = {
       "/home/pbor/docs" = {
         id = "docs";
@@ -47,11 +49,14 @@
       efi.canTouchEfiVariables = true;
     };
 
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages;
     kernelModules = [
       "nct6775"
     ];
-    supportedFilesystems = [ "ntfs" ];
+    supportedFilesystems = [
+      "ntfs"
+      "zfs"
+    ];
   };
 
   powerManagement = {
