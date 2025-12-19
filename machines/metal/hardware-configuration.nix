@@ -33,7 +33,7 @@
   };
 
   fileSystems."/storage" = {
-    device = "helios64.lab.borzenkov.net:/storage";
+    device = "rock.lab.borzenkov.net:/storage";
     fsType = "nfs";
   };
 

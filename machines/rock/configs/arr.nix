@@ -9,9 +9,8 @@
   };
 
   systemd.services = lib.genAttrs [ "bazarr" "radarr" "sonarr" ] (name: {
-    unitConfig = {
-      RequiresMountsFor = [ "/storage" ];
-    };
+    serviceConfig.SupplementaryGroups = [ "storage" ];
+    unitConfig.RequiresMountsFor = [ "/storage" ];
   });
 
   pbor.webapps.apps = {

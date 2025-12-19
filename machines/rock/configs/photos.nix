@@ -41,7 +41,11 @@
     mediaLocation = "/storage/photos";
   };
 
-  systemd.services.immich.unitConfig.RequiresMountsFor = [ "/storage" ];
+  systemd.services = {
+    immich.unitConfig.RequiresMountsFor = [ "/storage" ];
+    immich-server.serviceConfig.SupplementaryGroups = [ "storage" ];
+    immich-machine-learning.serviceConfig.SupplementaryGroups = [ "storage" ];
+  };
 
   pbor.backup = {
     dbBackups.photos = {

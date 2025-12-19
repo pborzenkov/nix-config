@@ -13,8 +13,9 @@
       auto_update "yes"
     '';
   };
-  systemd.services.mpd.unitConfig = {
-    RequiresMountsFor = [ "/storage" ];
+  systemd.services.mpd = {
+    serviceConfig.SupplementaryGroups = [ "storage" ];
+    unitConfig.RequiresMountsFor = [ "/storage" ];
   };
 
   networking.firewall.allowedTCPPorts = [ 6600 ];

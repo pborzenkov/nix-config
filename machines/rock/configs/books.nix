@@ -24,7 +24,10 @@
     };
   };
 
-  systemd.services.calibre-web.unitConfig.RequiresMountsFor = [ "/storage" ];
+  systemd.services.calibre-web = {
+    serviceConfig.SupplementaryGroups = [ "storage" ];
+    unitConfig.RequiresMountsFor = [ "/storage" ];
+  };
 
   pbor.webapps.apps.calibre = {
     subDomain = "calibre";

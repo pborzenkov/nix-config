@@ -6,6 +6,7 @@
   };
 
   systemd.services.jellyfin = {
+    serviceConfig.SupplementaryGroups = [ "storage" ];
     unitConfig.RequiresMountsFor = [ "/storage" ];
   };
 

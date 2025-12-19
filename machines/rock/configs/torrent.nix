@@ -76,6 +76,7 @@ in
           RequiresMountsFor = [ "/storage" ];
         };
         serviceConfig = {
+          SupplementaryGroups = [ "storage" ];
           PrivateNetwork = true;
           BindReadOnlyPaths = [ "/etc/netns/amsterdam/resolv.conf:/etc/resolv.conf" ];
           LimitNOFILE = 10240;
@@ -85,6 +86,11 @@ in
             "transmission/incomplete"
           ];
         };
+      };
+
+      flood = {
+        path = [ pkgs.mediainfo ];
+        serviceConfig.SupplementaryGroups = [ "storage" ];
       };
 
       transmission-exporter = {

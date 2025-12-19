@@ -1,9 +1,38 @@
 { ... }:
 {
-  fileSystems."/storage" = {
-    device = "helios64.lab.borzenkov.net:/storage";
-    fsType = "nfs";
+  boot.swraid = {
+    enable = true;
+    mdadmConf = ''
+      HOMEHOST <system>
+      MAILADDR root
+      ARRAY /dev/md0 metadata=1.2 name=helios64:0 UUID=ac997842:6b5536ec:2343d40c:d7bd2ba9
+    '';
   };
+
+  fileSystems."/storage" = {
+    device = "/dev/disk/by-uuid/d373e48c-8613-46e8-b2d5-18362bc91ebe";
+    fsType = "ext4";
+    options = [
+      "defaults"
+      "noatime"
+      "nodiratime"
+      "data=writeback"
+    ];
+  };
+
+  users.groups.storage = {
+    gid = 1000;
+    members = [
+      "pbor"
+      "nobody"
+    ];
+  };
+
+  services.nfs.server.enable = true;
+  services.nfs.server.exports = ''
+    /storage *(rw,insecure,sync,no_subtree_check,all_squash,anonuid=65534,anongid=1000)
+  '';
+  networking.firewall.allowedTCPPorts = [ 2049 ];
 
   pbor.webapps.apps.storage = {
     subDomain = "storage";
