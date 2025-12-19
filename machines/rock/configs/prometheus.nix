@@ -66,7 +66,6 @@
           static_configs = [
             {
               targets = [
-                "helios64.lab.borzenkov.net:9100"
                 "rock.lab.borzenkov.net:9100"
                 "techno.lab.borzenkov.net:9100"
               ];

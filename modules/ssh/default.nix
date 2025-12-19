@@ -115,14 +115,6 @@ in
             forwardAgent = true;
           };
 
-          "helios64 helios64.lab.borzenkov.net" = {
-            user = "pbor";
-            forwardAgent = true;
-            extraOptions = {
-              SetEnv = "TERM=screen-256color";
-            };
-          };
-
           "macos macos.lab.borzenkov.net" = {
             forwardAgent = true;
             extraOptions = {
