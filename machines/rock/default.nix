@@ -75,4 +75,6 @@
     "2.nl.pool.ntp.org"
     "3.nl.pool.ntp.org"
   ];
+
+  services.fwupd.enable = true;
 }
