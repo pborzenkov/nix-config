@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   boot.swraid = {
     enable = true;
@@ -34,6 +34,7 @@
     ];
   };
 
+  boot.zfs.package = pkgs.zfs_2_4;
   services = {
     nfs.server = {
       enable = true;

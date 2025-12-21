@@ -19,7 +19,18 @@ in
       enable = true;
       package = pkgs.unstable.angrr;
       enableNixGcIntegration = true;
-      period = "2weeks";
+      settings = {
+        temporary-root-policies = {
+          direnv = {
+            path-regex = "/\\.direnv/";
+            period = "14d";
+          };
+          result = {
+            path-regex = "/result[^/]*$";
+            period = "3d";
+          };
+        };
+      };
     };
     programs.direnv = {
       enable = true;
