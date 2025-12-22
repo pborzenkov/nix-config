@@ -11,7 +11,7 @@
           "trance"
         ];
       };
-      "/storage/books" = {
+      "/fast-storage/books" = {
         id = "books";
         devices = [
           "metal"

@@ -16,7 +16,7 @@
       enableBookConversion = true;
       enableBookUploading = true;
       enableKepubify = true;
-      calibreLibrary = "/storage/books";
+      calibreLibrary = "/fast-storage/books";
       reverseProxyAuth = {
         enable = true;
         header = "Remote-User";
@@ -26,7 +26,7 @@
 
   systemd.services.calibre-web = {
     serviceConfig.SupplementaryGroups = [ "storage" ];
-    unitConfig.RequiresMountsFor = [ "/storage" ];
+    unitConfig.RequiresMountsFor = [ "/fast-storage" ];
   };
 
   pbor.webapps.apps.calibre = {
@@ -47,7 +47,7 @@
   pbor.backup.fsBackups = {
     books = {
       paths = [
-        "/storage/books"
+        "/fast-storage/books"
       ];
     };
   };

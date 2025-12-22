@@ -38,11 +38,11 @@
   services.immich = {
     enable = true;
     host = "127.0.0.1";
-    mediaLocation = "/storage/photos";
+    mediaLocation = "/fast-storage/photos";
   };
 
   systemd.services = {
-    immich.unitConfig.RequiresMountsFor = [ "/storage" ];
+    immich.unitConfig.RequiresMountsFor = [ "/fast-storage" ];
     immich-server.serviceConfig.SupplementaryGroups = [ "storage" ];
     immich-machine-learning.serviceConfig.SupplementaryGroups = [ "storage" ];
   };
@@ -53,7 +53,7 @@
     };
     fsBackups.photos = {
       paths = [
-        "/storage/photos"
+        "/fast-storage/photos"
       ];
     };
   };
