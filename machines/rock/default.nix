@@ -51,7 +51,7 @@
 
     kernelPackages = pkgs.linuxPackages_latest;
     kernelModules = [
-      "nct6775"
+      "drivetemp"
     ];
     supportedFilesystems = [
       "ntfs"

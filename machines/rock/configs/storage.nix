@@ -24,6 +24,10 @@
       device = "fast-storage";
       fsType = "zfs";
     };
+    "/new-storage" = {
+      device = "storage";
+      fsType = "zfs";
+    };
   };
 
   users.groups.storage = {
