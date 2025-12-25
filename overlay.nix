@@ -1,4 +1,9 @@
 final: prev: {
+  fan2go = prev.fan2go.overrideAttrs (old: {
+    name = "fan2go";
+    patches = (old.patches or [ ]) ++ [ ./patches/fan2go-get-pwm.diff ];
+  });
+
   framework-tool = prev.framework-tool.overrideAttrs (old: rec {
     name = "framework-tool";
     version = "2fefd3789948b90e77e5c2048633f8b4c12b008d";

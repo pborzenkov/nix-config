@@ -1,0 +1,18 @@
+diff --git a/internal/configuration/validation.go b/internal/configuration/validation.go
+index 41bce46..3ca6b8f 100644
+--- a/internal/configuration/validation.go
++++ b/internal/configuration/validation.go
+@@ -325,13 +325,6 @@ func validateFans(config *Configuration) error {
+ 			if len(cmdConfig.SetPwm.Exec) <= 0 {
+ 				return fmt.Errorf("fan %s: setPwm executable is missing", fanConfig.ID)
+ 			}
+-
+-			if cmdConfig.GetPwm == nil {
+-				return fmt.Errorf("fan %s: missing getPwm configuration", fanConfig.ID)
+-			}
+-			if len(cmdConfig.GetPwm.Exec) <= 0 {
+-				return fmt.Errorf("fan %s: getPwm executable is missing", fanConfig.ID)
+-			}
+ 		}
+ 	}
+ 
