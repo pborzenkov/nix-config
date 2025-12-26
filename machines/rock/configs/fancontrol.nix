@@ -66,8 +66,8 @@ let
         id = "hdd_${hdd}_curve";
         linear = {
           sensor = "hdd_${hdd}";
-          min = 40;
-          max = 55;
+          min = 35;
+          max = 50;
         };
       }) hdds)
       ++ [
