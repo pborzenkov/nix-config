@@ -51,6 +51,7 @@ let
         curve = "hdd_combined_curve";
         startPwm = 100;
         minPwm = 50;
+        maxPwm = 255;
         controlAlgorithm.direct.maxPwmChangePerCycle = 10;
       }
     ];

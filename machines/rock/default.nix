@@ -64,10 +64,6 @@
     cpuFreqGovernor = "ondemand";
   };
 
-  services.journald.extraConfig = ''
-    SystemMaxUse=100M
-  '';
-
   time.timeZone = "Europe/Amsterdam";
   services.timesyncd.servers = [
     "0.nl.pool.ntp.org"
