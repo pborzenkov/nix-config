@@ -6,16 +6,22 @@
   ...
 }:
 {
-  hardware.display = {
-    edid.packages = [
-      (pkgs.runCommandLocal "lg-tv-edid" { } ''
-        mkdir -p "$out/lib/firmware/edid"
-        cp ${inputs.self}/assets/lg-tv.edid "$out/lib/firmware/edid/lg-tv.bin"
-      '')
-    ];
-    outputs."DP-1" = {
-      edid = "lg-tv.bin";
-      mode = "e";
+  hardware = {
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
+    display = {
+      edid.packages = [
+        (pkgs.runCommandLocal "lg-tv-edid" { } ''
+          mkdir -p "$out/lib/firmware/edid"
+          cp ${inputs.self}/assets/lg-tv.edid "$out/lib/firmware/edid/lg-tv.bin"
+        '')
+      ];
+      outputs."DP-1" = {
+        edid = "lg-tv.bin";
+        mode = "e";
+      };
     };
   };
   users.users.steam = {
@@ -30,6 +36,10 @@
     ];
   };
 
+  environment.systemPackages = [
+    pkgs.mangohud
+    pkgs.gamescope-wsi
+  ];
   programs = {
     gamemode = {
       enable = true;
@@ -39,27 +49,62 @@
       enable = true;
       capSysNice = true;
     };
-    steam = {
-      enable = true;
-      extraCompatPackages = [
-        pkgs.proton-ge-bin
-      ];
-      gamescopeSession = {
+    steam =
+      let
+        mangohudConfig = pkgs.writeTextFile {
+          name = "mangohud.conf";
+          text = ''
+            no_display
+            gpu_stats
+            gpu_temp
+            gpu_core_clock
+            gpu_power
+            cpu_stats
+            cpu_temp
+            cpu_power
+            cpu_mhz
+            vram
+            ram
+            fps
+            frametime
+            throttling_status
+            gamemode
+            hdr
+            refresh_rate
+            toggle_hud=Shift_R+F12
+            toggle_preset=Shift_R+F10
+          '';
+        };
+      in
+      {
         enable = true;
-        args = [
-          "-W"
-          "1920"
-          "-H"
-          "1080"
-          "-r"
-          "60"
-          "--rt"
-          "--hdr-enabled"
-          "-O"
-          "DP-1"
+        extraCompatPackages = [
+          pkgs.proton-ge-bin
         ];
+        gamescopeSession = {
+          enable = true;
+          args = [
+            "-W"
+            "1920"
+            "-H"
+            "1080"
+            "-r"
+            "60"
+            "--rt"
+            "--hdr-enabled"
+            "--hdr-itm-enabled"
+            "--xwayland-count"
+            "2"
+            "-O"
+            "DP-1"
+            "--mangoapp"
+          ];
+          env = {
+            MANGOHUD_CONFIGFILE = "${mangohudConfig}";
+            PROTON_ENABLE_HDR = "1";
+          };
+        };
       };
-    };
   };
 
   boot.kernelModules = [ "uhid" ];
@@ -83,7 +128,7 @@
           export XDG_CURRENT_DESKTOP="gamescope"
           systemctl --user start steam-session.target
           ${builtins.concatStringsSep "\n" exports}
-          ${pkgs.dbus}/bin/dbus-run-session gamescope --steam ${builtins.toString cfg.gamescopeSession.args} -- steam ${builtins.toString cfg.gamescopeSession.steamArgs}
+          ${pkgs.dbus}/bin/dbus-run-session gamescope --steam ${builtins.toString cfg.gamescopeSession.args} -- steam ${builtins.toString cfg.gamescopeSession.steamArgs} 2>&1 | ${pkgs.systemd}/bin/systemd-cat -t gamescope-session
           systemctl --user stop steam-session.target
         '';
       in

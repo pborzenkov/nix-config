@@ -61,7 +61,7 @@
 
   powerManagement = {
     enable = true;
-    cpuFreqGovernor = "ondemand";
+    cpuFreqGovernor = "powersave";
   };
 
   time.timeZone = "Europe/Amsterdam";

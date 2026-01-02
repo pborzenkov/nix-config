@@ -273,6 +273,15 @@ in
               run = "tasks:show";
               desc = "Show task manager";
             }
+            {
+              on = [
+                "c"
+                "a"
+                "a"
+              ];
+              run = "plugin compress";
+              desc = "Archive selected files";
+            }
 
             {
               on = [
@@ -645,6 +654,8 @@ in
         };
         plugins = {
           mount = pkgs.yaziPlugins.mount;
+          compress = pkgs.yaziPlugins.compress;
+          ouch = pkgs.yaziPlugins.ouch;
         };
       };
       stylix.targets.yazi.enable = true;
