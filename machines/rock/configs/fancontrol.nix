@@ -54,8 +54,45 @@ let
         maxPwm = 255;
         controlAlgorithm.direct.maxPwmChangePerCycle = 10;
       }
+      {
+        id = "case_fan";
+        cmd = {
+          setPwm = {
+            exec = "${fw-fancontrol}/bin/fw-fancontrol";
+            args = [
+              "-f"
+              "2"
+              "set"
+              "%pwm%"
+            ];
+          };
+          getRpm = {
+            exec = "${fw-fancontrol}/bin/fw-fancontrol";
+            args = [
+              "-f"
+              "2"
+              "get-rpm"
+            ];
+          };
+        };
+        neverStop = true;
+        curve = "cpu_curve";
+        startPwm = 100;
+        minPwm = 50;
+        maxPwm = 255;
+        controlAlgorithm.direct.maxPwmChangePerCycle = 10;
+      }
     ];
-    sensors = builtins.map (hdd: {
+    sensors = [
+      {
+        id = "cpu";
+        hwmon = {
+          platform = "cros_ec-isa-000c";
+          index = 4;
+        };
+      }
+    ]
+    ++ builtins.map (hdd: {
       id = "hdd_${hdd}";
       hwmon = {
         platform = "drivetemp-scsi-${hdd}-0";
@@ -67,7 +104,7 @@ let
         id = "hdd_${hdd}_curve";
         linear = {
           sensor = "hdd_${hdd}";
-          min = 35;
+          min = 25;
           max = 50;
         };
       }) hdds)
@@ -77,6 +114,14 @@ let
           function = {
             type = "maximum";
             curves = builtins.map (hdd: "hdd_${hdd}_curve") hdds;
+          };
+        }
+        {
+          id = "cpu_curve";
+          linear = {
+            sensor = "cpu";
+            min = 25;
+            max = 100;
           };
         }
       ];

@@ -1,31 +1,12 @@
 { pkgs, ... }:
 {
-  boot.swraid = {
-    enable = true;
-    mdadmConf = ''
-      HOMEHOST <system>
-      MAILADDR root
-      ARRAY /dev/md0 metadata=1.2 name=helios64:0 UUID=ac997842:6b5536ec:2343d40c:d7bd2ba9
-    '';
-  };
-
   fileSystems = {
     "/storage" = {
-      device = "/dev/disk/by-uuid/d373e48c-8613-46e8-b2d5-18362bc91ebe";
-      fsType = "ext4";
-      options = [
-        "defaults"
-        "noatime"
-        "nodiratime"
-        "data=writeback"
-      ];
+      device = "storage";
+      fsType = "zfs";
     };
     "/fast-storage" = {
       device = "fast-storage";
-      fsType = "zfs";
-    };
-    "/new-storage" = {
-      device = "storage";
       fsType = "zfs";
     };
   };

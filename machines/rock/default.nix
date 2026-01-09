@@ -73,4 +73,20 @@
   ];
 
   services.fwupd.enable = true;
+
+  systemd.services.ryzenadj = {
+    description = "RyzenAdj";
+    after = [ "sysinit.target" ];
+    wantedBy = [ "multi-user.target" ];
+
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = "yes";
+      ExecStart = pkgs.writeShellScript "ryzenadj" ''
+        ${pkgs.ryzenadj}/bin/ryzenadj -a 12000
+        ${pkgs.ryzenadj}/bin/ryzenadj -b 16000
+        ${pkgs.ryzenadj}/bin/ryzenadj -c 14000
+      '';
+    };
+  };
 }
