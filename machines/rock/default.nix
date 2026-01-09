@@ -83,9 +83,9 @@
       Type = "oneshot";
       RemainAfterExit = "yes";
       ExecStart = pkgs.writeShellScript "ryzenadj" ''
-        ${pkgs.ryzenadj}/bin/ryzenadj -a 12000
-        ${pkgs.ryzenadj}/bin/ryzenadj -b 16000
-        ${pkgs.ryzenadj}/bin/ryzenadj -c 14000
+        ${pkgs.ryzenadj}/bin/ryzenadj -a 120000
+        ${pkgs.ryzenadj}/bin/ryzenadj -b 160000
+        ${pkgs.ryzenadj}/bin/ryzenadj -c 140000
       '';
     };
   };
