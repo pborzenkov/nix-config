@@ -16,7 +16,7 @@ in
       settings = {
         download-dir = "/storage/torrents";
         incomplete-dir = "${cfg.home}/incomplete";
-        incomlete-dir-enabled = true;
+        incomplete-dir-enabled = false;
 
         rpc-bind-address = "unix:///run/transmission/rpc.sock";
         rpc-socket-mode = "0666";
