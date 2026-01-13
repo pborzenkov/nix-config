@@ -8,18 +8,26 @@ let
       pkgs.gawk
     ];
   };
+  get-hdd-temp = pkgs.writeShellApplication {
+    name = "get-hdd-temp";
+    text = builtins.readFile ./scripts/get-hdd-temp.sh;
+    runtimeInputs = [
+      pkgs.promql-cli
+      pkgs.jq
+    ];
+  };
 
-  hdds = builtins.map builtins.toString [
-    0
-    1
-    2
-    3
-    4
-    5
-    28
-    29
-    30
-    31
+  hdds = [
+    "S75CNX0Y922701H"
+    "S75CNX0Y904668P"
+    "WV70A7RC"
+    "ZRT2K7V9"
+    "ZRT2AK20"
+    "WV70A749"
+    "ZRT2HQQK"
+    "WV70A1HV"
+    "WRS0YSFE"
+    "WV70A7LF"
   ];
   config = pkgs.writers.writeYAML "config.yaml" {
     dbPath = "/var/lib/fan2go/fan2go.db";
@@ -94,9 +102,9 @@ let
     ]
     ++ builtins.map (hdd: {
       id = "hdd_${hdd}";
-      hwmon = {
-        platform = "drivetemp-scsi-${hdd}-0";
-        index = 1;
+      cmd = {
+        exec = "${get-hdd-temp}/bin/get-hdd-temp";
+        args = [ hdd ];
       };
     }) hdds;
     curves =
@@ -138,6 +146,7 @@ in
     description = "NAS fancontrol";
     wantedBy = [ "multi-user.target" ];
 
+    path = [ pkgs.getent ];
     serviceConfig = {
       Type = "simple";
       StateDirectory = "fan2go";

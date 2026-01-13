@@ -50,9 +50,6 @@
     };
 
     kernelPackages = pkgs.linuxPackages_latest;
-    kernelModules = [
-      "drivetemp"
-    ];
     supportedFilesystems = [
       "ntfs"
       "zfs"

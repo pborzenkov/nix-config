@@ -19,6 +19,24 @@
     ];
   };
 
+  services.prometheus = {
+    exporters.smartctl = {
+      enable = true;
+    };
+    scrapeConfigs = [
+      {
+        job_name = "smartctl";
+        static_configs = [
+          {
+            targets = [
+              "rock.lab.borzenkov.net:9633"
+            ];
+          }
+        ];
+      }
+    ];
+  };
+
   boot.zfs.package = pkgs.zfs_2_4;
   services = {
     nfs.server = {
