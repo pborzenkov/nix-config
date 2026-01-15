@@ -150,6 +150,10 @@ in
               Shift+Print { screenshot-window; }
               Ctrl+Print { screenshot-screen; }
 
+              Mod+apostrophe { set-dynamic-cast-window; }
+              Mod+Shift+apostrophe { set-dynamic-cast-monitor; }
+              Mod+Ctrl+apostrophe { clear-dynamic-cast-target; }
+
               Mod+Minus { set-column-width "-3%"; }
               Mod+Shift+Minus { set-window-height "-3%"; }
               Mod+Equal { set-column-width "+3%"; }
