@@ -101,7 +101,8 @@ in
               Mod+Q { close-window; }
               Mod+F { maximize-column; }
               Mod+Shift+F { expand-column-to-available-width; }
-              Mod+Ctrl+F { toggle-windowed-fullscreen; }
+              Mod+Ctrl+F { fullscreen-window; }
+              Mod+Shift+Ctrl+F { toggle-windowed-fullscreen; }
               Mod+O { toggle-overview; }
               Mod+T { toggle-column-tabbed-display; }
               Mod+C { center-column; }
