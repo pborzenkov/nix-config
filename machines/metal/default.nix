@@ -55,7 +55,7 @@
           "alsa_output.pci-0000_10_00.1.hdmi-stereo-extra4" = "";
         };
       };
-      dunst.monitor = 0;
+      dunst.monitor = 1;
       settings-providers = [
         "services"
         "sound"

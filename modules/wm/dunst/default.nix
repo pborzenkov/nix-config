@@ -28,6 +28,7 @@ in
         settings = {
           global = {
             monitor = cfg.monitor;
+            follow = "mouse";
           };
         };
       };
