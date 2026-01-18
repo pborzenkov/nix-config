@@ -24,6 +24,18 @@ let
   };
 in
 {
+  boot.kernelModules = [ "ntsync" ];
+  services = {
+    udev.packages = [
+      (pkgs.writeTextFile {
+        name = "ntsync";
+        text = ''
+          KERNEL=="ntsync", TAG+="uaccess"
+        '';
+        destination = "/etc/udev/rules.d/70-ntsync.rules";
+      })
+    ];
+  };
   programs = {
     gamescope = {
       enable = true;

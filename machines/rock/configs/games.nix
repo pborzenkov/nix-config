@@ -107,7 +107,10 @@
       };
   };
 
-  boot.kernelModules = [ "uhid" ];
+  boot.kernelModules = [
+    "uhid"
+    "ntsync"
+  ];
   services = {
     udev.packages = [
       (pkgs.writeTextFile {
@@ -116,6 +119,13 @@
           KERNEL=="uhid", TAG+="uaccess"
         '';
         destination = "/etc/udev/rules.d/70-uhid.rules";
+      })
+      (pkgs.writeTextFile {
+        name = "ntsync";
+        text = ''
+          KERNEL=="ntsync", TAG+="uaccess"
+        '';
+        destination = "/etc/udev/rules.d/70-ntsync.rules";
       })
     ];
     greetd =
