@@ -7,6 +7,9 @@
       subDomain = "logs";
       auth.rbac = [ "group:monitoring" ];
       proxyTo = "http://127.0.0.1:9428";
+      custom = {
+        http2 = false;
+      };
       locations."/" = { };
       locations."/select" = {
         skip_auth = true;
