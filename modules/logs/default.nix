@@ -25,7 +25,7 @@ in
       upload = {
         enable = true;
         settings.Upload = {
-          URL = "https://logs.lab.borzenkov.net:443/insert/journald";
+          URL = "http://192.168.88.11:9428/insert/journald";
           ServerKeyFile = "-";
           ServerCertificateFile = "-";
           TrustedCertificateFile = "/etc/ssl/certs/ca-certificates.crt";
