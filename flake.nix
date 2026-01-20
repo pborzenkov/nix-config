@@ -59,8 +59,9 @@
           ];
         };
         gw = {
-          nixosStateVersion = "23.05";
-          homeStateVersion = "24.05";
+          nixosStateVersion = "25.11";
+          homeStateVersion = "25.11";
+          platform = "aarch64-linux";
           isDesktop = false;
         };
         techno = {

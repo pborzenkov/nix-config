@@ -11,14 +11,14 @@
   };
 
   boot = {
-    loader.grub = {
-      enable = true;
-      configurationLimit = 3;
-      devices = [ "/dev/vda" ];
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
     };
-
     kernelPackages = pkgs.linuxPackages_latest;
   };
+
+  documentation.man.generateCaches = false;
 
   time.timeZone = "Europe/Amsterdam";
 }
