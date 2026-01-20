@@ -30,7 +30,7 @@
       "40-enp1s0" = {
         matchConfig.Name = "enp1s0";
         networkConfig.DHCP = "ipv4";
-        address = [ "2a01:4f8:1c1c:53d2::" ];
+        address = [ "2a01:4f8:1c1c:53d2::1" ];
         routes = [
           { Gateway = "fe80::1"; }
         ];

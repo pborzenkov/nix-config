@@ -8,6 +8,7 @@
     };
     filebot.enable = false;
     syncthing.enable = false;
+    ssh.server.openFirewall = false;
   };
 
   boot = {

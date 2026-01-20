@@ -17,22 +17,25 @@
       enable = true;
       trustedInterfaces = [ "wg0" ];
     };
-
-    interfaces = {
-      "enp1s0" = {
-        useDHCP = true;
-      };
-    };
-  };
-  systemd.network.wait-online = {
-    anyInterface = false;
-    ignoredInterfaces = [ "wg0" ];
   };
 
   pbor.vpn = {
     enable = true;
     address = "192.168.111.2";
     keyfile = config.age.secrets.wireguard-key.path;
+  };
+
+  systemd.network = {
+    networks = {
+      "40-enp1s0" = {
+        matchConfig.Name = "enp1s0";
+        networkConfig.DHCP = "ipv4";
+        address = [ "2a01:4f8:1c1f:978b::1" ];
+        routes = [
+          { Gateway = "fe80::1"; }
+        ];
+      };
+    };
   };
 
   services.resolved.enable = true;

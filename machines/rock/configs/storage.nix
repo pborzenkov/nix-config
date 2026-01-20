@@ -1,10 +1,10 @@
 { pkgs, ... }:
 {
   fileSystems = {
-    "/storage" = {
-      device = "storage";
-      fsType = "zfs";
-    };
+    # "/storage" = {
+    #   device = "storage";
+    #   fsType = "zfs";
+    # };
     "/fast-storage" = {
       device = "fast-storage";
       fsType = "zfs";
