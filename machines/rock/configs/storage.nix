@@ -1,10 +1,10 @@
 { pkgs, ... }:
 {
   fileSystems = {
-    # "/storage" = {
-    #   device = "storage";
-    #   fsType = "zfs";
-    # };
+    "/storage" = {
+      device = "storage";
+      fsType = "zfs";
+    };
     "/fast-storage" = {
       device = "fast-storage";
       fsType = "zfs";
@@ -17,6 +17,34 @@
       "pbor"
       "nobody"
     ];
+  };
+
+  systemd = {
+    services.collect-storcli-metrics = {
+      serviceConfig =
+        let
+          collect-metrics = pkgs.writeShellScriptBin "collect-metrics" ''
+            METRICS_FILE="/var/lib/prometheus-node-exporter/storcli.prom"
+            TMP_FILE="$(mktemp ''${METRICS_FILE}.XXXXXXX)"
+
+            ${pkgs.storcli-collector}/bin/storcli-collector --storcli_path ${pkgs.storcli}/bin/storcli >> "$TMP_FILE"
+            mv "$TMP_FILE" "$METRICS_FILE"
+            chmod a+r "$METRICS_FILE"
+          '';
+
+        in
+        {
+          Type = "oneshot";
+          User = "root";
+          ExecStart = "${collect-metrics}/bin/collect-metrics";
+        };
+    };
+    timers.collect-storcli-metrics = {
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnCalendar = "minutely";
+      };
+    };
   };
 
   services.prometheus = {
@@ -48,7 +76,10 @@
     zfs = {
       autoScrub = {
         enable = true;
-        pools = [ "fast-storage" ];
+        pools = [
+          "fast-storage"
+          "storage"
+        ];
       };
       trim.enable = true;
     };

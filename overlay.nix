@@ -23,6 +23,8 @@ final: prev: {
 
   p1-exporter = final.callPackage ./packages/p1-exporter { };
 
+  storcli-collector = final.callPackage ./packages/storcli-collector { };
+
   transmission_4 = prev.transmission_4.overrideAttrs (old: rec {
     version = "4.0.5";
     src = final.fetchFromGitHub {

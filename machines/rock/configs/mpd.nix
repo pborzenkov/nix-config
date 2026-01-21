@@ -55,12 +55,12 @@
 
   age.secrets.listenbrainz-token.file = sharedSecrets + "/listenbrainz-token.age";
 
-  # pbor.backup.fsBackups = {
-  #   music = {
-  #     paths = [
-  #       "/storage/music"
-  #       "/var/lib/mpd"
-  #     ];
-  #   };
-  # };
+  pbor.backup.fsBackups = {
+    music = {
+      paths = [
+        "/storage/music"
+        "/var/lib/mpd"
+      ];
+    };
+  };
 }

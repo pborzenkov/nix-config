@@ -16,6 +16,14 @@ let
       pkgs.jq
     ];
   };
+  get-hba-temp = pkgs.writeShellApplication {
+    name = "get-hba-temp";
+    text = builtins.readFile ./scripts/get-hba-temp.sh;
+    runtimeInputs = [
+      pkgs.promql-cli
+      pkgs.jq
+    ];
+  };
 
   hdds = [
     "S75CNX0Y922701H"
@@ -84,7 +92,7 @@ let
           };
         };
         neverStop = true;
-        curve = "cpu_curve";
+        curve = "cpu_hba_combined";
         startPwm = 100;
         minPwm = 50;
         maxPwm = 255;
@@ -97,6 +105,13 @@ let
         hwmon = {
           platform = "cros_ec-isa-000c";
           index = 4;
+        };
+      }
+      {
+        id = "hba";
+        cmd = {
+          exec = "${get-hba-temp}/bin/get-hba-temp";
+          args = [ "SPF1102396" ];
         };
       }
     ]
@@ -130,6 +145,24 @@ let
             sensor = "cpu";
             min = 25;
             max = 100;
+          };
+        }
+        {
+          id = "hba_curve";
+          linear = {
+            sensor = "hba";
+            min = 25;
+            max = 65;
+          };
+        }
+        {
+          id = "cpu_hba_combined";
+          function = {
+            type = "maximum";
+            curves = [
+              "cpu_curve"
+              "hba_curve"
+            ];
           };
         }
       ];
