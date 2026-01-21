@@ -30,6 +30,7 @@ in
 
       AUTH_PROXY_HEADER = "Remote-User";
       AUTH_PROXY_USER_CREATION = "true";
+      TRUSTED_REVERSE_PROXY_NETWORKS = "127.0.0.1/8";
     };
     adminCredentialsFile = config.age.secrets.miniflux-environment.path;
   };
